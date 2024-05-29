@@ -1,0 +1,24 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.container {
+   &__elem {
+      @include flex(
+         $direction: column,
+         $justify: stretch,
+         $gap: 10px,
+         $align: stretch
+      );
+   }
+
+   &__input {
+      @include input;
+      width: 100%;
+   }
+
+   & > span {
+      font-weight: 400;
+      color: $red;
+   }
+}

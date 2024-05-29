@@ -1,0 +1,129 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+.item {
+   width: 100%;
+   @include flex($justify: start, $align: stretch);
+   padding: 10px 20px;
+   box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.129);
+   border-radius: 10px;
+   gap: 20px;
+   cursor: pointer;
+   transition: 0.3s;
+
+   &:hover {
+      box-shadow: $shadow;
+      // box-shadow: 0 0 0 5px $green40;
+   }
+   .img {
+      width: 230px;
+      border-radius: 10px;
+      height: 150px;
+   }
+
+   .info {
+      @include flex($direction: column, $align: start, $justify: space-evenly);
+      gap: 15px;
+
+      &Header {
+         @include flex;
+         gap: 15px;
+      }
+
+      .title {
+         font-size: 28px;
+         font-weight: 400;
+      }
+
+      .rating {
+         font-size: 20px;
+         @include flex;
+         gap: 5px;
+         font-weight: 500;
+         & > svg {
+            color: $purple;
+            width: 26px;
+            height: 26px;
+         }
+      }
+
+      .price {
+         font-size: 18px;
+         font-weight: 400;
+         color: rgb(0, 0, 0);
+
+         & > span {
+            font-weight: 500;
+         }
+      }
+
+      .desc {
+         font-size: 22px;
+         font-weight: 400;
+         color: $gray;
+      }
+   }
+
+   .control {
+      @include flex($direction: column, $align: end, $justify: space-around);
+
+      margin-left: auto;
+      .counter {
+         @include flex;
+         width: 150px;
+         font-weight: 500;
+         font-size: 28px;
+         & > button {
+            border-radius: 999px;
+            width: 45px;
+            height: 45px;
+            @include flex($justify: center);
+            border: none;
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.149);
+            padding: 8px;
+            transition: 0.3s;
+
+            & > svg {
+               width: 100%;
+               height: 100%;
+            }
+            &.add {
+               background: $green;
+               color: $white;
+            }
+            &.reduce {
+               background: $white;
+               color: $black;
+            }
+
+            &:hover {
+               box-shadow: $shadow;
+            }
+         }
+      }
+
+      .deleteBtn {
+         border-radius: 999px;
+         width: 45px;
+         height: 45px;
+         @include flex($justify: center);
+         border: none;
+         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.149);
+         padding: 8px;
+         transition: 0.3s;
+
+         & > svg {
+            width: 100%;
+            height: 100%;
+            color: $gray;
+            transition: 0.3s;
+         }
+
+         &:hover {
+            & > svg {
+               color: $red;
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,97 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.route {
+   display: flex;
+   flex-direction: column;
+   align-items: stretch;
+   height: calc(100vh - 140px);
+   width: 100%;
+   // background: #151227;
+   // border: 1px solid #1d1b2e;
+   // border-radius: 16px 16px 0;
+   position: relative;
+   margin: 30px;
+
+   &Main {
+      @include flex($align: start);
+      overflow-y: scroll;
+      gap: 20px;
+      padding: 15px;
+      &::-webkit-scrollbar {
+         width: 10px;
+         &-thumb {
+            background: $soft-gray;
+            border-radius: 999px;
+         }
+      }
+   }
+
+   &Form {
+      border-radius: 10px;
+      background: $white;
+
+      @include flex($direction: column, $align: stretch);
+      gap: 15px;
+      width: 70%;
+      .formElem {
+         @include flex();
+         gap: 15px;
+         & > p {
+            width: 25%;
+            font-weight: 400;
+            font-size: 20px;
+         }
+         & > div {
+            width: 75%;
+         }
+      }
+
+      & > button {
+         align-self: flex-end;
+      }
+   }
+   &Header {
+      @include flex();
+   }
+
+   .sum {
+      border-radius: 20px;
+      // box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.147);
+      border: 1px solid $soft-gray;
+      padding: 20px 25px;
+      width: 30%;
+      &Header {
+         border-bottom: 1px solid $gray;
+         padding-bottom: 10px;
+         @include flex;
+         & > span {
+            font-size: 24px;
+            font-weight: 400;
+         }
+      }
+
+      &Title {
+         font-size: 28px;
+         font-weight: 400;
+      }
+
+      &Main {
+         @include flex($direction: column, $align: stretch);
+         padding-top: 10px;
+         font-size: 20px;
+         font-weight: 400;
+         gap: 10px;
+         color: $gray;
+         & > p {
+            @include flex();
+         }
+      }
+   }
+}
+
+.title {
+   @include h2;
+   margin-bottom: 20px;
+}

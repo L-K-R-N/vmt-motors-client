@@ -1,0 +1,32 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.menu {
+   width: 40%;
+   display: flex;
+   align-items: center;
+}
+
+.list {
+   width: 100%;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   list-style: none;
+
+   &Item {
+      & > a {
+         text-decoration: none;
+         color: $black;
+         font-size: 16px;
+         font-weight: 400;
+         padding: 8px 20px;
+         transition: 0.3s;
+         border-radius: 999px;
+         &:hover {
+            background: $white;
+         }
+      }
+   }
+}

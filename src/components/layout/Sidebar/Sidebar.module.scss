@@ -1,0 +1,173 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+.sidebar {
+   width: 110px;
+   background: $soft-gray;
+   // box-shadow: 0 0 63px #00000040;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+
+   // @media (max-width: 1024px) {
+   //    display: none;
+   // }
+}
+
+.nav {
+   .link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.3s all ease-in-out;
+      width: 110px;
+      height: 110px;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      border-right: 4px solid $gray;
+      gap: 5px;
+
+      .title {
+         font-size: 14px;
+         text-decoration: none;
+         transition: inherit;
+         text-align: center;
+         color: #7781a4;
+         font-weight: 500;
+         transition: 0.3s all ease-in-out;
+         z-index: 10;
+      }
+
+      & > svg {
+         width: 40px;
+         height: 40px;
+         z-index: 10;
+         transition: 0.3s all ease-in-out;
+         color: $gray;
+      }
+
+      &.active {
+         border-color: $green;
+         background: $white;
+         .title {
+            color: $green;
+         }
+         & svg {
+            color: $green;
+         }
+      }
+
+      &:hover {
+         border-color: $green;
+         background: $white;
+         .title {
+            color: $green;
+         }
+         & svg {
+            color: $green;
+         }
+      }
+   }
+   height: 100%;
+   .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+
+      & > li:last-child {
+         margin-top: auto;
+         &:hover {
+            border-color: $red;
+            p {
+               color: $red;
+            }
+            & > svg {
+               color: $red;
+            }
+         }
+      }
+   }
+}
+
+.link.active .hoverElem {
+   // width: 100%;
+   // background-image: url('../ui/sidebar/assets/background-mask.png');
+   // background-color: #222635;
+   // padding: 20px 0px 20px 40px;
+   // border-right: 1px solid #a140fd;
+   // border-radius: 32px 0px 0px 32px;
+   // a {
+   // 	color: #fff;
+   // }
+   opacity: 1;
+}
+
+.link:hover .hoverElem {
+   opacity: 1;
+}
+
+.link:hover .link {
+   color: white;
+}
+
+.link:hover .img {
+   color: white;
+}
+
+.img {
+   color: #7781a4;
+
+   width: 48px;
+   height: 39px;
+   z-index: 100;
+   transition: inherit;
+}
+
+@media (max-width: 700px) {
+   .sidebar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 99999;
+   }
+
+   .links {
+      display: grid !important;
+      grid-template-columns: repeat(5, 1fr) !important;
+   }
+
+   .link {
+      border-right: none !important;
+      border-top: 3px solid $gray;
+      height: 80px !important;
+      width: auto !important;
+
+      &:hover {
+         border-color: $green !important;
+         background: $white;
+         .title {
+            color: $green;
+         }
+         & svg {
+            color: $green;
+         }
+      }
+      & > p {
+         display: none;
+      }
+   }
+}
+@media (max-width: 350px) {
+   .link {
+      height: 60px !important;
+
+      & > svg {
+         width: 30px !important;
+         height: 30px !important;
+      }
+   }
+}

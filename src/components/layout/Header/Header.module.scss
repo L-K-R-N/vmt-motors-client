@@ -1,0 +1,230 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+.header {
+   width: 100vw;
+   min-height: 80px;
+   padding: 10px 0;
+   @include flex($align: stretch);
+   background-color: $soft-gray;
+   border-bottom: 2px solid $black;
+}
+
+.content {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   height: 100%;
+}
+
+.logo {
+   height: 100%;
+   width: 140px;
+   text-decoration: none;
+   opacity: 0.8;
+   transition: 0.3s;
+
+   .img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+   }
+
+   &:hover {
+      opacity: 1;
+   }
+}
+
+.authBtn {
+   border: 2px solid $black;
+   border-radius: 999px;
+   padding: 0 30px;
+
+   font-weight: 400;
+   font-size: 18px;
+
+   @include flex;
+   transition: 0.3s;
+
+   gap: 20px;
+   text-decoration: none;
+
+   color: $black;
+   & > svg {
+      width: 30px;
+      height: 30px;
+   }
+
+   &:hover {
+      border-color: $purple;
+      color: $purple;
+   }
+}
+
+.profileBlock {
+   display: flex;
+   align-items: stretch;
+   justify-content: center;
+   gap: 20px;
+}
+
+.mapBtn {
+   border-radius: 50%;
+
+   border: none;
+   // border: 2px solid;
+   background: transparent;
+   padding: 10px;
+   @include flex($justify: center);
+   & > svg {
+      width: 40px;
+      height: 40px;
+      color: $purple;
+   }
+}
+
+.likes {
+   width: -moz-fit-content;
+   width: fit-content;
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+   color: white;
+   font-weight: 300;
+
+   &Img {
+      color: #ffad7e;
+   }
+}
+
+.authButtons {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+
+   button {
+      transition: 0.3s all ease-in-out;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 17px;
+      position: relative;
+      border-radius: 24px;
+      padding: 10px 30px;
+      border: 1px solid #ffffff;
+
+      color: white;
+
+      & svg {
+         width: 25px;
+         height: 25px;
+      }
+   }
+}
+
+.search {
+   &Container {
+      position: relative;
+      height: 100%;
+      width: 50%;
+      &:has(.searchInput:hover) {
+         .searchIcon {
+            color: $black;
+         }
+      }
+
+      &:has(.searchInput:focus) {
+         .searchIcon {
+            color: $black;
+         }
+      }
+   }
+
+   &Icon {
+      position: absolute;
+      top: 50%;
+      left: 17px;
+      width: 26px;
+      height: 26px;
+      transform: translateY(-50%);
+      color: $gray;
+      transition: 0.3s;
+   }
+   &Input {
+      border-radius: 10px;
+      background: $white;
+      font-weight: 400;
+
+      padding: 10px;
+      padding-left: 60px;
+      border: 1px solid $soft-gray;
+      width: 100%;
+      height: 100%;
+
+      &::placeholder {
+         color: $gray;
+         transition: 0.3s;
+      }
+
+      &:hover {
+         &::placeholder {
+            color: $black;
+         }
+      }
+      &:focus {
+         &::placeholder {
+            color: $black;
+         }
+      }
+   }
+}
+
+@media (max-width: 900px) {
+   .authBtn {
+      & > span {
+         display: none;
+      }
+   }
+}
+@media (max-width: 700px) {
+   .authBtn {
+      & > span {
+         display: none;
+      }
+   }
+
+   .logo {
+      display: none;
+   }
+
+   .searchContainer {
+      width: 75%;
+   }
+}
+
+@media (max-width: 470px) {
+   .authBtn {
+      display: none;
+   }
+
+   .searchContainer {
+      width: 100%;
+   }
+   // .wrapper {
+   // 	justify-content: space-between;
+   // 	margin-top: 22px;
+   // 	align-items: center;
+   // 	margin-left: 5%;
+   // 	margin-right: 5%;
+   // 	margin-bottom: 25px;
+   // }
+}
+
+.exitIcon:hover {
+   display: none;
+}

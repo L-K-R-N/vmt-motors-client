@@ -1,0 +1,101 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.add-task-form {
+   @include flex(
+      $direction: column,
+      $justify: stretch,
+      $gap: 40px,
+      $align: stretch
+   );
+   padding: 30px 20px;
+   width: 800px;
+   max-width: 100%;
+   max-height: 100%;
+
+   &__input {
+      @include input;
+      width: 100%;
+
+      & > div {
+         border: none;
+         color: white;
+         font-size: 20px;
+      }
+
+      & svg {
+         transition: $transition-main;
+      }
+   }
+
+   &__calendar {
+      background: $dark-gray;
+      border-radius: $main-br;
+      font-family: $font-montserrat;
+      font-size: $size-xxxs;
+      border: none;
+      & .react-calendar__tile {
+         padding: 4px;
+         border-radius: $main-br;
+         font-weight: 700;
+         text-shadow: $bottom-text-shadow;
+         &--now {
+            background: $orange;
+         }
+
+         &--active {
+            background: $light-green;
+         }
+
+         &:hover {
+            color: $black;
+            background: $white;
+         }
+
+         &:disabled {
+            opacity: 0.1;
+            color: $black;
+            background: $white;
+            text-shadow: none;
+         }
+      }
+
+      & .react-calendar__month-view__days__day--weekend {
+         color: $light-red;
+         text-shadow: none;
+
+         &.react-calendar__tile--active {
+            color: $white;
+         }
+      }
+
+      .react-calendar__navigation button {
+         &:hover {
+            background: $white;
+            color: $black;
+            border-radius: $main-br;
+         }
+
+         &:disabled {
+            opacity: 0.1;
+            color: $black;
+            background: $white;
+            text-shadow: none;
+         }
+      }
+   }
+
+   &__button {
+      @include button-primary();
+   }
+
+   &__elem {
+      @include flex(
+         $direction: column,
+         $justify: stretch,
+         $gap: 10px,
+         $align: stretch
+      );
+   }
+}

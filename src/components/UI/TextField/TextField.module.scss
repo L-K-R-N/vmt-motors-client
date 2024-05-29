@@ -1,0 +1,70 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.container {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: start;
+}
+.input {
+   margin-bottom: 10px;
+   outline: none;
+   padding: 20px 24px;
+   width: 100%;
+   background: transparent;
+   border: 1px solid white;
+   border-radius: 999px;
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 26px;
+   color: #5e5c8a;
+   transition: 0.3s;
+   width: 100%;
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 19.2px;
+   color: white;
+
+   // &:hover {
+   //    border-color: #37335d;
+   // }
+
+   &::placeholder {
+      color: rgba(255, 255, 255, 0.685);
+   }
+}
+
+.label {
+   color: white;
+   font-size: 16px;
+   font-weight: 400;
+   transition: color 0.3s ease;
+
+   margin-bottom: 10px;
+   margin-left: 20px;
+   font-size: 20px;
+   font-weight: 400;
+   line-height: 24px;
+   text-align: center;
+
+   &.error {
+      color: red;
+   }
+}
+
+@include media-max-m {
+}
+
+@include media-max-s {
+   .container {
+      width: 100%;
+   }
+
+   .input {
+      padding: 12px 10px 10px 10px;
+      font-size: $size-xxxxxs;
+      border-width: 2px;
+   }
+}

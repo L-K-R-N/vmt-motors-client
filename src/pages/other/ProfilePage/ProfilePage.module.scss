@@ -1,0 +1,141 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.profile {
+   width: 100%;
+   max-height: 100%;
+   position: relative;
+   display: flex;
+   align-items: stretch;
+   width: 100%;
+   position: relative;
+   margin: 30px;
+   &Block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 32px;
+   }
+
+   .avatar {
+      border-radius: 50%;
+      border: 2px solid $black;
+      width: 250px;
+      height: 250px;
+   }
+
+   .left {
+      @include flex($direction: column, $justify: start);
+      width: 250px;
+      min-width: 250px;
+      gap: 20px;
+   }
+   .username {
+      font-size: 32px;
+      line-height: 29px;
+      font-weight: 400;
+      @include flex($direction: column);
+      gap: 10px;
+
+      & > span {
+         color: $gray;
+         font-size: 20px;
+      }
+   }
+
+   .content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      gap: 60px;
+   }
+
+   .info {
+      @include flex($direction: column, $justify: start, $align: stretch);
+      width: 100%;
+      gap: 10px;
+      height: 100%;
+      &Header {
+         width: 100%;
+         @include flex($justify: space-between);
+         padding-bottom: 10px;
+         border-bottom: 1px solid $gray;
+
+         .title {
+            font-size: 28px;
+            font-weight: 300;
+            font-family: $font-montserrat;
+         }
+
+         .logoutBtn {
+            @include flex;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 400;
+            font-family: $font-montserrat;
+            background: transparent;
+            border: none;
+            color: $gray;
+            transition: 0.3s;
+            &:hover {
+               color: $red;
+            }
+         }
+      }
+
+      &Main {
+         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.255);
+         border-radius: 10px;
+         height: 100%;
+         @include flex($direction: column, $align: stretch);
+         &Menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: $light-gray;
+            border-radius: 10px;
+            & > p {
+               padding: 14px 0;
+               @include flex($justify: center);
+               font-size: 18px;
+               font-weight: 400;
+               background: transparent;
+               transition: 0.3s;
+               border-radius: 10px;
+               cursor: pointer;
+               &:hover {
+                  background: $green40;
+               }
+
+               &.active {
+                  background: $green;
+                  color: white;
+               }
+            }
+         }
+
+         &Body {
+            height: 100%;
+
+            width: 100%;
+            max-height: 100%;
+            opacity: 1;
+            visibility: visible;
+
+            & > div {
+               display: none;
+               height: 100%;
+               &.active {
+                  display: block;
+               }
+            }
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@media screen and (max-width: 500px) {
+}

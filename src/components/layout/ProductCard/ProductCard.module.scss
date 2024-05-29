@@ -1,0 +1,205 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.block {
+   // display: flex;
+   // padding: 15px;
+   // background-color: #1e212e;
+   // justify-content: space-between;
+   // align-items: start;
+   // border-radius: 18px;
+   // width: 100%;
+   // gap: 40px;
+   // position: relative;
+   // overflow: hidden;
+   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.149);
+   transition: 0.3s;
+   background: $white;
+   border-radius: 16px;
+   position: relative;
+   padding: 10px;
+   display: flex;
+   flex-direction: column;
+   color: $black;
+   gap: 10px;
+   cursor: pointer;
+
+   &:hover {
+      opacity: 1;
+      // transform: scale(1.01);
+      box-shadow: $shadow;
+   }
+
+   .info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+   }
+
+   .title {
+      font-size: 18px;
+      font-weight: 400;
+      color: $gray;
+
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      & > span {
+         font-size: 22px;
+         line-height: 19px;
+         color: black;
+      }
+
+      & > svg {
+         padding-top: 3px;
+         width: 18px;
+         height: 13px;
+      }
+   }
+
+   .price {
+      font-size: 22px;
+      font-weight: 500;
+   }
+
+   .rating {
+      font-size: 14px;
+      font-weight: 400;
+      color: $gray;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      & > svg {
+         width: 16px;
+         height: 10px;
+         color: $gray;
+      }
+      & > span {
+         font-weight: 500;
+         // @include flex($justify: start);
+         color: $purple;
+         gap: 4px;
+
+         padding-bottom: 10px;
+         & > svg {
+            color: $purple;
+            width: 20px;
+            height: 13px;
+         }
+      }
+   }
+
+   .img {
+      height: 200px;
+      border-radius: 14px;
+      width: 100%;
+      // filter: drop-shadow(0 0 5px #5c2095);
+   }
+   .desc {
+      width: inherit;
+      // max-width: 50%;
+      box-shadow: 10px 10px 10px 2px rgba(255, 255, 255, 1) inset;
+      // text-wrap: nowrap;
+      // position: relative;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: initial;
+      // display: -webkit-box;
+
+      // -webkit-box-orient: vertical;
+      // -webkit-line-clamp: 2;
+      // &Blur {
+      //    position: absolute;
+      //    top: 0;
+      //    right: 0;
+      //    height: 100%;
+      //    width: 40px;
+      //    background: rgb(255, 255, 255);
+      //    background: linear-gradient(
+      //       87deg,
+      //       rgba(255, 255, 255, 0) 0%,
+      //       rgba(255, 255, 255, 1) 92%
+      //    );
+      // }
+
+      // @media screen and (max-width: 1400px) {
+      //    white-space: nowrap;
+      // }
+      // @media screen and (max-width: 270px) {
+      //    max-width: 120px;
+      // }
+   }
+   .cartBtn {
+      height: 40px;
+      @include flex($justify: center);
+      border: none;
+      background: $green;
+      border-radius: 10px;
+      padding: 10px;
+      transition: 0.3s;
+      color: white;
+      gap: 10px;
+      opacity: 0.8;
+      font-weight: 500;
+      border: 2px solid $green;
+      margin-top: auto;
+      font-size: 18px;
+      & > svg {
+         color: $white;
+         height: 100%;
+         width: 24px;
+         height: 24px;
+         transition: 0.3s;
+      }
+
+      &:hover {
+         opacity: 1;
+      }
+
+      &.inCart {
+         background: transparent;
+         color: $green;
+
+         & > svg {
+            color: $green;
+         }
+         &:hover {
+            border-color: $light-red;
+
+            color: $light-red;
+
+            & > svg {
+               color: $light-red;
+            }
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 700px) {
+   .block {
+      gap: 10px;
+   }
+
+   .cartBtn {
+      font-size: 16px !important;
+   }
+}
+
+@media (max-width: 350px) {
+   .cartBtn {
+      font-size: 14px !important;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      & > svg {
+         min-width: 20px;
+         min-height: 20px;
+      }
+   }
+}

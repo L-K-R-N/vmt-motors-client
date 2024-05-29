@@ -1,0 +1,23 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.form {
+   margin-bottom: 60px;
+   display: flex;
+   flex-direction: column;
+   align-items: stretch;
+   gap: 10px;
+
+   .title {
+      font-size: 30px;
+      line-height: 39px;
+      color: $black;
+      font-weight: 500;
+      margin-bottom: 10px;
+   }
+
+   & > button {
+      width: 100%;
+   }
+}

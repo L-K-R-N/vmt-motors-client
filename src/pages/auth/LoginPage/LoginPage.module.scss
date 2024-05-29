@@ -1,0 +1,42 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.loginForm {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   align-items: stretch;
+
+   .title {
+      font-size: 30px;
+      line-height: 39px;
+      color: $black;
+      font-weight: 500;
+      margin-bottom: 10px;
+   }
+
+   & > button {
+      align-self: center;
+      font-size: 16px;
+      font-weight: 600;
+   }
+
+   .control {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      .link {
+         color: $black;
+         font-weight: 400;
+         text-decoration: none;
+         transition: 0.3s;
+         margin-bottom: 4px;
+         opacity: 0.7;
+         &:hover {
+            opacity: 1;
+         }
+      }
+   }
+}

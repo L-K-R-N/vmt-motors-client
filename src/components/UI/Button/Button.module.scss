@@ -1,0 +1,38 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.button {
+   // width: 100%;
+   display: flex;
+
+   transition: 0.3s all ease-in-out;
+   justify-content: center;
+   align-items: center;
+   width: 260px;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   outline: none;
+
+   white-space: nowrap;
+   border-radius: 16px;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 19px;
+   gap: 10px;
+   background: #60c300;
+
+   color: $white;
+   opacity: 0.9;
+   border-radius: 999px;
+   font-size: 20px;
+   padding: 20px 85px;
+   border: none;
+
+   &:hover {
+      opacity: 1;
+      color: white;
+   }
+}
