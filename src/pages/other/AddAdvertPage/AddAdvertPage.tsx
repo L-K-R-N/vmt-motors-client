@@ -1,6 +1,6 @@
 import cl from './AddAdvertPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
-import CatalogService from '@/api/services/CatalogService';
+import CatalogService from '@/api/services/ProductService';
 import { useEffect, useState } from 'react';
 import { SelectController } from '@/components/UI/SelectController/SelectController';
 import { IBody, useAddAdvert } from './useAddAdvert';
@@ -17,6 +17,8 @@ import compactImg from './assets/body_imgs/compact.png';
 import cabrioletImg from './assets/body_imgs/cabriolet.png';
 import { IOption } from '@/models/Select.types';
 import { useTranslation } from 'react-i18next';
+import formImg from './assets/map.jpg';
+import { Button } from '@/components/UI/Button/Button';
 
 interface Props {}
 
@@ -300,6 +302,32 @@ const AddAdvertPage: React.FC<Props> = () => {
                </div>
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('contact')}</h5>
+                  <div className={cl.block__content}>
+                     <form className={cl.contactForm}>
+                        <TextFieldController
+                           control={control}
+                           errors={errors}
+                           fieldType="input"
+                           label="Phone number"
+                           name="phoneNumber"
+                        />
+                        <TextFieldController
+                           control={control}
+                           errors={errors}
+                           fieldType="input"
+                           label="Adress"
+                           name="adress"
+                        />
+                        <TextFieldController
+                           control={control}
+                           errors={errors}
+                           fieldType="input"
+                           label="Email"
+                           name="email"
+                        />
+                     </form>
+                     {/* <img className={cl.contacFormImg} src={formImg} alt="" /> */}
+                  </div>
                </div>
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('price')}</h5>
@@ -311,7 +339,9 @@ const AddAdvertPage: React.FC<Props> = () => {
                      name="price"
                      // rules={{t('desc')} }
                   />
-                  <button>{t('place_ad')}</button>
+                  <Button type="submit" title={t('place_ad')}>
+                     {t('place_ad')}
+                  </Button>
                </div>
             </div>
          </div>

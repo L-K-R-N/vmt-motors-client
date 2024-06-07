@@ -10,6 +10,9 @@ import markerIcon from './assets/marker.svg';
 import houseIcon from './assets/house.svg';
 import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
 import { useTranslation } from 'react-i18next';
+import PersonService from '@/api/services/PersonService';
+import { setMe } from '@/store/reducers/UserSlice';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
 
 interface Props {}
 
@@ -24,11 +27,12 @@ const ProfilePage: React.FC<Props> = () => {
    const { lang } = useAppSelector((state) => state.SettingsReducer);
    const { me } = useAppSelector((state) => state.UserReducer);
    const { products } = useAppSelector((state) => state.ProductsReducer);
+   const dispatch = useAppDispatch();
    const [userInfo, setUserInfo] = useState<IUserInfoItem[]>([
       {
          icon: cakeIcon,
          title: t('age'),
-         value: '26',
+         value: '20',
       },
       {
          icon: bagIcon,
@@ -38,7 +42,7 @@ const ProfilePage: React.FC<Props> = () => {
       {
          icon: houseIcon,
          title: t('status'),
-         value: 'active',
+         value: me?.status ?? 'none',
       },
       {
          icon: markerIcon,
@@ -51,6 +55,15 @@ const ProfilePage: React.FC<Props> = () => {
    // const handleEditPassword = () => {
    //    setIsEditPassword(true);
    // };
+
+   const fetchMe = async () => {
+      const response = await PersonService.getMe();
+
+      console.log(response.data);
+      if (response.status !== 200) return;
+
+      dispatch(setMe(response.data));
+   };
 
    useEffect(() => {
       setUserInfo([
@@ -76,6 +89,10 @@ const ProfilePage: React.FC<Props> = () => {
          },
       ]);
    }, [lang]);
+
+   useEffect(() => {
+      fetchMe();
+   }, []);
    const handleLogout = useLogout();
    return (
       <div className={cl.profile}>
@@ -83,14 +100,16 @@ const ProfilePage: React.FC<Props> = () => {
             <div className={cl.left}>
                <img
                   className={cl.avatar}
-                  src={me.avatar ? me.avatar : defaultAvatar}
+                  src={me?.hasProfilePhoto ? '' : defaultAvatar}
                   alt="Ваш аватар"
                />
                <div className={cl.left__buttons}>
                   <button>{t('change_avatar')}</button>
                   <button>{t('logout')}</button>
                </div>
-               <p className={cl.greeting}>{t('greeting')}, Vladislav</p>
+               <p className={cl.greeting}>
+                  {t('greeting')}, {me?.username}
+               </p>
                <ul className={cl.userInfo}>
                   {userInfo.map((item) => (
                      <li>
@@ -106,31 +125,10 @@ const ProfilePage: React.FC<Props> = () => {
             <div className={cl.right}>
                <div className={cl.right__info}>
                   <h5 className={cl.right__title}>{t('profile')}</h5>
-                  <h3 className={cl.right__username}>Vladislav Khvan</h3>
+                  <h3 className={cl.right__username}>{me?.username}</h3>
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
-                     <p className={cl.right__about_desc}>
-                        Vladislav is rushing forward on the VMT MOTORS website,
-                        where car sales are in full swing! He starts with an
-                        attractive description of the cars, emphasizing their
-                        excellent performance and condition. He then adds
-                        additional photos from different angles so that
-                        potential buyers can fully appreciate the cars on offer.
-                        Not forgetting the importance of details, Vladislav also
-                        makes sure that all information about vehicles is fully
-                        relevant and accurate. It provides complete technical
-                        specifications, service history and vehicle reports to
-                        ensure the trust and confidence of potential buyers.
-                        Vladislav actively interacts with site visitors, quickly
-                        answering their questions and providing additional
-                        information about the models they are interested in. He
-                        also participates in online chat rooms and forums where
-                        people share their experiences and tips on choosing a
-                        car. In addition, Vladislav regularly updates the range
-                        of cars on the site, adding new arrivals and removing
-                        already sold cars so that visitors always see up-to-date
-                        information.
-                     </p>
+                     <p className={cl.right__about_desc}>{me?.desc}</p>
                   </section>
                   {/* <button
                      className={cl.logoutBtn}

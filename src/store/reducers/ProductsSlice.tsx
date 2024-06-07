@@ -1,5 +1,4 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ISortingOption } from '@/models/Filter.types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IProductsState {
    products: IProduct[];
@@ -24,7 +23,16 @@ export interface IProduct {
    driveUnit: TDriveUnit;
    createdAt: Date;
 }
+// interface IBrand {
+//    id: number;
+//    name: string;
+// }
+// interface IModel {
+//    brandId: number;
+//    name: string;
+// }
 
+//
 export interface IOption {
    label: string;
    value: string;
@@ -41,12 +49,12 @@ const initialState: IProductsState = {
    products: [
       {
          id: '0',
-         name: 'Бумага',
-         desc: 'Это высококачественная бумага',
+         name: 'VAZ',
+         desc: 'Это высококачественная машина',
          body: 'adfas',
          brand: {
-            label: 'adf',
-            value: 'asdasdf',
+            label: 'BELAZ',
+            value: 'BELAZ',
          },
          color: 'red',
          createdAt: new Date(),
@@ -56,8 +64,8 @@ const initialState: IProductsState = {
          generation: 'a',
          isNew: true,
          model: {
-            label: 'adf',
-            value: 'asdasdf',
+            label: 'E120',
+            value: 'E120',
          },
          moderated: false,
          personId: 1,
@@ -65,14 +73,15 @@ const initialState: IProductsState = {
          type: 'a',
          year: 1000,
       },
+
       {
          id: '1',
-         name: 'Упаковочные материалы',
-         desc: 'Очень хорошие упаковочные материалы',
+         name: 'BMW',
+         desc: 'Очень хорошие BMW',
          body: 'adfas',
          brand: {
-            label: 'adf',
-            value: 'asdasdf',
+            label: 'BMW',
+            value: 'BMW',
          },
          color: 'red',
          createdAt: new Date(),
@@ -82,8 +91,8 @@ const initialState: IProductsState = {
          generation: 'a',
          isNew: true,
          model: {
-            label: 'adf',
-            value: 'asdasdf',
+            label: 'Veiron',
+            value: 'Veiron',
          },
          moderated: false,
          personId: 1,

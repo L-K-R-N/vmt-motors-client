@@ -11,17 +11,12 @@ import plusIcon from './assets/plus.svg';
 import userIcon from './assets/user.svg';
 import { TLanguage, setLang } from '@/store/reducers/SettingsSlice';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 interface Props {}
 
 export const authMenuItems = [
    {
-      text: 'Advertisment',
-      to: 'ads',
-   },
-   {
       text: 'About',
-      to: 'about',
+      to: 'main',
    },
    {
       text: 'Catalog',
@@ -30,25 +25,6 @@ export const authMenuItems = [
    {
       text: 'Profile',
       to: 'profile',
-   },
-];
-
-export const unAuthMenuItems = [
-   {
-      text: 'About',
-      to: 'about',
-   },
-   {
-      text: 'Pricing',
-      to: 'pricing',
-   },
-   {
-      text: 'Clients',
-      to: 'clients',
-   },
-   {
-      text: 'Blog',
-      to: 'blog',
    },
 ];
 

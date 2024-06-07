@@ -24,6 +24,9 @@ export interface IAddInputs {
    color: string;
    coloring: string;
    desc: string;
+   phoneNumber: string;
+   adress: string;
+   email: string;
    price: number;
 }
 export interface IBody {

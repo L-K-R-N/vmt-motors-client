@@ -1,18 +1,15 @@
 import { ChangeEvent } from 'react';
 import cl from './FilterForm.module.scss';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Button } from '@/components/UI/Button/Button';
 import { SelectController } from '@/components/UI/SelectController/SelectController';
 import { useFilterForm } from './useFilterForm';
+import { setSelectedBrand } from '@/store/reducers/FilterSlice';
+import { useAppSelector } from '@/hooks/useAppSelector';
 interface Props {}
-
-interface IFilterInputs {
-   brand: string;
-   model: string;
-}
 
 export const FilterForm: React.FC<Props> = () => {
    const dispatch = useAppDispatch();
+   const { selectedBrand } = useAppSelector((state) => state.FilterReducer);
    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {};
    const {
       control,
@@ -28,7 +25,7 @@ export const FilterForm: React.FC<Props> = () => {
       <div className={cl.wrapper}>
          <div className={cl.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={cl.line}>
-               <SelectController
+               {/* <SelectController
                   control={control}
                   errors={errors}
                   name="brand"
@@ -36,7 +33,19 @@ export const FilterForm: React.FC<Props> = () => {
                   options={brands}
                   isMulti={false}
                   handleChange={handleBrandChange}
-               />
+               /> */}
+
+               <select
+                  title="brand"
+                  name=""
+                  id=""
+                  value={selectedBrand ?? ''}
+                  onChange={(e) => dispatch(setSelectedBrand(e.target.value))}
+               >
+                  {brands.map((m) => (
+                     <option value={m.value}>{m.label}</option>
+                  ))}
+               </select>
                <SelectController
                   control={control}
                   errors={errors}

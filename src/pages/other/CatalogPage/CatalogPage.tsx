@@ -1,10 +1,9 @@
 import { FilterForm } from '@/components/layout/FilterForm/FilterForm';
 import cl from './CatalogPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
-import CatalogService from '@/api/services/CatalogService';
-import { useEffect, useState } from 'react';
+import CatalogService from '@/api/services/ProductService';
+import { useEffect } from 'react';
 import { Products } from '@/components/layout/Products/Products';
-import { IProduct, setProducts } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
@@ -14,7 +13,7 @@ const CatalogPage: React.FC<Props> = () => {
    useHideSidebar();
    const dispatch = useAppDispatch();
    const { products } = useAppSelector((state) => state.ProductsReducer);
-   // const [products, setProducts] = useState<IProduct>([]);
+
    const fetchProducts = async () => {
       const response = await CatalogService.getProducts();
       response.data;
@@ -25,7 +24,6 @@ const CatalogPage: React.FC<Props> = () => {
    };
 
    useEffect(() => {
-      // dispatch(setProducts(fetchProducts());
       fetchProducts();
    }, []);
    return (
