@@ -9,6 +9,7 @@ import cl from './SelectController.module.scss';
 import { ReactNode } from 'react';
 import { MySelect } from '../MySelect/MySelect';
 import { GroupBase, OptionsOrGroups } from 'react-select';
+import { IOption } from '@/models/Select.types';
 
 interface Props<TFieldValues extends FieldValues, TOptions>
    extends UseControllerProps<TFieldValues> {
@@ -19,6 +20,7 @@ interface Props<TFieldValues extends FieldValues, TOptions>
    control: Control<TFieldValues, any, TFieldValues>;
    options: OptionsOrGroups<TOptions, GroupBase<TOptions>> | undefined;
    isMulti: boolean;
+   handleChange?: (value: string) => void;
 }
 
 export function SelectController<TFieldValues extends FieldValues, TOptions>({
@@ -30,6 +32,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
    options,
    placeholder,
    isMulti,
+   handleChange,
 }: Props<TFieldValues, TOptions>) {
    return (
       <div className={cl.container}>
@@ -46,6 +49,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
                   options={options}
                   errors={errors}
                   name={name}
+                  handleChange={handleChange}
                />
             )}
          />

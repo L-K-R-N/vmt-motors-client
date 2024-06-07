@@ -9,7 +9,6 @@
    align-items: start;
 }
 .input {
-   margin-bottom: 10px;
    outline: none;
    padding: 20px 24px;
    width: 100%;
@@ -54,17 +53,26 @@
    }
 }
 
-@include media-max-m {
-}
-
-@include media-max-s {
+@media screen and (max-width: 700px) {
    .container {
       width: 100%;
    }
 
    .input {
-      padding: 12px 10px 10px 10px;
-      font-size: $size-xxxxxs;
+      padding: 12px 13px 10px 13px;
+      font-size: 16px;
       border-width: 2px;
    }
 }
+
+// @include media-max-s {
+//    .container {
+//       width: 100%;
+//    }
+
+//    .input {
+//       padding: 12px 10px 10px 10px;
+//       font-size: $size-xxxxxs;
+//       border-width: 2px;
+//    }
+// }

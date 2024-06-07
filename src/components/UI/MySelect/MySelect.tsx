@@ -7,31 +7,22 @@ import {
    FieldValues,
    Path,
 } from 'react-hook-form';
-interface Props<
-   TFieldValues extends FieldValues,
-   TName extends FieldPath<TFieldValues>,
-> {
-   placeholder: string;
-   isMulti: boolean;
-   options: OptionsOrGroups<unknown, GroupBase<unknown>> | undefined;
-   field: ControllerRenderProps<TFieldValues, TName>;
-   errors?: FieldErrors<TFieldValues>;
-   name?: Path<TFieldValues>;
-}
+import { IOption } from '@/models/Select.types';
 
 const SelectStyles: StylesConfig = {
    control: (styles) => ({
       ...styles,
-      padding: '12px 30px 10px 16px',
-      borderRadius: '16px',
+      padding: '8px 13px',
+      borderRadius: '5px',
       // outline: state.isFocused ? 'none' : 'none',
-      color: '#000000',
+      color: '#888686',
       fontSize: '16px',
       fontWeight: '400',
       transition: '0.3s',
-      boxShadow: 'none',
-      border: '1px solid #cac4c4',
+      // boxShadow: '-3px 3px 3px 0 rgba(0, 0, 0, 0.308)',
+      border: '1px solid black',
       cursor: 'text',
+      fontFamily: 'Tilda Sans',
 
       ':hover': {
          ...styles[':hover'],
@@ -46,17 +37,26 @@ const SelectStyles: StylesConfig = {
    }),
    placeholder: (styles) => ({
       ...styles,
-      color: '#969696',
-      opacity: 0.65,
+      color: '#888686',
+      opacity: 0.85,
       fontSize: '16px',
       padding: 0,
       margin: 0,
+      transition: '0.3s',
+      textOverflow: 'ellipsis',
+      // textWrap: 'nowrap',
+      ':hover': {
+         ...styles[':hover'],
+         opacity: 1,
+      },
    }),
    input: (styles) => ({
       ...styles,
       padding: 0,
       margin: 0,
       color: 'black',
+      textOverflow: 'ellipsis',
+      // textWrap: 'nowrap',
    }),
    menu: (styles) => ({
       ...styles,
@@ -64,17 +64,29 @@ const SelectStyles: StylesConfig = {
       borderRadius: '5px',
       color: 'black',
       fontWeight: 400,
+      // overflow: 'hidden',
+      fontSize: '16px',
+      fontFamily: 'Tilda Sans',
+      padding: 0,
    }),
    option: (styles) => ({
       ...styles,
       background: '#ffffff',
-      borderRadius: '5px',
       color: 'black',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       cursor: 'pointer',
+      fontSize: '16px',
+      opacity: 0.8,
+
+      fontFamily: 'Tilda Sans',
+      borderBottom: '1px solid #4646462a',
+      margin: 0,
+      transform: '0.2s',
       ':hover': {
          ...styles[':hover'],
-         color: '#2F2F2F',
-         background: 'white',
+         opacity: 1,
       },
    }),
    singleValue: (styles) => ({
@@ -127,20 +139,41 @@ const SelectStyles: StylesConfig = {
       ...styles,
       cursor: 'pointer',
       color: 'black',
-      opacity: 0.7,
-
+      opacity: 0.4,
+      transition: '0.3s',
+      padding: 0,
+      paddingLeft: '5px',
       ':hover': {
          ...styles[':hover'],
-         opacity: 1,
+         opacity: 0.6,
          color: 'black',
       },
    }),
 };
 
+interface Props<
+   TFieldValues extends FieldValues,
+   TName extends FieldPath<TFieldValues>,
+> {
+   placeholder: string;
+   isMulti: boolean;
+   options: OptionsOrGroups<unknown, GroupBase<unknown>> | undefined;
+   field?: ControllerRenderProps<TFieldValues, TName>;
+   errors?: FieldErrors<TFieldValues>;
+   name?: Path<TFieldValues>;
+   handleChange?: (value: string) => void;
+}
+
 export function MySelect<
    TFieldValues extends FieldValues,
    TName extends FieldPath<TFieldValues>,
->({ placeholder, isMulti, field, options }: Props<TFieldValues, TName>) {
+>({
+   placeholder,
+   isMulti,
+   field,
+   options,
+   handleChange,
+}: Props<TFieldValues, TName>) {
    return (
       <Select
          styles={SelectStyles}
@@ -148,9 +181,14 @@ export function MySelect<
          isMulti={isMulti}
          {...field}
          options={options}
-         value={field.value}
+         value={field?.value}
          onChange={(newValue) => {
-            field.onChange(newValue);
+            field?.onChange(newValue);
+
+            // if (handleChange) {
+            //    handleChange(field.value);
+            //    console.log(field.value);
+            // }
          }}
       />
    );

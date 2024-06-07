@@ -7,27 +7,24 @@ import './styles/main.scss';
 
 import { Layout } from './components/layout/Layout/Layout';
 import { useAppSelector } from './hooks/useAppSelector';
-import { OrdersPage } from './pages/other/OrdersPage';
 import { MainPage } from './pages/other/MainPage';
 
 import { ProfilePage } from './pages/other/ProfilePage';
-import { HomePage } from './pages/other/HomePage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { ErrorPage } from './pages/error/ErrorPage/ErrorPage';
 import { ForgotPassPage } from './pages/auth/ForgotPassPage';
-import { CartPage } from './pages/other/CartPage';
 import { Loader } from './components/UI/Loader/Loader';
-import { RouteIdPage } from './pages/other/RouteIdPage';
+import { AdsPage } from './pages/other/AdsPage';
+import { AboutPage } from './pages/other/AboutPage';
+import { CatalogPage } from './pages/other/CatalogPage';
+import { FaqPage } from './pages/other/FaqPage';
+import { ProductPage } from './pages/other/ProductPage';
+import { AddAdvertPage } from './pages/other/AddAdvertPage';
 
 // const authRoutes: RouteObject[] = [];
 
 const unAuthRoutes: RouteObject[] = [
-   {
-      path: 'home',
-      element: <HomePage />,
-   },
-
    {
       path: 'signup',
       element: <RegisterPage />,
@@ -37,21 +34,25 @@ const unAuthRoutes: RouteObject[] = [
       element: <LoginPage />,
    },
    {
+      path: 'ads',
+      element: <AdsPage />,
+   },
+   {
       path: 'recover',
       element: <ForgotPassPage />,
    },
-   {
-      path: 'loader',
-      element: <Loader />,
-   },
+   // {
+   //    path: 'loader',
+   //    element: <Loader />,
+   // },
    {
       path: 'main',
       element: <MainPage />,
    },
 
    {
-      path: 'orders',
-      element: <OrdersPage />,
+      path: 'about',
+      element: <AboutPage />,
    },
 
    // {
@@ -71,20 +72,24 @@ const unAuthRoutes: RouteObject[] = [
    //    element: <NewsPage />,
    // },
    {
-      path: 'cart',
-      element: <CartPage />,
+      path: 'catalog',
+      element: <CatalogPage />,
    },
    {
-      path: 'home',
-      element: <HomePage />,
+      path: 'faq',
+      element: <FaqPage />,
    },
    {
       path: 'loader',
       element: <Loader />,
    },
    {
-      path: 'routes/:id',
-      element: <RouteIdPage />,
+      path: 'catalog/buy/:id',
+      element: <ProductPage />,
+   },
+   {
+      path: 'add',
+      element: <AddAdvertPage />,
    },
 ];
 

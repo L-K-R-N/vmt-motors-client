@@ -9,7 +9,7 @@ export const ErrorPage: React.FC<Props> = () => {
    const navigate = useNavigate();
    useEffect(() => {
       if (!isAuth) {
-         navigate('/signin');
+         // navigate('/signin');
       }
    }, []);
    return <>404</>;

@@ -11,7 +11,7 @@
       padding: 35px 130px;
       background: #141414;
       border-radius: 15px;
-      width: 40vw;
+      width: auto;
       @include flex($direction: column, $justify: center);
 
       & > form {
@@ -30,8 +30,8 @@
       color: #ffffff;
       font-size: 24px;
       line-height: 150%;
-      font-weight: 500;
-      margin-bottom: 7px;
+      font-weight: 400;
+      margin-bottom: 20px;
    }
 
    &__variants {
@@ -47,54 +47,72 @@
          font-weight: 500;
          transition: 0.3s;
          cursor: pointer;
+         @include flex($justify: center);
+         position: relative;
+         & > img {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+         }
          &:hover {
             opacity: 0.9;
          }
       }
    }
-}
 
-@media (max-width: 900px) {
-   .authBtn {
-      & > span {
-         display: none;
+   .control {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+
+      align-items: center;
+      gap: 10px;
+
+      .link {
+         transition: 0.3s;
+         opacity: 0.7;
+         text-decoration: none;
+         color: white;
+         font-weight: 400;
+         font-size: 14px;
+         &:hover {
+            opacity: 1;
+         }
+      }
+
+      & > p {
+         color: #717171;
+         font-weight: 400;
+         font-size: 14px;
+
+         & > .link {
+            text-decoration: underline;
+         }
       }
    }
+
+   &__children {
+      max-width: 360px;
+      width: 360px;
+   }
 }
+
 @media (max-width: 700px) {
-   .authBtn {
-      & > span {
-         display: none;
+   .authLayout {
+      &__content {
+         width: 100vw;
+         height: 100vh;
+         border-radius: 0;
+         padding: 60px;
+      }
+
+      &__children {
+         width: 100%;
+      }
+
+      &__variants {
+         width: 100%;
       }
    }
-
-   .logo {
-      display: none;
-   }
-
-   .searchContainer {
-      width: 75%;
-   }
-}
-
-@media (max-width: 470px) {
-   .authBtn {
-      display: none;
-   }
-
-   .searchContainer {
-      width: 100%;
-   }
-   // .wrapper {
-   // 	justify-content: space-between;
-   // 	margin-top: 22px;
-   // 	align-items: center;
-   // 	margin-left: 5%;
-   // 	margin-right: 5%;
-   // 	margin-bottom: 25px;
-   // }
-}
-
-.exitIcon:hover {
-   display: none;
 }

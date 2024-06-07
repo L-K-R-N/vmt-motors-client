@@ -6,37 +6,30 @@ import UserReducer from './reducers/UserSlice';
 import AuthReducer from './reducers/AuthSlice';
 import CartReducer from './reducers/CartSlice';
 import LayoutReducer from './reducers/LayoutSlice';
-import RoutesReducer from './reducers/RoutesSlice';
+import FilterReducer from './reducers/FilterSlice';
+import SettingsReducer from './reducers/SettingsSlice';
 import storage from 'redux-persist/lib/storage';
 
 // export const store = createStore(rootReducer)
-import {
-   persistStore,
-   persistReducer,
-   FLUSH,
-   REHYDRATE,
-   PAUSE,
-   PERSIST,
-   PURGE,
-   REGISTER,
-} from 'redux-persist';
+import { persistStore, persistReducer } from 'redux-persist';
 
 const rootReducer = combineReducers({
    ProductsReducer,
    UserReducer,
    AuthReducer,
    LayoutReducer,
-   RoutesReducer,
    CartReducer,
+   FilterReducer,
+   SettingsReducer,
 });
 
 const persistConfig = {
    key: 'root',
    storage,
    whitelist: [
-      'CartReducer',
-      'UserReducer',
-      'ProductsReducer',
+      // 'CartReducer',
+      // 'UserReducer',
+      // 'ProductsReducer',
       // 'RoutesReducer',
    ],
 };
@@ -47,9 +40,7 @@ export const store = configureStore({
    reducer: persistedReducer,
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-         serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-         },
+         serializableCheck: false,
       }),
 });
 

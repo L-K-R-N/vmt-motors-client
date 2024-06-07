@@ -5,6 +5,7 @@ import { Header } from '../Header/Header';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { Sidebar } from '../Sidebar/Sidebar';
+import { Footer } from '../Footer/Footer';
 
 interface Props {}
 
@@ -23,6 +24,7 @@ export const Layout: React.FC<Props> = () => {
                <Outlet />
             </Suspense>
          </main>
+         <Footer />
       </>
    );
 };

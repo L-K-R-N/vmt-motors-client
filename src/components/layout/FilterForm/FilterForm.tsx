@@ -1,44 +1,219 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import cl from './FilterForm.module.scss';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { setSearch } from '@/store/reducers/ProductsSlice';
-import { FilterModal } from '@/components/modals/FilterModal/FilterModal';
-import searchIco from './assets/search.svg';
-import { Input } from '@/components/UI/TextField/TextField';
 import { Button } from '@/components/UI/Button/Button';
-import { IoSearch } from 'react-icons/io5';
-import { CiSearch } from 'react-icons/ci';
-import { FiSearch } from 'react-icons/fi';
+import { SelectController } from '@/components/UI/SelectController/SelectController';
+import { useFilterForm } from './useFilterForm';
 interface Props {}
 
+interface IFilterInputs {
+   brand: string;
+   model: string;
+}
+
 export const FilterForm: React.FC<Props> = () => {
-   const [showFilter, setShowFilter] = useState(false);
-   const { search } = useAppSelector((state) => state.FilterReducer);
    const dispatch = useAppDispatch();
-
-   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(setSearch(e.target.value));
-   };
-
+   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {};
+   const {
+      control,
+      errors,
+      handleSubmit,
+      onSubmit,
+      brands,
+      models,
+      handleBrandChange,
+      reset,
+   } = useFilterForm();
    return (
-      <div className={cl.form}>
-         <div className={cl.inputContainer}>
-            <Input
-               title="Введите название"
-               value={search}
-               onChange={handleSearchInputChange}
-            />
-            <FiSearch className={cl.inputIco} />
+      <div className={cl.wrapper}>
+         <div className={cl.form} onSubmit={handleSubmit(onSubmit)}>
+            <div className={cl.line}>
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="brand"
+                  placeholder="Brand"
+                  options={brands}
+                  isMulti={false}
+                  handleChange={handleBrandChange}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="model"
+                  placeholder="Model"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="priceFrom"
+                  placeholder="Price from $"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="generation"
+                  placeholder="Generation"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="yearFrom"
+                  placeholder="Year from"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="gear"
+                  placeholder="Gear"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="fuel"
+                  placeholder="Fuel"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="driveUnit"
+                  placeholder="Drive unit"
+                  options={models}
+                  isMulti={false}
+               />
+            </div>
+            <div className={cl.line}>
+               <h5 className={cl.title}>Color</h5>
+               <h5 className={cl.title}>Car mileage</h5>
+               <h5 className={cl.title}>Car from</h5>
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="mileage"
+                  placeholder="Mileage"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="carFrom"
+                  placeholder="Car from"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="withPhoto"
+                  placeholder="With photo"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="notSold"
+                  placeholder="Not sold"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="color"
+                  placeholder="Color"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="coloring"
+                  placeholder="Coloring"
+                  options={models}
+                  isMulti={false}
+               />
+            </div>
+            <div className={cl.line}>
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="exchange"
+                  placeholder="Exchange"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="trade"
+                  placeholder="Trade"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="any"
+                  placeholder="Any"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="owner"
+                  placeholder="Owner"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="privateOwner"
+                  placeholder="Private owner"
+                  options={models}
+                  isMulti={false}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="company"
+                  placeholder="Company"
+                  options={models}
+                  isMulti={false}
+               />
+               <h5 className={cl.title}>Seller</h5>
+               <button
+                  title="Clear filters"
+                  type="button"
+                  onClick={(e) => reset()}
+                  className={cl.resetBtn}
+               >
+                  Reset
+               </button>
+               <button
+                  title="Show filters"
+                  type="submit"
+                  className={cl.submitBtn}
+               >
+                  Show
+               </button>
+            </div>
          </div>
-         <Button
-            title="Сортировка проектов"
-            type="button"
-            onClick={() => setShowFilter(true)}
-         >
-            Фильтры
-         </Button>
-         <FilterModal isShow={showFilter} setShow={setShowFilter} />
       </div>
    );
 };

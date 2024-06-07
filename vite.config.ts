@@ -5,10 +5,13 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
    plugins: [react()],
-   base: 'https://L-K-R-N.github.io',
+   // base: 'http://localhost:63342/',
    resolve: {
       alias: {
          '@': path.resolve(__dirname, 'src'),
       },
+   },
+   server: {
+      port: 7000,
    },
 });
