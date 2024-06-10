@@ -2,25 +2,26 @@ import { useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
-import { register, setIsAuth } from '@/store/reducers/AuthSlice.js';
-import { useAppSelector } from '@/hooks/useAppSelector';
+import ProductService, {
+   TDriveUnit,
+   TFuel,
+   TGear,
+   TProductType,
+} from '@/api/services/ProductService';
 
 export interface IAddInputs {
+   name: string;
    brand: string;
+   model: string;
    year: number;
-   type: string;
+   type: TProductType;
    mileage: number;
-   body:
-      | 'coupe'
-      | 'universal'
-      | 'hatchaback'
-      | 'roadster'
-      | 'liftback'
-      | 'crossover';
+   body: IBody;
    photo: string;
    generation: string;
-   engine: 'gasoline' | 'diesel' | 'hybrid';
-   drive: 'front' | 'rear' | 'all';
+   fuel: TFuel;
+   gear: TGear;
+   drive: TDriveUnit;
    color: string;
    coloring: string;
    desc: string;
@@ -34,6 +35,14 @@ export interface IBody {
    img: string;
 }
 
+type TBody =
+   | 'coupe'
+   | 'universal'
+   | 'hatchaback'
+   | 'roadster'
+   | 'liftback'
+   | 'crossover';
+
 export const useAddAdvert = () => {
    const {
       handleSubmit,
@@ -44,10 +53,26 @@ export const useAddAdvert = () => {
    });
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const [selectedBody, setSelectedBody] = useState<IBody | null>(null);
 
    const onSubmit: SubmitHandler<IAddInputs> = (data) => {
       try {
+         ProductService.postProduct(
+            data.type,
+            data.name,
+            data.desc,
+            true,
+            data.brand,
+            data.body.name,
+            data.color,
+            data.model,
+            data.price,
+            data.year,
+            data.generation,
+            data.gear,
+            data.fuel,
+            data.drive,
+         );
+         navigate('/main');
       } catch (e) {
          console.log(e);
       }
@@ -59,7 +84,6 @@ export const useAddAdvert = () => {
          onSubmit,
          control,
          handleSubmit,
-         setSelectedBody,
       }),
       [errors],
    );

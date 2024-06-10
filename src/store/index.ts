@@ -12,6 +12,8 @@ import storage from 'redux-persist/lib/storage';
 
 // export const store = createStore(rootReducer)
 import { persistStore, persistReducer } from 'redux-persist';
+import { personApi } from '@/api/services/PersonService';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 const rootReducer = combineReducers({
    ProductsReducer,
@@ -21,6 +23,7 @@ const rootReducer = combineReducers({
    CartReducer,
    FilterReducer,
    SettingsReducer,
+   [personApi.reducerPath]: personApi.reducer,
 });
 
 const persistConfig = {
@@ -41,10 +44,12 @@ export const store = configureStore({
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
          serializableCheck: false,
-      }),
+      }).concat(personApi.middleware),
 });
 
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+
+setupListeners(store.dispatch);

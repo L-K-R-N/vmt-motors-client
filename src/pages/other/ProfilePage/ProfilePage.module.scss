@@ -20,6 +20,9 @@
       width: calc(25vw - 120px);
    }
 
+   .defaultText {
+   }
+
    .left {
       @include flex($direction: column, $justify: start);
       gap: 20px;

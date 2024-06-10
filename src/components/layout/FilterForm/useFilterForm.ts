@@ -1,13 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import {
-   setBrands,
-   setModels,
-   setSelectedBrand,
-} from '@/store/reducers/FilterSlice';
+import { IProduct, setFiltredProducts } from '@/store/reducers/ProductsSlice';
 
 interface IFilterInputs {
    brand: string;
@@ -46,39 +42,28 @@ export const useFilterForm = () => {
    const dispatch = useAppDispatch();
    const navigate = useNavigate();
 
-   const { brands, models, selectedBrand } = useAppSelector(
-      (state) => state.FilterReducer,
-   );
+   const { brands, models } = useAppSelector((state) => state.FilterReducer);
+
    const { products } = useAppSelector((state) => state.ProductsReducer);
-   useEffect(() => {
-      const newBrands = products.map((p) => p.brand);
-      dispatch(setBrands(newBrands));
-      console.log(newBrands);
-   }, []);
 
-   useEffect(() => {
-      const newModels = products
-         .filter((p) => p.brand.value === selectedBrand)
-         .map((p) => p.model);
+   const onSubmit: SubmitHandler<IFilterInputs> = (data) => {
+      let newProducts: IProduct[] = [...products];
+      console.log(newProducts);
 
-      dispatch(setModels(newModels));
-      console.log(1);
-   }, [selectedBrand]);
-
-   const handleBrandChange = (option: string) => {
-      dispatch(setSelectedBrand(option));
+      newProducts = useMemo(() => {
+         return data.brand
+            ? newProducts.filter((p) => p.brand.value === data.brand)
+            : newProducts;
+      }, [data]);
+      dispatch(setFiltredProducts(newProducts));
    };
-
-   const onSubmit: SubmitHandler<IFilterInputs> = (data) => {};
    return useMemo(
       () => ({
          errors,
          onSubmit,
          control,
          handleSubmit,
-         brands,
-         models,
-         handleBrandChange,
+
          reset,
       }),
       [errors, brands, models],

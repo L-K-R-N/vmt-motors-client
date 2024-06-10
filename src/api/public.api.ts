@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { API_URL } from './app.vars.ts';
+import { BASE_URL } from './app.vars.ts';
 
 export const $api = axios.create({
    withCredentials: true,
-   baseURL: API_URL,
+   baseURL: BASE_URL,
 });
 
 $api.interceptors.request.use((config) => {

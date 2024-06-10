@@ -68,14 +68,13 @@ const SelectStyles: StylesConfig = {
       fontSize: '16px',
       fontFamily: 'Tilda Sans',
       padding: 0,
+      scrollbarColor: 'red',
    }),
    option: (styles) => ({
       ...styles,
       background: '#ffffff',
       color: 'black',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+
       cursor: 'pointer',
       fontSize: '16px',
       opacity: 0.8,

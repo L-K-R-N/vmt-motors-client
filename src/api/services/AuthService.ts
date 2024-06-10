@@ -8,7 +8,7 @@ export default class AuthService {
       password: string,
       deviceName: string,
    ): Promise<AxiosResponse<AuthResponse>> {
-      return $api.post<AuthResponse>('/api/auth/login', {
+      return $api.post<AuthResponse>('auth/login', {
          login,
          password,
          deviceName,
@@ -22,7 +22,7 @@ export default class AuthService {
       dateOfBirth: Date,
       gender: 'MALE' | 'FEMALE',
    ): Promise<AxiosResponse> {
-      return $api.post('/api/auth/signup', {
+      return $api.post('auth/signup', {
          username,
          password,
          name,
@@ -34,13 +34,13 @@ export default class AuthService {
       access: string,
       email: string,
    ): Promise<AxiosResponse> {
-      return $api.post('/api/auth/verification/email/send', {
+      return $api.post('auth/verification/email/send', {
          access,
          email,
       });
    }
    static async verificationEmailVerify(code: string): Promise<AxiosResponse> {
-      return $api.post('/api/auth/verification/email/verify', {
+      return $api.post('auth/verification/email/verify', {
          code,
       });
    }

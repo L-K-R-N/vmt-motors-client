@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import PersonService from '@/api/services/PersonService';
 import { setMe } from '@/store/reducers/UserSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { Link } from 'react-router-dom';
 
 interface Props {}
 
@@ -128,7 +129,9 @@ const ProfilePage: React.FC<Props> = () => {
                   <h3 className={cl.right__username}>{me?.username}</h3>
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
-                     <p className={cl.right__about_desc}>{me?.desc}</p>
+                     <p className={cl.right__about_desc}>
+                        {me?.desc ? me?.desc : 'Описание отсутствует'}
+                     </p>
                   </section>
                   {/* <button
                      className={cl.logoutBtn}
@@ -142,9 +145,16 @@ const ProfilePage: React.FC<Props> = () => {
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {products.map((product) => (
-                        <AdvertCard advert={product} key={product.id} />
-                     ))}
+                     {products.length !== 0 ? (
+                        products.map((product) => (
+                           <AdvertCard advert={product} key={product.id} />
+                        ))
+                     ) : (
+                        <div className={cl.right__about_desc}>
+                           Вы пока не разместили ни одно рекламное объявление.{' '}
+                           <Link to={'/add'}>Сделайте это прямо сейчас</Link>
+                        </div>
+                     )}
                   </div>
                </div>
             </div>

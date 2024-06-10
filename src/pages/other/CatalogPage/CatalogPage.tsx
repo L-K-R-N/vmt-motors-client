@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Products } from '@/components/layout/Products/Products';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { setFiltredProducts } from '@/store/reducers/ProductsSlice';
 
 interface Props {}
 
@@ -25,6 +26,7 @@ const CatalogPage: React.FC<Props> = () => {
 
    useEffect(() => {
       fetchProducts();
+      dispatch(setFiltredProducts(products));
    }, []);
    return (
       <div className={cl.ads}>

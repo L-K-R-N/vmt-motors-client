@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface IProductsState {
-   products: IProduct[];
-}
 export interface IProduct {
    id: string;
    personId: number;
@@ -45,6 +42,10 @@ type TDriveUnit = 'a';
 type TBrand = 'BMW' | 'Audi';
 type BMWModels = 'm4' | 'm5';
 
+export interface IProductsState {
+   products: IProduct[];
+   filtredProducts: IProduct[];
+}
 const initialState: IProductsState = {
    products: [
       {
@@ -73,7 +74,6 @@ const initialState: IProductsState = {
          type: 'a',
          year: 1000,
       },
-
       {
          id: '1',
          name: 'BMW',
@@ -101,14 +101,17 @@ const initialState: IProductsState = {
          year: 1000,
       },
    ],
+   filtredProducts: [],
 };
-
 export const ProductsSlice = createSlice({
    name: 'ProductsSlice',
    initialState,
    reducers: {
       setProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.products = action.payload;
+      },
+      setFiltredProducts: (state, action: PayloadAction<IProduct[]>) => {
+         state.filtredProducts = action.payload;
       },
    },
    // extraReducers: (builder) => {
@@ -130,4 +133,4 @@ export const ProductsSlice = createSlice({
 
 export default ProductsSlice.reducer;
 
-export const { setProducts } = ProductsSlice.actions;
+export const { setProducts, setFiltredProducts } = ProductsSlice.actions;

@@ -37,43 +37,20 @@ export const Header: React.FC<Props> = () => {
    const { isShowHeader } = useAppSelector((state) => state.LayoutReducer);
    const { i18n, t } = useTranslation();
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
-   const [isAuth, setIsAuth] = useState(true);
-   const [user, setUser] = useState('Artem');
+   const { me } = useAppSelector((state) => state.UserReducer);
    const { lang } = useAppSelector((state) => state.SettingsReducer);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: t('advertisment'),
-         to: 'ads',
+         to: 'catalog',
       },
       {
          text: t('about'),
-         to: 'about',
-      },
-      {
-         text: t('catalog'),
-         to: 'catalog',
+         to: 'main',
       },
       {
          text: t('profile'),
          to: 'profile',
-      },
-   ]);
-   const [unAuthMenuItems, setUnAuthMenuItems] = useState([
-      {
-         text: t('about'),
-         to: 'about',
-      },
-      {
-         text: t('pricing'),
-         to: 'pricing',
-      },
-      {
-         text: t('clients'),
-         to: 'clients',
-      },
-      {
-         text: t('blog'),
-         to: 'blog',
       },
    ]);
 
@@ -112,24 +89,6 @@ export const Header: React.FC<Props> = () => {
             to: 'profile',
          },
       ]);
-      setUnAuthMenuItems([
-         {
-            text: t('about'),
-            to: 'about',
-         },
-         {
-            text: t('pricing'),
-            to: 'pricing',
-         },
-         {
-            text: t('clients'),
-            to: 'clients',
-         },
-         {
-            text: t('blog'),
-            to: 'blog',
-         },
-      ]);
    };
 
    return (
@@ -138,7 +97,7 @@ export const Header: React.FC<Props> = () => {
             <header className={cl.header}>
                <Wrapper>
                   <div className={cl.header__content}>
-                     <Link to={isAuth ? '/main' : '/home'} className={cl.logo}>
+                     <Link to={'/main'} className={cl.logo}>
                         <img
                            src={logo}
                            alt="logo"
@@ -147,48 +106,37 @@ export const Header: React.FC<Props> = () => {
                         />
                      </Link>
 
-                     {isAuth ? (
-                        <Menu items={authMenuItems} />
-                     ) : (
-                        <Menu items={unAuthMenuItems} />
-                     )}
-                     {isAuth && (
-                        // <div className={cl.profileBlock}>
-                        //    <button title="Пункты выдачи" className={cl.mapBtn}>
-                        //       <CiMap />
-                        //    </button>
-                        <div className={cl.header__control}>
-                           <Button
-                              title="Submit an ad"
-                              type="button"
-                              onClick={() => navigate('add')}
-                           >
-                              <div>
-                                 <img src={plusIcon} alt="" />
-                                 {t('submit_an_ad')}
-                              </div>
-                           </Button>
-                           <div className={cl.header__lang}>
-                              <select
-                                 title="Change language"
-                                 name="Change language"
-                                 id=""
-                                 onChange={handleChangeLang}
-                                 value={lang}
-                              >
-                                 {langs.map((lang) => (
-                                    <option value={lang.value}>
-                                       {lang.text}
-                                    </option>
-                                 ))}
-                              </select>
+                     <Menu items={authMenuItems} />
+
+                     <div className={cl.header__control}>
+                        <Button
+                           title="Submit an ad"
+                           type="button"
+                           onClick={() => navigate('add')}
+                        >
+                           <div>
+                              <img src={plusIcon} alt="" />
+                              {t('submit_an_ad')}
                            </div>
-                           <Link to={'/profile'} className={cl.header__profile}>
-                              <img src={userIcon} alt="" />
-                              <span>{user}</span>
-                           </Link>
+                        </Button>
+                        <div className={cl.header__lang}>
+                           <select
+                              title="Change language"
+                              name="Change language"
+                              id=""
+                              onChange={handleChangeLang}
+                              value={lang}
+                           >
+                              {langs.map((lang) => (
+                                 <option value={lang.value}>{lang.text}</option>
+                              ))}
+                           </select>
                         </div>
-                     )}
+                        <Link to={'/profile'} className={cl.header__profile}>
+                           <img src={userIcon} alt="" />
+                           <span>{me?.username}</span>
+                        </Link>
+                     </div>
                   </div>
                </Wrapper>
             </header>

@@ -17,8 +17,8 @@ import compactImg from './assets/body_imgs/compact.png';
 import cabrioletImg from './assets/body_imgs/cabriolet.png';
 import { IOption } from '@/models/Select.types';
 import { useTranslation } from 'react-i18next';
-import formImg from './assets/map.jpg';
 import { Button } from '@/components/UI/Button/Button';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 interface Props {}
 
@@ -30,35 +30,12 @@ const AddAdvertPage: React.FC<Props> = () => {
 
       console.log(products);
    };
-   const { errors, handleSubmit, onSubmit, control, setSelectedBody } =
-      useAddAdvert();
+   const { errors, handleSubmit, onSubmit, control } = useAddAdvert();
+   const { brands, models, driveUnits, colors, fuels, gears } = useAppSelector(
+      (state) => state.FilterReducer,
+   );
    let brandsOptions = [];
-   const [brands, setBrands] = useState<IOption[]>([
-      {
-         value: 'BMW',
-         label: 'BMW',
-      },
-      {
-         value: 'Nissan',
-         label: 'Nissan',
-      },
-      {
-         value: 'Toyota',
-         label: 'Toyota',
-      },
-      {
-         value: 'Audi',
-         label: 'Audi',
-      },
-      {
-         value: 'Mercedes benz',
-         label: 'Mercedes benz',
-      },
-      {
-         value: 'Renault',
-         label: 'Renault',
-      },
-   ]);
+
    const [bodies, setBodies] = useState<IBody[]>([
       {
          img: coupeImg,
@@ -143,6 +120,7 @@ const AddAdvertPage: React.FC<Props> = () => {
          name: 'Cabriolet',
       },
    ]);
+   const [selectedBody, setSelectedBody] = useState<IBody | null>(null);
 
    // const toIOption = (items: string[]) => {
    //    const brandsOptions: IOption[] = [];
@@ -169,6 +147,14 @@ const AddAdvertPage: React.FC<Props> = () => {
                <h4 className={cl.title}>{t('choose_brand')}</h4>
 
                <div className={cl.block}>
+                  <TextFieldController
+                     control={control}
+                     errors={errors}
+                     fieldType="input"
+                     label="Name"
+                     name="name"
+                     rules={{ required: 'Name is required' }}
+                  />
                   <SelectController
                      control={control}
                      errors={errors}
@@ -177,6 +163,15 @@ const AddAdvertPage: React.FC<Props> = () => {
                      placeholder="Car brand"
                      isMulti={false}
                      rules={{ required: 'Brand is required' }}
+                  />
+                  <SelectController
+                     control={control}
+                     errors={errors}
+                     name="model"
+                     options={models}
+                     placeholder="Car model"
+                     isMulti={false}
+                     rules={{ required: 'Model is required' }}
                   />
                </div>
                <h4 className={cl.title}>{t('specifications')}</h4>
@@ -221,7 +216,10 @@ const AddAdvertPage: React.FC<Props> = () => {
                   <ul className={cl.bodies}>
                      {bodies.map((b) => (
                         <li
-                           className={cl.body}
+                           className={[
+                              cl.body,
+                              b.name === selectedBody?.name ? cl.active : '',
+                           ].join(' ')}
                            onClick={() => setSelectedBody(b)}
                         >
                            <img className={cl.body__img} src={b.img} alt="" />
@@ -242,7 +240,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      <SelectController
                         control={control}
                         errors={errors}
-                        name="engine"
+                        name="fuel"
                         rules={{ required: 'Engine is required' }}
                         isMulti={false}
                         options={[
@@ -255,6 +253,18 @@ const AddAdvertPage: React.FC<Props> = () => {
                      />
                   </div>
                   <div className={cl.elem}>
+                     <h5 className={cl.subtitle}>{t('gear')}</h5>
+                     <SelectController
+                        control={control}
+                        errors={errors}
+                        name="fuel"
+                        rules={{ required: 'Gear is required' }}
+                        isMulti={false}
+                        options={gears}
+                        placeholder={t('gear')}
+                     />
+                  </div>
+                  <div className={cl.elem}>
                      <h5 className={cl.subtitle}>{t('drive')}</h5>
                      <SelectController
                         control={control}
@@ -262,30 +272,19 @@ const AddAdvertPage: React.FC<Props> = () => {
                         name="drive"
                         rules={{ required: 'Drive is required' }}
                         isMulti={false}
-                        options={[
-                           {
-                              value: '1',
-                              label: '1',
-                           },
-                        ]}
+                        options={driveUnits}
                         placeholder={t('drive')}
                      />
                   </div>
                   <div className={cl.elem}>
                      <h5 className={cl.subtitle}>{t('color')}</h5>
-                     <SelectController
+                     <TextFieldController
                         control={control}
                         errors={errors}
                         name="mileage"
                         rules={{ required: 'Car mileage is required' }}
-                        isMulti={false}
-                        options={[
-                           {
-                              value: '1',
-                              label: '1',
-                           },
-                        ]}
-                        placeholder={t('color')}
+                        label={t('color')}
+                        fieldType="input"
                      />
                   </div>
                </div>

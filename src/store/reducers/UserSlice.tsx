@@ -163,19 +163,6 @@ export const UserSlice = createSlice({
          }
       });
 
-      builder.addCase(getAllPersons, () => {
-         try {
-            (async function () {
-               const response = await PersonService.getAllPersons();
-
-               if (response.status !== 200) return;
-
-               return response.data;
-            })();
-         } catch (e) {
-            console.log(e);
-         }
-      });
       builder.addCase(
          changePersonPhoto,
          (state, action: PayloadAction<IChangePhoto>) => {

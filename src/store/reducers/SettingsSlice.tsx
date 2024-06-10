@@ -14,8 +14,8 @@ const initialState: IAuthState = {
    theme: 'light',
 };
 
-export const AuthSlice = createSlice({
-   name: 'AuthSlice',
+export const SettingsSlice = createSlice({
+   name: 'SettingsSlice',
    initialState,
    reducers: {
       setTheme: (state, action: PayloadAction<TTheme>) => {
@@ -27,6 +27,6 @@ export const AuthSlice = createSlice({
    },
 });
 
-export default AuthSlice.reducer;
+export default SettingsSlice.reducer;
 
-export const { setTheme, setLang } = AuthSlice.actions;
+export const { setTheme, setLang } = SettingsSlice.actions;

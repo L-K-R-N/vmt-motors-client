@@ -4,7 +4,7 @@ import { IUser } from '@/models/User.types';
 import { IRegisterInputs } from '@/pages/auth/RegisterPage/useRegister';
 import { IVerificationInputs } from '@/pages/auth/RegisterPage/useVerification';
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setMe } from './UserSlice';
+import { getMe, setMe } from './UserSlice';
 import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
 
 export interface IAuthState {
@@ -103,6 +103,8 @@ export const AuthSlice = createSlice({
                            loginResponse.data.jwtToken,
                            email,
                         );
+
+                        getMe();
                      }
                   }
                })();
@@ -127,6 +129,7 @@ export const AuthSlice = createSlice({
 
                if (loginResponse.status === 200) {
                   setIsAuth(true);
+                  getMe();
                }
             })();
          } catch (e) {}

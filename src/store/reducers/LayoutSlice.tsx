@@ -12,7 +12,7 @@ const initialState: IAuthState = {
    isShowFooter: false,
 };
 
-export const AuthSlice = createSlice({
+export const LayoutSlice = createSlice({
    name: 'LayoutSlice',
    initialState,
    reducers: {
@@ -28,7 +28,7 @@ export const AuthSlice = createSlice({
    },
 });
 
-export default AuthSlice.reducer;
+export default LayoutSlice.reducer;
 
 export const { setShowHeader, setShowSidebar, setShowFooter } =
-   AuthSlice.actions;
+   LayoutSlice.actions;
