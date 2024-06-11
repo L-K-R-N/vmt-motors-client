@@ -1,10 +1,9 @@
 import { TDriveUnit, TFuel, TGear } from '@/api/services/ProductService';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IOption } from './ProductsSlice';
 
 export interface IFilterState {
-   brands: IBrand[];
-   models: IModel[];
+   brands: ISelectItem<TBrand>[];
+   models: string[];
    driveUnits: ISelectItem<TDriveUnit>[];
    fuels: ISelectItem<TFuel>[];
    gears: ISelectItem<TGear>[];
@@ -22,12 +21,12 @@ export interface IBrand {
    id: number;
 }
 
-export interface IModel {
-   name: string;
-   img: string;
-   id: number;
-   brandId: number;
-}
+// export interface IModel {
+//    name: string;
+//    img: string;
+//    id: number;
+//    brandId: number;
+// }
 
 export type TColor =
    | 'black'
@@ -42,297 +41,168 @@ export type TColor =
    | 'orange'
    | 'gray';
 
+export type TBrand =
+   | 'Acura'
+   | 'AITO'
+   | 'Alfa Romeo'
+   | 'Alga'
+   | 'Alpina'
+   | 'Arcfox'
+   | 'Aro'
+   | 'Aston Martin'
+   | 'Audi'
+   | 'Aurus'
+   | 'BAIC'
+   | 'Bajaj'
+   | 'BAW'
+   | 'Bentley'
+   | 'Blaval'
+   | 'BMW'
+   | 'Borgward'
+   | 'Brilliance'
+   | 'Bugatti'
+   | 'Buick'
+   | 'BYD'
+   | 'Cadillac'
+   | 'Changan'
+   | 'ChangFeng'
+   | 'Changhe'
+   | 'Chery'
+   | 'Chevrolet'
+   | 'Chrysler'
+   | 'Citroen'
+   | 'Core Power'
+   | 'Dacia'
+   | 'Daewoo';
 const initialState: IFilterState = {
    brands: [
       {
-         name: 'Acura',
-         img: '',
-         id: 1,
+         value: 'AITO',
+         label: 'AITO',
       },
       {
-         name: 'AITO',
-         img: '',
-         id: 2,
+         value: 'Acura',
+         label: 'Acura',
       },
       {
-         name: 'Alfa Romeo',
-         img: '',
-         id: 3,
+         value: 'Alfa Romeo',
+         label: 'Alfa Romeo',
       },
       {
-         name: 'Alga',
-         img: '',
-         id: 4,
+         value: 'Alga',
+         label: 'Alga',
       },
       {
-         name: 'Alpina',
-         img: '',
-         id: 5,
+         value: 'Alpina',
+         label: 'Alpina',
       },
       {
-         name: 'Arcfox',
-         img: '',
-         id: 6,
+         value: 'Arcfox',
+         label: 'Arcfox',
       },
       {
-         name: 'Aston Martin',
-         img: '',
-         id: 7,
+         value: 'Aro',
+         label: 'Aro',
       },
       {
-         name: 'Audi',
-         img: '',
-         id: 8,
+         value: 'Aston Martin',
+         label: 'Aston Martin',
       },
       {
-         name: 'Aurus',
-         img: '',
-         id: 9,
+         value: 'Audi',
+         label: 'Audi',
       },
       {
-         name: 'Avatr',
-         img: '',
-         id: 10,
+         value: 'Aurus',
+         label: 'Aurus',
       },
       {
-         name: 'BAIC',
-         img: '',
-         id: 11,
+         value: 'BAIC',
+         label: 'BAIC',
       },
       {
-         name: 'Bajaj',
-         img: '',
-         id: 12,
+         value: 'BAW',
+         label: 'BAW',
       },
       {
-         name: 'Baojun',
-         img: '',
-         id: 13,
+         value: 'BMW',
+         label: 'BMW',
       },
       {
-         name: 'BAW',
-         img: '',
-         id: 14,
+         value: 'BYD',
+         label: 'BYD',
       },
       {
-         name: 'BMW',
-         img: '',
-         id: 15,
+         value: 'Bajaj',
+         label: 'Bajaj',
       },
       {
-         name: 'Bentley',
-         img: '',
-         id: 16,
+         value: 'Bentley',
+         label: 'Bentley',
       },
       {
-         name: 'Blaval',
-         img: '',
-         id: 17,
+         value: 'Blaval',
+         label: 'Blaval',
       },
       {
-         name: 'BMW',
-         img: '',
-         id: 18,
+         value: 'Borgward',
+         label: 'Borgward',
       },
       {
-         name: 'Borgward',
-         img: '',
-         id: 19,
+         value: 'Brilliance',
+         label: 'Brilliance',
       },
       {
-         name: 'Brilliance',
-         img: '',
-         id: 21,
+         value: 'Bugatti',
+         label: 'Bugatti',
       },
       {
-         name: 'Bugatti',
-         img: '',
-         id: 22,
+         value: 'Buick',
+         label: 'Buick',
       },
       {
-         name: 'Buick',
-         img: '',
-         id: 23,
+         value: 'Cadillac',
+         label: 'Cadillac',
       },
       {
-         name: 'BYD',
-         img: '',
-         id: 24,
+         value: 'ChangFeng',
+         label: 'ChangFeng',
       },
       {
-         name: 'Cadillac',
-         img: '',
-         id: 25,
+         value: 'Changan',
+         label: 'Changan',
       },
       {
-         name: 'Changan',
-         img: '',
-         id: 26,
+         value: 'Changhe',
+         label: 'Changhe',
       },
       {
-         name: 'ChangFeng',
-         img: '',
-         id: 27,
+         value: 'Chery',
+         label: 'Chery',
       },
       {
-         name: 'Changhe',
-         img: '',
-         id: 28,
+         value: 'Chevrolet',
+         label: 'Chevrolet',
       },
       {
-         name: 'Chery',
-         img: '',
-         id: 29,
+         value: 'Chrysler',
+         label: 'Chrysler',
       },
       {
-         name: 'Chevrolet',
-         img: '',
-         id: 30,
+         value: 'Citroen',
+         label: 'Citroen',
       },
       {
-         name: 'Chrysler',
-         img: '',
-         id: 31,
+         value: 'Core Power',
+         label: 'Core Power',
       },
       {
-         name: 'Citroen',
-         img: '',
-         id: 32,
+         value: 'Dacia',
+         label: 'Dacia',
       },
       {
-         name: 'Core Power',
-         img: '',
-         id: 33,
-      },
-      {
-         name: 'Dacia',
-         img: '',
-         id: 34,
-      },
-      {
-         name: 'Daewoo',
-         img: '',
-         id: 35,
-      },
-      {
-         name: 'Daihatsu',
-         img: '',
-         id: 36,
-      },
-      {
-         name: 'Datsun',
-         img: '',
-         id: 37,
-      },
-      {
-         name: 'Dayun',
-         img: '',
-         id: 38,
-      },
-      {
-         name: 'Denza',
-         img: '',
-         id: 39,
-      },
-      {
-         name: 'Derways',
-         img: '',
-         id: 40,
-      },
-      {
-         name: 'DFSK',
-         img: '',
-         id: 41,
-      },
-      {
-         name: 'Dodge',
-         img: '',
-         id: 42,
-      },
-      {
-         name: 'DongFeng',
-         img: '',
-         id: 43,
-      },
-      {
-         name: 'DS',
-         img: '',
-         id: 44,
-      },
-      {
-         name: 'Eagle',
-         img: '',
-         id: 45,
-      },
-      {
-         name: 'Enovate',
-         img: '',
-         id: 46,
-      },
-      {
-         name: 'Evergrande',
-         img: '',
-         id: 47,
-      },
-      {
-         name: 'EXEED',
-         img: '',
-         id: 48,
-      },
-      {
-         name: 'Fang Cheng Bao',
-         img: '',
-         id: 49,
-      },
-      {
-         name: 'Farizon',
-         img: '',
-         id: 50,
-      },
-      {
-         name: 'FAW',
-         img: '',
-         id: 51,
-      },
-      {
-         name: 'Ferrari',
-         img: '',
-         id: 52,
-      },
-      {
-         name: 'Fiat',
-         img: '',
-         id: 53,
-      },
-      {
-         name: 'Fisker',
-         img: '',
-         id: 54,
-      },
-      {
-         name: 'Ford',
-         img: '',
-         id: 55,
-      },
-      {
-         name: 'Forthing',
-         img: '',
-         id: 56,
-      },
-      {
-         name: 'Foton',
-         img: '',
-         id: 57,
-      },
-      {
-         name: 'GAC',
-         img: '',
-         id: 58,
-      },
-      {
-         name: 'Geely',
-         img: '',
-         id: 59,
+         value: 'Daewoo',
+         label: 'Daewoo',
       },
    ],
    models: [],
@@ -462,10 +332,10 @@ export const ProductsSlice = createSlice({
    name: 'ProductsSlice',
    initialState,
    reducers: {
-      setBrands: (state, action: PayloadAction<IBrand[]>) => {
+      setBrands: (state, action: PayloadAction<ISelectItem<TBrand>[]>) => {
          state.brands = action.payload;
       },
-      setModels: (state, action: PayloadAction<IModel[]>) => {
+      setModels: (state, action: PayloadAction<string[]>) => {
          state.models = action.payload;
       },
    },

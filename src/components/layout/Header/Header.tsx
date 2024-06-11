@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import cl from './Header.module.scss';
 import logo from './assets/logo.svg';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { Wrapper } from '../Wrapper/Wrapper';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -16,11 +16,11 @@ interface Props {}
 export const authMenuItems = [
    {
       text: 'About',
-      to: 'main',
+      to: 'about',
    },
    {
       text: 'Catalog',
-      to: 'catalog',
+      to: 'adverrts',
    },
    {
       text: 'Profile',
@@ -38,19 +38,23 @@ export const Header: React.FC<Props> = () => {
    const { i18n, t } = useTranslation();
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { me } = useAppSelector((state) => state.UserReducer);
-   const { lang } = useAppSelector((state) => state.SettingsReducer);
+   const { lang, theme } = useAppSelector((state) => state.SettingsReducer);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: t('advertisment'),
-         to: 'catalog',
+         to: 'adverts',
       },
       {
          text: t('about'),
-         to: 'main',
+         to: 'about',
       },
       {
          text: t('profile'),
          to: 'profile',
+      },
+      {
+         text: 'Admin',
+         to: 'admin/dashboard',
       },
    ]);
 
@@ -91,13 +95,17 @@ export const Header: React.FC<Props> = () => {
       ]);
    };
 
+   useEffect(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+   }, [theme]);
+
    return (
       <>
          {isShowHeader && (
             <header className={cl.header}>
                <Wrapper>
                   <div className={cl.header__content}>
-                     <Link to={'/main'} className={cl.logo}>
+                     <Link to={'/about'} className={cl.logo}>
                         <img
                            src={logo}
                            alt="logo"
@@ -128,7 +136,9 @@ export const Header: React.FC<Props> = () => {
                               value={lang}
                            >
                               {langs.map((lang) => (
-                                 <option value={lang.value}>{lang.text}</option>
+                                 <option value={lang.value} key={lang.value}>
+                                    {lang.text}
+                                 </option>
                               ))}
                            </select>
                         </div>

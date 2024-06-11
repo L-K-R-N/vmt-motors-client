@@ -16,6 +16,7 @@ interface Props<TFieldValues extends FieldValues> {
    name?: Path<TFieldValues>;
    value?: string;
    type: TFieldType;
+   disabled?: boolean;
    onChange?: (
       e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
    ) => void;
@@ -34,6 +35,7 @@ export function TextField<TFieldValues extends FieldValues>({
    onChange,
    type,
    styles,
+   disabled,
 }: Props<TFieldValues>) {
    const id = useId();
 
@@ -63,6 +65,7 @@ export function TextField<TFieldValues extends FieldValues>({
                title={title}
                placeholder={title}
                style={styles}
+               disabled={disabled}
                // aria-invalid={errors && name && errors[name] ? 'true' : 'false'}
             />
          ) : (

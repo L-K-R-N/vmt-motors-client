@@ -1,6 +1,28 @@
 html {
    scroll-behavior: smooth;
 }
+
+:root {
+   /* light theme tokens */
+   --background-primary-light: 44, 191, 170;
+   --accent-light: 37, 89, 88;
+
+   /* dark theme tokens */
+   --background-primary-dark: 25, 48, 66;
+   --accent-dark: 90, 182, 204;
+}
+
+/* map tokens to proper theme */
+[data-theme='light'] {
+   --background-primary: var(--background-primary-light);
+   --accent: var(--accent-light);
+}
+
+[data-theme='dark'] {
+   --background-primary: var(--background-primary-dark);
+   --accent: var(--accent-dark);
+}
+
 body {
    font-family: $font-montserrat;
    max-width: 100vw;

@@ -1,0 +1,135 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.page {
+   padding: 30px;
+   @include flex($align: stretch);
+   width: 100%;
+}
+
+.usersList {
+   font-family: $font-tildaSans;
+   background: black;
+   padding: 30px;
+   @include flex($direction: column, $justify: start, $align: stretch);
+   border-radius: 20px;
+   color: white;
+   font-weight: 400;
+   width: 48%;
+   &__header {
+      @include flex;
+      gap: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+      & > input {
+         padding: 6px 13px;
+         border-radius: 999px;
+         border: none;
+         color: black;
+         text-transform: uppercase;
+         padding-right: 40px;
+
+         &::placeholder {
+            color: #706d6d;
+         }
+      }
+   }
+
+   &__line {
+      @include flex;
+      gap: 30px;
+      padding: 20px 0;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+   }
+
+   &__column {
+      width: 50%;
+   }
+}
+
+@media (max-width: 1600px) {
+   .page {
+      padding: 20px;
+
+      &__title {
+         font-size: 32px;
+         font-weight: 600;
+      }
+      &__desc {
+         font-size: 20px;
+
+         & > span {
+            font-weight: 600;
+         }
+
+         .vmt {
+            color: #5cc400;
+         }
+      }
+      &__about {
+         width: 100vw;
+         padding: 40px 30px 25px 30px;
+
+         &_desc {
+            font-size: 15px;
+         }
+
+         &_content {
+            & > p {
+               font-size: 15px;
+            }
+         }
+      }
+
+      &__contacts {
+         height: auto;
+         flex-direction: column-reverse;
+
+         &_content,
+         &_img {
+            width: 100%;
+         }
+
+         &_content {
+            padding: 50px 25px 75px 25px;
+            & > h4 {
+               font-size: 32px;
+            }
+         }
+
+         &_list {
+            gap: 25px;
+            font-size: 15px;
+         }
+
+         &_social {
+            & > h5 {
+               font-size: 15px;
+            }
+
+            &List {
+               @include flex();
+               gap: 10px;
+
+               & img {
+                  height: 35px;
+               }
+            }
+         }
+      }
+   }
+}
+@media (max-width: 700px) {
+   .container {
+      margin-right: 0;
+      padding: 10px;
+   }
+}
+
+@media (max-width: 470px) {
+   .container {
+      margin-right: 0;
+      padding-bottom: 40px;
+   }
+}

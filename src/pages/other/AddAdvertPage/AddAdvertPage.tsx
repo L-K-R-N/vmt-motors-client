@@ -153,6 +153,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      fieldType="input"
                      label="Name"
                      name="name"
+                     placeholder="Nmae"
                      rules={{ required: 'Name is required' }}
                   />
                   <SelectController
@@ -221,6 +222,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                               b.name === selectedBody?.name ? cl.active : '',
                            ].join(' ')}
                            onClick={() => setSelectedBody(b)}
+                           key={b.name}
                         >
                            <img className={cl.body__img} src={b.img} alt="" />
                            <h6 className={cl.body__name}>{b.name}</h6>

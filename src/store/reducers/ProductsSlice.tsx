@@ -1,24 +1,34 @@
+import {
+   TDriveUnit,
+   TFuel,
+   TGear,
+   TProductType,
+} from '@/api/services/ProductService';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ISelectItem, TColor } from './FilterSlice';
 
 export interface IProduct {
    id: string;
    personId: number;
    moderated: boolean;
-   type: TCar;
+   type: TProductType;
    isNew: boolean;
    name: string;
    desc: string;
    brand: IOption;
    body: string;
-   color: string;
+   color: TColor;
+   coloring: string;
    model: IOption;
    price: number;
    year: number;
+   mileage: number;
    generation: string;
-   gear: TCarGear;
-   fuel: TCarFuel;
-   driveUnit: TDriveUnit;
+   gear: ISelectItem<TGear>;
+   fuel: ISelectItem<TFuel>;
+   driveUnit: ISelectItem<TDriveUnit>;
    createdAt: Date;
+   photoId: number | null;
 }
 // interface IBrand {
 //    id: number;
@@ -34,13 +44,6 @@ export interface IOption {
    label: string;
    value: string;
 }
-
-type TCar = 'a';
-type TCarGear = 'a';
-type TCarFuel = 'a';
-type TDriveUnit = 'a';
-type TBrand = 'BMW' | 'Audi';
-type BMWModels = 'm4' | 'm5';
 
 export interface IProductsState {
    products: IProduct[];
@@ -59,20 +62,32 @@ const initialState: IProductsState = {
          },
          color: 'red',
          createdAt: new Date(),
-         driveUnit: 'a',
-         fuel: 'a',
-         gear: 'a',
+         mileage: 1000,
+         driveUnit: {
+            label: 'ALL',
+            value: 'ALL',
+         },
+         fuel: {
+            label: 'BIODIESEL',
+            value: 'BIODIESEL',
+         },
+         gear: {
+            value: 'CTV',
+            label: 'CTV',
+         },
          generation: 'a',
          isNew: true,
          model: {
             label: 'E120',
             value: 'E120',
          },
-         moderated: false,
+         moderated: true,
          personId: 1,
          price: 100,
-         type: 'a',
+         type: 'AUTOMOBILE',
          year: 1000,
+         photoId: null,
+         coloring: 'aaa',
       },
       {
          id: '1',
@@ -85,9 +100,19 @@ const initialState: IProductsState = {
          },
          color: 'red',
          createdAt: new Date(),
-         driveUnit: 'a',
-         fuel: 'a',
-         gear: 'a',
+         driveUnit: {
+            value: 'FWD',
+            label: 'FWD',
+         },
+         mileage: 1000,
+         fuel: {
+            value: 'METHANE',
+            label: 'METHANE',
+         },
+         gear: {
+            value: 'ROBOTIC',
+            label: 'ROBOTIC',
+         },
          generation: 'a',
          isNew: true,
          model: {
@@ -97,11 +122,91 @@ const initialState: IProductsState = {
          moderated: false,
          personId: 1,
          price: 100,
-         type: 'a',
+         type: 'MOTORCYCLE',
          year: 1000,
+         photoId: null,
+         coloring: 'aaa',
       },
    ],
-   filtredProducts: [],
+
+   filtredProducts: [
+      {
+         id: '0',
+         name: 'VAZ',
+         desc: 'Это высококачественная машина',
+         body: 'adfas',
+         brand: {
+            label: 'BELAZ',
+            value: 'BELAZ',
+         },
+         color: 'red',
+         createdAt: new Date(),
+         mileage: 1000,
+         driveUnit: {
+            value: 'ALL',
+            label: 'ALL',
+         },
+         fuel: {
+            value: 'BIODIESEL',
+            label: 'BIODIESEL',
+         },
+         gear: {
+            value: 'CTV',
+            label: 'CTV',
+         },
+         generation: 'a',
+         isNew: true,
+         model: {
+            label: 'E120',
+            value: 'E120',
+         },
+         moderated: true,
+         personId: 1,
+         price: 100,
+         type: 'AUTOMOBILE',
+         year: 1000,
+         photoId: null,
+         coloring: 'aaa',
+      },
+      {
+         id: '1',
+         name: 'BMW',
+         desc: 'Очень хорошие BMW',
+         body: 'adfas',
+         brand: {
+            label: 'BMW',
+            value: 'BMW',
+         },
+         color: 'red',
+         createdAt: new Date(),
+         mileage: 1000,
+         driveUnit: {
+            label: 'FWD',
+            value: 'FWD',
+         },
+         fuel: {
+            value: 'METHANE',
+            label: 'METHANE',
+         },
+         gear: {
+            value: 'ROBOTIC',
+            label: 'ROBOTIC',
+         },
+         generation: 'a',
+         isNew: true,
+         model: {
+            label: 'Veiron',
+            value: 'Veiron',
+         },
+         moderated: false,
+         personId: 1,
+         price: 100,
+         type: 'MOTORCYCLE',
+         year: 1000,
+         photoId: null,
+         coloring: 'aaa',
+      },
+   ],
 };
 export const ProductsSlice = createSlice({
    name: 'ProductsSlice',
@@ -110,6 +215,7 @@ export const ProductsSlice = createSlice({
       setProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.products = action.payload;
       },
+
       setFiltredProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.filtredProducts = action.payload;
       },

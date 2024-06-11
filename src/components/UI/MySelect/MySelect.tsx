@@ -23,7 +23,10 @@ const SelectStyles: StylesConfig = {
       border: '1px solid black',
       cursor: 'text',
       fontFamily: 'Tilda Sans',
-
+      ':disabled': {
+         opacity: 0.5,
+         background: 'transparent',
+      },
       ':hover': {
          ...styles[':hover'],
          borderColor: 'black',
@@ -57,6 +60,9 @@ const SelectStyles: StylesConfig = {
       color: 'black',
       textOverflow: 'ellipsis',
       // textWrap: 'nowrap',
+      ':disabled': {
+         opacity: 0.5,
+      },
    }),
    menu: (styles) => ({
       ...styles,
@@ -126,14 +132,17 @@ const SelectStyles: StylesConfig = {
       ...styles,
       cursor: 'pointer',
       color: 'black',
-      opacity: 0.7,
-
+      opacity: 0.4,
+      transition: '0.3s',
+      padding: 0,
+      paddingLeft: '5px',
       ':hover': {
          ...styles[':hover'],
-         opacity: 1,
-         color: 'white',
+         opacity: 0.6,
+         color: 'black',
       },
    }),
+
    dropdownIndicator: (styles) => ({
       ...styles,
       cursor: 'pointer',
@@ -161,6 +170,7 @@ interface Props<
    errors?: FieldErrors<TFieldValues>;
    name?: Path<TFieldValues>;
    handleChange?: (value: string) => void;
+   disabled?: boolean;
 }
 
 export function MySelect<
@@ -172,6 +182,7 @@ export function MySelect<
    field,
    options,
    handleChange,
+   disabled,
 }: Props<TFieldValues, TName>) {
    return (
       <Select
@@ -181,6 +192,8 @@ export function MySelect<
          {...field}
          options={options}
          value={field?.value}
+         isDisabled={disabled}
+         isClearable={true}
          onChange={(newValue) => {
             field?.onChange(newValue);
 

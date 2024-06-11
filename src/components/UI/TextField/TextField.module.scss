@@ -26,6 +26,9 @@
    line-height: 19.2px;
    color: white;
 
+   &:disabled {
+      opacity: 0.5;
+   }
    // &:hover {
    //    border-color: #37335d;
    // }

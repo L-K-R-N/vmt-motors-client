@@ -101,7 +101,7 @@
    }
 
    &Footer {
-      @include flex();
+      @include flex($align: end);
 
       gap: 20px;
 
@@ -112,6 +112,30 @@
          font-size: 16px;
          color: rgba(0, 0, 0, 0.4);
          font-weight: 500;
+      }
+
+      &__boosts {
+      }
+
+      &__buttons {
+         @include flex($justify: end);
+         gap: 10px;
+         width: 100%;
+         & > button {
+            width: 50%;
+            padding: 5px;
+            @include flex($justify: center);
+            color: white;
+            font-family: $font-tildaSans;
+            border: none;
+            border-radius: 5px;
+            &.approve {
+               background: #60c300;
+            }
+            &.reject {
+               background: #ff0909;
+            }
+         }
       }
    }
 

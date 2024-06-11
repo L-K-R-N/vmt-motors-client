@@ -21,10 +21,13 @@ import { CatalogPage } from './pages/other/CatalogPage';
 import { FaqPage } from './pages/other/FaqPage';
 import { ProductPage } from './pages/other/ProductPage';
 import { AddAdvertPage } from './pages/other/AddAdvertPage';
+import { UsersListPage } from './pages/admin/UsersListPage';
+import { DashboardPage } from './pages/admin/DashboardPage';
+import { useEffect, useState } from 'react';
 
 // const authRoutes: RouteObject[] = [];
 
-const unAuthRoutes: RouteObject[] = [
+const userRoutes: RouteObject[] = [
    {
       path: 'signup',
       element: <RegisterPage />,
@@ -93,24 +96,179 @@ const unAuthRoutes: RouteObject[] = [
    },
 ];
 
-const router = () =>
-   createBrowserRouter([
+const adminRoutes: RouteObject[] = [
+   {
+      path: 'adverts',
+      element: <CatalogPage />,
+   },
+   {
+      path: 'recover',
+      element: <ForgotPassPage />,
+   },
+   // {
+   //    path: 'loader',
+   //    element: <Loader />,
+   // },
+   {
+      path: 'main',
+      element: <MainPage />,
+   },
+
+   {
+      path: 'about',
+      element: <AboutPage />,
+   },
+
+   {
+      path: 'profile',
+      element: <ProfilePage />,
+   },
+
+   {
+      path: 'adverts/buy/:id',
+      element: <ProductPage />,
+   },
+   {
+      path: 'add',
+      element: <AddAdvertPage />,
+   },
+   {
+      path: 'users-list',
+      element: <UsersListPage />,
+   },
+   {
+      path: 'dashboard',
+      element: <DashboardPage />,
+   },
+];
+
+const unAuthRoutes: RouteObject[] = [
+   {
+      path: 'signup',
+      element: <RegisterPage />,
+   },
+   {
+      path: 'signin',
+      element: <LoginPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+];
+
+const routes: RouteObject[] = [
+   {
+      path: 'signup',
+      element: <RegisterPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return !isAuth;
+      },
+   },
+   {
+      path: 'signin',
+      element: <LoginPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return !isAuth;
+      },
+   },
+   {
+      path: 'adverts',
+      element: <CatalogPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+   {
+      path: 'recover',
+      element: <ForgotPassPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+   // {
+   //    path: 'loader',
+   //    element: <Loader />,
+   // },
+   {
+      path: 'about',
+      element: <MainPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+
+   {
+      path: 'profile',
+      element: <ProfilePage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+
+   {
+      path: 'adverts/buy/:id',
+      element: <ProductPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+   {
+      path: 'add',
+      element: <AddAdvertPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         return isAuth;
+      },
+   },
+   {
+      path: 'admin/users-list',
+      element: <UsersListPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         // const [isAdmin, setIsAdmin] = useState(true)
+         return isAuth && true;
+      },
+   },
+   {
+      path: 'admin/dashboard',
+      element: <DashboardPage />,
+      loader: () => {
+         const isAuth = localStorage.getItem('isAuth');
+         // const [isAdmin, setIsAdmin] = useState(true)
+         return isAuth && true;
+      },
+   },
+];
+
+const App = () => {
+   // const navigate = useNavigate();
+   // useEffect(() => {
+   //    setIsAuth();
+   // }, []);
+   const { isAuth } = useAppSelector((state) => state.AuthReducer);
+   const [isAdmin, setIsAdmin] = useState(false);
+   useEffect(() => {
+      console.log(isAuth);
+   }, [isAuth]);
+
+   const router = createBrowserRouter([
       {
          path: '/',
          element: <Layout />,
          errorElement: <ErrorPage />,
          // children: isAuth ? authRoutes : unAuthRoutes,
-         children: unAuthRoutes,
+         children: routes,
       },
    ]);
-
-const App = () => {
-   const { isAuth } = useAppSelector((state) => state.AuthReducer);
-   // const navigate = useNavigate();
-   // useEffect(() => {
-   //    setIsAuth();
-   // }, []);
-   return <RouterProvider router={router()} />;
+   return <RouterProvider router={router} />;
 };
 
 export default App;

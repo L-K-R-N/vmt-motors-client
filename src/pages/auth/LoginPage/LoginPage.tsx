@@ -11,6 +11,7 @@ import { ILoginInputs, useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
    const navigate = useNavigate();
@@ -28,6 +29,12 @@ const LoginPage = () => {
    // const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
    //    console.log(data);
    // };
+
+   useEffect(() => {
+      if (localStorage.getItem('isAuth')) {
+         navigate('/about')
+      }
+   }, [])
    return (
       <AuthLayout title="Log In" link="signup">
          <form className={cl.loginForm} onSubmit={handleSubmit(onSubmit)}>

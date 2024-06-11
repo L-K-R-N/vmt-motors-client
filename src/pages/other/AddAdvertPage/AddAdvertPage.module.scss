@@ -42,6 +42,11 @@
          color: black;
          border-radius: 5px;
          padding: 8px 13px;
+         font-size: 16px;
+         font-family: $font-tildaSans;
+         &::placeholder {
+            color: rgb(152, 152, 152);
+         }
       }
 
       & label {

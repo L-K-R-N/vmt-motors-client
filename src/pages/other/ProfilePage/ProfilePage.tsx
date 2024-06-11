@@ -113,7 +113,7 @@ const ProfilePage: React.FC<Props> = () => {
                </p>
                <ul className={cl.userInfo}>
                   {userInfo.map((item) => (
-                     <li>
+                     <li key={item.title}>
                         <span>
                            <img src={item.icon} alt="" />
                            <span>{item.title}</span>
@@ -145,10 +145,12 @@ const ProfilePage: React.FC<Props> = () => {
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {products.length !== 0 ? (
-                        products.map((product) => (
-                           <AdvertCard advert={product} key={product.id} />
-                        ))
+                     {products.filter((p) => !p.moderated) ? (
+                        products
+                           .filter((p) => !p.moderated)
+                           .map((product) => (
+                              <AdvertCard advert={product} key={product.id} />
+                           ))
                      ) : (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}

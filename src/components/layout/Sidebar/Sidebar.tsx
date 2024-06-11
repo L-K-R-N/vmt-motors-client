@@ -15,29 +15,15 @@ interface Props {}
 export const navList = [
    {
       id: 0,
-      title: 'Каталог',
-      icon: <IoNewspaperOutline />,
-      to: 'main',
+      title: 'DASHBOARD',
+      to: 'admin/dashboard',
    },
    {
       id: 1,
-      title: 'Корзина',
-      icon: <LuShoppingCart />,
-      to: 'cart',
+      title: 'LIST OF USERS',
+      to: 'admin/users-list',
    },
-   {
-      id: 2,
-      title: 'Заказы',
-      icon: <TbTruckDelivery />,
-      to: 'orders',
-   },
-
-   {
-      id: 3, //was 3
-      title: 'Поддержка',
-      icon: <BiSupport />,
-      to: 'support',
-   },
+  
 ];
 
 interface ISidebarItem {
@@ -70,6 +56,7 @@ export const Sidebar: React.FC<Props> = () => {
          {isShowSidebar && (
             <div className={cl.sidebar}>
                <nav className={cl.nav}>
+                  <h3 className={cl.sidebar__title}>VMT MOTORS</h3>
                   <ul className={cl.links}>
                      {navList.map((link) => (
                         <li key={link.id}>
@@ -81,15 +68,11 @@ export const Sidebar: React.FC<Props> = () => {
                                  link.id === selectedItemId ? cl.active : '',
                               ].join(' ')}
                            >
-                              {link.icon}
                               <p className={cl.title}>{link.title}</p>
                            </Link>
                         </li>
                      ))}
-                     <li className={cl.link} onClick={handleLogout}>
-                        <FiLogOut />
-                        <p className={cl.title}>Выход</p>
-                     </li>
+                    
                   </ul>
                </nav>
             </div>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import {TOKEN} from '../../../app/api/app.constants.js'
 import { useAppSelector } from '@/hooks/useAppSelector.js';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { login } from '@/store/reducers/AuthSlice';
+import { login, setIsAuth } from '@/store/reducers/AuthSlice';
 
 export interface ILoginInputs {
    username: string;
@@ -36,10 +36,12 @@ export const useLoginPage = () => {
 
    const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
       dispatch(login(data));
-
+      dispatch(setIsAuth(true));
+      localStorage.setItem('isAuth', 'true');
+      
       console.log(data);
 
-      navigate('/main');
+      navigate('/about');
    };
 
    return useMemo(

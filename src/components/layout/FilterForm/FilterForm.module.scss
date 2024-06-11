@@ -21,6 +21,10 @@
       font-family: $font-tildaSans;
       border-color: black;
       color: black;
+
+      &:disabled {
+         border-color: rgba(0, 0, 0, 0.453);
+      }
       &::placeholder {
          color: #888686;
          opacity: 0.8;
@@ -29,6 +33,12 @@
             opacity: 1;
          }
       }
+   }
+
+   & div[aria-disabled='true'] {
+      opacity: 0.5;
+      background-color: transparent;
+      border-color: rgba(0, 0, 0, 0.453);
    }
 }
 

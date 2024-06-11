@@ -32,6 +32,7 @@ export function TextFieldController<TFieldValues extends FieldValues>({
    label,
    fieldType,
    styles,
+   disabled,
 }: Props<TFieldValues>) {
    return (
       <div className={cl.container}>
@@ -48,6 +49,7 @@ export function TextFieldController<TFieldValues extends FieldValues>({
                   field={field}
                   name={name}
                   styles={styles}
+                  disabled={disabled}
                />
             )}
          />

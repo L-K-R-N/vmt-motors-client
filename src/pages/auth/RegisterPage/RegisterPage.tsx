@@ -6,7 +6,7 @@ import { useRegister } from './useRegister';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
 import { IVerificationInputs, useVerification } from './useVerification';
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { verify } from '@/store/reducers/AuthSlice';
@@ -35,6 +35,12 @@ const RegisterPage = () => {
    const onSubmit: SubmitHandler<IVerificationInputs> = (data) => {
       dispatch(verify({ code: code }));
    };
+
+   useLayoutEffect(() => {
+      if (localStorage.getItem('isAuth')) {
+         navigate('/about')
+      }
+   }, [])
    return (
       <AuthLayout title="Sign Up" link="signin">
          {!registerForm.isVerifing ? (

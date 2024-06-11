@@ -1,0 +1,73 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.activity {
+   font-family: $font-tildaSans;
+   background: black;
+   padding: 30px;
+   @include flex($direction: column, $justify: start, $align: stretch);
+   border-radius: 20px;
+   color: white;
+   font-weight: 400;
+   width: 48%;
+   &__title {
+      @include flex($justify: center);
+      gap: 30px;
+      padding-bottom: 20px;
+   }
+
+   &__body {
+      border-top: 2px solid rgba(255, 255, 255, 0.5);
+      padding: 20px 0;
+
+      flex-grow: 2;
+   }
+
+   &__input {
+      height: auto;
+      font-size: 16px;
+      padding: 15px 25px;
+      border-radius: 999px;
+      font-weight: 400;
+      color: black;
+      border: none;
+
+      &::placeholder {
+         color: #706d6d;
+      }
+   }
+}
+
+@media (max-width: 1400px) {
+   .activity {
+      width: 100%;
+      height: 49%;
+      &__title {
+         @include flex($justify: center);
+         gap: 30px;
+         padding-bottom: 20px;
+      }
+
+      &__body {
+         border-top: 2px solid rgba(255, 255, 255, 0.5);
+         padding: 20px 0;
+
+         flex-grow: 2;
+      }
+
+      &__input {
+         height: auto;
+         font-size: 16px;
+         padding: 15px 25px;
+         border-radius: 999px;
+         font-weight: 400;
+         color: black;
+         border: none;
+
+         &::placeholder {
+            color: #706d6d;
+         }
+      }
+   }
+}

@@ -5,7 +5,7 @@ import { SelectController } from '@/components/UI/SelectController/SelectControl
 import { useFilterForm } from './useFilterForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
-import { IBrand, IModel } from '@/store/reducers/FilterSlice';
+import { IBrand } from '@/store/reducers/FilterSlice';
 import { IOption } from '@/models/Select.types';
 
 interface Props {}
@@ -18,47 +18,46 @@ export const FilterForm: React.FC<Props> = () => {
    );
    const [newBrands, setNewBrands] = useState<IOption[]>([]);
    const [newModels, setNewModels] = useState<IOption[]>([]);
-   const changeForIOption = (items: IBrand[] | IModel[]) => {
-      let newItems: IOption[] = [];
+   // const changeForIOption = (items: IBrand[] | IModel[]) => {
+   //    let newItems: IOption[] = [];
 
-      items.forEach((item) => {
-         newItems.push({
-            value: item.name,
-            label: item.name,
-         });
-      });
+   //    items.forEach((item) => {
+   //       newItems.push({
+   //          value: item.name,
+   //          label: item.name,
+   //       });
+   //    });
 
-      return newItems;
-   };
+   //    return newItems;
+   // };
 
-   useEffect(() => {
-      setNewBrands(changeForIOption(brands));
-      setNewModels(changeForIOption(models));
+   // useEffect(() => {
+   //    setNewBrands(changeForIOption(brands));
+   //    setNewModels(changeForIOption(models));
 
-      console.log(newBrands, newModels, brands, models);
-   }, []);
+   //    console.log(newBrands, newModels, brands, models);
+   // }, []);
    return (
       <div className={cl.wrapper}>
-         <div className={cl.form} onSubmit={handleSubmit(onSubmit)}>
+         <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={cl.line}>
                <SelectController
                   control={control}
                   errors={errors}
                   name="brand"
                   placeholder="Brand"
-                  options={newBrands}
+                  options={brands}
                   isMulti={false}
                   rules={{ required: false }}
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="model"
-                  placeholder="Model"
-                  options={newModels}
-                  isMulti={false}
+                  label="Model"
+                  fieldType="input"
                   rules={{ required: false }}
-               />
+               />{' '}
                <TextFieldController
                   control={control}
                   errors={errors}
@@ -76,41 +75,14 @@ export const FilterForm: React.FC<Props> = () => {
                   placeholder="Generation"
                   rules={{ required: false }}
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="yearFrom"
-                  placeholder="Year from"
+                  label="Year from"
+                  fieldType="input"
                   rules={{ required: false }}
-                  options={[
-                     {
-                        value: '2019',
-                        label: '2019',
-                     },
-                     {
-                        value: '2020',
-                        label: '2020',
-                     },
-                     {
-                        value: '2021',
-                        label: '2021',
-                     },
-                     {
-                        value: '2022',
-                        label: '2022',
-                     },
-                     {
-                        value: '2023',
-                        label: '2023',
-                     },
-                     {
-                        value: '2024',
-                        label: '2024',
-                     },
-                  ]}
-                  isMulti={false}
                />
-
                <SelectController
                   control={control}
                   errors={errors}
@@ -146,39 +118,13 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   label="Price to $"
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="yearTo"
+                  label="Year to"
+                  fieldType="input"
                   rules={{ required: false }}
-                  placeholder="Year to"
-                  isMulti={false}
-                  options={[
-                     {
-                        value: '2019',
-                        label: '2019',
-                     },
-                     {
-                        value: '2020',
-                        label: '2020',
-                     },
-                     {
-                        value: '2021',
-                        label: '2021',
-                     },
-                     {
-                        value: '2022',
-                        label: '2022',
-                     },
-                     {
-                        value: '2023',
-                        label: '2023',
-                     },
-                     {
-                        value: '2024',
-                        label: '2024',
-                     },
-                  ]}
                />
             </div>
             <div className={cl.line}>
@@ -201,6 +147,7 @@ export const FilterForm: React.FC<Props> = () => {
                   rules={{ required: false }}
                   options={newModels}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -210,6 +157,7 @@ export const FilterForm: React.FC<Props> = () => {
                   rules={{ required: false }}
                   options={newModels}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -218,6 +166,7 @@ export const FilterForm: React.FC<Props> = () => {
                   placeholder="Not sold"
                   options={newModels}
                   rules={{ required: false }}
+                  disabled
                   isMulti={false}
                />
                <SelectController
@@ -236,6 +185,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   label="Coloring"
+                  disabled
                />
             </div>
             <div className={cl.line}>
@@ -247,6 +197,7 @@ export const FilterForm: React.FC<Props> = () => {
                   options={newModels}
                   rules={{ required: false }}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -256,6 +207,7 @@ export const FilterForm: React.FC<Props> = () => {
                   options={newModels}
                   rules={{ required: false }}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -265,6 +217,7 @@ export const FilterForm: React.FC<Props> = () => {
                   options={newModels}
                   rules={{ required: false }}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -274,6 +227,7 @@ export const FilterForm: React.FC<Props> = () => {
                   options={newModels}
                   rules={{ required: false }}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -282,6 +236,7 @@ export const FilterForm: React.FC<Props> = () => {
                   placeholder="Private owner"
                   options={newModels}
                   isMulti={false}
+                  disabled
                />
                <SelectController
                   control={control}
@@ -291,6 +246,7 @@ export const FilterForm: React.FC<Props> = () => {
                   options={newModels}
                   rules={{ required: false }}
                   isMulti={false}
+                  disabled
                />
                <h5 className={cl.title}>Seller</h5>
                <button
@@ -309,7 +265,7 @@ export const FilterForm: React.FC<Props> = () => {
                   Show
                </button>
             </div>
-         </div>
+         </form>
       </div>
    );
 };

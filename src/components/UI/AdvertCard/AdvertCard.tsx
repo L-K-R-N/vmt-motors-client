@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import cl from './AdvertCard.module.scss';
-import { IDates } from '@/models/Advert.types';
 import ownerIcon from './assets/owner.svg';
 import { FaStar } from 'react-icons/fa';
 import { IProduct } from '@/store/reducers/ProductsSlice';
 import { useNavigate } from 'react-router-dom';
+import defaultPhoto from './assets/defaultPhoto.jpg';
 export type TFieldType = 'input' | 'textarea';
 
 interface Props {
@@ -16,11 +16,11 @@ export const AdvertCard: FC<Props> = ({ advert }) => {
    return (
       <div
          className={cl.advert}
-         onClick={() => navigate(`/catalog/buy/${advert?.id}`)}
+         onClick={() => navigate(`/adverts/buy/${advert?.id}`)}
       >
          <img
             className={cl.advertImg}
-            // src={advert.}
+            src={defaultPhoto}
             alt={`${advert?.name} image`}
          />
          <div className={cl.advertContainer}>
@@ -56,7 +56,28 @@ export const AdvertCard: FC<Props> = ({ advert }) => {
                   <span>USA</span>
                   <span>Today</span>
                </p>
-               <div className={cl.advertFooter__boosts}></div>
+               {advert.moderated ? (
+                  <div className={cl.advertFooter__buttons}>
+                     <button
+                        className={cl.reject}
+                        onClick={(e) => {
+                           e.stopPropagation();
+                        }}
+                     >
+                        REJECT
+                     </button>
+                     <button
+                        className={cl.approve}
+                        onClick={(e) => {
+                           e.stopPropagation();
+                        }}
+                     >
+                        APPROVE
+                     </button>
+                  </div>
+               ) : (
+                  <div className={cl.advertFooter__boosts}></div>
+               )}
             </div>
          </div>
       </div>

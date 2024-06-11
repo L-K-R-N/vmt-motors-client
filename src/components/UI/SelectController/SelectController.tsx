@@ -32,6 +32,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
    options,
    placeholder,
    isMulti,
+   disabled,
    handleChange,
 }: Props<TFieldValues, TOptions>) {
    return (
@@ -49,6 +50,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
                   options={options}
                   errors={errors}
                   name={name}
+                  disabled={disabled}
                   handleChange={handleChange}
                />
             )}
