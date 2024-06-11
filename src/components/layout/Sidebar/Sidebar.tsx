@@ -1,14 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import cl from './Sidebar.module.scss';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { ReactNode, useLayoutEffect, useState } from 'react';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { LuShoppingCart } from 'react-icons/lu';
-import { BiSupport } from 'react-icons/bi';
-import { TbTruckDelivery } from 'react-icons/tb';
-import { FiLogOut } from 'react-icons/fi';
-import { IoNewspaperOutline } from 'react-icons/io5';
-import { useLogout } from '@/hooks/useLogout';
+import { useLayoutEffect, useState } from 'react';
 
 interface Props {}
 
@@ -23,23 +16,20 @@ export const navList = [
       title: 'LIST OF USERS',
       to: 'admin/users-list',
    },
-  
 ];
 
-interface ISidebarItem {
-   id: number;
-   title: string;
-   icon: ReactNode;
-   to: string;
-}
+// interface ISidebarItem {
+//    id: number;
+//    title: string;
+//    icon: ReactNode;
+//    to: string;
+// }
 
 export const Sidebar: React.FC<Props> = () => {
    const { isShowSidebar } = useAppSelector((state) => state.LayoutReducer);
    // const isBlanket = useMediaQuery('(maxWidth: 1024px)');
    const [selectedItemId, setSelectedItemId] = useState<null | number>(null);
    const location = useLocation();
-
-   const handleLogout = useLogout();
 
    useLayoutEffect(() => {
       const selectedItem = navList.find(
@@ -72,7 +62,6 @@ export const Sidebar: React.FC<Props> = () => {
                            </Link>
                         </li>
                      ))}
-                    
                   </ul>
                </nav>
             </div>

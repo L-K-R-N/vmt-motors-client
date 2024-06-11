@@ -1,9 +1,8 @@
 import cl from './AddAdvertPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
-import CatalogService from '@/api/services/ProductService';
 import { useEffect, useState } from 'react';
 import { SelectController } from '@/components/UI/SelectController/SelectController';
-import { IBody, useAddAdvert } from './useAddAdvert';
+import { useAddAdvert } from './useAddAdvert';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import coupeImg from './assets/body_imgs/coupe.png';
 import universalImg from './assets/body_imgs/universal.png';
@@ -15,111 +14,83 @@ import sedanImg from './assets/body_imgs/sedan.png';
 import offroadImg from './assets/body_imgs/offroad.png';
 import compactImg from './assets/body_imgs/compact.png';
 import cabrioletImg from './assets/body_imgs/cabriolet.png';
-import { IOption } from '@/models/Select.types';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/UI/Button/Button';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { ISelectItem, TBody } from '@/store/reducers/FilterSlice';
 
 interface Props {}
+
+interface IBody extends ISelectItem<TBody> {
+   img: string;
+}
 
 const AddAdvertPage: React.FC<Props> = () => {
    useHideSidebar();
    const { t } = useTranslation();
-   const fetchProducts = async () => {
-      const products = await CatalogService.getProducts();
+   // const fetchProducts = async () => {
+   //    const products = await CatalogService.getProducts();
 
-      console.log(products);
-   };
-   const { errors, handleSubmit, onSubmit, control } = useAddAdvert();
-   const { brands, models, driveUnits, colors, fuels, gears } = useAppSelector(
+   //    console.log(products);
+   // };
+   const { errors, control } = useAddAdvert();
+   const { brands, driveUnits, colors, fuels, gears, types } = useAppSelector(
       (state) => state.FilterReducer,
    );
-   let brandsOptions = [];
 
-   const [bodies, setBodies] = useState<IBody[]>([
+   const [bodies] = useState<IBody[]>([
       {
          img: coupeImg,
-         name: 'Coupe',
+         value: 'coupe',
+         label: 'Coupe',
       },
       {
          img: universalImg,
-         name: 'Universal',
+         value: 'universal',
+         label: 'Universal',
       },
       {
          img: hatchbackImg,
-         name: 'Hatchback',
+         value: 'hatchback',
+         label: 'Hatchback',
       },
       {
          img: roadsterImg,
-         name: 'Roadster',
+         value: 'roadster',
+         label: 'Roadster',
       },
       {
          img: liftbackImg,
-         name: 'Liftback',
+         value: 'liftback',
+         label: 'Liftback',
       },
       {
          img: crossoverImg,
-         name: 'Crossover',
+         value: 'crossover',
+         label: 'Crossover',
       },
       {
          img: sedanImg,
-         name: 'Sedan',
+         value: 'sedan',
+         label: 'Sedan',
       },
       {
          img: offroadImg,
-         name: 'Offroad',
+         value: 'offroad',
+         label: 'Offroad',
       },
       {
          img: compactImg,
-         name: 'Compact',
+         value: 'compact',
+         label: 'Compact',
       },
       {
          img: cabrioletImg,
-         name: 'Cabriolet',
+         value: 'cabriolet',
+         label: 'Cabriolet',
       },
    ]);
-   const [engines, setEngines] = useState<IBody[]>([
-      {
-         img: coupeImg,
-         name: 'Coupe',
-      },
-      {
-         img: universalImg,
-         name: 'Universal',
-      },
-      {
-         img: hatchbackImg,
-         name: 'Hatchback',
-      },
-      {
-         img: roadsterImg,
-         name: 'Roadster',
-      },
-      {
-         img: liftbackImg,
-         name: 'Liftback',
-      },
-      {
-         img: crossoverImg,
-         name: 'Crossover',
-      },
-      {
-         img: sedanImg,
-         name: 'Sedan',
-      },
-      {
-         img: offroadImg,
-         name: 'Offroad',
-      },
-      {
-         img: compactImg,
-         name: 'Compact',
-      },
-      {
-         img: cabrioletImg,
-         name: 'Cabriolet',
-      },
-   ]);
+
    const [selectedBody, setSelectedBody] = useState<IBody | null>(null);
 
    // const toIOption = (items: string[]) => {
@@ -153,7 +124,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      fieldType="input"
                      label="Name"
                      name="name"
-                     placeholder="Nmae"
+                     placeholder="Name"
                      rules={{ required: 'Name is required' }}
                   />
                   <SelectController
@@ -165,13 +136,12 @@ const AddAdvertPage: React.FC<Props> = () => {
                      isMulti={false}
                      rules={{ required: 'Brand is required' }}
                   />
-                  <SelectController
+                  <TextFieldController
                      control={control}
                      errors={errors}
                      name="model"
-                     options={models}
-                     placeholder="Car model"
-                     isMulti={false}
+                     fieldType="input"
+                     label="Car model"
                      rules={{ required: 'Model is required' }}
                   />
                </div>
@@ -190,13 +160,14 @@ const AddAdvertPage: React.FC<Props> = () => {
                   </div>
                   <div className={cl.elem}>
                      <h5 className={cl.subtitle}>{t('transmission')}</h5>
-                     <TextFieldController
+                     <SelectController
                         control={control}
                         errors={errors}
-                        fieldType="input"
-                        label="Transmission type"
+                        placeholder="Transmission type"
                         name="type"
                         rules={{ required: 'Transmission type is required' }}
+                        options={types}
+                        isMulti={false}
                      />
                   </div>
                   <div className={cl.elem}>
@@ -219,13 +190,13 @@ const AddAdvertPage: React.FC<Props> = () => {
                         <li
                            className={[
                               cl.body,
-                              b.name === selectedBody?.name ? cl.active : '',
+                              b.value === selectedBody?.value ? cl.active : '',
                            ].join(' ')}
                            onClick={() => setSelectedBody(b)}
-                           key={b.name}
+                           key={b.value}
                         >
                            <img className={cl.body__img} src={b.img} alt="" />
-                           <h6 className={cl.body__name}>{b.name}</h6>
+                           <h6 className={cl.body__name}>{b.label}</h6>
                         </li>
                      ))}
                   </ul>
@@ -235,6 +206,14 @@ const AddAdvertPage: React.FC<Props> = () => {
                </div>
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('generation')}</h5>
+                  <TextFieldController
+                     control={control}
+                     errors={errors}
+                     fieldType="input"
+                     label={t('generation')}
+                     name="generation"
+                     // rules={{t('desc')} }
+                  />
                </div>
                <div className={[cl.block, cl.spec].join(' ')}>
                   <div className={cl.elem}>
@@ -245,12 +224,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                         name="fuel"
                         rules={{ required: 'Engine is required' }}
                         isMulti={false}
-                        options={[
-                           {
-                              value: '1',
-                              label: '1',
-                           },
-                        ]}
+                        options={fuels}
                         placeholder={t('engine')}
                      />
                   </div>
@@ -259,7 +233,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      <SelectController
                         control={control}
                         errors={errors}
-                        name="fuel"
+                        name="gear"
                         rules={{ required: 'Gear is required' }}
                         isMulti={false}
                         options={gears}
@@ -280,13 +254,14 @@ const AddAdvertPage: React.FC<Props> = () => {
                   </div>
                   <div className={cl.elem}>
                      <h5 className={cl.subtitle}>{t('color')}</h5>
-                     <TextFieldController
+                     <SelectController
                         control={control}
                         errors={errors}
                         name="mileage"
                         rules={{ required: 'Car mileage is required' }}
-                        label={t('color')}
-                        fieldType="input"
+                        placeholder={t('color')}
+                        isMulti={false}
+                        options={colors}
                      />
                   </div>
                </div>

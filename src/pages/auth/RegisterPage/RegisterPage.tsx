@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRegister } from './useRegister';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
-import { IVerificationInputs, useVerification } from './useVerification';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { IVerificationInputs } from './useVerification';
+import { useLayoutEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { verify } from '@/store/reducers/AuthSlice';
@@ -15,32 +15,28 @@ const RegisterPage = () => {
    const navigate = useNavigate();
 
    const registerForm = useRegister();
-   const verificationForm = useVerification();
+   // const verificationForm = useVerification();
    const [code, setCode] = useState('');
    useHideLayout();
-   const handleNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      navigate('/forgot-password');
-   };
-   const {
-      handleSubmit,
-      formState: { errors },
-      control,
-   } = useForm<IVerificationInputs>({
+   // const handleNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
+   //    e.preventDefault();
+   //    navigate('/forgot-password');
+   // };
+   const { handleSubmit } = useForm<IVerificationInputs>({
       mode: 'onChange',
    });
    const dispatch = useAppDispatch();
    // const navigate = useNavigate();
 
-   const onSubmit: SubmitHandler<IVerificationInputs> = (data) => {
+   const onSubmit: SubmitHandler<IVerificationInputs> = () => {
       dispatch(verify({ code: code }));
    };
 
    useLayoutEffect(() => {
       if (localStorage.getItem('isAuth')) {
-         navigate('/about')
+         navigate('/about');
       }
-   }, [])
+   }, []);
    return (
       <AuthLayout title="Sign Up" link="signin">
          {!registerForm.isVerifing ? (
@@ -114,6 +110,7 @@ const RegisterPage = () => {
                <input
                   type="text"
                   value={code}
+                  title="Verification Code"
                   onChange={(e) => setCode(e.target.value)}
                />
                <Button type="submit" title="Verification">

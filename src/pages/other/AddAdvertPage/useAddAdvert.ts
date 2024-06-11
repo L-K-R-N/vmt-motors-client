@@ -1,22 +1,22 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import ProductService, {
    TDriveUnit,
    TFuel,
    TGear,
    TProductType,
 } from '@/api/services/ProductService';
+import { ISelectItem, TBody } from '@/store/reducers/FilterSlice';
 
 export interface IAddInputs {
    name: string;
    brand: string;
    model: string;
    year: number;
-   type: TProductType;
+   type: ISelectItem<TProductType>;
    mileage: number;
-   body: IBody;
+   body: ISelectItem<TBody>;
    photo: string;
    generation: string;
    fuel: TFuel;
@@ -30,18 +30,6 @@ export interface IAddInputs {
    email: string;
    price: number;
 }
-export interface IBody {
-   name: string;
-   img: string;
-}
-
-type TBody =
-   | 'coupe'
-   | 'universal'
-   | 'hatchaback'
-   | 'roadster'
-   | 'liftback'
-   | 'crossover';
 
 export const useAddAdvert = () => {
    const {
@@ -52,17 +40,16 @@ export const useAddAdvert = () => {
       mode: 'onChange',
    });
    const navigate = useNavigate();
-   const dispatch = useAppDispatch();
 
    const onSubmit: SubmitHandler<IAddInputs> = (data) => {
       try {
          ProductService.postProduct(
-            data.type,
+            data.type.value,
             data.name,
             data.desc,
             true,
             data.brand,
-            data.body.name,
+            data.body.value,
             data.color,
             data.model,
             data.price,

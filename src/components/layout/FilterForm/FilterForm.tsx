@@ -1,23 +1,16 @@
-import { ChangeEvent, useEffect, useState } from 'react';
 import cl from './FilterForm.module.scss';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { SelectController } from '@/components/UI/SelectController/SelectController';
 import { useFilterForm } from './useFilterForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
-import { IBrand } from '@/store/reducers/FilterSlice';
-import { IOption } from '@/models/Select.types';
 
 interface Props {}
 
 export const FilterForm: React.FC<Props> = () => {
-   const dispatch = useAppDispatch();
-   const { control, errors, handleSubmit, onSubmit, reset } = useFilterForm();
-   const { brands, models, driveUnits, fuels, gears, colors } = useAppSelector(
+   const { control, errors, handleSubmit, onSubmit } = useFilterForm();
+   const { brands, driveUnits, fuels, gears, colors } = useAppSelector(
       (state) => state.FilterReducer,
    );
-   const [newBrands, setNewBrands] = useState<IOption[]>([]);
-   const [newModels, setNewModels] = useState<IOption[]>([]);
    // const changeForIOption = (items: IBrand[] | IModel[]) => {
    //    let newItems: IOption[] = [];
 
@@ -139,35 +132,32 @@ export const FilterForm: React.FC<Props> = () => {
                   label="Mileage"
                   rules={{ required: false }}
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="carFrom"
-                  placeholder="Car from"
+                  label="Car from"
+                  fieldType="input"
                   rules={{ required: false }}
-                  options={newModels}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="withPhoto"
-                  placeholder="With photo"
+                  label="With photo"
+                  fieldType="input"
                   rules={{ required: false }}
-                  options={newModels}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="notSold"
-                  placeholder="Not sold"
-                  options={newModels}
+                  label="Not Sold"
+                  fieldType="input"
                   rules={{ required: false }}
                   disabled
-                  isMulti={false}
                />
                <SelectController
                   control={control}
@@ -185,74 +175,67 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   label="Coloring"
-                  disabled
                />
             </div>
             <div className={cl.line}>
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="exchange"
-                  placeholder="Exchange"
-                  options={newModels}
+                  label="Exchange"
+                  fieldType="input"
                   rules={{ required: false }}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="trade"
-                  placeholder="Trade"
-                  options={newModels}
+                  label="Trade"
+                  fieldType="input"
                   rules={{ required: false }}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="any"
-                  placeholder="Any"
-                  options={newModels}
+                  label="Any"
+                  fieldType="input"
                   rules={{ required: false }}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
                   name="owner"
-                  placeholder="Owner"
-                  options={newModels}
+                  label="Owner"
+                  fieldType="input"
                   rules={{ required: false }}
-                  isMulti={false}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
-                  name="privateOwner"
-                  placeholder="Private owner"
-                  options={newModels}
-                  isMulti={false}
+                  name="owner"
+                  label="Private owner"
+                  fieldType="input"
+                  rules={{ required: false }}
                   disabled
                />
-               <SelectController
+               <TextFieldController
                   control={control}
                   errors={errors}
-                  name="company"
-                  placeholder="Company"
-                  options={newModels}
+                  name="owner"
+                  label="Company"
+                  fieldType="input"
                   rules={{ required: false }}
-                  isMulti={false}
                   disabled
                />
                <h5 className={cl.title}>Seller</h5>
                <button
                   title="Clear filters"
                   type="button"
-                  onClick={(e) => reset()}
                   className={cl.resetBtn}
                >
                   Reset

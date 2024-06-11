@@ -1,7 +1,5 @@
 import { useRef, useEffect } from 'react';
 import cl from './Loader.module.scss';
-import loadingAnimation from './load.webm';
-import logo from './logo.svg';
 export const Loader = () => {
    const videoRef = useRef<HTMLVideoElement | null>(null);
 

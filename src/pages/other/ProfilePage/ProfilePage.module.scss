@@ -44,6 +44,7 @@
             background: $white;
             min-width: 40%;
             @include flex($justify: center);
+            border: none;
          }
       }
    }
@@ -102,10 +103,10 @@
       }
 
       &__title {
-         background-color: #000000;
+         background-color: var(--background-secondary);
          border-radius: 10px;
          padding: 8px 21px;
-         color: white;
+         color: var(--text-secondary);
          font-weight: 600;
          text-transform: uppercase;
          font-size: 18px;
@@ -135,7 +136,7 @@
       }
 
       .blockTitle {
-         color: #111111;
+         color: var(--text-tertiary);
          font-size: 24px;
          line-height: 150%;
          margin-bottom: 20px;
@@ -296,12 +297,7 @@
             }
          }
 
-         .blockTitle {
-            color: #111111;
-            font-size: 22px;
-            line-height: 150%;
-            margin-bottom: 20px;
-         }
+        
       }
    }
 }
@@ -319,6 +315,8 @@
          min-height: 25vw;
          height: 40vw;
          width: 40vw;
+
+
       }
 
       .left {

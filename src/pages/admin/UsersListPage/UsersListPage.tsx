@@ -1,7 +1,6 @@
-import { IUser } from '@/models/User.types';
 import cl from './UsersListPage.module.scss';
 import { useHideFooter } from '@/hooks/useLayout';
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Activity } from '@/components/layout/Activity/Activity';
 
 interface Props {}
@@ -9,7 +8,7 @@ interface Props {}
 const UsersListPage: React.FC<Props> = () => {
    useHideFooter();
    const [search, setSearch] = useState('');
-   const [users, setUsers] = useState<{ username: string; role: string }[]>([
+   const [users] = useState<{ username: string; role: string }[]>([
       {
          username: 'Владиaaслав Хван',
          role: 'ADMINISTRATOR',

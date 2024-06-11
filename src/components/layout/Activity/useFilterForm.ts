@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { IProduct, setFiltredProducts } from '@/store/reducers/ProductsSlice';
@@ -40,7 +39,6 @@ export const useFilterForm = () => {
       mode: 'onChange',
    });
    const dispatch = useAppDispatch();
-   const navigate = useNavigate();
 
    const { brands, models } = useAppSelector((state) => state.FilterReducer);
 

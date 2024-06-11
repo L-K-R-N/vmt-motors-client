@@ -126,6 +126,7 @@ export const UserSlice = createSlice({
             try {
                (async function () {
                   const { id, username } = action.payload;
+                  console.log(state);
 
                   if (id) {
                      const response = await PersonService.getPerson(id);
@@ -169,6 +170,7 @@ export const UserSlice = createSlice({
             try {
                (async function () {
                   const { type, photo, id } = action.payload;
+                  console.log(state);
 
                   switch (type) {
                      case 'post':
@@ -191,6 +193,7 @@ export const UserSlice = createSlice({
             try {
                (async function () {
                   const { contact, id } = action.payload;
+                  console.log(state);
 
                   await PersonService.changePersonContact(id, contact);
                })();

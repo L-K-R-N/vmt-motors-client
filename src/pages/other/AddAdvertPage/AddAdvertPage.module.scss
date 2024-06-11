@@ -31,15 +31,16 @@
 
    .block {
       border-radius: 10px;
-      background: $white;
+      background: var(--negative);
       padding: 20px;
       box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
       gap: 25px !important;
+      border: 1px solid white;
       @include flex($direction: column, $align: stretch, $justify: start);
       & input,
       & textarea {
-         border-color: black;
-         color: black;
+         border-color: var(--text-primary);
+         color: var(--text-primary);
          border-radius: 5px;
          padding: 8px 13px;
          font-size: 16px;
@@ -68,7 +69,9 @@
 
          & input {
             &::placeholder {
-               color: black;
+               color: var(--text-primary);
+               opacity: 0.5;
+               font-weight: 300;
             }
          }
       }
@@ -109,20 +112,24 @@
       .elem {
          @include flex($direction: column, $justify: start);
          gap: 10px;
-
-         & label {
+         width: 100%;
+         & label {   
             display: none;
          }
 
+         & > div {
+            width: 100%;
+         }
+
          & input {
-            border-color: black;
+            border-color: var(--text-primary);
             border-radius: 5px;
-
-            color: black;
-
-            &::placeholder {
-               color: black;
-               opacity: 0.7;
+            width: 100%;
+            color: var(--text-primary);
+            font-weight: 300;
+            &::placeholder {  
+               color: var(--text-primary);
+               opacity: 0.5;
 
                &:hover {
                   opacity: 1;
@@ -155,8 +162,10 @@
             opacity: 1;
          }
          &.active {
+            opacity: 1;
             & > img {
                box-shadow: 0 0 0 10px rgba(151, 247, 151, 0.447);
+               
             }
          }
          & > img {

@@ -9,7 +9,6 @@ import cl from './SelectController.module.scss';
 import { ReactNode } from 'react';
 import { MySelect } from '../MySelect/MySelect';
 import { GroupBase, OptionsOrGroups } from 'react-select';
-import { IOption } from '@/models/Select.types';
 
 interface Props<TFieldValues extends FieldValues, TOptions>
    extends UseControllerProps<TFieldValues> {
@@ -36,7 +35,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
    handleChange,
 }: Props<TFieldValues, TOptions>) {
    return (
-      <div className={cl.container}>
+      <div className={[cl.container, errors && name ? cl.error : ''].join(' ')}>
          <Controller
             name={name}
             control={control}
@@ -55,7 +54,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
                />
             )}
          />
-         {errors && name && <span>{errors[name]?.message as ReactNode}</span>}
+         {errors && name && <label>{errors[name]?.message as ReactNode}</label>}
       </div>
    );
 }

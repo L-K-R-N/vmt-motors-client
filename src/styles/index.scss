@@ -4,28 +4,51 @@ html {
 
 :root {
    /* light theme tokens */
-   --background-primary-light: 44, 191, 170;
-   --accent-light: 37, 89, 88;
+   --background-primary-light: rgb(255, 255, 255);
+   --text-primary-light: rgb(0, 0, 0);
+   --text-secondary-light: rgb(255, 255, 255);
+   --text-tertiary-light: #404040;
+   --background-secondary-light: rgb(0, 0, 0);
+   --negative-light: rgb(255, 255, 255);
+   --negative-02-light: rgba(0, 0, 0, 0.144);
+
 
    /* dark theme tokens */
-   --background-primary-dark: 25, 48, 66;
-   --accent-dark: 90, 182, 204;
+   --background-primary-dark: rgb(18, 18, 20);
+   --text-primary-dark: rgb(255, 255, 255);
+   --text-secondary-dark: rgb(0, 0, 0);
+   --text-tertiary-dark: #bdbdbd;
+   --background-secondary-dark: rgb(255, 255, 255);
+   --negative-dark: rgb(0, 0, 0);
+   --negative-02-dark: rgba(255, 255, 255, 0.137);
 }
 
 /* map tokens to proper theme */
 [data-theme='light'] {
    --background-primary: var(--background-primary-light);
-   --accent: var(--accent-light);
+   --background-secondary: var(--background-secondary-light);
+   --negative: var(--negative-light);
+   --text-primary: var(--text-primary-light);
+   --text-secondary: var(--text-secondary-light);
+   --negative-02: var(--negative-02-light);
+   --text-tertiary: var(--text-tertiary-light);
 }
+
 
 [data-theme='dark'] {
    --background-primary: var(--background-primary-dark);
-   --accent: var(--accent-dark);
+   --background-secondary: var(--background-secondary-dark);
+   --negative: var(--negative-dark);
+   --text-primary: var(--text-primary-dark);
+   --text-secondary: var(--text-secondary-dark);
+   --negative-02: var(--negative-02-dark);
+   --text-tertiary: var(--text-tertiary-dark);
 }
 
 body {
    font-family: $font-montserrat;
    max-width: 100vw;
+   transition: 0.3s;
    color: $black;
    font-weight: 700;
    box-sizing: border-box;
@@ -36,6 +59,7 @@ body {
    position: relative;
    overflow-x: hidden;
    max-width: 100vw;
+   background: var(--background-primary);
    &.no-scroll {
       overflow: hidden;
    }

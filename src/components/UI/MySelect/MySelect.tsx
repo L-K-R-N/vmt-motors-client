@@ -7,29 +7,30 @@ import {
    FieldValues,
    Path,
 } from 'react-hook-form';
-import { IOption } from '@/models/Select.types';
 
 const SelectStyles: StylesConfig = {
    control: (styles) => ({
       ...styles,
       padding: '8px 13px',
       borderRadius: '5px',
+      background: 'transparent',
       // outline: state.isFocused ? 'none' : 'none',
       color: '#888686',
       fontSize: '16px',
       fontWeight: '400',
       transition: '0.3s',
       // boxShadow: '-3px 3px 3px 0 rgba(0, 0, 0, 0.308)',
-      border: '1px solid black',
+      border: '1px solid var(--text-primary)',
       cursor: 'text',
       fontFamily: 'Tilda Sans',
       ':disabled': {
          opacity: 0.5,
          background: 'transparent',
+         border: 'var(--text-primary)',
       },
       ':hover': {
          ...styles[':hover'],
-         borderColor: 'black',
+         borderColor: 'var(--text-primary)',
       },
    }),
    valueContainer: (styles) => ({
@@ -66,11 +67,11 @@ const SelectStyles: StylesConfig = {
    }),
    menu: (styles) => ({
       ...styles,
-      background: '#ffffff',
+      background: 'var(--background-primary)',
       borderRadius: '5px',
       color: 'black',
       fontWeight: 400,
-      // overflow: 'hidden',
+      overflow: 'hidden',
       fontSize: '16px',
       fontFamily: 'Tilda Sans',
       padding: 0,
@@ -78,8 +79,8 @@ const SelectStyles: StylesConfig = {
    }),
    option: (styles) => ({
       ...styles,
-      background: '#ffffff',
-      color: 'black',
+      background: 'var(--background-primary)',
+      color: 'var(--text-primary)',
 
       cursor: 'pointer',
       fontSize: '16px',
@@ -88,6 +89,7 @@ const SelectStyles: StylesConfig = {
       fontFamily: 'Tilda Sans',
       borderBottom: '1px solid #4646462a',
       margin: 0,
+
       transform: '0.2s',
       ':hover': {
          ...styles[':hover'],
@@ -97,18 +99,18 @@ const SelectStyles: StylesConfig = {
    singleValue: (styles) => ({
       ...styles,
 
-      color: 'black',
+      color: 'var(--text-primary)',
    }),
 
    multiValue: (styles) => ({
       ...styles,
       background: '#90C795',
       borderRadius: '999px',
-      color: 'black',
+      color: 'var(--text-primary)',
    }),
    multiValueLabel: (styles) => ({
       ...styles,
-      color: 'black',
+      color: 'var(--text-primary)',
       padding: 0,
       margin: '3px 12px',
       cursor: 'pointer',
@@ -131,7 +133,7 @@ const SelectStyles: StylesConfig = {
    clearIndicator: (styles) => ({
       ...styles,
       cursor: 'pointer',
-      color: 'black',
+      color: 'var(--text-primary)',
       opacity: 0.4,
       transition: '0.3s',
       padding: 0,
@@ -139,14 +141,14 @@ const SelectStyles: StylesConfig = {
       ':hover': {
          ...styles[':hover'],
          opacity: 0.6,
-         color: 'black',
+         color: 'var(--text-primary)',
       },
    }),
 
    dropdownIndicator: (styles) => ({
       ...styles,
       cursor: 'pointer',
-      color: 'black',
+      color: 'var(--text-primary)',
       opacity: 0.4,
       transition: '0.3s',
       padding: 0,
@@ -154,7 +156,7 @@ const SelectStyles: StylesConfig = {
       ':hover': {
          ...styles[':hover'],
          opacity: 0.6,
-         color: 'black',
+         color: 'var(--text-primary)',
       },
    }),
 };
@@ -181,7 +183,6 @@ export function MySelect<
    isMulti,
    field,
    options,
-   handleChange,
    disabled,
 }: Props<TFieldValues, TName>) {
    return (

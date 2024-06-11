@@ -1,16 +1,10 @@
-// import LoginLayout from '../../../components/login-layout/LoginLayout.jsx';
-// import Field from '../../../components/ui/field/Field.jsx';
-// import { useLoginPage } from './useLoginPage.js';
-// import Button from '../../../components/ui/button/Button.js';
 import cl from './LoginPage.module.scss';
 import { useNavigate } from 'react-router-dom';
-// import CaptchaInput from '../../../components/ui/field/CaptchaInput.jsx';
 import { useHideLayout } from '../../../hooks/useLayout.ts';
 import { Button } from '@/components/UI/Button/Button.tsx';
-import { ILoginInputs, useLoginPage } from './useLoginPage.ts';
+import { useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
-import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 
 const LoginPage = () => {
@@ -32,9 +26,9 @@ const LoginPage = () => {
 
    useEffect(() => {
       if (localStorage.getItem('isAuth')) {
-         navigate('/about')
+         navigate('/about');
       }
-   }, [])
+   }, []);
    return (
       <AuthLayout title="Log In" link="signup">
          <form className={cl.loginForm} onSubmit={handleSubmit(onSubmit)}>

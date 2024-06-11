@@ -1,9 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 // import {TOKEN} from '../../../app/api/app.constants.js'
-import { useAppSelector } from '@/hooks/useAppSelector.js';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { login, setIsAuth } from '@/store/reducers/AuthSlice';
 
@@ -22,11 +21,11 @@ export const useLoginPage = () => {
       mode: 'onChange',
    });
 
-   const { isAuth } = useAppSelector((state) => state.AuthReducer);
+   // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
 
-   const [accessToken, setAccessToken] = useState<string | null>(null);
+   // const [accessToken, setAccessToken] = useState<string | null>(null);
    // useEffect(() => {
    //    if (isAuth) {
    //       navigate('/main');
@@ -38,7 +37,7 @@ export const useLoginPage = () => {
       dispatch(login(data));
       dispatch(setIsAuth(true));
       localStorage.setItem('isAuth', 'true');
-      
+
       console.log(data);
 
       navigate('/about');

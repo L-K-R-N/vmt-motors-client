@@ -1,12 +1,10 @@
 import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { IProduct, setFiltredProducts } from '@/store/reducers/ProductsSlice';
 import { ISelectItem, TBrand, TColor } from '@/store/reducers/FilterSlice';
 import { TDriveUnit, TFuel, TGear } from '@/api/services/ProductService';
-import { IOption } from '@/models/Select.types';
 
 interface IFilterInputs {
    brand: ISelectItem<TBrand>;
@@ -43,10 +41,7 @@ export const useFilterForm = () => {
       mode: 'onChange',
    });
    const dispatch = useAppDispatch();
-   const navigate = useNavigate();
-   const { products, filtredProducts } = useAppSelector(
-      (state) => state.ProductsReducer,
-   );
+   const { products } = useAppSelector((state) => state.ProductsReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
    const { brands, models } = useAppSelector((state) => state.FilterReducer);
 
@@ -55,24 +50,15 @@ export const useFilterForm = () => {
 
       const {
          brand,
-         any,
-         carFrom,
          color,
-         coloring,
-         company,
          driveUnit,
-         exchange,
          fuel,
          gear,
-         generation,
          mileage,
-         model,
-         notSold,
-         owner,
+
          priceFrom,
          priceTo,
-         privateOwner,
-         trade,
+
          withPhoto,
          yearFrom,
          yearTo,

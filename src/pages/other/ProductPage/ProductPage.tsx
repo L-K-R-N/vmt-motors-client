@@ -1,26 +1,25 @@
-import cl from './ProductPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { IProduct } from '@/store/reducers/ProductsSlice';
-import img from './assets/car.png';
+import img2 from './assets/3.jpg';
+import img3 from './assets/2.webp';
+import img4 from './assets/4.jpg';
+import img5 from './assets/5.webp';
+import img6 from './assets/6.jpg';
+import cl from './ProductPage.module.scss';
+
 interface Props {}
 
 const ProductPage: React.FC<Props> = () => {
    const { products } = useAppSelector((state) => state.ProductsReducer);
-   const dispatch = useAppDispatch();
-   const navigate = useNavigate();
+
    const [product, setProduct] = useState<IProduct | null>(null);
    const params = useParams();
-
-   const {
-      handleSubmit,
-      formState: { errors },
-      control,
-   } = useForm<IStageInputs>({
+   const [activeImgId, setActiveImgId] = useState(1);
+   const {} = useForm<IStageInputs>({
       mode: 'onChange',
    });
 
@@ -38,6 +37,41 @@ const ProductPage: React.FC<Props> = () => {
    }, []);
    useHideSidebar();
 
+   const [imgs] = useState<{ id: number; src: string }[]>([
+      {
+         id: 1,
+         src: img6,
+      },
+      {
+         id: 2,
+         src: img2,
+      },
+      {
+         id: 3,
+         src: img3,
+      },
+      {
+         id: 4,
+         src: img4,
+      },
+      {
+         id: 5,
+         src: img5,
+      },
+   ]);
+
+   const chooseImg = (direction: 'next' | 'prev') => {
+      switch (direction) {
+         case 'prev':
+            setActiveImgId((prev) => (prev < imgs.length ? ++prev : 1));
+            break;
+
+         case 'next':
+            setActiveImgId((prev) => (prev > 1 ? --prev : imgs.length));
+            break;
+      }
+   };
+
    return (
       <div className={cl.page}>
          <div className={cl.wrapper}>
@@ -47,21 +81,27 @@ const ProductPage: React.FC<Props> = () => {
             <div className={cl.page__content}>
                <div className={cl.gallery}>
                   <div className={cl.gallery__main}>
-                     <img src={img} alt="" />
+                     <button
+                        title="Prev"
+                        className={cl.prevBtn}
+                        onClick={() => chooseImg('prev')}
+                     ></button>
+                     <img
+                        src={imgs.find((img) => img.id === activeImgId)?.src}
+                        alt=""
+                     />
+                     <button
+                        title="Next"
+                        className={cl.nextBtn}
+                        onClick={() => chooseImg('next')}
+                     ></button>
                   </div>
                   <ul className={cl.gallery__list}>
-                     <li>
-                        <img src={img} alt="" />
-                     </li>
-                     <li>
-                        <img src={img} alt="" />
-                     </li>
-                     <li>
-                        <img src={img} alt="" />
-                     </li>
-                     <li>
-                        <img src={img} alt="" />
-                     </li>
+                     {imgs.map((img) => (
+                        <li onClick={() => setActiveImgId(img.id)}>
+                           <img key={img.id} src={img.src} alt="" />
+                        </li>
+                     ))}
                   </ul>
                </div>
                <div className={cl.page__contentContainer}>
@@ -80,7 +120,7 @@ const ProductPage: React.FC<Props> = () => {
                         <ul className={cl.stats__list}>
                            <li>
                               <span>Year of release: </span>
-                              {/* {product?.createdAt.toString()} */}
+                              {product?.year}
                            </li>
                            <li>
                               <span>Color: </span>
@@ -92,29 +132,25 @@ const ProductPage: React.FC<Props> = () => {
                            </li>
                            <li>
                               <span>Fuel: </span>
-                              {product?.fuel}
+                              {product?.fuel.value}
                            </li>
                            <li>
                               <span>Mileage: </span>
-                              {product?.driveUnit}
+                              {product?.mileage} км
                            </li>
                            <li>
                               <span>Gear: </span>
-                              {product?.gear}
+                              {product?.gear.value}
                            </li>
                            <li>
                               <span>Generation: </span>
                               {product?.generation}
                            </li>
-                           <li>
-                              <span>Moderated: </span>
-                              {product?.moderated}
-                           </li>
                         </ul>
                      </div>
                      <div className={cl.info__btns}>
-                        <button>Get contact</button>
-                        <button>Send message</button>
+                        <button title="Get contact">Get contact</button>
+                        <button title="Send message">Send message</button>
                      </div>
                   </div>
                   <div className={cl.comment}>

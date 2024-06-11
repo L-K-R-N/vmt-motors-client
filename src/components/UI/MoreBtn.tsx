@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { IoMdMore } from 'react-icons/io';
-import { IAction } from '@/models/MoreList.types';
 
 const MoreIcon = styled(IoMdMore)<MoreIconProps>`
    width: 100%;
@@ -49,29 +48,29 @@ interface ActionListProps {
    visible: boolean;
 }
 
-const ActionItem = styled.div`
-   color: black;
-   border-bottom: 1px solid #bdbdbd;
-   padding: 10px 15px;
-   width: 100%;
-   transition: all 0.2s;
+// const ActionItem = styled.div`
+//    color: black;
+//    border-bottom: 1px solid #bdbdbd;
+//    padding: 10px 15px;
+//    width: 100%;
+//    transition: all 0.2s;
 
-   &:hover {
-      background: rgba(0, 0, 0, 0.118);
-   }
+//    &:hover {
+//       background: rgba(0, 0, 0, 0.118);
+//    }
 
-   &:last-child {
-      border-bottom: none;
-   }
-`;
+//    &:last-child {
+//       border-bottom: none;
+//    }
+// `;
 
 interface Props {
    color?: string;
-   list: IAction[];
+   // list: IAction[];
    containerStyle?: MoreContainerProps;
 }
 
-export const MoreBtn: React.FC<Props> = ({ color, list, containerStyle }) => {
+export const MoreBtn: React.FC<Props> = ({ color, containerStyle }) => {
    const [visible, setVisible] = useState(false);
 
    return (
@@ -85,11 +84,11 @@ export const MoreBtn: React.FC<Props> = ({ color, list, containerStyle }) => {
          <MoreIcon color={color} />
 
          <ActionList visible={visible}>
-            {list.map((item) => (
+            {/* {list.map((item) => (
                <ActionItem onClick={(e) => item.action(e)} key={item.title}>
                   {item.title}
                </ActionItem>
-            ))}
+            ))} */}
          </ActionList>
       </MoreContainer>
    );

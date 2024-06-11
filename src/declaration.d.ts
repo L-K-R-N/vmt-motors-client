@@ -24,6 +24,7 @@ declare module '*.png';
 declare module '*.mp4';
 declare module '*.jfif';
 declare module '*.webm';
+declare module '*.webp';
 declare module '*.svg' {
    import React from 'react';
    const SVG: React.VFC<React.SVGProps<SVGSVGElement>>;

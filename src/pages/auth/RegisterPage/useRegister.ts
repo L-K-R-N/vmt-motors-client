@@ -25,14 +25,14 @@ export const useRegister = () => {
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
-   const [isVerifing, setIsVerifing] = useState(false);
+   const [isVerifing] = useState(false);
    const onSubmit: SubmitHandler<IRegisterInputs> = (data) => {
       dispatch(setIsAuth(true));
       try {
          console.log(data);
          dispatch(register(data));
          localStorage.setItem('isAuth', 'true');
-         
+
          navigate('/about');
 
          console.log(isAuth);

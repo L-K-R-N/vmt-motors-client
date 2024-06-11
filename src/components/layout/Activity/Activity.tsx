@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 import cl from './Activity.module.scss';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 
 interface Props {}
 
 export const Activity: React.FC<Props> = () => {
-   const dispatch = useAppDispatch();
-
    useEffect(() => {}, []);
    return (
       <div className={cl.activity}>

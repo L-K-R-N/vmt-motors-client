@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import defaultAvatar from './assets/defaultAvatar.jpg';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useLogout } from '@/hooks/useLogout';
 import bagIcon from './assets/bag.svg';
 import cakeIcon from './assets/cake.svg';
 import markerIcon from './assets/marker.svg';
@@ -94,7 +93,6 @@ const ProfilePage: React.FC<Props> = () => {
    useEffect(() => {
       fetchMe();
    }, []);
-   const handleLogout = useLogout();
    return (
       <div className={cl.profile}>
          <div className={cl.content}>

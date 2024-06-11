@@ -1,5 +1,4 @@
 import cl from './Form.module.scss';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { BaseSyntheticEvent, FC, ReactNode } from 'react';
 
 interface Props {

@@ -4,7 +4,7 @@ import { IUser } from '@/models/User.types';
 import { IRegisterInputs } from '@/pages/auth/RegisterPage/useRegister';
 import { IVerificationInputs } from '@/pages/auth/RegisterPage/useVerification';
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getMe, setMe } from './UserSlice';
+import { getMe } from './UserSlice';
 import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
 
 export interface IAuthState {
@@ -80,7 +80,7 @@ export const AuthSlice = createSlice({
                      dateOfBirth,
                      gender,
                   );
-                  console.log(action.payload);
+                  console.log(state);
 
                   console.log(registerResponse.data);
 
@@ -114,6 +114,8 @@ export const AuthSlice = createSlice({
       builder.addCase(login, (state, action: PayloadAction<ILoginInputs>) => {
          try {
             (async function () {
+               console.log(state);
+
                const { password, username } = action.payload;
                const loginResponse = await AuthService.login(
                   username,
@@ -138,6 +140,8 @@ export const AuthSlice = createSlice({
          verify,
          (state, action: PayloadAction<IVerificationInputs>) => {
             try {
+               console.log(state);
+
                (async function () {
                   const { code } = action.payload;
                   // const dispatch = useAppDispatch();
@@ -155,6 +159,7 @@ export const AuthSlice = createSlice({
          try {
             localStorage.removeItem('token');
             const dispatch = useAppDispatch();
+            console.log(state, action);
 
             dispatch(setIsAuth(false));
          } catch (e) {}

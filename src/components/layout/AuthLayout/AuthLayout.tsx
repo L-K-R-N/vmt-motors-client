@@ -19,7 +19,7 @@ interface AuthVariant {
 }
 
 export const AuthLayout: React.FC<Props> = ({ children, title, link }) => {
-   const [authVariants, setAuthVariants] = useState<AuthVariant[]>([
+   const [authVariants] = useState<AuthVariant[]>([
       {
          img: googleLogo,
          link: '',

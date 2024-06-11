@@ -2,43 +2,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import cl from './Header.module.scss';
 import logo from './assets/logo.svg';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { Wrapper } from '../Wrapper/Wrapper';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { Button } from '@/components/UI/Button/Button';
 import plusIcon from './assets/plus.svg';
 import userIcon from './assets/user.svg';
-import { TLanguage, setLang } from '@/store/reducers/SettingsSlice';
+import { TLanguage, setLang, setTheme } from '@/store/reducers/SettingsSlice';
 import { useTranslation } from 'react-i18next';
+import { changeLanguage } from 'i18next';
+
 interface Props {}
-
-export const authMenuItems = [
-   {
-      text: 'About',
-      to: 'about',
-   },
-   {
-      text: 'Catalog',
-      to: 'adverrts',
-   },
-   {
-      text: 'Profile',
-      to: 'profile',
-   },
-];
-
-interface ISelectItem {
-   value: TLanguage;
-   text: string;
-}
 
 export const Header: React.FC<Props> = () => {
    const { isShowHeader } = useAppSelector((state) => state.LayoutReducer);
-   const { i18n, t } = useTranslation();
+   const { t } = useTranslation();
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { me } = useAppSelector((state) => state.UserReducer);
-   const { lang, theme } = useAppSelector((state) => state.SettingsReducer);
+   const { lang, theme, langs } = useAppSelector(
+      (state) => state.SettingsReducer,
+   );
+   const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: t('advertisment'),
@@ -60,43 +45,35 @@ export const Header: React.FC<Props> = () => {
 
    const dispatch = useAppDispatch();
    const navigate = useNavigate();
-   const [langs, setLangs] = useState<ISelectItem[]>([
-      { value: 'en', text: 'English' },
-      { value: 'ru', text: 'Russian' },
-      { value: 'zh', text: 'Chinese ' },
-      { value: 'kk', text: 'Kazakh' },
-      { value: 'ko', text: 'Korean' },
-      { value: 'be', text: 'Belarussian' },
-      { value: 'uk', text: 'Ukrainian' },
-   ]);
 
-   const handleChangeLang = (e: ChangeEvent<HTMLSelectElement>) => {
-      dispatch(setLang(e.target.value as TLanguage));
+   const handleChangeLang = (newLang: TLanguage) => {
+      dispatch(setLang(newLang));
 
-      i18n.changeLanguage(e.target.value);
-
+      changeLanguage(newLang);
+      setIsLangsOpen(false);
       setAuthMenuItems([
          {
             text: t('advertisment'),
-            to: 'ads',
+            to: 'adverts',
          },
          {
             text: t('about'),
             to: 'about',
          },
          {
-            text: t('catalog'),
-            to: 'catalog',
-         },
-         {
             text: t('profile'),
             to: 'profile',
+         },
+         {
+            text: 'Admin',
+            to: 'admin/dashboard',
          },
       ]);
    };
 
    useEffect(() => {
       document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
    }, [theme]);
 
    return (
@@ -127,20 +104,50 @@ export const Header: React.FC<Props> = () => {
                               {t('submit_an_ad')}
                            </div>
                         </Button>
-                        <div className={cl.header__lang}>
-                           <select
-                              title="Change language"
-                              name="Change language"
-                              id=""
-                              onChange={handleChangeLang}
-                              value={lang}
+                        <div className={cl.lang}>
+                           <span
+                              className={cl.lang_current}
+                              onPointerEnter={() => setIsLangsOpen(true)}
+                              onPointerLeave={() => setIsLangsOpen(false)}
+                           >
+                              <span className={cl.lang_text}>{lang}</span>{' '}
+                              <img
+                                 src={langs.find((l) => l.value === lang)?.img}
+                                 alt=""
+                              />
+                           </span>
+                           <ul
+                              className={[
+                                 cl.lang_list,
+                                 isLangsOpen ? cl.open : '',
+                              ].join(' ')}
+                              onPointerEnter={() => setIsLangsOpen(true)}
+                              onPointerLeave={() => setIsLangsOpen(false)}
                            >
                               {langs.map((lang) => (
-                                 <option value={lang.value} key={lang.value}>
-                                    {lang.text}
-                                 </option>
+                                 <li
+                                    className={cl.lang_item}
+                                    key={lang.value}
+                                    onClick={() => handleChangeLang(lang.value)}
+                                 >
+                                    {lang.value}
+                                    <img src={lang.img} alt="" />
+                                 </li>
                               ))}
-                           </select>
+                           </ul>
+                        </div>
+                        <div
+                           className={[
+                              cl.themeSwitcher,
+                              theme === 'dark' ? cl.active : '',
+                           ].join(' ')}
+                           onClick={() =>
+                              dispatch(
+                                 setTheme(theme === 'dark' ? 'light' : 'dark'),
+                              )
+                           }
+                        >
+                           <span className={cl.themeSwitcher__circle}></span>
                         </div>
                         <Link to={'/profile'} className={cl.header__profile}>
                            <img src={userIcon} alt="" />

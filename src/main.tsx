@@ -2,9 +2,7 @@ import ReactDOM from 'react-dom/client';
 
 import { Provider } from 'react-redux';
 import App from './App';
-import { persistor, store } from './store/index';
-import { PersistGate } from 'redux-persist/integration/react';
-import { Loader } from './components/UI/Loader/Loader';
+import { store } from './store/index';
 import './i18n.js';
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement,

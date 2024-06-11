@@ -114,7 +114,7 @@ const initialState: IProductsState = {
             label: 'ROBOTIC',
          },
          generation: 'a',
-         isNew: true,
+         isNew: false,
          model: {
             label: 'Veiron',
             value: 'Veiron',
@@ -193,7 +193,7 @@ const initialState: IProductsState = {
             label: 'ROBOTIC',
          },
          generation: 'a',
-         isNew: true,
+         isNew: false,
          model: {
             label: 'Veiron',
             value: 'Veiron',

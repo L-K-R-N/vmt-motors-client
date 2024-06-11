@@ -66,5 +66,12 @@
    "color": "Color",
    "desc": "Description",
    "price": "Price",
-   "place_ad": "Place an ad"
+   "place_ad": "Place an ad",
+
+   "admin": "Admin",
+   "name": "Name",
+   "brand": "Brand",
+   "model": "Model",
+   "gear": "Gear",
+   "email": "Email"
 }

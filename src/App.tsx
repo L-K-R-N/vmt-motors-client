@@ -13,149 +13,16 @@ import { ProfilePage } from './pages/other/ProfilePage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { ErrorPage } from './pages/error/ErrorPage/ErrorPage';
-import { ForgotPassPage } from './pages/auth/ForgotPassPage';
-import { Loader } from './components/UI/Loader/Loader';
-import { AdsPage } from './pages/other/AdsPage';
-import { AboutPage } from './pages/other/AboutPage';
 import { CatalogPage } from './pages/other/CatalogPage';
-import { FaqPage } from './pages/other/FaqPage';
 import { ProductPage } from './pages/other/ProductPage';
 import { AddAdvertPage } from './pages/other/AddAdvertPage';
 import { UsersListPage } from './pages/admin/UsersListPage';
 import { DashboardPage } from './pages/admin/DashboardPage';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
+import { useAppDispatch } from './hooks/useAppDispatch';
+import { setTheme, TTheme } from './store/reducers/SettingsSlice';
 
 // const authRoutes: RouteObject[] = [];
-
-const userRoutes: RouteObject[] = [
-   {
-      path: 'signup',
-      element: <RegisterPage />,
-   },
-   {
-      path: 'signin',
-      element: <LoginPage />,
-   },
-   {
-      path: 'ads',
-      element: <AdsPage />,
-   },
-   {
-      path: 'recover',
-      element: <ForgotPassPage />,
-   },
-   // {
-   //    path: 'loader',
-   //    element: <Loader />,
-   // },
-   {
-      path: 'main',
-      element: <MainPage />,
-   },
-
-   {
-      path: 'about',
-      element: <AboutPage />,
-   },
-
-   // {
-   //    path: 'notifications',
-   //    element: <ImportantsPage />,
-   // },
-   // {
-   //    path: 'rules',
-   //    element: <ImportantsPage />,
-   // },
-   {
-      path: 'profile',
-      element: <ProfilePage />,
-   },
-   // {
-   //    path: 'news',
-   //    element: <NewsPage />,
-   // },
-   {
-      path: 'catalog',
-      element: <CatalogPage />,
-   },
-   {
-      path: 'faq',
-      element: <FaqPage />,
-   },
-   {
-      path: 'loader',
-      element: <Loader />,
-   },
-   {
-      path: 'catalog/buy/:id',
-      element: <ProductPage />,
-   },
-   {
-      path: 'add',
-      element: <AddAdvertPage />,
-   },
-];
-
-const adminRoutes: RouteObject[] = [
-   {
-      path: 'adverts',
-      element: <CatalogPage />,
-   },
-   {
-      path: 'recover',
-      element: <ForgotPassPage />,
-   },
-   // {
-   //    path: 'loader',
-   //    element: <Loader />,
-   // },
-   {
-      path: 'main',
-      element: <MainPage />,
-   },
-
-   {
-      path: 'about',
-      element: <AboutPage />,
-   },
-
-   {
-      path: 'profile',
-      element: <ProfilePage />,
-   },
-
-   {
-      path: 'adverts/buy/:id',
-      element: <ProductPage />,
-   },
-   {
-      path: 'add',
-      element: <AddAdvertPage />,
-   },
-   {
-      path: 'users-list',
-      element: <UsersListPage />,
-   },
-   {
-      path: 'dashboard',
-      element: <DashboardPage />,
-   },
-];
-
-const unAuthRoutes: RouteObject[] = [
-   {
-      path: 'signup',
-      element: <RegisterPage />,
-   },
-   {
-      path: 'signin',
-      element: <LoginPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-];
 
 const routes: RouteObject[] = [
    {
@@ -182,14 +49,7 @@ const routes: RouteObject[] = [
          return isAuth;
       },
    },
-   {
-      path: 'recover',
-      element: <ForgotPassPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
+
    // {
    //    path: 'loader',
    //    element: <Loader />,
@@ -249,15 +109,21 @@ const routes: RouteObject[] = [
 ];
 
 const App = () => {
+   const { isAuth } = useAppSelector((state) => state.AuthReducer);
+   const dispatch = useAppDispatch();
+   const { theme } = useAppSelector((state) => state.SettingsReducer);
    // const navigate = useNavigate();
    // useEffect(() => {
    //    setIsAuth();
    // }, []);
-   const { isAuth } = useAppSelector((state) => state.AuthReducer);
-   const [isAdmin, setIsAdmin] = useState(false);
-   useEffect(() => {
+
+   useLayoutEffect(() => {
       console.log(isAuth);
-   }, [isAuth]);
+      const lastTheme = localStorage.getItem('theme');
+      dispatch(setTheme(lastTheme ? (lastTheme as TTheme) : 'dark'));
+      localStorage.setItem('theme', lastTheme ? lastTheme : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+   }, []);
 
    const router = createBrowserRouter([
       {

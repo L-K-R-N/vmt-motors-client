@@ -1,7 +1,6 @@
 import cl from './RouteCard.module.scss';
 
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { FC, useEffect } from 'react';
 import { IRoute } from '@/store/reducers/RoutesSlice';
 import { FiTrash2 } from 'react-icons/fi';
@@ -12,7 +11,6 @@ interface Props {
 
 export const RouteCard: FC<Props> = ({ route }) => {
    const navigate = useNavigate();
-   const dispatch = useAppDispatch();
    const handleClick = () => {
       navigate(`/routes/${route.id}`);
    };

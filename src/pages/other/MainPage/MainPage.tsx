@@ -1,6 +1,5 @@
 import cl from './MainPage.module.scss';
-import { useHideSidebar, useShowHeader } from '@/hooks/useLayout';
-import { useEffect } from 'react';
+import { useHideSidebar } from '@/hooks/useLayout';
 import { Button } from '@/components/UI/Button/Button';
 import instIcon from './assets/inst.svg';
 import tgIcon from './assets/tg.svg';
