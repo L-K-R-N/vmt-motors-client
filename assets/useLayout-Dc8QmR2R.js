@@ -1,0 +1,1 @@
+import{b as e,r as t,k as a,m as o,n as c}from"./index-Cl4qldqq.js";const u=()=>{const s=e();t.useEffect(()=>{s(a(!0)),s(o(!0)),s(c(!1)),console.log()},[])},f=()=>{const s=e();t.useLayoutEffect(()=>{s(a(!1)),s(o(!0)),s(c(!0))},[])},i=()=>{const s=e();t.useLayoutEffect(()=>{s(a(!1)),s(o(!1)),s(c(!1))},[])};export{i as a,f as b,u};
