@@ -27,7 +27,9 @@ const SuccessfulRegPage = () => {
                <img src={like} alt="like" />
             </div>
             <div className={styles.button}>
-               <Button clickHandler={() => navigate('/login')}>
+               <Button
+                  clickHandler={() => navigate('/vmt-motors-client/login')}
+               >
                   Use the site
                </Button>
             </div>

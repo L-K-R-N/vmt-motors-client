@@ -152,7 +152,9 @@ const ProfilePage: React.FC<Props> = () => {
                      ) : (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}
-                           <Link to={'/add'}>Сделайте это прямо сейчас</Link>
+                           <Link to={'/vmt-motors-client/add'}>
+                              Сделайте это прямо сейчас
+                           </Link>
                         </div>
                      )}
                   </div>

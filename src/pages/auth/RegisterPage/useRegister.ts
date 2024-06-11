@@ -33,7 +33,7 @@ export const useRegister = () => {
          dispatch(register(data));
          localStorage.setItem('isAuth', 'true');
 
-         navigate('/about');
+         navigate('/vmt-motors-client/about');
 
          console.log(isAuth);
       } catch (e) {

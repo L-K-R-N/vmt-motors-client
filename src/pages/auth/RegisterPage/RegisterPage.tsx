@@ -34,7 +34,7 @@ const RegisterPage = () => {
 
    useLayoutEffect(() => {
       if (localStorage.getItem('isAuth')) {
-         navigate('/about');
+         navigate('/vmt-motors-client/about');
       }
    }, []);
    return (

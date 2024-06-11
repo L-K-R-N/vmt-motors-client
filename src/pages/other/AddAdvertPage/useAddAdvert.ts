@@ -59,7 +59,7 @@ export const useAddAdvert = () => {
             data.fuel,
             data.drive,
          );
-         navigate('/main');
+         navigate('/vmt-motors-client/main');
       } catch (e) {
          console.log(e);
       }

@@ -58,12 +58,15 @@ export const AuthLayout: React.FC<Props> = ({ children, title, link }) => {
                <span>OR</span>
                <div className={cl.authLayout__children}>{children}</div>
                <div className={cl.control}>
-                  <Link to={'/recover'} className={cl.link}>
+                  <Link to={'/vmt-motors-client/recover'} className={cl.link}>
                      Forgot password?
                   </Link>
                   <p>
                      Not a remember yet?{' '}
-                     <Link to={`/${link}`} className={cl.link}>
+                     <Link
+                        to={`/vmt-motors-client/${link}`}
+                        className={cl.link}
+                     >
                         Sign Up
                      </Link>
                   </p>

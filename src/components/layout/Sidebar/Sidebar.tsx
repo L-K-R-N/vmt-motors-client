@@ -9,12 +9,12 @@ export const navList = [
    {
       id: 0,
       title: 'DASHBOARD',
-      to: 'admin/dashboard',
+      to: 'vmt-motors-client/admin/dashboard',
    },
    {
       id: 1,
       title: 'LIST OF USERS',
-      to: 'admin/users-list',
+      to: 'vmt-motors-client/admin/users-list',
    },
 ];
 

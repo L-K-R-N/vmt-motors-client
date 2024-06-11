@@ -62,7 +62,9 @@ export const AdvertCard: FC<Props> = ({ advert }) => {
    return (
       <div
          className={cl.advert}
-         onClick={() => navigate(`/adverts/buy/${advert?.id}`)}
+         onClick={() =>
+            navigate(`/vmt-motors-client/adverts/buy/${advert?.id}`)
+         }
       >
          <img
             className={cl.advertImg}

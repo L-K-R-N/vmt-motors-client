@@ -13,7 +13,9 @@ export const Layout: React.FC<Props> = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const navigate = useNavigate();
    useEffect(() => {
-      navigate(isAuth ? '/main' : '/signin');
+      navigate(
+         isAuth ? '/vmt-motors-client/main' : '/vmt-motors-client/signin',
+      );
    }, []);
    return (
       <>

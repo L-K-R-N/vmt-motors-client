@@ -27,19 +27,19 @@ export const Header: React.FC<Props> = () => {
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: t('advertisment'),
-         to: 'adverts',
+         to: 'vmt-motors-client/adverts',
       },
       {
          text: t('about'),
-         to: 'about',
+         to: 'vmt-motors-client/about',
       },
       {
          text: t('profile'),
-         to: 'profile',
+         to: 'vmt-motors-client/profile',
       },
       {
          text: 'Admin',
-         to: 'admin/dashboard',
+         to: 'vmt-motors-client/admin/dashboard',
       },
    ]);
 
@@ -54,19 +54,19 @@ export const Header: React.FC<Props> = () => {
       setAuthMenuItems([
          {
             text: t('advertisment'),
-            to: 'adverts',
+            to: 'vmt-motors-client/adverts',
          },
          {
             text: t('about'),
-            to: 'about',
+            to: 'vmt-motors-client/about',
          },
          {
             text: t('profile'),
-            to: 'profile',
+            to: 'vmt-motors-client/profile',
          },
          {
             text: 'Admin',
-            to: 'admin/dashboard',
+            to: 'vmt-motors-client/admin/dashboard',
          },
       ]);
    };
@@ -82,7 +82,7 @@ export const Header: React.FC<Props> = () => {
             <header className={cl.header}>
                <Wrapper>
                   <div className={cl.header__content}>
-                     <Link to={'/about'} className={cl.logo}>
+                     <Link to={'/vmt-motors-client/about'} className={cl.logo}>
                         <img
                            src={logo}
                            alt="logo"
@@ -97,7 +97,7 @@ export const Header: React.FC<Props> = () => {
                         <Button
                            title="Submit an ad"
                            type="button"
-                           onClick={() => navigate('add')}
+                           onClick={() => navigate('vmt-motors-client/add')}
                         >
                            <div>
                               <img src={plusIcon} alt="" />
@@ -149,7 +149,10 @@ export const Header: React.FC<Props> = () => {
                         >
                            <span className={cl.themeSwitcher__circle}></span>
                         </div>
-                        <Link to={'/profile'} className={cl.header__profile}>
+                        <Link
+                           to={'/vmt-motors-client/profile'}
+                           className={cl.header__profile}
+                        >
                            <img src={userIcon} alt="" />
                            <span>{me?.username}</span>
                         </Link>

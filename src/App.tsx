@@ -26,7 +26,7 @@ import { setTheme, TTheme } from './store/reducers/SettingsSlice';
 
 const routes: RouteObject[] = [
    {
-      path: 'signup',
+      path: 'vmt-motors-client/signup',
       element: <RegisterPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -34,7 +34,7 @@ const routes: RouteObject[] = [
       },
    },
    {
-      path: 'signin',
+      path: 'vmt-motors-client/signin',
       element: <LoginPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -42,7 +42,7 @@ const routes: RouteObject[] = [
       },
    },
    {
-      path: 'adverts',
+      path: 'vmt-motors-client/adverts',
       element: <CatalogPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -55,7 +55,7 @@ const routes: RouteObject[] = [
    //    element: <Loader />,
    // },
    {
-      path: 'about',
+      path: 'vmt-motors-client/about',
       element: <MainPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -64,7 +64,7 @@ const routes: RouteObject[] = [
    },
 
    {
-      path: 'profile',
+      path: 'vmt-motors-client/profile',
       element: <ProfilePage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -73,7 +73,7 @@ const routes: RouteObject[] = [
    },
 
    {
-      path: 'adverts/buy/:id',
+      path: 'vmt-motors-client/adverts/buy/:id',
       element: <ProductPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -81,7 +81,7 @@ const routes: RouteObject[] = [
       },
    },
    {
-      path: 'add',
+      path: 'vmt-motors-client/add',
       element: <AddAdvertPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -89,7 +89,7 @@ const routes: RouteObject[] = [
       },
    },
    {
-      path: 'admin/users-list',
+      path: 'vmt-motors-client/admin/users-list',
       element: <UsersListPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');
@@ -98,7 +98,7 @@ const routes: RouteObject[] = [
       },
    },
    {
-      path: 'admin/dashboard',
+      path: 'vmt-motors-client/admin/dashboard',
       element: <DashboardPage />,
       loader: () => {
          const isAuth = localStorage.getItem('isAuth');

@@ -40,7 +40,7 @@ export const useLoginPage = () => {
 
       console.log(data);
 
-      navigate('/about');
+      navigate('/vmt-motors-client/about');
    };
 
    return useMemo(
