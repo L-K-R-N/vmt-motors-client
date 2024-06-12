@@ -10,26 +10,26 @@ export interface IAuthState {
    lang: TLanguage;
    theme: TTheme;
    langs: ILang[];
+   country: string;
 }
 
 export type TLanguage = 'ru' | 'en' | 'be' | 'zh' | 'kk' | 'ko' | 'uk';
 export type TTheme = 'dark' | 'light';
-
-
 
 const initialState: IAuthState = {
    // isAuth: !!localStorage.getItem(TOKEN),
    lang: 'en',
    theme: 'light',
    langs: [
-      { value: 'en', text: 'English', img:  enImg},
-      { value: 'ru', text: 'Russian', img:  ruImg},
-      { value: 'zh', text: 'Chinese ', img:  zhImg},
+      { value: 'en', text: 'English', img: enImg },
+      { value: 'ru', text: 'Russian', img: ruImg },
+      { value: 'zh', text: 'Chinese ', img: zhImg },
       { value: 'kk', text: 'Kazakh', img: kkImg },
-      { value: 'ko', text: 'Korean', img:  koImg},
-      { value: 'be', text: 'Belarussian', img:  beImg},
+      { value: 'ko', text: 'Korean', img: koImg },
+      { value: 'be', text: 'Belarussian', img: beImg },
       { value: 'uk', text: 'Ukrainian', img: ukImg },
-   ]
+   ],
+   country: 'USA',
 };
 
 interface ILang {
@@ -37,8 +37,6 @@ interface ILang {
    text: string;
    img: string;
 }
-
-
 
 export const SettingsSlice = createSlice({
    name: 'SettingsSlice',
@@ -50,10 +48,12 @@ export const SettingsSlice = createSlice({
       setLang: (state, action: PayloadAction<TLanguage>) => {
          state.lang = action.payload;
       },
-      
+      setCountry: (state, action: PayloadAction<string>) => {
+         state.country = action.payload;
+      },
    },
 });
 
 export default SettingsSlice.reducer;
 
-export const { setTheme, setLang } = SettingsSlice.actions;
+export const { setTheme, setLang, setCountry } = SettingsSlice.actions;

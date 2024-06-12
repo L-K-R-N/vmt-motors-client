@@ -3,8 +3,6 @@
 @import '@/styles/fonts';
 
 .container {
-   
-
    &__input {
       @include input;
       width: 100%;
@@ -16,7 +14,13 @@
    }
 
    &.error {
-
-      
+   }
+   & div {
+      font-family: $font-tildaSans;
+   }
+   @media screen and (max-width: 800px) {
+      & div {
+         font-size: 12px !important;
+      }
    }
 }

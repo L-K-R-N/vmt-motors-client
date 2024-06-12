@@ -196,7 +196,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                            key={b.value}
                         >
                            <img className={cl.body__img} src={b.img} alt="" />
-                           <h6 className={cl.body__name}>{b.label}</h6>
+                           <h6 className={cl.body__name}>{t(b.value)}</h6>
                         </li>
                      ))}
                   </ul>
@@ -276,35 +276,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      // rules={{t('desc')} }
                   />
                </div>
-               <div className={cl.block}>
-                  <h5 className={cl.subtitle}>{t('contact')}</h5>
-                  <div className={cl.block__content}>
-                     <form className={cl.contactForm}>
-                        <TextFieldController
-                           control={control}
-                           errors={errors}
-                           fieldType="input"
-                           label="Phone number"
-                           name="phoneNumber"
-                        />
-                        <TextFieldController
-                           control={control}
-                           errors={errors}
-                           fieldType="input"
-                           label="Adress"
-                           name="adress"
-                        />
-                        <TextFieldController
-                           control={control}
-                           errors={errors}
-                           fieldType="input"
-                           label="Email"
-                           name="email"
-                        />
-                     </form>
-                     {/* <img className={cl.contacFormImg} src={formImg} alt="" /> */}
-                  </div>
-               </div>
+
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('price')}</h5>
                   <TextFieldController
@@ -315,10 +287,10 @@ const AddAdvertPage: React.FC<Props> = () => {
                      name="price"
                      // rules={{t('desc')} }
                   />
-                  <Button type="submit" title={t('place_ad')}>
-                     {t('place_ad')}
-                  </Button>
                </div>
+               <Button type="submit" title={t('place_ad')}>
+                  {t('place_ad')}
+               </Button>
             </div>
          </div>
       </div>

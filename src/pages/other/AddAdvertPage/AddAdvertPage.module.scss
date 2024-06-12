@@ -3,6 +3,7 @@
 @import '@/styles/fonts';
 
 .add {
+   font-family: $font-tildaSans;
    &Header {
       width: 100vw;
       background: url('./assets//bg.png');
@@ -113,7 +114,7 @@
          @include flex($direction: column, $justify: start);
          gap: 10px;
          width: 100%;
-         & label {   
+         & label {
             display: none;
          }
 
@@ -127,7 +128,7 @@
             width: 100%;
             color: var(--text-primary);
             font-weight: 300;
-            &::placeholder {  
+            &::placeholder {
                color: var(--text-primary);
                opacity: 0.5;
 
@@ -144,15 +145,15 @@
 
    .bodies {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(5, 1fr);
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       gap: 20px;
 
       & > li {
          @include flex($direction: column);
          gap: 15px;
-         font-size: 32px;
-         color: black;
+         font-size: 22px;
+         color: var(--text-primary);
          font-weight: 400;
          cursor: pointer;
          opacity: 0.8;
@@ -164,12 +165,11 @@
          &.active {
             opacity: 1;
             & > img {
-               box-shadow: 0 0 0 10px rgba(151, 247, 151, 0.447);
-               
+               box-shadow: 0 0 0 4px rgba(0, 255, 0, 0.584);
             }
          }
          & > img {
-            height: 200px;
+            height: 120px;
             border-radius: 15px;
             width: 100%;
             border: 2px solid black;
@@ -185,11 +185,16 @@
       font-family: $font-tildaSans;
       text-wrap: wrap;
       line-height: 120%;
+      padding: 14px;
    }
 }
 
 @media screen and (max-width: 900px) {
    .add {
+      .block {
+         padding: 13x;
+         gap: 14px !important;
+      }
       &Title {
          font-size: 34px;
          font-weight: 500;
@@ -208,87 +213,28 @@
          padding: 30px;
       }
 
-      .block {
-         border-radius: 10px;
-         background: $white;
-         padding: 20px;
-         box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
-         gap: 25px !important;
-      }
-
       .title {
          font-size: 20px;
-         color: white;
-         font-weight: 500;
+
          padding: 12px 50px;
-         font-family: $font-tildaSans;
-         border-radius: 10px;
-         background: #60c300;
-         width: auto;
          text-align: center;
          align-self: start;
       }
       .subtitle {
          font-size: 18px;
-         color: white;
-         @include flex($justify: center);
-         font-weight: 400;
-         text-align: center;
-         padding: 9px 38px;
-         font-family: $font-tildaSans;
-         border-radius: 10px;
-         background: #60c300;
-         width: auto;
-         align-self: start;
-      }
-
-      .spec {
-         .subtitle {
-            width: 100%;
-            padding: 9px;
-         }
-         .elem {
-            @include flex($direction: column, $justify: start);
-            gap: 10px;
-
-            & label {
-               display: none;
-            }
-
-            & input {
-               border-color: black;
-               border-radius: 5px;
-               color: black;
-
-               &::placeholder {
-                  color: black;
-                  opacity: 0.7;
-
-                  &:hover {
-                     opacity: 1;
-                  }
-               }
-            }
-            & > h5 {
-               align-self: center;
-            }
-         }
+         padding: 6px 20px;
       }
 
       .bodies {
-         display: grid;
-         grid-template-columns: repeat(2, 1fr);
-         grid-template-rows: repeat(5, 1fr);
-         gap: 20px;
-
+         grid-template-columns: repeat(3, 1fr);
+         grid-template-rows: repeat(4, 1fr);
+         gap: 10px;
+         font-family: $font-tildaSans;
          & > li {
-            @include flex($direction: column);
-            gap: 15px;
-            font-size: 22px;
-            color: black;
-            font-weight: 400;
+            gap: 5px;
+            font-size: 18px;
             & > img {
-               height: 150px;
+               height: 110px;
                border-radius: 15px;
                width: 100%;
                border: 2px solid black;
@@ -305,7 +251,7 @@
       }
 
       &Title {
-         font-size: 34px;
+         font-size: 28px;
          font-weight: 500;
          color: $white;
          text-align: center;
@@ -323,20 +269,12 @@
       }
 
       .block {
-         border-radius: 10px;
-         background: $white;
-         padding: 20px;
-         box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
-
-         @include flex($direction: column, $align: stretch);
-
-         gap: 20px !important;
+         padding: 10px;
       }
 
       .title {
-         font-size: 20px;
+         font-size: 16px;
          color: white;
-         font-weight: 500;
          padding: 12px 50px;
          font-family: $font-tildaSans;
          border-radius: 10px;
@@ -347,32 +285,17 @@
       }
       .subtitle {
          width: 100%;
+         font-size: 14px;
+         padding: 4px;
       }
 
       .spec {
-         flex-direction: column;
-         gap: 30px;
-         .subtitle {
-            width: 100%;
-            padding: 9px;
-         }
          .elem {
-            @include flex($direction: column, $justify: start);
-            gap: 10px;
-
-            & label {
-               display: none;
-            }
-
             & > div {
                width: 100%;
             }
 
             & input {
-               border-color: black;
-               border-radius: 5px;
-               color: black;
-
                &::placeholder {
                   color: black;
                   opacity: 0.7;
@@ -382,34 +305,25 @@
                   }
                }
             }
-            & > h5 {
-               align-self: center;
-            }
          }
       }
 
       .bodies {
-         display: grid;
-         grid-template-columns: repeat(1, 1fr);
-         gap: 10px;
+         grid-template-columns: repeat(2, 1fr);
 
          & > li {
-            @include flex($direction: column);
-            gap: 8px;
-            font-size: 22px;
-            color: black;
-            font-weight: 400;
+            font-size: 16px;
             & > img {
-               height: 130px;
+               height: 90px;
                border-radius: 15px;
                width: 100%;
-               border: 2px solid black;
+               border: 1px solid black;
             }
          }
       }
       & button {
          width: 100%;
-         padding: 18px 0;
+         padding: 10px 0;
       }
    }
 }

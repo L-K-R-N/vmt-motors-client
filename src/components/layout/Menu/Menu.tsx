@@ -3,6 +3,7 @@ import cl from './Menu.module.scss';
 import { FC, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoCloseOutline } from 'react-icons/io5';
+import { useTranslation } from 'react-i18next';
 interface Props {
    items: IMenuItem[];
 }
@@ -14,7 +15,7 @@ interface IMenuItem {
 
 export const Menu: FC<Props> = ({ items }) => {
    const [isOpen, setIsOpen] = useState(false);
-
+   const { t } = useTranslation();
    return (
       <div className={cl.menuContainer}>
          <button
@@ -33,7 +34,7 @@ export const Menu: FC<Props> = ({ items }) => {
                         to={item.to}
                         onClick={() => setIsOpen(!isOpen)}
                      >
-                        {item.text}
+                        {t(item.text)}
                      </Link>
                   </li>
                ))}

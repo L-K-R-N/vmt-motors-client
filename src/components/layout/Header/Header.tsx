@@ -26,20 +26,24 @@ export const Header: React.FC<Props> = () => {
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
-         text: t('advertisment'),
+         text: 'catalog',
          to: 'vmt-motors-client/adverts',
       },
       {
-         text: t('about'),
+         text: 'about',
          to: 'vmt-motors-client/about',
       },
       {
-         text: t('profile'),
+         text: 'profile',
          to: 'vmt-motors-client/profile',
       },
       {
-         text: 'Admin',
+         text: 'admin',
          to: 'vmt-motors-client/admin/dashboard',
+      },
+      {
+         text: 'chats',
+         to: 'vmt-motors-client/chats',
       },
    ]);
 
@@ -51,24 +55,6 @@ export const Header: React.FC<Props> = () => {
 
       changeLanguage(newLang);
       setIsLangsOpen(false);
-      setAuthMenuItems([
-         {
-            text: t('advertisment'),
-            to: 'vmt-motors-client/adverts',
-         },
-         {
-            text: t('about'),
-            to: 'vmt-motors-client/about',
-         },
-         {
-            text: t('profile'),
-            to: 'vmt-motors-client/profile',
-         },
-         {
-            text: 'Admin',
-            to: 'vmt-motors-client/admin/dashboard',
-         },
-      ]);
    };
 
    useEffect(() => {
@@ -101,7 +87,7 @@ export const Header: React.FC<Props> = () => {
                         >
                            <div>
                               <img src={plusIcon} alt="" />
-                              {t('submit_an_ad')}
+                              <span>{t('submit_an_ad')}</span>
                            </div>
                         </Button>
                         <div className={cl.lang}>

@@ -9,7 +9,7 @@
    padding: 20px;
    // @include flex($justify: start);
    @include flex($align: stretch, $justify: start);
-   gap: 10px;
+   gap: 20px;
    font-family: $font-roboto;
    cursor: pointer;
    opacity: 0.85;
@@ -23,12 +23,13 @@
       // height: 100%;
       grid-area: 1 / 1 / 3 / 2;
       border-radius: 10px;
-      width: 40%;
+      width: 300px;
+      height: 200px;
    }
 
    &Container {
       @include flex($direction: column, $align: stretch);
-      width: 60%;
+      width: calc(100% - 300px);
       gap: 30px;
    }
    &Header {
@@ -98,11 +99,10 @@
          width: 25px;
          height: 25px;
          padding-bottom: 4px;
-         opacity: 0.7;  
+         opacity: 0.7;
          transition: 0.3s;
          &:hover {
             opacity: 1;
-
          }
          & > svg {
             width: 100%;
@@ -168,229 +168,183 @@
    }
 }
 
-// @media screen and (max-width: 1000px) {
-//    .advert {
-//       border-radius: 10px;
-//       background: $white;
-//       box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.496);
-//       padding: 20px;
-//       // @include flex($justify: start);
-//       @include flex($align: stretch, $justify: start);
-//       gap: 10px;
-//       font-family: $font-roboto;
-//       &Img {
-//          // height: 100%;
-//          grid-area: 1 / 1 / 3 / 2;
-//          border-radius: 10px;
-//          width: 40%;
-//          background: black;
-//       }
+@media screen and (max-width: 1000px) {
+   .advert {
+      border-radius: 10px;
+      box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.496);
+      padding: 20px;
+      // @include flex($justify: start);
+      @include flex($align: stretch, $justify: start);
+      gap: 10px;
+      font-family: $font-roboto;
+      &Img {
+         // height: 100%;
+         border-radius: 10px;
+         width: 220px;
+         height: 170px;
+      }
 
-//       &Container {
-//          @include flex($direction: column, $align: stretch);
-//          width: 60%;
-//          gap: 30px;
-//       }
-//       &Header {
-//          @include flex($direction: column, $align: start, $justify: start);
-//          width: 100%;
-//          gap: 5px;
-//          &__top {
-//             @include flex($justify: end);
-//             width: 100%;
-//             gap: 20px;
-//          }
-//          &__title {
-//             font-size: 22px;
-//             line-height: 150%;
-//             font-weight: 400;
-//             color: var(--text-primary);
-//             margin-right: auto;
-//          }
+      &Container {
+         @include flex($direction: column, $align: stretch);
+         width: calc(100% - 220px);
+         gap: 10px;
+      }
+      &Header {
+         @include flex($direction: column, $align: start, $justify: start);
+         gap: 5px;
+         &__top {
+            @include flex($justify: end);
+            width: 100%;
+            gap: 20px;
+         }
+         &__title {
+            font-size: 22px;
+         }
 
-//          &__model {
-//             font-size: 13px;
-//             // line-height: 180%;
-//             font-family: $font-roboto;
+         &__model {
+            font-size: 13px;
+            // line-height: 180%;
+         }
 
-//             font-weight: 400;
-//          }
+         &__desc {
+            font-size: 18px;
+         }
 
-//          &__desc {
-//             font-size: 18px;
-//             line-height: 150%;
-//             font-weight: 400;
-            
-//          }
+         &__isNew {
+            font-size: 16px;
+         }
 
-//          &__isNew {
-//             border-radius: 4px;
-//             background: #64bd38;
-//             font-size: 16px;
-//             font-family: $font-tildaSans;
-//             font-weight: 300;
-           
-//             padding: 6px 13px;
-//          }
+         &__price {
+            font-size: 22px;
+         }
 
-//          &__priceContainer {
-//             @include flex();
-//             width: 30%;
-//          }
+         &__isFavorite {
+            width: 20px;
+            height: 20px;
+            padding-bottom: 4px;
+         }
+      }
 
-//          &__price {
-//             font-size: 22px;
-//             font-weight: 600;
-//          }
+      &Footer {
+         @include flex();
 
-//          &__isFavorite {
-//             border: none;
-//             background: transparent;
-//             @include flex($justify: center);
-//             width: 25px;
-//             height: 25px;
+         gap: 20px;
 
-//             & > svg {
-//                width: 100%;
-//                height: 100%;
-//             }
-//          }
-//       }
+         &__location {
+            font-size: 16px;
+            font-weight: 500;
+         }
+      }
 
-//       &Footer {
-//          @include flex();
+      .fromOwner {
+         @include flex($justify: center);
+         gap: 8px;
+      }
+   }
+}
 
-//          gap: 20px;
+@media screen and (max-width: 720px) {
+   .advert {
+      padding: 10px;
+      &Img {
+         // height: 100%;
+         width: 170px;
+         height: 120px;
+      }
 
-//          &__location {
-//             @include flex($direction: column, $align: start);
-//             gap: 5px;
+      &Container {
+         width: calc(100% - 170px);
+         gap: 4px;
+      }
+      &Header {
+         @include flex($direction: column, $align: start, $justify: start);
+         width: 100%;
+         gap: 2px;
+         &__top {
+            @include flex($justify: end);
+            width: 100%;
+            gap: 20px;
+         }
+         &__title {
+            font-size: 16px;
+            line-height: 150%;
+            font-weight: 400;
+            margin-right: auto;
+         }
 
-//             font-size: 16px;
-//             font-weight: 500;
-//          }
-//       }
+         &__model {
+            font-size: 9px;
+            // line-height: 180%;
+            font-family: $font-roboto;
 
-//       .fromOwner {
-//          @include flex($justify: center);
-//          border-radius: 6px;
-//          background: $black;
-//          padding: 6px 8px;
-//          gap: 10px;
-//          font-family: $font-tildaSans;
-//          font-weight: 400;
-//       }
-//    }
-// }
+            font-weight: 400;
+         }
 
-// @media screen and (max-width: 720px) {
-//    .advert {
-//       border-radius: 10px;
-//       background: $white;
-//       box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.496);
-//       padding: 20px;
-//       // @include flex($justify: start);
-//       @include flex($align: stretch, $justify: start);
-//       gap: 10px;
-//       font-family: $font-roboto;
-//       &Img {
-//          // height: 100%;
-//          grid-area: 1 / 1 / 3 / 2;
-//          border-radius: 10px;
-//          width: 40%;
-//          background: black;
-//       }
+         &__desc {
+            font-size: 12px;
+            line-height: 150%;
+            font-weight: 400;
+         }
 
-//       &Container {
-//          @include flex($direction: column, $align: stretch);
-//          width: 60%;
-//          gap: 30px;
-//       }
-//       &Header {
-//          @include flex($direction: column, $align: start, $justify: start);
-//          width: 100%;
-//          gap: 5px;
-//          &__top {
-//             @include flex($justify: end);
-//             width: 100%;
-//             gap: 20px;
-//          }
-//          &__title {
-//             font-size: 22px;
-//             line-height: 150%;
-//             font-weight: 400;
-//             margin-right: auto;
-//          }
+         &__isNew {
+            border-radius: 4px;
+            background: #64bd38;
+            font-size: 10px;
+            font-family: $font-tildaSans;
+            font-weight: 300;
+            padding: 2px 6px;
+         }
 
-//          &__model {
-//             font-size: 13px;
-//             // line-height: 180%;
-//             font-family: $font-roboto;
+         &__priceContainer {
+            @include flex();
+            width: 30%;
+         }
 
-//             font-weight: 400;
-//          }
+         &__price {
+            font-size: 16px;
+            font-weight: 600;
+         }
 
-//          &__desc {
-//             font-size: 18px;
-//             line-height: 150%;
-//             font-weight: 400;
-//          }
+         &__isFavorite {
+            border: none;
+            background: transparent;
+            @include flex($justify: center);
+            width: 18px;
+            height: 18px;
+            padding-bottom: 2px;
+            & > svg {
+               width: 100%;
+               height: 100%;
+            }
+         }
+      }
 
-//          &__isNew {
-//             border-radius: 4px;
-//             background: #64bd38;
-//             font-size: 16px;
-//             font-family: $font-tildaSans;
-//             font-weight: 300;
-//             padding: 6px 13px;
-//          }
+      &Footer {
+         @include flex();
 
-//          &__priceContainer {
-//             @include flex();
-//             width: 30%;
-//          }
+         gap: 20px;
 
-//          &__price {
-//             font-size: 22px;
-//             font-weight: 600;
-//          }
+         &__location {
+            @include flex($direction: column, $align: start);
+            gap: 5px;
 
-//          &__isFavorite {
-//             border: none;
-//             background: transparent;
-//             @include flex($justify: center);
-//             width: 25px;
-//             height: 25px;
+            font-size: 8px;
+            font-weight: 500;
+         }
+      }
 
-//             & > svg {
-//                width: 100%;
-//                height: 100%;
-//             }
-//          }
-//       }
+      .fromOwner {
+         border-radius: 6px;
+         padding: 2px 4px;
+         font-size: 10px;
+         gap: 5px;
+         font-family: $font-tildaSans;
+         font-weight: 400;
 
-//       &Footer {
-//          @include flex();
-
-//          gap: 20px;
-
-//          &__location {
-//             @include flex($direction: column, $align: start);
-//             gap: 5px;
-
-//             font-size: 16px;
-//             font-weight: 500;
-//          }
-//       }
-
-//       .fromOwner {
-//          @include flex($justify: center);
-//          border-radius: 6px;
-//          background: $black;
-//          padding: 6px 8px;
-//          gap: 10px;
-//          font-family: $font-tildaSans;
-//          font-weight: 400;
-//       }
-//    }
-// }
+         & > img {
+            width: 12px;
+            height: 12px;
+         }
+      }
+   }
+}

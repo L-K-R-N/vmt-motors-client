@@ -25,6 +25,9 @@
 }
 
 @media (max-width: 900px) {
+   .ads {
+      padding: 20px;
+   }
    .mainPage {
       &__intro {
          background:
@@ -107,6 +110,9 @@
    }
 }
 @media (max-width: 700px) {
+   .ads {
+      padding: 10px;
+   }
    .container {
       margin-right: 0;
       padding: 10px;
