@@ -73,5 +73,16 @@
    "brand": "Brand",
    "model": "Model",
    "gear": "Gear",
-   "email": "Email"
+   "email": "Email",
+
+   "coupe":,
+   "universal":,
+   "hatchback":,
+   "roadster":,
+   "liftback":,
+   "crossover":,
+   "sedan":,
+   "offroad":,
+   "compact":,
+   "cabriolet":,
 }

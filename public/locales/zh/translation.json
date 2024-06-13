@@ -66,5 +66,12 @@
    "color": "顏色",
    "desc": "描述",
    "price": "價格",
-   "place_ad": "投放廣告"
+   "place_ad": "投放廣告",
+
+   "admin": "行政",
+   "name": "姓名",
+   "brand": "品牌",
+   "model": "模型",
+   "gear": "机制",
+   "email": "电邮"
 }

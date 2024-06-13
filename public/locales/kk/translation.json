@@ -66,5 +66,23 @@
    "color": "Түс",
    "desc": "Сипаттамасы",
    "price": "Баға",
-   "place_ad": "Жарнама орналастыру"
+   "place_ad": "Жарнама орналастыру",
+
+   "admin": "Әкімші",
+   "name": "Аты",
+   "brand": "Бренд",
+   "model": "Модель",
+   "gear": "Механизм",
+   "email": "Электрондық пошта",
+
+   "coupe":,
+   "universal":,
+   "hatchback":,
+   "roadster":,
+   "liftback":,
+   "crossover":,
+   "sedan":,
+   "offroad":,
+   "compact":,
+   "cabriolet":,
 }

@@ -18,7 +18,7 @@
    font-weight: 400;
    gap: 25px;
    width: 48%;
-
+   border: 1px solid var(--text-primary);
    overflow-y: scroll;
 
    &::-webkit-scrollbar {
@@ -47,8 +47,12 @@
    }
 }
 
-@media (max-width: 470px) {
+@media (max-width: 900px) {
    .page {
-      padding: 20px;
+      padding: 10px;
+   }
+
+   .dashboard {
+      padding: 10px;
    }
 }

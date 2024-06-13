@@ -1,23 +1,25 @@
 import cl from './ProfilePage.module.scss';
-import { useEffect, useState } from 'react';
-import defaultAvatar from './assets/defaultAvatar.jpg';
+import { ReactNode, useEffect, useState } from 'react';
+import maleAvatar from './assets/maleAvatar.jpg';
+import femaleAvatar from './assets/femaleAvatar.jpg';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import bagIcon from './assets/bag.svg';
-import cakeIcon from './assets/cake.svg';
+import { BsHouseFill } from 'react-icons/bs';
 import markerIcon from './assets/marker.svg';
-import houseIcon from './assets/house.svg';
 import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
 import { useTranslation } from 'react-i18next';
 import PersonService from '@/api/services/PersonService';
 import { setMe } from '@/store/reducers/UserSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { Link } from 'react-router-dom';
+import { FaCakeCandles } from 'react-icons/fa6';
+import { PiHandbagSimpleFill } from 'react-icons/pi';
+import { MdLocationOn } from 'react-icons/md';
 
 interface Props {}
 
 interface IUserInfoItem {
-   icon: string;
+   icon: ReactNode;
    title: string;
    value: string;
 }
@@ -30,23 +32,23 @@ const ProfilePage: React.FC<Props> = () => {
    const dispatch = useAppDispatch();
    const [userInfo, setUserInfo] = useState<IUserInfoItem[]>([
       {
-         icon: cakeIcon,
-         title: t('age'),
+         icon: <FaCakeCandles />,
+         title: 'age',
          value: '20',
       },
       {
-         icon: bagIcon,
-         title: t('occupation'),
+         icon: <PiHandbagSimpleFill />,
+         title: 'occupation',
          value: 'Seller',
       },
       {
-         icon: houseIcon,
-         title: t('status'),
+         icon: <BsHouseFill />,
+         title: 'status',
          value: me?.status ?? 'none',
       },
       {
-         icon: markerIcon,
-         title: t('location'),
+         icon: <MdLocationOn />,
+         title: 'location',
          value: 'London, UK',
       },
    ]);
@@ -65,30 +67,7 @@ const ProfilePage: React.FC<Props> = () => {
       dispatch(setMe(response.data));
    };
 
-   useEffect(() => {
-      setUserInfo([
-         {
-            icon: cakeIcon,
-            title: t('age'),
-            value: '26',
-         },
-         {
-            icon: bagIcon,
-            title: t('occupation'),
-            value: 'Seller',
-         },
-         {
-            icon: houseIcon,
-            title: t('status'),
-            value: 'active',
-         },
-         {
-            icon: markerIcon,
-            title: t('location'),
-            value: 'London, UK',
-         },
-      ]);
-   }, [lang]);
+   useEffect(() => {}, [lang]);
 
    useEffect(() => {
       fetchMe();
@@ -99,7 +78,13 @@ const ProfilePage: React.FC<Props> = () => {
             <div className={cl.left}>
                <img
                   className={cl.avatar}
-                  src={me?.hasProfilePhoto ? '' : defaultAvatar}
+                  src={
+                     me?.hasProfilePhoto
+                        ? ''
+                        : me?.gender === 'FEMALE'
+                          ? femaleAvatar
+                          : maleAvatar
+                  }
                   alt="Ваш аватар"
                />
                <div className={cl.left__buttons}>
@@ -113,8 +98,8 @@ const ProfilePage: React.FC<Props> = () => {
                   {userInfo.map((item) => (
                      <li key={item.title}>
                         <span>
-                           <img src={item.icon} alt="" />
-                           <span>{item.title}</span>
+                           {item.icon}
+                           <span>{t(item.title)}</span>
                         </span>
                         {item.value}
                      </li>

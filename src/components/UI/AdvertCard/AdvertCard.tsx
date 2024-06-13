@@ -18,9 +18,10 @@ import { TLanguage } from '@/store/reducers/SettingsSlice';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
+   isSmall?: boolean;
 }
 
-export const AdvertCard: FC<Props> = ({ advert }) => {
+export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const navigate = useNavigate();
    const { lang } = useAppSelector((state) => state.SettingsReducer);
    const [locale, setLocale] = useState(enUS);
@@ -61,7 +62,7 @@ export const AdvertCard: FC<Props> = ({ advert }) => {
 
    return (
       <div
-         className={cl.advert}
+         className={[cl.advert, isSmall ? cl.small : ''].join(' ')}
          onClick={() =>
             navigate(`/vmt-motors-client/adverts/buy/${advert?.id}`)
          }

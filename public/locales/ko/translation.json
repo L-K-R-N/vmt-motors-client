@@ -66,5 +66,23 @@
    "color": "색상",
    "desc": "설명",
    "price": "가격",
-   "place_ad": "광고를 게재하세요"
+   "place_ad": "광고를 게재하세요",
+
+   "admin": "관리자",
+   "name": "이름",
+   "brand": "브랜드",
+   "model": "모델",
+   "gear": "메커니즘",
+   "email": "이메일",
+
+   "coupe":,
+   "universal":,
+   "hatchback":,
+   "roadster":,
+   "liftback":,
+   "crossover":,
+   "sedan":,
+   "offroad":,
+   "compact":,
+   "cabriolet":,
 }

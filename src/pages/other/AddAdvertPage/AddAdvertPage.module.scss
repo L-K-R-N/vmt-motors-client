@@ -47,7 +47,8 @@
          font-size: 16px;
          font-family: $font-tildaSans;
          &::placeholder {
-            color: rgb(152, 152, 152);
+            color: var(--text-primary);
+            opacity: 0.5;
          }
       }
 
@@ -189,7 +190,7 @@
    }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 800px) {
    .add {
       .block {
          padding: 13x;
@@ -202,6 +203,9 @@
          text-align: center;
       }
 
+      & input {
+         font-size: 14px !important;
+      }
       .wrapper {
          max-width: 1000px;
          margin: 0 auto;
@@ -289,25 +293,6 @@
          padding: 4px;
       }
 
-      .spec {
-         .elem {
-            & > div {
-               width: 100%;
-            }
-
-            & input {
-               &::placeholder {
-                  color: black;
-                  opacity: 0.7;
-
-                  &:hover {
-                     opacity: 1;
-                  }
-               }
-            }
-         }
-      }
-
       .bodies {
          grid-template-columns: repeat(2, 1fr);
 
@@ -324,6 +309,14 @@
       & button {
          width: 100%;
          padding: 10px 0;
+      }
+   }
+}
+
+@media screen and (max-width: 450px) {
+   .add {
+      & input {
+         font-size: 12px !important;
       }
    }
 }
