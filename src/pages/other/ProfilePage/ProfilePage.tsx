@@ -11,10 +11,11 @@ import { useTranslation } from 'react-i18next';
 import PersonService from '@/api/services/PersonService';
 import { setMe } from '@/store/reducers/UserSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCakeCandles } from 'react-icons/fa6';
 import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { MdLocationOn } from 'react-icons/md';
+import { logout } from '@/store/reducers/AuthSlice';
 
 interface Props {}
 
@@ -54,24 +55,20 @@ const ProfilePage: React.FC<Props> = () => {
    ]);
    useHideSidebar();
 
+   const navigate = useNavigate();
+
    // const handleEditPassword = () => {
    //    setIsEditPassword(true);
    // };
 
-   const fetchMe = async () => {
-      const response = await PersonService.getMe();
-
-      console.log(response.data);
-      if (response.status !== 200) return;
-
-      dispatch(setMe(response.data));
+   const handleLogout = () => {
+      logout();
+      navigate('/signin');
    };
 
    useEffect(() => {}, [lang]);
 
-   useEffect(() => {
-      fetchMe();
-   }, []);
+   useEffect(() => {}, []);
    return (
       <div className={cl.profile}>
          <div className={cl.content}>
@@ -89,7 +86,7 @@ const ProfilePage: React.FC<Props> = () => {
                />
                <div className={cl.left__buttons}>
                   <button>{t('change_avatar')}</button>
-                  <button>{t('logout')}</button>
+                  <button onClick={() => handleLogout()}>{t('logout')}</button>
                </div>
                <p className={cl.greeting}>
                   {t('greeting')}, {me?.username}
@@ -113,17 +110,9 @@ const ProfilePage: React.FC<Props> = () => {
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
                      <p className={cl.right__about_desc}>
-                        {me?.desc ? me?.desc : 'Описание отсутствует'}
+                        {me?.desc ? me?.desc : t('no_desc')}
                      </p>
                   </section>
-                  {/* <button
-                     className={cl.logoutBtn}
-                     title="Выйти"
-                     onClick={handleLogout}
-                  >
-                     Выйти
-                     <FiLogOut />
-                  </button> */}
                </div>
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
@@ -137,9 +126,7 @@ const ProfilePage: React.FC<Props> = () => {
                      ) : (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}
-                           <Link to={'/vmt-motors-client/add'}>
-                              Сделайте это прямо сейчас
-                           </Link>
+                           <Link to={'/add'}>Сделайте это прямо сейчас</Link>
                         </div>
                      )}
                   </div>

@@ -7,27 +7,34 @@ import ProductService, {
    TGear,
    TProductType,
 } from '@/api/services/ProductService';
-import { ISelectItem, TBody } from '@/store/reducers/FilterSlice';
+import {
+   ISelectItem,
+   TBody,
+   TBrand,
+   TColor,
+} from '@/store/reducers/FilterSlice';
+import { TOwner } from '@/store/reducers/ProductsSlice';
 
-export interface IAddInputs {
+export interface IPostProductInputs {
    name: string;
-   brand: string;
+   brand: ISelectItem<TBrand>;
    model: string;
    year: number;
    type: ISelectItem<TProductType>;
    mileage: number;
+   from: string;
+   exchange: boolean;
+   trade: boolean;
+   owner: ISelectItem<TOwner>;
    body: ISelectItem<TBody>;
    photo: string;
    generation: string;
-   fuel: TFuel;
-   gear: TGear;
-   drive: TDriveUnit;
-   color: string;
+   fuel: ISelectItem<TFuel>;
+   gear: ISelectItem<TGear>;
+   driveUnit: ISelectItem<TDriveUnit>;
+   color: ISelectItem<TColor>;
    coloring: string;
    desc: string;
-   phoneNumber: string;
-   adress: string;
-   email: string;
    price: number;
 }
 
@@ -36,30 +43,36 @@ export const useAddAdvert = () => {
       handleSubmit,
       formState: { errors },
       control,
-   } = useForm<IAddInputs>({
+   } = useForm<IPostProductInputs>({
       mode: 'onChange',
    });
    const navigate = useNavigate();
 
-   const onSubmit: SubmitHandler<IAddInputs> = (data) => {
+   const onSubmit: SubmitHandler<IPostProductInputs> = (data) => {
       try {
-         ProductService.postProduct(
-            data.type.value,
-            data.name,
-            data.desc,
-            true,
-            data.brand,
-            data.body.value,
-            data.color,
-            data.model,
-            data.price,
-            data.year,
-            data.generation,
-            data.gear,
-            data.fuel,
-            data.drive,
-         );
-         navigate('/vmt-motors-client/main');
+         ProductService.postProduct({
+            body: data.body.value,
+            brand: data.brand.value,
+            color: data.color.value,
+            coloring: data.coloring,
+            desc: data.desc,
+            driveUnit: data.driveUnit.value,
+            exchange: data.exchange,
+            from: data.from,
+            fuel: data.fuel.value,
+            gear: data.gear.value,
+            generation: data.generation,
+            isNew: true,
+            mileage: data.mileage,
+            model: data.model,
+            name: data.name,
+            owner: data.owner.value,
+            photo: data.photo,
+            price: data.price,
+            trade: data.trade,
+            type: data.type.value,
+            year: data.year,
+         });
       } catch (e) {
          console.log(e);
       }

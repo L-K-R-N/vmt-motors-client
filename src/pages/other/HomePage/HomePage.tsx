@@ -21,13 +21,11 @@ const HomePage = () => {
                   <ul className={cl.links}>
                      <li className={cl.link}>
                         <Button title="a" type="button">
-                           <Link to={'/vmt-motors-client/signin'}>Вход</Link>
+                           <Link to={'/signin'}>Вход</Link>
                         </Button>
                      </li>
                      <li className={cl.link}>
-                        <Link to={'/vmt-motors-client/signup'}>
-                           Регистрация
-                        </Link>
+                        <Link to={'/signup'}>Регистрация</Link>
                      </li>
                   </ul>
                </div>

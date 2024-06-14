@@ -124,7 +124,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      fieldType="input"
                      label="Name"
                      name="name"
-                     placeholder="Name"
+                     placeholder={t("name")}
                      rules={{ required: 'Name is required' }}
                   />
                   <SelectController
@@ -132,7 +132,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      errors={errors}
                      name="brand"
                      options={brands}
-                     placeholder="Car brand"
+                     placeholder={t("brand")}
                      isMulti={false}
                      rules={{ required: 'Brand is required' }}
                   />
@@ -141,7 +141,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      errors={errors}
                      name="model"
                      fieldType="input"
-                     label="Car model"
+                     label={t("model")}
                      rules={{ required: 'Model is required' }}
                   />
                </div>
@@ -153,7 +153,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                         control={control}
                         errors={errors}
                         fieldType="input"
-                        label="Year of release"
+                        label={t('year_of_release')}
                         name="year"
                         rules={{ required: 'Year is required' }}
                      />
@@ -163,7 +163,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      <SelectController
                         control={control}
                         errors={errors}
-                        placeholder="Transmission type"
+                        placeholder={t("transmission")}
                         name="type"
                         rules={{ required: 'Transmission type is required' }}
                         options={types}
@@ -176,7 +176,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                         control={control}
                         errors={errors}
                         fieldType="input"
-                        label="Car mileage"
+                        label={t("mileage")}
                         name="mileage"
                         rules={{ required: 'Car mileage is required' }}
                      />

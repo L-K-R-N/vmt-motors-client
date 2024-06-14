@@ -32,11 +32,11 @@ const RegisterPage = () => {
       dispatch(verify({ code: code }));
    };
 
-   useLayoutEffect(() => {
-      if (localStorage.getItem('isAuth')) {
-         navigate('/vmt-motors-client/about');
-      }
-   }, []);
+   // useLayoutEffect(() => {
+   //    if (localStorage.getItem('isAuth')) {
+   //       navigate('/about');
+   //    }
+   // }, []);
    return (
       <AuthLayout title="Sign Up" link="signin">
          {!registerForm.isVerifing ? (

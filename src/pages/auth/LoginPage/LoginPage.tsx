@@ -24,11 +24,12 @@ const LoginPage = () => {
    //    console.log(data);
    // };
 
-   useEffect(() => {
-      if (localStorage.getItem('isAuth')) {
-         navigate('/vmt-motors-client/about');
-      }
-   }, []);
+   // useEffect(() => {
+   //    if (localStorage.getItem('isAuth')) {
+   //       navigate('/about');
+   //    }
+   // }, []);
+
    return (
       <AuthLayout title="Log In" link="signup">
          <form className={cl.loginForm} onSubmit={handleSubmit(onSubmit)}>

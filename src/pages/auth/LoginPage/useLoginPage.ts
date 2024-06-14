@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import {TOKEN} from '../../../app/api/app.constants.js'
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { login, setIsAuth } from '@/store/reducers/AuthSlice';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 export interface ILoginInputs {
    username: string;
@@ -21,7 +22,7 @@ export const useLoginPage = () => {
       mode: 'onChange',
    });
 
-   // const { isAuth } = useAppSelector((state) => state.AuthReducer);
+   const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
 
@@ -34,13 +35,12 @@ export const useLoginPage = () => {
    // }, [isAuth]);
 
    const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
-      dispatch(login(data));
+      // dispatch(login(data));
       dispatch(setIsAuth(true));
-      localStorage.setItem('isAuth', 'true');
 
-      console.log(data);
+      console.log(isAuth);
 
-      navigate('/vmt-motors-client/about');
+      // navigate('/about');
    };
 
    return useMemo(

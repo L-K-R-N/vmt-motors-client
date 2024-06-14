@@ -59,7 +59,7 @@ export const FilterForm: React.FC<Props> = () => {
                   errors={errors}
                   name="priceFrom"
                   fieldType="input"
-                  label={`${t('priceFrom')} $`}
+                  label={`${t('price_from')} $`}
                   rules={{ required: false }}
                />
                <TextFieldController
@@ -74,7 +74,7 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="yearFrom"
-                  label={t('yearFrom')}
+                  label={t('year_from')}
                   fieldType="input"
                   rules={{ required: false }}
                />
@@ -101,7 +101,7 @@ export const FilterForm: React.FC<Props> = () => {
                   errors={errors}
                   rules={{ required: false }}
                   name="driveUnit"
-                  placeholder={t('driveUnit')}
+                  placeholder={t('drive_unit')}
                   options={driveUnits}
                   isMulti={false}
                />
@@ -111,21 +111,21 @@ export const FilterForm: React.FC<Props> = () => {
                   rules={{ required: false }}
                   name="priceTo"
                   fieldType="input"
-                  label={`${t('priceTo')} $`}
+                  label={`${t('price_to')} $`}
                />
                <TextFieldController
                   control={control}
                   errors={errors}
                   name="yearTo"
-                  label={t('yearTo')}
+                  label={t('year_to')}
                   fieldType="input"
                   rules={{ required: false }}
                />
             </div>
             <div className={cl.line}>
                <h5 className={cl.title}>{t('color')}</h5>
-               <h5 className={cl.title}>{t('carMileage')}</h5>
-               <h5 className={cl.title}>{t('carFrom')}</h5>
+               <h5 className={cl.title}>{t('mileage')}</h5>
+               <h5 className={cl.title}>{t('car_from')}</h5>
                <TextFieldController
                   control={control}
                   errors={errors}
@@ -138,7 +138,7 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="carFrom"
-                  label={t('carFrom')}
+                  label={t('car_from')}
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
@@ -147,7 +147,7 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="withPhoto"
-                  label={t('withPhoto')}
+                  label={t('with_photo')}
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
@@ -156,7 +156,7 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="notSold"
-                  label={t('notSold')}
+                  label={t('not_sold')}
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
@@ -220,7 +220,7 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="owner"
-                  label={t('privateOwner')}
+                  label={t('private_owner')}
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
@@ -229,21 +229,21 @@ export const FilterForm: React.FC<Props> = () => {
                   control={control}
                   errors={errors}
                   name="owner"
-                  label={t('Company')}
+                  label={t('company')}
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
                />
                <h5 className={cl.title}>{t('seller')}</h5>
                <button
-                  title="Clear filters"
+                  title={t('reset')}
                   type="button"
                   className={cl.resetBtn}
                >
                   {t('reset')}
                </button>
                <button
-                  title="Show filters"
+                  title={t('show')}
                   type="submit"
                   className={cl.submitBtn}
                >

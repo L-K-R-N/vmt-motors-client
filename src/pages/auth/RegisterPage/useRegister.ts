@@ -27,13 +27,12 @@ export const useRegister = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const [isVerifing] = useState(false);
    const onSubmit: SubmitHandler<IRegisterInputs> = (data) => {
-      dispatch(setIsAuth(true));
       try {
          console.log(data);
          dispatch(register(data));
-         localStorage.setItem('isAuth', 'true');
-
-         navigate('/vmt-motors-client/about');
+         // dispatch(setIsAuth(true));
+         // localStorage.setItem('isAuth', 'true');
+         navigate('/about');
 
          console.log(isAuth);
       } catch (e) {

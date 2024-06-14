@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
 import { IProduct } from '@/models/Product.types';
+import { TBody, TBrand, TColor } from '@/store/reducers/FilterSlice';
+import { TOwner } from '@/store/reducers/ProductsSlice';
 
 export type TProductType =
    | 'AUTOMOBILE'
@@ -21,41 +23,55 @@ export type TFuel =
 
 export type TGear = 'MANUAL' | 'AUTOMATIC' | 'ROBOTIC' | 'CTV' | 'OTHER';
 
+export interface IPostProduct {
+   name: string;
+   brand: TBrand;
+   model: string;
+   year: number;
+   type: TProductType;
+   mileage: number;
+   from: string;
+   isNew: boolean;
+   exchange: boolean;
+   trade: boolean;
+   owner: TOwner;
+   body: TBody;
+   photo: string;
+   generation: string;
+   fuel: TFuel;
+   gear: TGear;
+   driveUnit: TDriveUnit;
+   color: TColor;
+   coloring: string;
+   desc: string;
+   price: number;
+}
+
 export default class ProductService {
-   static async getProducts(): Promise<AxiosResponse<IProduct[]>> {
+   static async getMyProducts(): Promise<AxiosResponse<IProduct[]>> {
       return $api.get<IProduct[]>('api/product/commodity/my');
    }
-   static async postProduct(
-      type: TProductType,
-      name: string,
-      description: string,
-      isNew: true,
-      brand: string,
-      body: string,
-      color: string,
-      model: string,
-      price: number,
-      year: number,
-      generation: string,
-      gear: TGear,
-      fuel: TFuel,
-      driveUnit: TDriveUnit,
-   ): Promise<AxiosResponse> {
+   static async postProduct(data: IPostProduct): Promise<AxiosResponse> {
       return $api.post('api/product/commodity', {
-         type,
-         name,
-         description,
-         isNew,
-         brand,
-         body,
-         color,
-         model,
-         price,
-         year,
-         generation,
-         gear,
-         fuel,
-         driveUnit,
+         type: data.type,
+         name: data.name,
+         desc: data.desc,
+         isNew: data.isNew,
+         brand: data.brand,
+         body: data.body,
+         from: data.from,
+         exchange: data.exchange,
+         trade: data.trade,
+         owner: data.owner,
+         color: data.color,
+         coloring: data.coloring,
+         model: data.model,
+         price: data.price,
+         year: data.year,
+         generation: data.generation,
+         gear: data.gear,
+         fuel: data.fuel,
+         driveUnit: data.driveUnit,
       });
    }
 }

@@ -1,1 +1,1 @@
-export const BASE_URL = `http://wf4java.ru:100/api/`;
+export const BASE_URL = `https://vmt-motors.com:8000/api`;

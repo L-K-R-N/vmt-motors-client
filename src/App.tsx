@@ -2,6 +2,7 @@ import {
    createBrowserRouter,
    RouteObject,
    RouterProvider,
+   useNavigate,
 } from 'react-router-dom';
 import './styles/main.scss';
 
@@ -18,7 +19,7 @@ import { ProductPage } from './pages/other/ProductPage';
 import { AddAdvertPage } from './pages/other/AddAdvertPage';
 import { UsersListPage } from './pages/admin/UsersListPage';
 import { DashboardPage } from './pages/admin/DashboardPage';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from './hooks/useAppDispatch';
 import {
    setLang,
@@ -28,106 +29,79 @@ import {
 } from './store/reducers/SettingsSlice';
 import { ChatsPage } from './pages/other/ChatsPage';
 import axios from 'axios';
+import { getBrowserAndOS, refresh } from './store/reducers/AuthSlice';
+import PersonService from './api/services/PersonService';
+import { setMe } from './store/reducers/UserSlice';
 
 // const authRoutes: RouteObject[] = [];
-
-const routes: RouteObject[] = [
-   {
-      path: 'vmt-motors-client/signup',
-      element: <RegisterPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return !isAuth;
-      },
-   },
-   {
-      path: 'vmt-motors-client/signin',
-      element: <LoginPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return !isAuth;
-      },
-   },
-   {
-      path: 'vmt-motors-client/adverts',
-      element: <CatalogPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-
-   // {
-   //    path: 'loader',
-   //    element: <Loader />,
-   // },
-   {
-      path: 'vmt-motors-client/about',
-      element: <MainPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-
-   {
-      path: 'vmt-motors-client/profile',
-      element: <ProfilePage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-
-   {
-      path: 'vmt-motors-client/adverts/buy/:id',
-      element: <ProductPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-   {
-      path: 'vmt-motors-client/add',
-      element: <AddAdvertPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-   {
-      path: 'vmt-motors-client/chats',
-      element: <ChatsPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         return isAuth;
-      },
-   },
-   {
-      path: 'vmt-motors-client/admin/users-list',
-      element: <UsersListPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         // const [isAdmin, setIsAdmin] = useState(true)
-         return isAuth && true;
-      },
-   },
-   {
-      path: 'vmt-motors-client/admin/dashboard',
-      element: <DashboardPage />,
-      loader: () => {
-         const isAuth = localStorage.getItem('isAuth');
-         // const [isAdmin, setIsAdmin] = useState(true)
-         return isAuth && true;
-      },
-   },
-];
 
 const App = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const dispatch = useAppDispatch();
    const { theme } = useAppSelector((state) => state.SettingsReducer);
    const [countryCode, setCountryCode] = useState<string | null>(null);
+   const [unAuthRoutes, setUnAuthRoutes] = useState<RouteObject[]>([
+      {
+         path: 'signup',
+         element: <RegisterPage />,
+         // loader: () => !isAuth,
+      },
+      {
+         path: 'signin',
+         element: <LoginPage />,
+         // loader: () => !isAuth,
+      },
+   ]);
+   const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
+      {
+         path: 'adverts',
+         element: <CatalogPage />,
+         // loader: () => isAuth,
+      },
+
+      // {
+      //    path: 'loader',
+      //    element: <Loader />,
+      // },
+      {
+         path: '/about',
+         element: <MainPage />,
+         // loader: () => isAuth,
+      },
+
+      {
+         path: 'profile',
+         element: <ProfilePage />,
+         // loader: () => isAuth,
+      },
+
+      {
+         path: 'adverts/buy/:id',
+         element: <ProductPage />,
+         // loader: () => isAuth,
+      },
+      {
+         path: 'add',
+         element: <AddAdvertPage />,
+         // loader: () => isAuth,
+      },
+      {
+         path: 'chats',
+         element: <ChatsPage />,
+         // loader: () => isAuth,
+      },
+      {
+         path: 'admin/users-list',
+         element: <UsersListPage />,
+         loader: () => isAuth && true,
+      },
+      {
+         path: 'admin/dashboard',
+         element: <DashboardPage />,
+         loader: () => isAuth && true,
+      },
+   ]);
+   // const navigate = useNavigate();
    // const navigate = useNavigate();
    // useEffect(() => {
    //    setIsAuth();
@@ -176,10 +150,31 @@ const App = () => {
       return newLang;
    };
 
+   const fetchMe = async () => {
+      const response = await PersonService.getMe();
+
+      console.log(response.data);
+      if (response.status !== 200) return;
+
+      dispatch(setMe(response.data));
+   };
+
    useLayoutEffect(() => {
+      if (localStorage.getItem('token') && localStorage.getItem('refresh')) {
+         refresh({
+            device: getBrowserAndOS(navigator.userAgent),
+            refresh: JSON.stringify(localStorage.getItem('refresh')),
+         });
+      }
+
+      // navigate(
+      //    isAuth ? '/signin' : '/about',
+      // );
+
       console.log(isAuth);
       const lastTheme = localStorage.getItem('theme');
       dispatch(setTheme(lastTheme ? (lastTheme as TTheme) : 'dark'));
+
       localStorage.setItem('theme', lastTheme ? lastTheme : 'dark');
       document.documentElement.setAttribute('data-theme', theme);
       console.log(getCountry());
@@ -187,15 +182,21 @@ const App = () => {
       console.log(countryCode);
    }, []);
 
-   const router = createBrowserRouter([
+   useEffect(() => {
+      if (isAuth) {
+         fetchMe();
+      }
+   }, [isAuth]);
+   let router = createBrowserRouter([
       {
          path: '/',
          element: <Layout />,
          errorElement: <ErrorPage />,
-         // children: isAuth ? authRoutes : unAuthRoutes,
-         children: routes,
+         children: isAuth ? authRoutes : unAuthRoutes,
+         // children: routes,
       },
    ]);
+
    return <RouterProvider router={router} />;
 };
 

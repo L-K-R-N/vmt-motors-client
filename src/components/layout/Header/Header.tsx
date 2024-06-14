@@ -27,23 +27,23 @@ export const Header: React.FC<Props> = () => {
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: 'catalog',
-         to: 'vmt-motors-client/adverts',
+         to: 'adverts',
       },
       {
          text: 'about',
-         to: 'vmt-motors-client/about',
+         to: 'about',
       },
       {
          text: 'profile',
-         to: 'vmt-motors-client/profile',
+         to: 'profile',
       },
       {
          text: 'admin',
-         to: 'vmt-motors-client/admin/dashboard',
+         to: 'admin/dashboard',
       },
       {
          text: 'chats',
-         to: 'vmt-motors-client/chats',
+         to: 'chats',
       },
    ]);
 
@@ -68,7 +68,7 @@ export const Header: React.FC<Props> = () => {
             <header className={cl.header}>
                <Wrapper>
                   <div className={cl.header__content}>
-                     <Link to={'/vmt-motors-client/about'} className={cl.logo}>
+                     <Link to={'/about'} className={cl.logo}>
                         <img
                            src={logo}
                            alt="logo"
@@ -83,7 +83,7 @@ export const Header: React.FC<Props> = () => {
                         <Button
                            title="Submit an ad"
                            type="button"
-                           onClick={() => navigate('vmt-motors-client/add')}
+                           onClick={() => navigate('add')}
                         >
                            <div>
                               <img src={plusIcon} alt="" />
@@ -138,10 +138,7 @@ export const Header: React.FC<Props> = () => {
                         >
                            <span className={cl.themeSwitcher__circle}></span>
                         </div>
-                        <Link
-                           to={'/vmt-motors-client/profile'}
-                           className={cl.header__profile}
-                        >
+                        <Link to={'/profile'} className={cl.header__profile}>
                            <img src={userIcon} alt="" />
                            <span>{me?.username}</span>
                         </Link>
