@@ -21,12 +21,12 @@ export interface IPostProductInputs {
    model: string;
    year: number;
    type: ISelectItem<TProductType>;
-   mileage: number;
+   millage: number;
    from: string;
    exchange: boolean;
    trade: boolean;
    owner: ISelectItem<TOwner>;
-   body: ISelectItem<TBody>;
+   body: TBody;
    photo: string;
    generation: string;
    fuel: ISelectItem<TFuel>;
@@ -50,30 +50,52 @@ export const useAddAdvert = () => {
 
    const onSubmit: SubmitHandler<IPostProductInputs> = (data) => {
       try {
+         console.log(data);
          ProductService.postProduct({
-            body: data.body.value,
+            body: 'cabriolet',
             brand: data.brand.value,
             color: data.color.value,
-            coloring: data.coloring,
+            coloring: 'aaaa',
             desc: data.desc,
             driveUnit: data.driveUnit.value,
-            exchange: data.exchange,
+            exchange: true,
             from: data.from,
             fuel: data.fuel.value,
             gear: data.gear.value,
             generation: data.generation,
             isNew: true,
-            mileage: data.mileage,
+            millage: Number(data.millage),
             model: data.model,
             name: data.name,
             owner: data.owner.value,
-            photo: data.photo,
-            price: data.price,
-            trade: data.trade,
+            price: Number(data.price),
+            trade: true,
             type: data.type.value,
-            year: data.year,
+            year: Number(data.year),
          });
       } catch (e) {
+         console.log({
+            body: 'cabriolet',
+            brand: data.brand.value,
+            color: data.color.value,
+            coloring: 'aaaa',
+            desc: data.desc,
+            driveUnit: data.driveUnit.value,
+            exchange: true,
+            from: data.from,
+            fuel: data.fuel.value,
+            gear: data.gear.value,
+            generation: data.generation,
+            isNew: true,
+            millage: Number(data.millage),
+            model: data.model,
+            name: data.name,
+            owner: data.owner.value,
+            price: Number(data.price),
+            trade: true,
+            type: data.type.value,
+            year: Number(data.year),
+         });
          console.log(e);
       }
    };

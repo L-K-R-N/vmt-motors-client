@@ -1,5 +1,5 @@
 import cl from './LoginPage.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useHideLayout } from '../../../hooks/useLayout.ts';
 import { Button } from '@/components/UI/Button/Button.tsx';
 import { useLoginPage } from './useLoginPage.ts';
@@ -8,7 +8,7 @@ import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
 import { useEffect } from 'react';
 
 const LoginPage = () => {
-   const navigate = useNavigate();
+   
 
    const { errors, handleSubmit, onSubmit, control } = useLoginPage();
 
@@ -29,6 +29,7 @@ const LoginPage = () => {
    //       navigate('/about');
    //    }
    // }, []);
+   
 
    return (
       <AuthLayout title="Log In" link="signup">

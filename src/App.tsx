@@ -1,9 +1,4 @@
-import {
-   createBrowserRouter,
-   RouteObject,
-   RouterProvider,
-   useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Route, RouteObject, Routes } from 'react-router-dom';
 import './styles/main.scss';
 
 import { Layout } from './components/layout/Layout/Layout';
@@ -11,15 +6,14 @@ import { useAppSelector } from './hooks/useAppSelector';
 import { MainPage } from './pages/other/MainPage';
 
 import { ProfilePage } from './pages/other/ProfilePage';
-import { RegisterPage } from './pages/auth/RegisterPage';
-import { LoginPage } from './pages/auth/LoginPage';
-import { ErrorPage } from './pages/error/ErrorPage/ErrorPage';
+import RegisterPage from './pages/auth/RegisterPage/RegisterPage';
+import LoginPage from './pages/auth/LoginPage/LoginPage';
 import { CatalogPage } from './pages/other/CatalogPage';
 import { ProductPage } from './pages/other/ProductPage';
 import { AddAdvertPage } from './pages/other/AddAdvertPage';
 import { UsersListPage } from './pages/admin/UsersListPage';
 import { DashboardPage } from './pages/admin/DashboardPage';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useAppDispatch } from './hooks/useAppDispatch';
 import {
    setLang,
@@ -29,9 +23,15 @@ import {
 } from './store/reducers/SettingsSlice';
 import { ChatsPage } from './pages/other/ChatsPage';
 import axios from 'axios';
-import { getBrowserAndOS, refresh } from './store/reducers/AuthSlice';
+import {
+   getBrowserAndOS,
+   IRefreshInputs,
+   setIsAuth,
+} from './store/reducers/AuthSlice';
 import PersonService from './api/services/PersonService';
 import { setMe } from './store/reducers/UserSlice';
+import { AuthResponse } from './api/models/response/AuthResponse';
+import { BASE_URL } from './api/app.vars';
 
 // const authRoutes: RouteObject[] = [];
 
@@ -42,19 +42,20 @@ const App = () => {
    const [countryCode, setCountryCode] = useState<string | null>(null);
    const [unAuthRoutes, setUnAuthRoutes] = useState<RouteObject[]>([
       {
-         path: 'signup',
+         path: '/signup',
          element: <RegisterPage />,
          // loader: () => !isAuth,
       },
       {
-         path: 'signin',
+         path: '/signin',
          element: <LoginPage />,
          // loader: () => !isAuth,
       },
    ]);
+
    const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
       {
-         path: 'adverts',
+         path: '/adverts',
          element: <CatalogPage />,
          // loader: () => isAuth,
       },
@@ -70,33 +71,33 @@ const App = () => {
       },
 
       {
-         path: 'profile',
+         path: '/profile',
          element: <ProfilePage />,
          // loader: () => isAuth,
       },
 
       {
-         path: 'adverts/buy/:id',
+         path: '/adverts/buy/:id',
          element: <ProductPage />,
          // loader: () => isAuth,
       },
       {
-         path: 'add',
+         path: '/add',
          element: <AddAdvertPage />,
          // loader: () => isAuth,
       },
       {
-         path: 'chats',
+         path: '/chats',
          element: <ChatsPage />,
          // loader: () => isAuth,
       },
       {
-         path: 'admin/users-list',
+         path: '/admin/users-list',
          element: <UsersListPage />,
          loader: () => isAuth && true,
       },
       {
-         path: 'admin/dashboard',
+         path: '/admin/dashboard',
          element: <DashboardPage />,
          loader: () => isAuth && true,
       },
@@ -151,35 +152,71 @@ const App = () => {
    };
 
    const fetchMe = async () => {
-      const response = await PersonService.getMe();
+      try {
+         const response = await PersonService.getMe();
 
-      console.log(response.data);
-      if (response.status !== 200) return;
-
-      dispatch(setMe(response.data));
+         console.log(response);
+         dispatch(setMe(response.data));
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    useLayoutEffect(() => {
-      if (localStorage.getItem('token') && localStorage.getItem('refresh')) {
-         refresh({
-            device: getBrowserAndOS(navigator.userAgent),
-            refresh: JSON.stringify(localStorage.getItem('refresh')),
-         });
-      }
-
-      // navigate(
-      //    isAuth ? '/signin' : '/about',
-      // );
-
-      console.log(isAuth);
       const lastTheme = localStorage.getItem('theme');
       dispatch(setTheme(lastTheme ? (lastTheme as TTheme) : 'dark'));
 
       localStorage.setItem('theme', lastTheme ? lastTheme : 'dark');
       document.documentElement.setAttribute('data-theme', theme);
-      console.log(getCountry());
-      dispatch(setLang(changeStartLang(getCountry())));
-      console.log(countryCode);
+
+      // navigate(
+      //    isAuth ? '/signin' : '/about',
+      // );
+   }, []);
+
+   const handleRefresh = async (data: IRefreshInputs) => {
+      try {
+         const { refresh, device } = data;
+         const response = await axios.post<AuthResponse>(
+            `${BASE_URL}/auth/refresh`,
+            {
+               refreshToken: refresh,
+               deviceName: device,
+            },
+         );
+
+         localStorage.setItem('token', response.data.jwtToken);
+         localStorage.setItem('refresh', response.data.refreshToken);
+         console.log(200);
+         dispatch(setIsAuth(true));
+      } catch (e) {
+         localStorage.removeItem('token');
+         localStorage.removeItem('refresh');
+         console.log(400);
+         dispatch(setIsAuth(false));
+      }
+   };
+
+   useEffect(() => {
+      const refreshToken = localStorage.getItem('refresh');
+      const jwtToken = localStorage.getItem('token');
+      if (refreshToken && jwtToken) {
+         handleRefresh({
+            device: getBrowserAndOS(navigator.userAgent),
+            refresh: refreshToken,
+         });
+
+         dispatch(setIsAuth(true));
+         fetchMe();
+         console.log(isAuth);
+         console.log(getCountry());
+         dispatch(setLang(changeStartLang(getCountry())));
+         console.log(countryCode);
+      } else {
+         dispatch(setIsAuth(false));
+         localStorage.removeItem('token');
+         localStorage.removeItem('refresh');
+      }
    }, []);
 
    useEffect(() => {
@@ -187,17 +224,35 @@ const App = () => {
          fetchMe();
       }
    }, [isAuth]);
-   let router = createBrowserRouter([
-      {
-         path: '/',
-         element: <Layout />,
-         errorElement: <ErrorPage />,
-         children: isAuth ? authRoutes : unAuthRoutes,
-         // children: routes,
-      },
-   ]);
 
-   return <RouterProvider router={router} />;
+   // let router = useMemo(() => {
+   //    return createBrowserRouter([
+   //       {
+   //          path: '/',
+   //          element: <Layout />,
+   //          errorElement: <ErrorPage/>,
+   //          children: isAuth ? authRoutes : unAuthRoutes,
+   //          // children: routes,
+   //       },
+   //    ])
+   // }, [isAuth]);
+
+   // return <RouterProvider router={router} />;
+
+   return (
+      <BrowserRouter>
+         <Routes>
+            {unAuthRoutes.map((route) => (
+               <Route path={route.path} element={route.element} />
+            ))}
+            <Route element={<Layout />}>
+               {authRoutes.map((route) => (
+                  <Route path={route.path} element={route.element} />
+               ))}
+            </Route>
+         </Routes>
+      </BrowserRouter>
+   );
 };
 
 export default App;

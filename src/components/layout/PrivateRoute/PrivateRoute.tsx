@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import cl from './Layout.module.scss';
+import cl from './PrivateRoute.module.scss';
 import { Suspense, useEffect } from 'react';
 import { Header } from '../Header/Header';
 import { Loader } from '@/components/UI/Loader/Loader';
@@ -9,29 +9,13 @@ import { Footer } from '../Footer/Footer';
 
 interface Props {}
 
-export const Layout: React.FC<Props> = () => {
+export const PrivateRoute: React.FC<Props> = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const location = useLocation();
-
-   const navigate = useNavigate();
-
-
-   // useEffect(() => {
-   //    navigate(isAuth ? '/about' : '/signin');
-   // }, [isAuth]);
    
    return (
-     isAuth ? 
-     <>
-     <Header />
-     <main className={cl.main}>
-        <Suspense fallback={<Loader />}>
-           <Sidebar />
-           <Outlet />
-        </Suspense>
-     </main>
-     <Footer />
-  </>
-  : <Navigate to='/signin' state={{from: location}} replace/>
+      isAuth ? 
+      <Outlet/> : <Navigate to="/login" state={{ from: location}} replace/>
+
    );
 };

@@ -63,8 +63,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    return (
       <div
          className={[cl.advert, isSmall ? cl.small : ''].join(' ')}
-         onClick={() =>
-         }
+         onClick={() => navigate(`/adverts/buy/${advert.id}`)}
       >
          <img
             className={cl.advertImg}
@@ -84,7 +83,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   </button>
                </div>
                <span className={cl.advertHeader__model}>
-                  {advert?.model.value}
+                  {advert?.model}
                </span>
                <p className={cl.advertHeader__desc}>{advert?.desc}</p>
                <span

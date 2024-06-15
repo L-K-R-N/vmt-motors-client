@@ -80,6 +80,10 @@ export const ProductsSlice = createSlice({
       setFiltredProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.filtredProducts = action.payload;
       },
+
+      setMyProducts: (state, action: PayloadAction<IProduct[]>) => {
+         state.products = action.payload;
+      },
    },
    extraReducers: (builder) => {
       // builder.addCase(
@@ -122,4 +126,5 @@ export const ProductsSlice = createSlice({
 
 export default ProductsSlice.reducer;
 
-export const { setProducts, setFiltredProducts } = ProductsSlice.actions;
+export const { setProducts, setFiltredProducts, setMyProducts } =
+   ProductsSlice.actions;

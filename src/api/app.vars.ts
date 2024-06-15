@@ -1,1 +1,1 @@
-export const BASE_URL = `https://vmt-motors.com:8000/api`;
+export const BASE_URL = `http://vmt-motors.com:8000/api`;

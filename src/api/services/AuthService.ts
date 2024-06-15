@@ -1,33 +1,25 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
 import { AuthResponse } from '../models/response/AuthResponse';
+import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
+import { IRegisterInputs } from '@/pages/auth/RegisterPage/useRegister';
 
 export default class AuthService {
-   static async login(
-      login: string,
-      password: string,
-      deviceName: string,
-   ): Promise<AxiosResponse<AuthResponse>> {
+   static async login(data: ILoginInputs): Promise<AxiosResponse<AuthResponse>> {
       return $api.post<AuthResponse>('auth/login', {
-         login,
-         password,
-         deviceName,
+         login: data.username,
+         password: data.password,
+         deviceName: data.deviceName,
       });
    }
 
-   static async register(
-      username: string,
-      password: string,
-      name: string,
-      dateOfBirth: Date,
-      gender: 'MALE' | 'FEMALE',
-   ): Promise<AxiosResponse> {
+   static async register(data: IRegisterInputs): Promise<AxiosResponse> {
       return $api.post('auth/signup', {
-         username,
-         password,
-         name,
-         dateOfBirth,
-         gender,
+         username: data.username,
+         password: data.password,
+         name: data.name,
+         dateOfBirth: data.dateOfBirth,
+         gender: data.gender
       });
    }
    static async verificationEmailSend(

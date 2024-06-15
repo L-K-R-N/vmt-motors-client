@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/UI/Button/Button';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { ISelectItem, TBody } from '@/store/reducers/FilterSlice';
+import { Controller } from 'react-hook-form';
 
 interface Props {}
 
@@ -33,8 +34,8 @@ const AddAdvertPage: React.FC<Props> = () => {
 
    //    console.log(products);
    // };
-   const { errors, control } = useAddAdvert();
-   const { brands, driveUnits, colors, fuels, gears, types } = useAppSelector(
+   const { errors, control, handleSubmit, onSubmit } = useAddAdvert();
+   const { brands, driveUnits, colors, fuels, gears, types, owners } = useAppSelector(
       (state) => state.FilterReducer,
    );
 
@@ -91,7 +92,7 @@ const AddAdvertPage: React.FC<Props> = () => {
       },
    ]);
 
-   const [selectedBody, setSelectedBody] = useState<IBody | null>(null);
+   const [selectedBodyValue, setSelectedBodyValue] = useState<TBody>(bodies[0].value);
 
    // const toIOption = (items: string[]) => {
    //    const brandsOptions: IOption[] = [];
@@ -114,7 +115,7 @@ const AddAdvertPage: React.FC<Props> = () => {
             <h3 className={cl.addTitle}>{t('submit_your_ad')}</h3>
          </div>
          <div className={cl.wrapper}>
-            <div className={cl.addForm}>
+            <form className={cl.addForm} onSubmit={handleSubmit(onSubmit)}>
                <h4 className={cl.title}>{t('choose_brand')}</h4>
 
                <div className={cl.block}>
@@ -144,6 +145,39 @@ const AddAdvertPage: React.FC<Props> = () => {
                      label={t("model")}
                      rules={{ required: 'Model is required' }}
                   />
+                  <TextFieldController
+                     control={control}
+                     errors={errors}
+                     name="from"
+                     fieldType="input"
+                     label={t("car_from")}
+                     rules={{ required: 'Model is required' }}
+                  />
+                  {/* <TextFieldController
+                     control={control}
+                     errors={errors}
+                     name="exchange"
+                     fieldType="input"
+                     label={t("model")}
+                     rules={{ required: 'Model is required' }}
+                  /> */}
+                  <TextFieldController
+                     control={control}
+                     errors={errors}
+                     name="trade"
+                     fieldType="input"
+                     label={t("trade")}
+                     rules={{ required: 'Model is required' }}
+                  />
+                  <SelectController
+                        control={control}
+                        errors={errors}
+                        placeholder={t("owner")}
+                        name="owner"
+                        rules={{ required: 'Transmission type is required' }}
+                        options={owners}
+                        isMulti={false}
+                     />
                </div>
                <h4 className={cl.title}>{t('specifications')}</h4>
                <div className={[cl.block, cl.spec].join(' ')}>
@@ -177,22 +211,34 @@ const AddAdvertPage: React.FC<Props> = () => {
                         errors={errors}
                         fieldType="input"
                         label={t("mileage")}
-                        name="mileage"
+                        name="millage"
                         rules={{ required: 'Car mileage is required' }}
                      />
                   </div>
                </div>
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('body')}</h5>
+                     {/* <Controller control={control} name='body' render={({ field }) => (
+                        <select value={selectedBodyValue} onChange={(e) => setSelectedBodyValue(e.target.value)}>
 
+                           {  
+                              bodies.map((body) => 
+                                 <option value={body.value}>
+                                    {body.label}
+                                 </option>
+                              )
+                           }  
+                        </select>
+                           
+                     )}/> */}
                   <ul className={cl.bodies}>
                      {bodies.map((b) => (
                         <li
                            className={[
                               cl.body,
-                              b.value === selectedBody?.value ? cl.active : '',
+                              b.value === selectedBodyValue ? cl.active : '',
                            ].join(' ')}
-                           onClick={() => setSelectedBody(b)}
+                           onClick={() => setSelectedBodyValue(b.value)}
                            key={b.value}
                         >
                            <img className={cl.body__img} src={b.img} alt="" />
@@ -245,7 +291,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      <SelectController
                         control={control}
                         errors={errors}
-                        name="drive"
+                        name="driveUnit"
                         rules={{ required: 'Drive is required' }}
                         isMulti={false}
                         options={driveUnits}
@@ -257,8 +303,8 @@ const AddAdvertPage: React.FC<Props> = () => {
                      <SelectController
                         control={control}
                         errors={errors}
-                        name="mileage"
-                        rules={{ required: 'Car mileage is required' }}
+                        name="color"
+                        rules={{ required: 'Car color is required' }}
                         placeholder={t('color')}
                         isMulti={false}
                         options={colors}
@@ -291,7 +337,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                <Button type="submit" title={t('place_ad')}>
                   {t('place_ad')}
                </Button>
-            </div>
+            </form>
          </div>
       </div>
    );

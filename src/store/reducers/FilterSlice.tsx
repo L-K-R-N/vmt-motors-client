@@ -5,6 +5,7 @@ import {
    TProductType,
 } from '@/api/services/ProductService';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TOwner } from './ProductsSlice';
 
 export interface IFilterState {
    brands: ISelectItem<TBrand>[];
@@ -14,6 +15,7 @@ export interface IFilterState {
    gears: ISelectItem<TGear>[];
    colors: ISelectItem<TColor>[];
    types: ISelectItem<TProductType>[];
+   owners: ISelectItem<TOwner>[];
    bodies: ISelectItem<TBody>[];
 }
 
@@ -1020,6 +1022,25 @@ const initialState: IFilterState = {
          value: 'ROBOTIC',
          label: 'ROBOTIC',
       },
+   ],
+   owners: [
+      {
+         value: 'COMPANY',
+         label: 'COMPANY'
+      },
+      {
+         value: 'OWNER',
+         label: 'OWNER'
+      },
+      {
+         value: 'PRIVATE_OWNER',
+         label: 'PRIVATE_OWNER'
+      },
+      {
+         value: 'OTHER',
+         label: 'OTHER'
+      }
+     
    ],
    colors: [
       {

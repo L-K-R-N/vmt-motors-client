@@ -5,17 +5,16 @@ import femaleAvatar from './assets/femaleAvatar.jpg';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { BsHouseFill } from 'react-icons/bs';
-import markerIcon from './assets/marker.svg';
 import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
 import { useTranslation } from 'react-i18next';
-import PersonService from '@/api/services/PersonService';
-import { setMe } from '@/store/reducers/UserSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCakeCandles } from 'react-icons/fa6';
 import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { MdLocationOn } from 'react-icons/md';
 import { logout } from '@/store/reducers/AuthSlice';
+import { setMyProducts } from '@/store/reducers/ProductsSlice';
+import ProductService from '@/api/services/ProductService';
 
 interface Props {}
 
@@ -29,7 +28,7 @@ const ProfilePage: React.FC<Props> = () => {
    const { t } = useTranslation();
    const { lang } = useAppSelector((state) => state.SettingsReducer);
    const { me } = useAppSelector((state) => state.UserReducer);
-   const { products } = useAppSelector((state) => state.ProductsReducer);
+   const { myProducts } = useAppSelector((state) => state.ProductsReducer);
    const dispatch = useAppDispatch();
    const [userInfo, setUserInfo] = useState<IUserInfoItem[]>([
       {
@@ -66,9 +65,21 @@ const ProfilePage: React.FC<Props> = () => {
       navigate('/signin');
    };
 
+   const handleGetMyProducts = async () => {
+      try {
+         const response = await ProductService.getMyProducts();
+
+         dispatch(setMyProducts(response.data));
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
    useEffect(() => {}, [lang]);
 
-   useEffect(() => {}, []);
+   useEffect(() => {
+      handleGetMyProducts();
+   }, []);
    return (
       <div className={cl.profile}>
          <div className={cl.content}>
@@ -117,12 +128,10 @@ const ProfilePage: React.FC<Props> = () => {
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {products.filter((p) => !p.moderated) ? (
-                        products
-                           .filter((p) => !p.moderated)
-                           .map((product) => (
-                              <AdvertCard advert={product} key={product.id} />
-                           ))
+                     {myProducts ? (
+                        myProducts.map((product) => (
+                           <AdvertCard advert={product} key={product.id} />
+                        ))
                      ) : (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}

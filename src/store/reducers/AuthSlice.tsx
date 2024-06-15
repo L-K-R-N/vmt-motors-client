@@ -9,6 +9,7 @@ import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
 import axios from 'axios';
 import { BASE_URL } from '@/api/app.vars';
 import { AuthResponse } from '@/api/models/response/AuthResponse';
+import $api from '@/api/public.api';
 
 export interface IAuthState {
    isAuth: boolean;
@@ -17,8 +18,8 @@ export interface IAuthState {
 }
 
 const initialState: IAuthState = {
-   // isAuth: !!localStorage.getItem(TOKEN),
-   isAuth: false,
+   isAuth: !!localStorage.getItem('token'),
+   // isAuth: false,
    isSeller: true,
    users: [],
 };
@@ -70,91 +71,66 @@ export const AuthSlice = createSlice({
       },
    },
    extraReducers: (builder) => {
-      builder.addCase(
-         register,
-         (state, action: PayloadAction<IRegisterInputs>) => {
-            try {
-               (async function () {
-                  const {
-                     // dateOfBirth,
-                     name,
-                     password,
-                     username,
-                     email,
-                     gender,
-                  } = action.payload;
-                  const dateOfBirth = new Date();
-                  const registerResponse = await AuthService.register(
-                     username,
-                     password,
-                     name,
-                     dateOfBirth,
-                     gender,
-                  );
-                  console.log(state);
+      // builder.addCase(
+      //    register,
+      //    (state, action: PayloadAction<IRegisterInputs>) => {
+      //       try {
+      //          (async function () {
+      //             const {
+      //                // dateOfBirth,
+      //                name,
+      //                password,
+      //                username,
+      //                email,
+      //                gender,
+      //             } = action.payload;
+      //             const dateOfBirth = new Date();
+      //             const registerResponse = await AuthService.register(
+      //                username,
+      //                password,
+      //                name,
+      //                dateOfBirth,
+      //                gender,
+      //             );
+      //             console.log(state);
 
-                  console.log(registerResponse.data);
+      //             console.log(registerResponse.data);
 
-                  if (registerResponse.status === 200) {
-                     const loginResponse = await AuthService.login(
-                        username,
-                        password,
-                        getBrowserAndOS(navigator.userAgent),
-                     );
+      //             if (registerResponse.status === 200) {
+      //                const loginResponse = await AuthService.login(
+      //                   username,
+      //                   password,
+      //                   getBrowserAndOS(navigator.userAgent),
+      //                );
 
-                     console.log(loginResponse);
+      //                console.log(loginResponse);
 
-                     localStorage.setItem(
-                        'token',
-                        `Bearer ${loginResponse.data.jwtToken}`,
-                     );
+      //                localStorage.setItem(
+      //                   'token',
+      //                   `Bearer ${loginResponse.data.jwtToken}`,
+      //                );
 
-                     localStorage.setItem(
-                        'refresh',
-                        loginResponse.data.refreshToken,
-                     );
+      //                localStorage.setItem(
+      //                   'refresh',
+      //                   loginResponse.data.refreshToken,
+      //                );
 
-                     if (loginResponse.status === 200) {
-                        await AuthService.verificationEmailSend(
-                           loginResponse.data.jwtToken,
-                           email,
-                        );
+      //                if (loginResponse.status === 200) {
+      //                   await AuthService.verificationEmailSend(
+      //                      loginResponse.data.jwtToken,
+      //                      email,
+      //                   );
 
-                        getMe();
-                     }
-                  }
-               })();
-            } catch (e) {}
-         },
-      );
+      //                   getMe();
+      //                }
+      //             }
+      //          })();
+      //       } catch (e) {}
+      //    },
+      // );
       builder.addCase(login, (state, action: PayloadAction<ILoginInputs>) => {
          try {
-            (async function () {
-               console.log(state);
-
-               const { password, username } = action.payload;
-               const loginResponse = await AuthService.login(
-                  username,
-                  password,
-                  getBrowserAndOS(navigator.userAgent),
-               );
-               console.log(loginResponse);
-
-               if (loginResponse.status === 200) {
-                  localStorage.setItem(
-                     'token',
-                     `Bearer ${loginResponse.data.jwtToken}`,
-                  );
-
-                  localStorage.setItem(
-                     'refresh',
-                     loginResponse.data.refreshToken,
-                  );
-
-                  setIsAuth(true);
-                  getMe();
-               }
-            })();
+            
          } catch (e) {}
       });
       builder.addCase(
@@ -183,31 +159,14 @@ export const AuthSlice = createSlice({
             setIsAuth(false);
          } catch (e) {}
       });
-      builder.addCase(
-         refresh,
-         (state, action: PayloadAction<IRefreshInputs>) => {
-            try {
-               (async function () {
-                  const { refresh, device } = action.payload;
-
-                  const response = await axios.post<AuthResponse>(
-                     `${BASE_URL}/refresh`,
-                     {
-                        refreshToken: refresh,
-                        deviceName: device,
-                     },
-                  );
-
-                  console.log(response);
-                  if (response.status === 200) {
-                     localStorage.setItem('token', response.data.jwtToken);
-
-                     setIsAuth(true);
-                  }
-               })();
-            } catch (e) {}
-         },
-      );
+      // builder.addCase(
+      //    refresh,
+      //    (state, action: PayloadAction<IRefreshInputs>) => {
+      //       (async function () {
+                  
+      //          })();
+      //    },
+      // );
    },
 });
 
