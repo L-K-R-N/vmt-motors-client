@@ -1,42 +1,9 @@
-import ProductService, {
-   IPostProduct,
-   TDriveUnit,
-   TFuel,
-   TGear,
-   TProductType,
-} from '@/api/services/ProductService';
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TBody, TBrand, TColor } from './FilterSlice';
+import { IPostProductRequest, IProduct } from '@/api/models/Products';
 
 export type TOwner = 'OWNER' | 'PRIVATE_OWNER' | 'COMPANY' | 'OTHER';
 
-export interface IProduct {
-   id: string;
-   personId: string;
-   moderated: boolean;
-   type: TProductType;
-   isNew: boolean;
-   from: string;
-   exchange: boolean;
-   trade: boolean;
-   owner: TOwner;
-   name: string;
-   desc: string;
-   brand: TBrand;
-   body: TBody;
-   color: TColor;
-   coloring: string;
-   model: string;
-   price: number;
-   year: number;
-   mileage: number;
-   generation: string;
-   gear: TGear;
-   fuel: TFuel;
-   driveUnit: TDriveUnit;
-   createdAt: Date;
-   photoId: number | null;
-}
 // interface IBrand {
 //    id: number;
 //    name: string;
@@ -65,10 +32,6 @@ const initialState: IProductsState = {
    filtredProducts: [],
 };
 
-export const postProduct = createAction<IPostProduct, 'product/post'>(
-   'product/post',
-);
-
 export const ProductsSlice = createSlice({
    name: 'ProductsSlice',
    initialState,
@@ -82,7 +45,7 @@ export const ProductsSlice = createSlice({
       },
 
       setMyProducts: (state, action: PayloadAction<IProduct[]>) => {
-         state.products = action.payload;
+         state.myProducts = action.payload;
       },
    },
    extraReducers: (builder) => {

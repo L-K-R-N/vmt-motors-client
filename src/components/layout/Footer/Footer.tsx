@@ -29,58 +29,58 @@ export const Footer: React.FC<Props> = () => {
          name: 'Vmt motors',
          items: [
             {
-               name: t('about'),
+               name: 'about',
                link: 'about',
             },
             {
-               name: t('contact'),
+               name: 'contact',
                link: 'contact',
             },
             {
-               name: t('help_faq'),
-               link: 'about',
+               name: 'help_faq',
+               link: 'faq',
             },
          ],
       },
       {
-         name: t('categories'),
+         name: 'categories',
          items: [
             {
-               name: t('cars'),
+               name: 'cars',
                link: 'cars',
             },
             {
-               name: t('details'),
+               name: 'details',
                link: 'details',
             },
             {
-               name: t('motor_vehicles'),
+               name: 'motor_vehicles',
                link: 'vehicles',
             },
             {
-               name: t('equipment'),
+               name: 'equipment',
                link: 'equipment',
             },
             {
-               name: t('consumables'),
+               name: 'consumables',
                link: 'consumables',
             },
          ],
       },
       {
-         name: t('catalog'),
+         name: 'catalog',
          items: [
             {
-               name: t('all_brands'),
+               name: 'all_brands',
                link: 'all',
             },
          ],
       },
       {
-         name: t('for_buisness'),
+         name: 'for_buisness',
          items: [
             {
-               name: t('partner'),
+               name: 'partner',
                link: 'partner',
             },
          ],
@@ -95,70 +95,7 @@ export const Footer: React.FC<Props> = () => {
       setIsLangsOpen(false);
    };
 
-   useEffect(() => {
-      setNavLists([
-         {
-            name: 'Vmt motors',
-            items: [
-               {
-                  name: t('about'),
-                  link: 'about',
-               },
-               {
-                  name: t('contact'),
-                  link: 'contact',
-               },
-               {
-                  name: t('help_faq'),
-                  link: 'about',
-               },
-            ],
-         },
-         {
-            name: t('categories'),
-            items: [
-               {
-                  name: t('cars'),
-                  link: 'cars',
-               },
-               {
-                  name: t('details'),
-                  link: 'details',
-               },
-               {
-                  name: t('motor_vehicles'),
-                  link: 'vehicles',
-               },
-               {
-                  name: t('equipment'),
-                  link: 'equipment',
-               },
-               {
-                  name: t('consumables'),
-                  link: 'consumables',
-               },
-            ],
-         },
-         {
-            name: t('catalog'),
-            items: [
-               {
-                  name: t('all_brands'),
-                  link: 'all',
-               },
-            ],
-         },
-         {
-            name: t('for_business'),
-            items: [
-               {
-                  name: t('partner'),
-                  link: 'partner',
-               },
-            ],
-         },
-      ]);
-   }, [lang]);
+   // useEffect(() => {}, [lang]);
    return (
       <>
          {isShowFooter && (
@@ -173,7 +110,7 @@ export const Footer: React.FC<Props> = () => {
                                  key={list.name}
                               >
                                  <h5 className={cl.footer__listName}>
-                                    {list.name}
+                                    {t(list.name)}
                                  </h5>
                                  <ul className={cl.footer__list}>
                                     {list.items.map((item) => (
@@ -181,7 +118,7 @@ export const Footer: React.FC<Props> = () => {
                                           className={cl.footer__listItem}
                                           key={item.link}
                                        >
-                                          {item.name}
+                                          {t(item.name)}
                                        </li>
                                     ))}
                                  </ul>

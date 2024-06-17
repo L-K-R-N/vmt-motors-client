@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
 import { IUser } from '@/models/User.types';
-import { IStatusResponse } from '../models/PersoneResponse';
+import { IStatusResponse } from '../models/Person';
 
 export default class PersonService {
    static async getMe(): Promise<AxiosResponse<IUser>> {
@@ -141,10 +141,20 @@ import { BASE_URL } from '../app.vars';
 // Define a service using a base URL and expected endpoints
 export const personApi = createApi({
    reducerPath: 'personApi',
-   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+   baseQuery: fetchBaseQuery({
+      baseUrl: BASE_URL,
+      prepareHeaders: (headers, { getState }) => {
+         headers.set('Access-Control-Allow-Origin', '*');
+         headers.set(
+            'Authorization',
+            `Bearer ${localStorage.getItem('token')}`,
+         );
+         return headers;
+      },
+   }),
    endpoints: (builder) => ({
       getMe: builder.query<IUser, void>({
-         query: () => `api/person/me/`,
+         query: () => `person/me`,
       }),
    }),
 });

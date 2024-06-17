@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import cl from './AdvertCard.module.scss';
 import ownerIcon from './assets/owner.svg';
 import { FaStar } from 'react-icons/fa';
-import { IProduct } from '@/store/reducers/ProductsSlice';
 import { useNavigate } from 'react-router-dom';
 import defaultPhoto from './assets/defaultPhoto.jpg';
 import { Locale, formatDistanceToNow } from 'date-fns';
@@ -15,6 +14,7 @@ import { zhCN } from 'date-fns/locale';
 import { uk } from 'date-fns/locale';
 import { be } from 'date-fns/locale';
 import { TLanguage } from '@/store/reducers/SettingsSlice';
+import { IProduct } from '@/api/models/Products';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
@@ -82,9 +82,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                      <FaStar />
                   </button>
                </div>
-               <span className={cl.advertHeader__model}>
-                  {advert?.model}
-               </span>
+               <span className={cl.advertHeader__model}>{advert?.model}</span>
                <p className={cl.advertHeader__desc}>{advert?.desc}</p>
                <span
                   className={[

@@ -12,9 +12,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaCakeCandles } from 'react-icons/fa6';
 import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { MdLocationOn } from 'react-icons/md';
-import { logout } from '@/store/reducers/AuthSlice';
+// import { logout } from '@/store/reducers/AuthSlice';
 import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
+import { handleLogout } from '@/api/hooks/Auth';
+import { handleGetMe } from '@/api/hooks/Person';
 
 interface Props {}
 
@@ -44,7 +46,7 @@ const ProfilePage: React.FC<Props> = () => {
       {
          icon: <BsHouseFill />,
          title: 'status',
-         value: me?.status ?? 'none',
+         value: me?.status ? me.status : 'none',
       },
       {
          icon: <MdLocationOn />,
@@ -60,26 +62,31 @@ const ProfilePage: React.FC<Props> = () => {
    //    setIsEditPassword(true);
    // };
 
-   const handleLogout = () => {
-      logout();
-      navigate('/signin');
-   };
-
-   const handleGetMyProducts = async () => {
+   const handleGetMyProducts = async (params: IParams) => {
       try {
-         const response = await ProductService.getMyProducts();
+         const response = await ProductService.getMyProducts(params);
 
+         console.log(response.data);
          dispatch(setMyProducts(response.data));
+
+         console.log(myProducts);
       } catch (e) {
          console.log(e);
       }
    };
 
-   useEffect(() => {}, [lang]);
+   useEffect(() => {
+      console.log(myProducts);
+   }, [myProducts]);
 
    useEffect(() => {
-      handleGetMyProducts();
+      handleGetMe(dispatch);
+      handleGetMyProducts({
+         page: 0,
+         size: 50,
+      });
    }, []);
+
    return (
       <div className={cl.profile}>
          <div className={cl.content}>
@@ -97,7 +104,9 @@ const ProfilePage: React.FC<Props> = () => {
                />
                <div className={cl.left__buttons}>
                   <button>{t('change_avatar')}</button>
-                  <button onClick={() => handleLogout()}>{t('logout')}</button>
+                  <button onClick={() => handleLogout(dispatch, navigate)}>
+                     {t('logout')}
+                  </button>
                </div>
                <p className={cl.greeting}>
                   {t('greeting')}, {me?.username}

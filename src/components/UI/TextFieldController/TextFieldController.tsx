@@ -15,7 +15,7 @@ interface Props<TFieldValues extends FieldValues>
    placeholder?: string;
    errors: FieldErrors<TFieldValues>;
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-   control: Control<TFieldValues, any, TFieldValues>;
+   control: Control<TFieldValues, any>;
    fieldType: TFieldType;
    styles?: {
       width: string;

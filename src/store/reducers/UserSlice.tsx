@@ -101,7 +101,7 @@ export const UserSlice = createSlice({
    name: 'UserSlice',
    initialState,
    reducers: {
-      setMe: (state, action: PayloadAction<IUser>) => {
+      setMe: (state, action: PayloadAction<IUser | null>) => {
          state.me = action.payload;
       },
    },

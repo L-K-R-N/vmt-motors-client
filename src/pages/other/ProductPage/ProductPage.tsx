@@ -1,15 +1,16 @@
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { IProduct } from '@/store/reducers/ProductsSlice';
 import img2 from './assets/3.jpg';
 import img3 from './assets/2.webp';
 import img4 from './assets/4.jpg';
 import img5 from './assets/5.webp';
 import img6 from './assets/6.jpg';
 import cl from './ProductPage.module.scss';
+import { IProduct } from '@/api/models/Products';
+import ProductService from '@/api/services/ProductService';
 
 interface Props {}
 
@@ -27,12 +28,24 @@ const ProductPage: React.FC<Props> = () => {
       start: string;
       end: string;
    }
-   useEffect(() => {
-      const newProducts = [...products];
-      const currentProduct = newProducts.find((p) => p.id === params.id);
 
-      if (currentProduct) {
-         setProduct(currentProduct);
+   const handleGetProduct = async (productId: string) => {
+      try {
+         const response = await ProductService.getProduct({
+            productId: productId,
+         });
+
+         setProduct(response.data);
+      } catch (e) {
+         console.log(e);
+      }
+   };
+   useEffect(() => {
+      // const newProducts = [...products];
+      // const currentProduct = newProducts.find((p) => p.id === );
+
+      if (params.id) {
+         handleGetProduct(params.id);
       }
    }, []);
    useHideSidebar();
@@ -60,6 +73,8 @@ const ProductPage: React.FC<Props> = () => {
       },
    ]);
 
+   const navigate = useNavigate();
+
    const chooseImg = (direction: 'next' | 'prev') => {
       switch (direction) {
          case 'prev':
@@ -76,7 +91,7 @@ const ProductPage: React.FC<Props> = () => {
       <div className={cl.page}>
          <div className={cl.wrapper}>
             <h3 className={cl.pageTitle}>
-               {product?.name} {product?.model.value} {product?.brand.value}
+               {product?.name} {product?.model} {product?.brand}
             </h3>
             <div className={cl.page__content}>
                <div className={cl.gallery}>
@@ -132,15 +147,15 @@ const ProductPage: React.FC<Props> = () => {
                            </li>
                            <li>
                               <span>Fuel: </span>
-                              {product?.fuel.value}
+                              {product?.fuel}
                            </li>
                            <li>
                               <span>Mileage: </span>
-                              {product?.mileage} км
+                              {product?.millage} км
                            </li>
                            <li>
                               <span>Gear: </span>
-                              {product?.gear.value}
+                              {product?.gear}
                            </li>
                            <li>
                               <span>Generation: </span>
@@ -149,7 +164,9 @@ const ProductPage: React.FC<Props> = () => {
                         </ul>
                      </div>
                      <div className={cl.info__btns}>
-                        <button title="Get contact">Get contact</button>
+                        <button title="Get contact" onClick={() => navigate}>
+                           Get contact
+                        </button>
                         <button title="Send message">Send message</button>
                      </div>
                   </div>

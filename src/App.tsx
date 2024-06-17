@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, RouteObject, Routes } from 'react-router-dom';
+import {
+   BrowserRouter,
+   Route,
+   RouteObject,
+   Routes,
+   useLocation,
+} from 'react-router-dom';
 import './styles/main.scss';
 
 import { Layout } from './components/layout/Layout/Layout';
@@ -15,35 +21,37 @@ import { UsersListPage } from './pages/admin/UsersListPage';
 import { DashboardPage } from './pages/admin/DashboardPage';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useAppDispatch } from './hooks/useAppDispatch';
-import {
-   setLang,
-   setTheme,
-   TLanguage,
-   TTheme,
-} from './store/reducers/SettingsSlice';
+import { setTheme, TTheme } from './store/reducers/SettingsSlice';
 import { ChatsPage } from './pages/other/ChatsPage';
 import axios from 'axios';
 import {
-   getBrowserAndOS,
    IRefreshInputs,
+   getBrowserAndOS,
    setIsAuth,
 } from './store/reducers/AuthSlice';
-import PersonService from './api/services/PersonService';
-import { setMe } from './store/reducers/UserSlice';
-import { AuthResponse } from './api/models/response/AuthResponse';
+import { IAuthResponse } from './api/models/Auth';
 import { BASE_URL } from './api/app.vars';
+import { handleGetMe } from './api/hooks/Person';
+import { VerifyPage } from './pages/auth/VerifyPage';
+// import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
 
 const App = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const dispatch = useAppDispatch();
+   // const { data: me, isLoading, isError } = useGetMeQuery();
    const { theme } = useAppSelector((state) => state.SettingsReducer);
    const [countryCode, setCountryCode] = useState<string | null>(null);
    const [unAuthRoutes, setUnAuthRoutes] = useState<RouteObject[]>([
       {
          path: '/signup',
          element: <RegisterPage />,
+         // loader: () => !isAuth,
+      },
+      {
+         path: '/verify',
+         element: <VerifyPage />,
          // loader: () => !isAuth,
       },
       {
@@ -102,65 +110,50 @@ const App = () => {
          loader: () => isAuth && true,
       },
    ]);
-   // const navigate = useNavigate();
-   // const navigate = useNavigate();
-   // useEffect(() => {
-   //    setIsAuth();
-   // }, []);
-   async function getCountry() {
-      const res = await axios.get<{ countryCode: string }>(
-         'http://ip-api.com/json',
-      );
-      console.log(res, res.status === 200, res.data?.countryCode);
-      if (res.status === 200) {
-         return res.data?.countryCode;
-      }
-   }
 
-   const changeStartLang = (countryCode: Promise<string | undefined>) => {
-      let newLang: TLanguage = 'en';
-      let code: string | undefined = 'EN';
-      countryCode.then((res) => {
-         code = res;
-         console.log(res, code);
-      });
+   // async function getCountry() {
+   //    const res = await axios.get<{ countryCode: string }>(
+   //       'http://ip-api.com/json',
+   //    );
+   //    console.log(res, res.status === 200, res.data?.countryCode);
+   //    if (res.status === 200) {
+   //       return res.data?.countryCode;
+   //    }
+   // }
 
-      console.log(code);
+   // const changeStartLang = (countryCode: Promise<string | undefined>) => {
+   //    let newLang: TLanguage = 'en';
+   //    let code: string | undefined = 'EN';
+   //    countryCode.then((res) => {
+   //       code = res;
+   //       console.log(res, code);
+   //    });
 
-      switch (code) {
-         case 'RU':
-            newLang = 'ru';
-            break;
-         case 'KR':
-            newLang = 'ko';
-            break;
-         case 'BY':
-            newLang = 'be';
-            break;
-         case 'KZ':
-            newLang = 'kk';
-            break;
-         case 'CN':
-            newLang = 'zh';
-            break;
-         case 'UA':
-            newLang = 'uk';
-            break;
-      }
+   //    console.log(code);
 
-      return newLang;
-   };
+   //    switch (code) {
+   //       case 'RU':
+   //          newLang = 'ru';
+   //          break;
+   //       case 'KR':
+   //          newLang = 'ko';
+   //          break;
+   //       case 'BY':
+   //          newLang = 'be';
+   //          break;
+   //       case 'KZ':
+   //          newLang = 'kk';
+   //          break;
+   //       case 'CN':
+   //          newLang = 'zh';
+   //          break;
+   //       case 'UA':
+   //          newLang = 'uk';
+   //          break;
+   //    }
 
-   const fetchMe = async () => {
-      try {
-         const response = await PersonService.getMe();
-
-         console.log(response);
-         dispatch(setMe(response.data));
-      } catch (e) {
-         console.log(e);
-      }
-   };
+   //    return newLang;
+   // };
 
    useLayoutEffect(() => {
       const lastTheme = localStorage.getItem('theme');
@@ -168,7 +161,9 @@ const App = () => {
 
       localStorage.setItem('theme', lastTheme ? lastTheme : 'dark');
       document.documentElement.setAttribute('data-theme', theme);
-
+      if (window.location.pathname === '/') {
+         window.location.pathname = isAuth ? '/about' : '/signin';
+      }
       // navigate(
       //    isAuth ? '/signin' : '/about',
       // );
@@ -177,7 +172,7 @@ const App = () => {
    const handleRefresh = async (data: IRefreshInputs) => {
       try {
          const { refresh, device } = data;
-         const response = await axios.post<AuthResponse>(
+         const response = await axios.post<IAuthResponse>(
             `${BASE_URL}/auth/refresh`,
             {
                refreshToken: refresh,
@@ -197,31 +192,27 @@ const App = () => {
       }
    };
 
-   useEffect(() => {
-      const refreshToken = localStorage.getItem('refresh');
-      const jwtToken = localStorage.getItem('token');
-      if (refreshToken && jwtToken) {
-         handleRefresh({
-            device: getBrowserAndOS(navigator.userAgent),
-            refresh: refreshToken,
-         });
-
-         dispatch(setIsAuth(true));
-         fetchMe();
-         console.log(isAuth);
-         console.log(getCountry());
-         dispatch(setLang(changeStartLang(getCountry())));
-         console.log(countryCode);
-      } else {
-         dispatch(setIsAuth(false));
-         localStorage.removeItem('token');
-         localStorage.removeItem('refresh');
-      }
-   }, []);
+   // useEffect(() => {
+   //    const refresh = localStorage.getItem('refresh');
+   //    if (refresh) {
+   //       handleRefresh({
+   //          refresh: refresh,
+   //          device: getBrowserAndOS(navigator.userAgent),
+   //       });
+   //    }
+   // }, []);
 
    useEffect(() => {
       if (isAuth) {
-         fetchMe();
+         // dispatch(setMe(handleGetMe(dispatch)));
+         const refresh = localStorage.getItem('refresh');
+         if (refresh) {
+            handleRefresh({
+               refresh: refresh,
+               device: getBrowserAndOS(navigator.userAgent),
+            });
+         }
+         handleGetMe(dispatch);
       }
    }, [isAuth]);
 
