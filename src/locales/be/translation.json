@@ -50,7 +50,7 @@
    "for_business": "Для справы",
    "partner": "Партнёр",
    "settings": "Настройкі",
-   "all_rights_reserved": "Усе правы абаронены. husqvarnaDesign Co.",
+   "all_rights_reserved": "Усе правы абаронены",
 
    "submit_your_ad": "Адправіць аб'яву",
    "choose_brand": "Выберы марку аўтамабіля",
@@ -75,20 +75,20 @@
    "gear": "Механізм",
    "email": "Электронная пошта",
 
-   "coupe":"Купэ",
-"universal":"Універсальны",
-"hatchback":"Чэтчбэк",
-"roadster":"Родстэр",
-"liftback":"Ліфтбэк",
-"crossover":"Кросовер",
-"sedan":"Седан",
-"offroad":"Пазадарожны",
-"compact":"Кампактны",
-"cabriolet":"Кабрыялет",
+   "coupe": "Купэ",
+   "universal": "Універсальны",
+   "hatchback": "Чэтчбэк",
+   "roadster": "Родстэр",
+   "liftback": "Ліфтбэк",
+   "crossover": "Кросовер",
+   "sedan": "Седан",
+   "offroad": "Пазадарожны",
+   "compact": "Кампактны",
+   "cabriolet": "Кабрыялет",
 
-"no_desc": "Апісанне адсутнічае",
+   "no_desc": "Апісанне адсутнічае",
 
-"price_from": "Цана ад",
+   "price_from": "Цана ад",
    "price_to": "Цана да",
    "year_from": "Год з",
    "year_to": "З года да",
@@ -107,5 +107,14 @@
    "company": "Кампанія",
    "coloring": "Размалёўка",
    "seller": "Прадавец",
-   "chats": "Чаты"
+   "chats": "Чаты",
+
+   "continue_with": "Працягнуць з",
+   "or": "Або",
+   "username": "Імя карыстальніка",
+   "password": "Пароль",
+   "forgot_pass": "Забылі пароль",
+   "already_have_an_account": "У вас ужо ёсць уліковы запіс?",
+   "no_account?": "Няма ўліковага запісу?",
+   "signup": "Зарэгістравацца"
 }

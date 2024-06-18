@@ -135,6 +135,11 @@ export const Footer: React.FC<Props> = () => {
                                     className={cl.lang_current}
                                     onPointerEnter={() => setIsLangsOpen(true)}
                                     onPointerLeave={() => setIsLangsOpen(false)}
+                                    onClick={() =>
+                                       setIsLangsOpen(
+                                          isLangsOpen ? false : true,
+                                       )
+                                    }
                                  >
                                     <span className={cl.lang_text}>{lang}</span>{' '}
                                     <img

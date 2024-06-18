@@ -1,5 +1,5 @@
-import { TBrand, TBody, TColor } from '@/store/reducers/FilterSlice';
-import { TOwner } from '@/store/reducers/ProductsSlice';
+
+
 
 export interface IProduct {
    id: string;
@@ -34,6 +34,51 @@ export type IPostProductRequest = Omit<
    'id' | 'personId' | 'photoId' | 'createAt' | 'id' | 'moderated'
 >;
 
+export interface ISearchProductsRequest {
+   page: number;
+   size: number;
+   sortBy: TSorting;
+   reverse: boolean;
+   name: string;
+   type: TProductType;
+   isNew: boolean;
+   brand: TBrand;
+   body: TBody;
+   color: TColor;
+   coloring: TColoring;
+   model: string;
+   owner: TOwner;
+   priceFrom: number;
+   priceTo: number;
+
+   yearFrom: number;
+   yearTo: number;
+
+   millageFrom: number;
+   millageTo: number;
+
+   from: string;
+   exchange: boolean;
+   trade: boolean;
+   generation: string;
+   gear: TGear;
+   fuel: TFuel;
+   driveUnit: TDriveUnit;
+}
+
+
+export interface ISelectItem<T> {
+   value: T;
+   label: string;
+}
+
+
+
+
+export type TColoring = 'MATTE' | 'GLOSSY' | 'METALLIC' | 'NACRE';
+
+export type TOwner = 'OWNER' | 'PRIVATE_OWNER' | 'COMPANY' | 'OTHER';
+
 export type TProductType =
    | 'AUTOMOBILE'
    | 'DETAILS'
@@ -52,3 +97,248 @@ export type TFuel =
    | 'OTHER';
 
 export type TGear = 'MANUAL' | 'AUTOMATIC' | 'ROBOTIC' | 'CTV' | 'OTHER';
+
+export type TSorting = 'createdAt';
+
+export interface IBrand {
+   name: string;
+   img: string;
+   id: number;
+}
+
+// export interface IModel {
+//    name: string;
+//    img: string;
+//    id: number;
+//    brandId: number;
+// }
+
+export type TColor =
+   | 'BLACK'
+   | 'WHITE'
+   | 'RED'
+   | 'GREEN'
+   | 'BLUE'
+   | 'CYAN'
+   | 'BROWN'
+   | 'PURPLE'
+   | 'PINK'
+   | 'YELLOW'
+   | 'ORANGE'
+   | 'GRAY'
+   | 'GRADIENT'
+   | 'OTHER';
+
+export type TBrand =
+   | 'Acura'
+   | 'AITO'
+   | 'Alfa Romeo'
+   | 'Alga'
+   | 'Alpina'
+   | 'Arcfox'
+   | 'Aro'
+   | 'Aston Martin'
+   | 'Audi'
+   | 'Aurus'
+   | 'Avatr'
+   | 'BAIC'
+   | 'Bajaj'
+   | 'Baojun'
+   | 'BAW'
+   | 'Bentley'
+   | 'Blaval'
+   | 'BMW'
+   | 'Borgward'
+   | 'Brilliance'
+   | 'Bugatti'
+   | 'Buick'
+   | 'BYD'
+   | 'Cadillac'
+   | 'Changan'
+   | 'ChangFeng'
+   | 'Changhe'
+   | 'Chery'
+   | 'Chevrolet'
+   | 'Chrysler'
+   | 'Citroen'
+   | 'Core Power'
+   | 'Dacia'
+   | 'Daewoo'
+   | 'Daihatsu'
+   | 'Datsun'
+   | 'Dayun'
+   | 'Denza'
+   | 'Derways'
+   | 'DFSK'
+   | 'Dodge'
+   | 'DongFeng'
+   | 'DS'
+   | 'Eagle'
+   | 'Enovate'
+   | 'Evergrande'
+   | 'EXEED'
+   | 'Fang Cheng Bao'
+   | 'Farizon'
+   | 'FAW'
+   | 'Ferrari'
+   | 'Fiat'
+   | 'Fisker'
+   | 'Ford'
+   | 'Forthing'
+   | 'Foton'
+   | 'GAC'
+   | 'Geely'
+   | 'Genesis'
+   | 'GMC'
+   | 'Gonow'
+   | 'Great Wall'
+   | 'Hafei'
+   | 'Haima'
+   | 'Hanteng'
+   | 'Haval'
+   | 'Hawtai'
+   | 'HiPhi'
+   | 'Honda'
+   | 'Hongqi'
+   | 'Hozon'
+   | 'HuangHai'
+   | 'Hummer'
+   | 'Hyundai'
+   | 'iCar'
+   | 'IM'
+   | 'Infiniti'
+   | 'Iran Khodro'
+   | 'Isuzu'
+   | 'JAC'
+   | 'Jaecoo'
+   | 'Jaguar'
+   | 'Jeep'
+   | 'Jetour'
+   | 'Jetta'
+   | 'JinBei'
+   | 'JINPENG'
+   | 'Jiyue'
+   | 'JMC'
+   | 'Kaiyi'
+   | 'Karry'
+   | 'Kia'
+   | 'KYC'
+   | 'Lamborghini'
+   | 'Lancia'
+   | 'Land Rover'
+   | 'Leapmotor'
+   | 'Leopaard'
+   | 'Lexus'
+   | 'Li'
+   | 'Lifan'
+   | 'Lincoln'
+   | 'Livan'
+   | 'Lotus'
+   | 'Lucid'
+   | 'Luxgen'
+   | 'Lynk & Co'
+   | 'Mahindra'
+   | 'Maple'
+   | 'Maserati'
+   | 'Maxus'
+   | 'Maybach'
+   | 'Mazda'
+   | 'McLaren'
+   | 'Mercedes-Benz'
+   | 'Mercedes-Maybach'
+   | 'Mercury'
+   | 'Metrocab'
+   | 'MG'
+   | 'Mini'
+   | 'Mitsubishi'
+   | 'Nio'
+   | 'Nissan'
+   | 'NL'
+   | 'Oldsmobile'
+   | 'OMODA'
+   | 'Opel'
+   | 'Ora'
+   | 'Peugeot'
+   | 'Plymouth'
+   | 'Polar Stone'
+   | 'Polestar'
+   | 'Pontiac'
+   | 'Porsche'
+   | 'Proton'
+   | 'Puch'
+   | 'Radar'
+   | 'Ravon'
+   | 'Renault'
+   | 'Renault Samsung'
+   | 'Rivian'
+   | 'Roewe'
+   | 'Rolls-Royce'
+   | 'Rover'
+   | 'Saab'
+   | 'SAIC'
+   | 'Santana'
+   | 'Saturn'
+   | 'Scion'
+   | 'SEAT'
+   | 'Seres'
+   | 'ShuangHuan'
+   | 'Skoda'
+   | 'Skywell'
+   | 'Smart'
+   | 'Sol'
+   | 'Soueast'
+   | 'SRM'
+   | 'SsangYong'
+   | 'Subaru'
+   | 'Suzuki'
+   | 'SWM'
+   | 'Tank'
+   | 'Tesla'
+   | 'Tianma'
+   | 'Tianye'
+   | 'Toyota'
+   | 'Venucia'
+   | 'VGV'
+   | 'VinFast'
+   | 'Volkswagen'
+   | 'Volvo'
+   | 'Vortex'
+   | 'Voyah'
+   | 'Wanfeng'
+   | 'Weltmeister'
+   | 'Wey'
+   | 'Wuling'
+   | 'Xiaomi'
+   | 'Xinkai'
+   | 'Xpeng'
+   | 'Yema'
+   | 'Zeekr'
+   | 'Zhiji'
+   | 'Zotye'
+   | 'ZX'
+   | 'ВАЗ (Lada)'
+   | 'ВИС'
+   | 'ГАЗ'
+   | 'ЕрАЗ'
+   | 'ЗАЗ'
+   | 'ЗИЛ'
+   | 'ИЖ'
+   | 'ЛуАЗ'
+   | 'Москвич'
+   | 'РАФ'
+   | 'Ретро-автомобили'
+   | 'СМЗ'
+   | 'ТагАЗ'
+   | 'УАЗ';
+
+export type TBody =
+   | 'coupe'
+   | 'universal'
+   | 'hatchback'
+   | 'roadster'
+   | 'liftback'
+   | 'crossover'
+   | 'sedan'
+   | 'offroad'
+   | 'compact'
+   | 'cabriolet';

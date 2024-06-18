@@ -9,33 +9,31 @@ interface Props {}
 
 export const FilterForm: React.FC<Props> = () => {
    const { control, errors, handleSubmit, onSubmit } = useFilterForm();
-   const { brands, driveUnits, fuels, gears, colors } = useAppSelector(
-      (state) => state.FilterReducer,
-   );
+   const {
+      brands,
+      driveUnits,
+      fuels,
+      gears,
+      colors,
+      sortByOptions,
+      owners,
+      colorings,
+      bodies,
+   } = useAppSelector((state) => state.FilterReducer);
 
    const { t } = useTranslation();
-   // const changeForIOption = (items: IBrand[] | IModel[]) => {
-   //    let newItems: IOption[] = [];
 
-   //    items.forEach((item) => {
-   //       newItems.push({
-   //          value: item.name,
-   //          label: item.name,
-   //       });
-   //    });
-
-   //    return newItems;
-   // };
-
-   // useEffect(() => {
-   //    setNewBrands(changeForIOption(brands));
-   //    setNewModels(changeForIOption(models));
-
-   //    console.log(newBrands, newModels, brands, models);
-   // }, []);
    return (
       <div className={cl.wrapper}>
          <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
+            <TextFieldController
+               control={control}
+               errors={errors}
+               name="name"
+               label={t('name')}
+               fieldType="input"
+               rules={{ required: false }}
+            />
             <div className={cl.line}>
                <SelectController
                   control={control}
@@ -53,7 +51,7 @@ export const FilterForm: React.FC<Props> = () => {
                   label={t('model')}
                   fieldType="input"
                   rules={{ required: false }}
-               />{' '}
+               />
                <TextFieldController
                   control={control}
                   errors={errors}
@@ -105,6 +103,15 @@ export const FilterForm: React.FC<Props> = () => {
                   options={driveUnits}
                   isMulti={false}
                />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="body"
+                  placeholder={t('body')}
+                  options={bodies}
+                  isMulti={false}
+                  rules={{ required: false }}
+               />
                <TextFieldController
                   control={control}
                   errors={errors}
@@ -129,21 +136,37 @@ export const FilterForm: React.FC<Props> = () => {
                <TextFieldController
                   control={control}
                   errors={errors}
-                  name="mileage"
+                  name="millageFrom"
                   fieldType="input"
-                  label={t('mileage')}
+                  label={t('millage_from')}
                   rules={{ required: false }}
                />
                <TextFieldController
                   control={control}
                   errors={errors}
-                  name="carFrom"
+                  name="millageTo"
+                  fieldType="input"
+                  label={t('mileage_to')}
+                  rules={{ required: false }}
+               />
+               <SelectController
+                  control={control}
+                  errors={errors}
+                  name="sortBy"
+                  placeholder={t('sort_by')}
+                  rules={{ required: false }}
+                  isMulti={false}
+                  options={sortByOptions}
+               />
+               <TextFieldController
+                  control={control}
+                  errors={errors}
+                  name="from"
                   label={t('car_from')}
                   fieldType="input"
                   rules={{ required: false }}
-                  disabled
                />
-               <TextFieldController
+               {/* <TextFieldController
                   control={control}
                   errors={errors}
                   name="withPhoto"
@@ -151,8 +174,8 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
-               />
-               <TextFieldController
+               /> */}
+               {/* <TextFieldController
                   control={control}
                   errors={errors}
                   name="notSold"
@@ -160,7 +183,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
-               />
+               /> */}
                <SelectController
                   control={control}
                   errors={errors}
@@ -170,13 +193,15 @@ export const FilterForm: React.FC<Props> = () => {
                   isMulti={false}
                   rules={{ required: false }}
                />
-               <TextFieldController
+
+               <SelectController
                   control={control}
                   errors={errors}
                   name="coloring"
-                  fieldType="input"
                   rules={{ required: false }}
-                  label={t('coloring')}
+                  placeholder={t('coloring')}
+                  options={colorings}
+                  isMulti={false}
                />
             </div>
             <div className={cl.line}>
@@ -187,7 +212,6 @@ export const FilterForm: React.FC<Props> = () => {
                   label={t('exchange')}
                   fieldType="input"
                   rules={{ required: false }}
-                  disabled
                />
                <TextFieldController
                   control={control}
@@ -196,9 +220,32 @@ export const FilterForm: React.FC<Props> = () => {
                   label={t('trade')}
                   fieldType="input"
                   rules={{ required: false }}
-                  disabled
                />
                <TextFieldController
+                  control={control}
+                  errors={errors}
+                  name="isNew"
+                  label={t('is_new')}
+                  fieldType="input"
+                  rules={{ required: false }}
+               />
+               <TextFieldController
+                  control={control}
+                  errors={errors}
+                  name="reverse"
+                  label={t('reverse')}
+                  fieldType="input"
+                  rules={{ required: false }}
+               />
+               <TextFieldController
+                  control={control}
+                  errors={errors}
+                  name="type"
+                  label={t('type')}
+                  fieldType="input"
+                  rules={{ required: false }}
+               />
+               {/* <TextFieldController
                   control={control}
                   errors={errors}
                   name="any"
@@ -206,8 +253,8 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
-               />
-               <TextFieldController
+               /> */}
+               {/* <TextFieldController
                   control={control}
                   errors={errors}
                   name="owner"
@@ -224,29 +271,21 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                   disabled
-               />
-               <TextFieldController
+               /> */}
+               <SelectController
                   control={control}
                   errors={errors}
                   name="owner"
-                  label={t('company')}
-                  fieldType="input"
+                  placeholder={t('owner')}
                   rules={{ required: false }}
-                  disabled
+                  isMulti={false}
+                  options={owners}
                />
                <h5 className={cl.title}>{t('seller')}</h5>
-               <button
-                  title={t('reset')}
-                  type="button"
-                  className={cl.resetBtn}
-               >
+               <button title={t('reset')} type="button" className={cl.resetBtn}>
                   {t('reset')}
                </button>
-               <button
-                  title={t('show')}
-                  type="submit"
-                  className={cl.submitBtn}
-               >
+               <button title={t('show')} type="submit" className={cl.submitBtn}>
                   {t('show')}
                </button>
             </div>

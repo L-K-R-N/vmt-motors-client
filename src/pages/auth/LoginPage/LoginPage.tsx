@@ -6,10 +6,10 @@ import { useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
-   
-
+   const { t } = useTranslation();
    const { errors, handleSubmit, onSubmit, control } = useLoginPage();
 
    // const {
@@ -29,15 +29,14 @@ const LoginPage = () => {
    //       navigate('/about');
    //    }
    // }, []);
-   
 
    return (
-      <AuthLayout title="Log In" link="signup">
+      <AuthLayout type="signin">
          <form className={cl.loginForm} onSubmit={handleSubmit(onSubmit)}>
             <TextFieldController
                control={control}
                errors={errors}
-               label="Username"
+               label={t('username')}
                name="username"
                fieldType="input"
                rules={{ required: 'Username number' }}
@@ -46,14 +45,14 @@ const LoginPage = () => {
             <TextFieldController
                control={control}
                errors={errors}
-               label="Password"
+               label={t('password')}
                name="password"
                fieldType="input"
                rules={{ required: 'Enter password' }}
             />
 
-            <Button type="submit" title="Login">
-               Sign In
+            <Button type="submit" title={t('signin')}>
+               {t('signin')}
             </Button>
          </form>
       </AuthLayout>

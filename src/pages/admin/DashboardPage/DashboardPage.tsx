@@ -3,19 +3,43 @@ import { useHideFooter } from '@/hooks/useLayout';
 import { Activity } from '@/components/layout/Activity/Activity';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
+import ProductService from '@/api/services/ProductService';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { setModeratedProducts } from '@/store/reducers/ProductsSlice';
 
 interface Props {}
 
 const DashboardPage: React.FC<Props> = () => {
    useHideFooter();
-   const { products } = useAppSelector((state) => state.ProductsReducer);
+   const dispatch = useAppDispatch();
+
+   const { moderatedProducts } = useAppSelector(
+      (state) => state.ProductsReducer,
+   );
+
+   const handleGetModeratedProducts = async (params: IParams) => {
+      try {
+         const response = await ProductService.getAllModeratedProducts(params);
+
+         dispatch(setModeratedProducts(response.data));
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
+   useEffect(() => {
+      handleGetModeratedProducts({
+         page: 0,
+         size: 50,
+      });
+   }, []);
+
    return (
       <div className={cl.page}>
          <ul className={cl.dashboard}>
-            {products.filter((p) => p.moderated)
-               ? products
-                    .filter((p) => p.moderated)
-                    .map((p) => <AdvertCard advert={p} />)
+            {moderatedProducts
+               ? moderatedProducts.map((p) => <AdvertCard advert={p} />)
                : 'Нет объявлений для проверки'}
          </ul>
          <Activity />

@@ -12,7 +12,8 @@ import userIcon from './assets/user.svg';
 import { TLanguage, setLang, setTheme } from '@/store/reducers/SettingsSlice';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
-
+import { FaMoon } from 'react-icons/fa';
+import { IoSunny } from 'react-icons/io5';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -128,7 +129,7 @@ export const Header: React.FC<Props> = () => {
                         <div
                            className={[
                               cl.themeSwitcher,
-                              theme === 'dark' ? cl.active : '',
+                              theme === 'dark' ? cl.dark : cl.light,
                            ].join(' ')}
                            onClick={() =>
                               dispatch(
@@ -136,7 +137,9 @@ export const Header: React.FC<Props> = () => {
                               )
                            }
                         >
-                           <span className={cl.themeSwitcher__circle}></span>
+                           {/* <span className={cl.themeSwitcher__circle}></span> */}
+                           <IoSunny className={cl.sun} />
+                           <FaMoon className={cl.moon} />
                         </div>
                         <Link to={'/profile'} className={cl.header__profile}>
                            <img src={userIcon} alt="" />

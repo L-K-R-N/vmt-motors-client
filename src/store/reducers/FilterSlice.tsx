@@ -1,15 +1,11 @@
-import {
-   TDriveUnit,
-   TFuel,
-   TGear,
-   TProductType,
-} from '@/api/services/ProductService';
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TOwner } from './ProductsSlice';
+
+import { TBrand, TColor, TBody, TDriveUnit, TFuel, TGear, TOwner, TProductType, ISelectItem, TSorting, TColoring } from '@/api/models/Products';
 
 export interface IFilterState {
    brands: ISelectItem<TBrand>[];
-   models: string[];
+
    driveUnits: ISelectItem<TDriveUnit>[];
    fuels: ISelectItem<TFuel>[];
    gears: ISelectItem<TGear>[];
@@ -17,252 +13,9 @@ export interface IFilterState {
    types: ISelectItem<TProductType>[];
    owners: ISelectItem<TOwner>[];
    bodies: ISelectItem<TBody>[];
+   sortByOptions: ISelectItem<TSorting>[];
+   colorings: ISelectItem<TColoring>[];
 }
-
-export interface ISelectItem<T> {
-   value: T;
-   label: string;
-}
-
-export interface IBrand {
-   name: string;
-   img: string;
-   id: number;
-}
-
-// export interface IModel {
-//    name: string;
-//    img: string;
-//    id: number;
-//    brandId: number;
-// }
-
-export type TColor =
-   | 'black'
-   | 'white'
-   | 'red'
-   | 'green'
-   | 'blue'
-   | 'brown'
-   | 'purple'
-   | 'pink'
-   | 'yellow'
-   | 'orange'
-   | 'gray';
-
-export type TBrand =
-   | 'Acura'
-   | 'AITO'
-   | 'Alfa Romeo'
-   | 'Alga'
-   | 'Alpina'
-   | 'Arcfox'
-   | 'Aro'
-   | 'Aston Martin'
-   | 'Audi'
-   | 'Aurus'
-   | 'Avatr'
-   | 'BAIC'
-   | 'Bajaj'
-   | 'Baojun'
-   | 'BAW'
-   | 'Bentley'
-   | 'Blaval'
-   | 'BMW'
-   | 'Borgward'
-   | 'Brilliance'
-   | 'Bugatti'
-   | 'Buick'
-   | 'BYD'
-   | 'Cadillac'
-   | 'Changan'
-   | 'ChangFeng'
-   | 'Changhe'
-   | 'Chery'
-   | 'Chevrolet'
-   | 'Chrysler'
-   | 'Citroen'
-   | 'Core Power'
-   | 'Dacia'
-   | 'Daewoo'
-   | 'Daihatsu'
-   | 'Datsun'
-   | 'Dayun'
-   | 'Denza'
-   | 'Derways'
-   | 'DFSK'
-   | 'Dodge'
-   | 'DongFeng'
-   | 'DS'
-   | 'Eagle'
-   | 'Enovate'
-   | 'Evergrande'
-   | 'EXEED'
-   | 'Fang Cheng Bao'
-   | 'Farizon'
-   | 'FAW'
-   | 'Ferrari'
-   | 'Fiat'
-   | 'Fisker'
-   | 'Ford'
-   | 'Forthing'
-   | 'Foton'
-   | 'GAC'
-   | 'Geely'
-   | 'Genesis'
-   | 'GMC'
-   | 'Gonow'
-   | 'Great Wall'
-   | 'Hafei'
-   | 'Haima'
-   | 'Hanteng'
-   | 'Haval'
-   | 'Hawtai'
-   | 'HiPhi'
-   | 'Honda'
-   | 'Hongqi'
-   | 'Hozon'
-   | 'HuangHai'
-   | 'Hummer'
-   | 'Hyundai'
-   | 'iCar'
-   | 'IM'
-   | 'Infiniti'
-   | 'Iran Khodro'
-   | 'Isuzu'
-   | 'JAC'
-   | 'Jaecoo'
-   | 'Jaguar'
-   | 'Jeep'
-   | 'Jetour'
-   | 'Jetta'
-   | 'JinBei'
-   | 'JINPENG'
-   | 'Jiyue'
-   | 'JMC'
-   | 'Kaiyi'
-   | 'Karry'
-   | 'Kia'
-   | 'KYC'
-   | 'Lamborghini'
-   | 'Lancia'
-   | 'Land Rover'
-   | 'Leapmotor'
-   | 'Leopaard'
-   | 'Lexus'
-   | 'Li'
-   | 'Lifan'
-   | 'Lincoln'
-   | 'Livan'
-   | 'Lotus'
-   | 'Lucid'
-   | 'Luxgen'
-   | 'Lynk & Co'
-   | 'Mahindra'
-   | 'Maple'
-   | 'Maserati'
-   | 'Maxus'
-   | 'Maybach'
-   | 'Mazda'
-   | 'McLaren'
-   | 'Mercedes-Benz'
-   | 'Mercedes-Maybach'
-   | 'Mercury'
-   | 'Metrocab'
-   | 'MG'
-   | 'Mini'
-   | 'Mitsubishi'
-   | 'Nio'
-   | 'Nissan'
-   | 'NL'
-   | 'Oldsmobile'
-   | 'OMODA'
-   | 'Opel'
-   | 'Ora'
-   | 'Peugeot'
-   | 'Plymouth'
-   | 'Polar Stone'
-   | 'Polestar'
-   | 'Pontiac'
-   | 'Porsche'
-   | 'Proton'
-   | 'Puch'
-   | 'Radar'
-   | 'Ravon'
-   | 'Renault'
-   | 'Renault Samsung'
-   | 'Rivian'
-   | 'Roewe'
-   | 'Rolls-Royce'
-   | 'Rover'
-   | 'Saab'
-   | 'SAIC'
-   | 'Santana'
-   | 'Saturn'
-   | 'Scion'
-   | 'SEAT'
-   | 'Seres'
-   | 'ShuangHuan'
-   | 'Skoda'
-   | 'Skywell'
-   | 'Smart'
-   | 'Sol'
-   | 'Soueast'
-   | 'SRM'
-   | 'SsangYong'
-   | 'Subaru'
-   | 'Suzuki'
-   | 'SWM'
-   | 'Tank'
-   | 'Tesla'
-   | 'Tianma'
-   | 'Tianye'
-   | 'Toyota'
-   | 'Venucia'
-   | 'VGV'
-   | 'VinFast'
-   | 'Volkswagen'
-   | 'Volvo'
-   | 'Vortex'
-   | 'Voyah'
-   | 'Wanfeng'
-   | 'Weltmeister'
-   | 'Wey'
-   | 'Wuling'
-   | 'Xiaomi'
-   | 'Xinkai'
-   | 'Xpeng'
-   | 'Yema'
-   | 'Zeekr'
-   | 'Zhiji'
-   | 'Zotye'
-   | 'ZX'
-   | 'ВАЗ (Lada)'
-   | 'ВИС'
-   | 'ГАЗ'
-   | 'ЕрАЗ'
-   | 'ЗАЗ'
-   | 'ЗИЛ'
-   | 'ИЖ'
-   | 'ЛуАЗ'
-   | 'Москвич'
-   | 'РАФ'
-   | 'Ретро-автомобили'
-   | 'СМЗ'
-   | 'ТагАЗ'
-   | 'УАЗ';
-
-export type TBody =
-   | 'coupe'
-   | 'universal'
-   | 'hatchback'
-   | 'roadster'
-   | 'liftback'
-   | 'crossover'
-   | 'sedan'
-   | 'offroad'
-   | 'compact'
-   | 'cabriolet';
 
 const initialState: IFilterState = {
    brands: [
@@ -948,7 +701,7 @@ const initialState: IFilterState = {
       { value: 'ТагАЗ', label: 'ТагАЗ' },
       { value: 'УАЗ', label: 'УАЗ' },
    ],
-   models: [],
+
    driveUnits: [
       {
          value: 'ALL',
@@ -1044,48 +797,60 @@ const initialState: IFilterState = {
    ],
    colors: [
       {
-         value: 'black',
+         value: 'BLACK',
          label: 'Black',
       },
       {
-         value: 'blue',
+         value: 'BLUE',
          label: 'Blue',
       },
       {
-         value: 'brown',
+         value: 'BROWN',
          label: 'Brown',
       },
       {
-         value: 'gray',
+         value: 'GRAY',
          label: 'Gray',
       },
       {
-         value: 'green',
+         value: 'CYAN',
+         label: 'Cyan',
+      },
+      {
+         value: 'GREEN',
          label: 'Green',
       },
       {
-         value: 'orange',
+         value: 'ORANGE',
          label: 'Orange',
       },
       {
-         value: 'pink',
+         value: 'PINK',
          label: 'Pink',
       },
       {
-         value: 'purple',
+         value: 'PURPLE',
          label: 'purple',
       },
       {
-         value: 'red',
+         value: 'RED',
          label: 'red',
       },
       {
-         value: 'white',
+         value: 'WHITE',
          label: 'white',
       },
       {
-         value: 'yellow',
+         value: 'YELLOW',
          label: 'yellow',
+      },
+      {
+         value: 'GRADIENT',
+         label: 'Gradient',
+      },
+      {
+         value: 'OTHER',
+         label: 'Other',
       },
    ],
    types: [
@@ -1152,6 +917,31 @@ const initialState: IFilterState = {
          label: 'universal',
       },
    ],
+   
+   sortByOptions: [
+      {
+         value: 'createdAt',
+         label: 'createdAt'
+      }
+   ],
+   colorings: [
+      {
+         value: 'MATTE',
+         label: 'Matte'
+      },
+      {
+         value: 'GLOSSY',
+         label: 'Glossy'
+      },
+      {
+         value: 'METALLIC',
+         label: 'Metallic'
+      },
+      {
+         value: 'NACRE',
+         label: 'Nacre'
+      },
+   ],
 };
 
 export const ProductsSlice = createSlice({
@@ -1161,12 +951,10 @@ export const ProductsSlice = createSlice({
       setBrands: (state, action: PayloadAction<ISelectItem<TBrand>[]>) => {
          state.brands = action.payload;
       },
-      setModels: (state, action: PayloadAction<string[]>) => {
-         state.models = action.payload;
-      },
+      
    },
 });
 
 export default ProductsSlice.reducer;
 
-export const { setBrands, setModels } = ProductsSlice.actions;
+export const { setBrands } = ProductsSlice.actions;

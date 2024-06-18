@@ -76,19 +76,19 @@
    "email": "电邮",
 
    "coupe": "轎跑車",
-"universal": "普遍的",
-"hatchback": "掀背車",
-"roadster": "跑車",
-"liftback": "回升",
-"crossover": "交叉",
-"sedan": "轎車",
-"offroad": "越野",
-"compact": "袖珍的",
-"cabriolet": "敞篷車",
+   "universal": "普遍的",
+   "hatchback": "掀背車",
+   "roadster": "跑車",
+   "liftback": "回升",
+   "crossover": "交叉",
+   "sedan": "轎車",
+   "offroad": "越野",
+   "compact": "袖珍的",
+   "cabriolet": "敞篷車",
 
-"no_desc": "沒有解釋",
+   "no_desc": "沒有解釋",
 
-"price_from": "價格從",
+   "price_from": "價格從",
    "price_to": "價格至",
    "year_from": "年份",
    "year_to": "年到",
@@ -107,5 +107,14 @@
    "company": "公司",
    "coloring": "染色",
    "seller": "賣方",
-   "chats": "聊天記錄"
+   "chats": "聊天記錄",
+
+   "continue_with": "继续",
+   "or": "或",
+   "username": "用户名",
+   "password": "密码",
+   "forgot_pass": "忘记密码",
+   "already_have_an_account": "你有账户吗？",
+   "no_account?": "没有账号？",
+   "signup": "注册"
 }

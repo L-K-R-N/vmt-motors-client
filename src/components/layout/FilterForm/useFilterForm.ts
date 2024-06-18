@@ -1,34 +1,42 @@
 import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { IProduct, setFiltredProducts } from '@/store/reducers/ProductsSlice';
-import { ISelectItem, TBrand, TColor } from '@/store/reducers/FilterSlice';
-import { TDriveUnit, TFuel, TGear } from '@/api/services/ProductService';
+import { setProducts } from '@/store/reducers/ProductsSlice';
+import { TGear, TFuel, TDriveUnit, IProduct, TProductType, TSorting, TColoring, TBody, TBrand, TColor, TOwner, ISelectItem } from '@/api/models/Products';
+import ProductService from '@/api/services/ProductService';
 
 interface IFilterInputs {
+   page: number;
+   size: number;
+   sortBy: ISelectItem<TSorting>;
+   reverse: boolean;
+   name: string;
+   type: ISelectItem<TProductType>;
+   isNew: boolean;
    brand: ISelectItem<TBrand>;
+   body: ISelectItem<TBody>;
+   color: ISelectItem<TColor>;
+   coloring: ISelectItem<TColoring>;
    model: string;
+   owner: ISelectItem<TOwner>;
+
    priceFrom: number;
    priceTo: number;
+
+   yearFrom: number;
+   yearTo: number;
+
+   millageFrom: number;
+   millageTo: number;
+
+   from: string;
+   exchange: boolean;
+   trade: boolean;
+
    generation: string;
-   yearFrom: string;
-   yearTo: string;
    gear: ISelectItem<TGear>;
    fuel: ISelectItem<TFuel>;
    driveUnit: ISelectItem<TDriveUnit>;
-   color: ISelectItem<TColor>;
-   coloring: string;
-   withPhoto: boolean;
-   notSold: boolean;
-   mileage: number;
-   carFrom: string;
-   exchange: boolean;
-   trade: boolean;
-   any: boolean;
-   owner: boolean;
-   privateOwner: boolean;
-   company: boolean;
 }
 
 export const useFilterForm = () => {
@@ -41,74 +49,47 @@ export const useFilterForm = () => {
       mode: 'onChange',
    });
    const dispatch = useAppDispatch();
-   const { products } = useAppSelector((state) => state.ProductsReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
-   const { brands, models } = useAppSelector((state) => state.FilterReducer);
 
-   const onSubmit: SubmitHandler<IFilterInputs> = (data) => {
-      let newProducts: IProduct[] = [...products];
+   const handleSearchProducts = async (data: IFilterInputs) => {
+      try {
+         const response = await ProductService.getFiltredProducts({
+            page: data.page,
+               size: data.size,
+               sortBy: data.sortBy.value,
+               reverse: data.reverse,
+               name: data.name,
+               type: data.type.value,
+               isNew: data.isNew,
+               color: data.color.value,
+               owner: data.owner.value,
+               brand: data.brand.value,
+               body: data.body.value,
+               coloring: data.coloring.value,
+               model: data.model,
+               priceFrom: data.priceFrom,
+               priceTo: data.priceTo,
+               yearFrom: data.yearFrom,
+               yearTo: data.yearTo,
+               millageFrom: data.millageFrom,
+               millageTo: data.millageTo,
+               from: data.from,
+               exchange: data.exchange,
+               trade: data.trade,
+               generation: data.generation,
+               gear: data.gear.value,
+               fuel: data.fuel.value,
+               driveUnit: data.driveUnit.value
+         })
+   
+         dispatch(setProducts(response.data))
+      } catch (e) {
+         console.log(e)
+      }
+   }
 
-      const {
-         brand,
-         color,
-         driveUnit,
-         fuel,
-         gear,
-         mileage,
-
-         priceFrom,
-         priceTo,
-
-         withPhoto,
-         yearFrom,
-         yearTo,
-      } = data;
-
-      if (brand) {
-         newProducts = newProducts.filter((p) => p.brand.value === brand.value);
-      }
-
-      if (fuel) {
-         newProducts = newProducts.filter((p) => p.fuel.value === fuel.value);
-      }
-      if (gear) {
-         newProducts = newProducts.filter((p) => p.gear.value === gear.value);
-      }
-      if (driveUnit) {
-         newProducts = newProducts.filter(
-            (p) => p.driveUnit.value === driveUnit.value,
-         );
-      }
-      if (color) {
-         newProducts = newProducts.filter((p) => p.color === color.value);
-      }
-
-      if (priceFrom) {
-         newProducts = newProducts.filter((p) => p.price >= priceFrom);
-      }
-      if (priceTo) {
-         newProducts = newProducts.filter((p) => p.price <= priceTo);
-      }
-      if (mileage) {
-         newProducts = newProducts.filter((p) => p.mileage <= mileage);
-      }
-      if (withPhoto) {
-         newProducts = newProducts.filter((p) => p.photoId);
-      }
-      if (yearFrom) {
-         newProducts = newProducts.filter((p) => p.year >= Number(yearFrom));
-      }
-      if (yearTo) {
-         newProducts = newProducts.filter((p) => {
-            console.log(yearTo, p.year);
-            return p.year <= Number(yearTo);
-         });
-      }
-
-      // console.log(
-      //    newProducts.filter((p) => p.brand.value === data.brand.value),
-      // );
-      dispatch(setFiltredProducts(newProducts));
+   const onSubmit: SubmitHandler<IFilterInputs> = async (data) => {
+      handleSearchProducts(data)
    };
    return useMemo(
       () => ({
@@ -116,9 +97,8 @@ export const useFilterForm = () => {
          onSubmit,
          control,
          handleSubmit,
-
          reset,
       }),
-      [errors, brands, models],
+      [errors],
    );
 };

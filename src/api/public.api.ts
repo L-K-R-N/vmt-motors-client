@@ -37,6 +37,7 @@ const refreshTokens = async () => {
 
       return response.data.jwtToken;
    } catch (e) {
+      console.log(e);
       localStorage.removeItem('token');
       localStorage.removeItem('refresh');
 

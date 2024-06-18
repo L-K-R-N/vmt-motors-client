@@ -3,20 +3,14 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import img2 from './assets/3.jpg';
-import img3 from './assets/2.webp';
-import img4 from './assets/4.jpg';
-import img5 from './assets/5.webp';
-import img6 from './assets/6.jpg';
 import cl from './ProductPage.module.scss';
 import { IProduct } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
+import defaultPhoto from './assets/defaultPhoto.jpg';
 
 interface Props {}
 
 const ProductPage: React.FC<Props> = () => {
-   const { products } = useAppSelector((state) => state.ProductsReducer);
-
    const [product, setProduct] = useState<IProduct | null>(null);
    const params = useParams();
    const [activeImgId, setActiveImgId] = useState(1);
@@ -43,35 +37,14 @@ const ProductPage: React.FC<Props> = () => {
    useEffect(() => {
       // const newProducts = [...products];
       // const currentProduct = newProducts.find((p) => p.id === );
-
       if (params.id) {
          handleGetProduct(params.id);
       }
+      console.log(product);
    }, []);
    useHideSidebar();
 
-   const [imgs] = useState<{ id: number; src: string }[]>([
-      {
-         id: 1,
-         src: img6,
-      },
-      {
-         id: 2,
-         src: img2,
-      },
-      {
-         id: 3,
-         src: img3,
-      },
-      {
-         id: 4,
-         src: img4,
-      },
-      {
-         id: 5,
-         src: img5,
-      },
-   ]);
+   const [imgs] = useState<{ id: number; src: string }[]>([]);
 
    const navigate = useNavigate();
 
@@ -102,7 +75,11 @@ const ProductPage: React.FC<Props> = () => {
                         onClick={() => chooseImg('prev')}
                      ></button>
                      <img
-                        src={imgs.find((img) => img.id === activeImgId)?.src}
+                        src={
+                           imgs.find((img) => img.id === activeImgId)?.src
+                              ? imgs.find((img) => img.id === activeImgId)?.src
+                              : defaultPhoto
+                        }
                         alt=""
                      />
                      <button

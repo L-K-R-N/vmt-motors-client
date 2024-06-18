@@ -50,7 +50,7 @@
    "for_business": "For business",
    "partner": "Partner",
    "settings": "Settings",
-   "all_rights_reserved": "All Rights Reserved. husqvarnaDesign Co.",
+   "all_rights_reserved": "All Rights Reserved",
 
    "submit_your_ad": "Submit your ad",
    "choose_brand": "Choose a car brand",
@@ -75,16 +75,16 @@
    "gear": "Gear",
    "email": "Email",
 
-   "coupe":"Coupe",
-   "universal":"Universal",
-   "hatchback":"Hatchback",
-   "roadster":"Roadster",
-   "liftback":"Liftback",
-   "crossover":"Crossover",
-   "sedan":"Sedan",
-   "offroad":"Offroad",
-   "compact":"Compact",
-   "cabriolet":"Cabriolet",
+   "coupe": "Coupe",
+   "universal": "Universal",
+   "hatchback": "Hatchback",
+   "roadster": "Roadster",
+   "liftback": "Liftback",
+   "crossover": "Crossover",
+   "sedan": "Sedan",
+   "offroad": "Offroad",
+   "compact": "Compact",
+   "cabriolet": "Cabriolet",
 
    "no_desc": "No description",
 
@@ -107,5 +107,14 @@
    "company": "Company",
    "coloring": "Coloring",
    "seller": "Seller",
-   "chats": "Chats"
+   "chats": "Chats",
+
+   "continue_with": "Continue with",
+   "or": "Or",
+   "username": "Username",
+   "password": "Password",
+   "forgot_pass": "Forgot password",
+   "already_have_an_account": "Already have an account",
+   "no_account?": "No account?",
+   "signup": "Sign up"
 }

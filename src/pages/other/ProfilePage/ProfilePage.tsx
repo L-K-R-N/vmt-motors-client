@@ -130,14 +130,14 @@ const ProfilePage: React.FC<Props> = () => {
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
                      <p className={cl.right__about_desc}>
-                        {me?.desc ? me?.desc : t('no_desc')}
+                        {me?.description ? me?.description : t('no_desc')}
                      </p>
                   </section>
                </div>
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {myProducts ? (
+                     {myProducts.length ? (
                         myProducts.map((product) => (
                            <AdvertCard advert={product} key={product.id} />
                         ))

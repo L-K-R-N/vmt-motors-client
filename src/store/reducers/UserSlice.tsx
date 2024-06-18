@@ -1,13 +1,16 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUser } from '@/models/User.types';
+
 import PersonService from '@/api/services/PersonService';
+import { IUser } from '@/api/models/Person';
 
 export interface IUserState {
    me: IUser | null;
+   isAdmin: boolean;
 }
 
 const initialState: IUserState = {
    me: null,
+   isAdmin: true,
 };
 
 interface IChangePhoto {

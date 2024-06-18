@@ -1,8 +1,5 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TBody, TBrand, TColor } from './FilterSlice';
-import { IPostProductRequest, IProduct } from '@/api/models/Products';
-
-export type TOwner = 'OWNER' | 'PRIVATE_OWNER' | 'COMPANY' | 'OTHER';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IProduct } from '@/api/models/Products';
 
 // interface IBrand {
 //    id: number;
@@ -23,12 +20,13 @@ export interface IOption {
 export interface IProductsState {
    products: IProduct[];
    myProducts: IProduct[];
+   moderatedProducts: IProduct[];
    filtredProducts: IProduct[];
 }
 const initialState: IProductsState = {
    products: [],
    myProducts: [],
-
+   moderatedProducts: [],
    filtredProducts: [],
 };
 
@@ -47,47 +45,17 @@ export const ProductsSlice = createSlice({
       setMyProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.myProducts = action.payload;
       },
-   },
-   extraReducers: (builder) => {
-      // builder.addCase(
-      //    postProduct,
-      //    (state, action: PayloadAction<IPostProduct>) => {
-      //       const payload = action.payload;
-      //       try {
-      //          (async () => {
-      //             const response = await ProductService.postProduct({
-      //                body: payload.body,
-      //                brand: payload.brand,
-      //                color: payload.color,
-      //                coloring: payload.coloring,
-      //                desc: payload.desc,
-      //                driveUnit: payload.driveUnit,
-      //                exchange: payload.exchange,
-      //                from: payload.from,
-      //                fuel: payload.fuel,
-      //                gear: payload.gear,
-      //                generation: payload.generation,
-      //                isNew: true,
-      //                mileage: payload.mileage,
-      //                model: payload.model,
-      //                name: payload.name,
-      //                owner: payload.owner,
-      //                photo: payload.photo,
-      //                price: payload.price,
-      //                trade: payload.trade,
-      //                type: payload.type,
-      //                year: payload.year,
-      //             });
-      //          })();
-      //       } catch (e) {
-      //          console.log(e);
-      //       }
-      //    },
-      // );
+      setModeratedProducts: (state, action: PayloadAction<IProduct[]>) => {
+         state.moderatedProducts = action.payload;
+      },
    },
 });
 
 export default ProductsSlice.reducer;
 
-export const { setProducts, setFiltredProducts, setMyProducts } =
-   ProductsSlice.actions;
+export const {
+   setProducts,
+   setFiltredProducts,
+   setMyProducts,
+   setModeratedProducts,
+} = ProductsSlice.actions;

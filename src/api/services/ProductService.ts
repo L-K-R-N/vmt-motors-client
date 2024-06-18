@@ -1,6 +1,10 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
-import { IProduct, IPostProductRequest } from '../models/Products';
+import {
+   IProduct,
+   IPostProductRequest,
+   ISearchProductsRequest,
+} from '../models/Products';
 
 export default class ProductService {
    // GET
@@ -19,7 +23,11 @@ export default class ProductService {
    static async getProduct(data: {
       productId: string;
    }): Promise<AxiosResponse<IProduct>> {
-      return $api.get<IProduct>(`product/commodity/one/${data.productId}`);
+      return $api.get<IProduct>(`product/commodity/one`, {
+         params: {
+            commodityId: data.productId,
+         },
+      });
    }
    static async getAllProducts(
       params: IParams,
@@ -28,7 +36,7 @@ export default class ProductService {
          params: params,
       });
    }
-   static async getAllModerationProducts(
+   static async getAllModeratedProducts(
       params: IParams,
    ): Promise<AxiosResponse<IProduct[]>> {
       return $api.get<IProduct[]>(`product/commodity/moderation/all`, {
@@ -43,26 +51,31 @@ export default class ProductService {
    }
 
    static async getFiltredProducts(
-      data: IPostProductRequest,
+      data: ISearchProductsRequest,
    ): Promise<AxiosResponse<IProduct[]>> {
       return $api.get<IProduct[]>(`product/commodity/search/`, {
          params: {
-            type: data.type,
+            page: data.page,
+            size: data.size,
+            sortBy: data.sortBy,
+            reverse: data.reverse,
             name: data.name,
-            description: data.desc,
+            type: data.type,
             isNew: data.isNew,
             brand: data.brand,
             body: data.body,
+            owner: data.owner,
+            coloring: data.coloring,
+            model: data.model,
+            priceFrom: data.priceFrom,
+            priceTo: data.priceTo,
+            yearFrom: data.yearFrom,
+            yearTo: data.yearTo,
+            millageFrom: data.millageFrom,
+            millageTo: data.millageTo,
             from: data.from,
             exchange: data.exchange,
             trade: data.trade,
-            millage: data.millage,
-            owner: data.owner,
-            color: data.color,
-            coloring: data.coloring,
-            model: data.model,
-            price: data.price,
-            year: data.year,
             generation: data.generation,
             gear: data.gear,
             fuel: data.fuel,
@@ -125,7 +138,7 @@ export default class ProductService {
    static async deleteProduct(data: {
       productId: string;
    }): Promise<AxiosResponse> {
-      return $api.delete(`product/commodity/`, {
+      return $api.delete(`product/commodity`, {
          data: {
             commodityId: data.productId,
          },

@@ -1,0 +1,103 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+.card {
+   @include flex($direction: column, $align: start);
+   width: 100%;
+   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.155);
+   border-radius: 10px;
+   padding: 10px 15px;
+   position: relative;
+   transition: 0.3s;
+   height: 80px;
+   cursor: pointer;
+   &:hover {
+      box-shadow: $shadow;
+   }
+
+   &Header {
+      // @include flex($justify: start);
+      gap: 15px;
+      width: 100%;
+
+      .title {
+         font-size: 24px;
+         font-weight: 500;
+         display: inline;
+         margin-right: 10px;
+      }
+
+      .price {
+         font-size: 20px;
+         font-weight: 400;
+      }
+   }
+
+   .stages {
+      font-weight: 500;
+      font-size: 14px;
+      color: $green;
+
+      & > span {
+         color: $gray;
+      }
+   }
+
+   &Control {
+      position: absolute;
+      top: 0;
+      right: 0;
+      @include flex($direction: column);
+      height: 100%;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+      overflow: hidden;
+      & > button {
+         height: 50%;
+         border: none;
+         width: 40px;
+         height: 40px;
+         transition: 0.3s;
+         background: $black;
+
+         & > svg {
+            width: 100%;
+            height: 100%;
+            color: $white;
+            transition: 0.3s;
+            padding: 8px;
+         }
+
+         &:hover {
+            background: $soft-gray;
+
+            & > svg {
+               color: $black;
+            }
+         }
+      }
+   }
+
+   .settingsBtn {
+      border: none;
+      width: 40px;
+      height: 40px;
+      background: $black;
+      transition: 0.3s;
+      & > svg {
+         width: 100%;
+         height: 100%;
+         color: $white;
+         transition: 0.3s;
+         padding: 8px;
+      }
+
+      &:hover {
+         background: $soft-gray;
+
+         & > svg {
+            color: $red;
+         }
+      }
+   }
+}

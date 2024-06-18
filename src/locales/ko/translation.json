@@ -75,16 +75,16 @@
    "gear": "메커니즘",
    "email": "이메일",
 
-   "coupe":"쿠페",
-   "universal":"만능인",
-   "hatchback":"해치백",
-   "roadster":"로드스터",
-   "liftback":"리프트백",
-   "crossover":"크로스오버",
-   "sedan":"의자 가마",
-   "offroad":"오프로드",
-   "compact":"콤팩트",
-   "cabriolet":"카브리올레",
+   "coupe": "쿠페",
+   "universal": "만능인",
+   "hatchback": "해치백",
+   "roadster": "로드스터",
+   "liftback": "리프트백",
+   "crossover": "크로스오버",
+   "sedan": "의자 가마",
+   "offroad": "오프로드",
+   "compact": "콤팩트",
+   "cabriolet": "카브리올레",
 
    "no_desc": "설명 없음",
 
@@ -107,5 +107,14 @@
    "company": "회사",
    "coloring": "착색",
    "seller": "파는 사람",
-   "chats": "채팅"
+   "chats": "채팅",
+
+   "continue_with": "계속",
+   "or": "또는",
+   "username": "사용자 이름",
+   "password": "비밀번호",
+   "forgot_pass": "비밀번호 분실",
+   "already_have_an_account": "당신은 계정이 있습니까?",
+   "no_account?": "계정이 없습니까?",
+   "signup": "등록"
 }

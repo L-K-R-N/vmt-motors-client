@@ -27,8 +27,9 @@
          height: 500px;
          width: 100%;
          position: relative;
-         border-radius: 10px;
+         border-radius: 20px;
          overflow: hidden;
+         border: 1px solid var(--background-secondary);
          & > img {
             object-fit: cover;
             width: 100%;
@@ -36,7 +37,8 @@
             height: 100%;
          }
 
-         .nextBtn, .prevBtn {
+         .nextBtn,
+         .prevBtn {
             position: absolute;
             background: #000;
             height: 100%;
@@ -46,10 +48,8 @@
             opacity: 0;
             transition: 0.3s;
             &:hover {
-            opacity: 0.3;
-
+               opacity: 0.3;
             }
-            
          }
 
          .nextBtn {
@@ -101,6 +101,7 @@
       @include flex($direction: column, $justify: start, $align: stretch);
       gap: 25px;
       color: white;
+      font-family: $font-tildaSans;
       font-weight: 400;
       font-size: 25px;
       &__btns {
@@ -293,7 +294,7 @@
          &__main {
             height: 280px;
             width: 100%;
-
+            border-radius: 0;
             & > img {
                border-radius: 0;
             }

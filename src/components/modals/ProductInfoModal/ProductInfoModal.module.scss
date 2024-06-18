@@ -1,0 +1,85 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.container {
+   @include flex($align: stretch);
+   gap: 20px;
+}
+
+.info {
+   @include flex($direction: column, $justify: start, $align: stretch);
+   font-size: 20px;
+   font-weight: 400;
+   width: 100%;
+   gap: 30px;
+   height: 100%;
+
+   & > p {
+      @include flex($align: start);
+   }
+}
+
+.img {
+   width: 50%;
+   height: 300px;
+   border: 2px solid $soft-gray;
+   border-radius: 10px;
+}
+
+.content {
+   @include flex($direction: column, $align: start);
+   width: 50%;
+}
+
+.cartBtn {
+   height: 40px;
+   @include flex($justify: center);
+   border: none;
+   background: $green;
+   border-radius: 10px;
+   padding: 10px;
+   transition: 0.3s;
+   color: white;
+   gap: 10px;
+   opacity: 0.8;
+   font-weight: 400;
+   width: 100%;
+   font-size: 20px;
+   border: 2px solid $green;
+   & > svg {
+      color: $white;
+      height: 100%;
+      width: 20px;
+      transition: 0.3s;
+   }
+
+   &:hover {
+      opacity: 1;
+   }
+
+   &.inCart {
+      background: transparent;
+      color: $green;
+
+      & > svg {
+         color: $green;
+      }
+      &:hover {
+         border-color: $light-red;
+
+         color: $light-red;
+
+         & > svg {
+            color: $light-red;
+         }
+      }
+   }
+}
+
+.desc {
+   color: $gray;
+   margin-bottom: 40px;
+   font-weight: 400;
+   font-size: 20px;
+}

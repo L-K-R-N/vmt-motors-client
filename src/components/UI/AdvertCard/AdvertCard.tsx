@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import cl from './AdvertCard.module.scss';
 import ownerIcon from './assets/owner.svg';
 import { FaStar } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import defaultPhoto from './assets/defaultPhoto.jpg';
 import { Locale, formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -15,6 +15,13 @@ import { uk } from 'date-fns/locale';
 import { be } from 'date-fns/locale';
 import { TLanguage } from '@/store/reducers/SettingsSlice';
 import { IProduct } from '@/api/models/Products';
+import ProductService from '@/api/services/ProductService';
+import {
+   setModeratedProducts,
+   setMyProducts,
+   setProducts,
+} from '@/store/reducers/ProductsSlice';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
@@ -23,9 +30,13 @@ interface Props {
 
 export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const navigate = useNavigate();
+   const dispatch = useAppDispatch();
    const { lang } = useAppSelector((state) => state.SettingsReducer);
    const [locale, setLocale] = useState(enUS);
-
+   const { me, isAdmin } = useAppSelector((state) => state.UserReducer);
+   const location = useLocation();
+   const [isMyProduct, setIsMyProduct] = useState(false);
+   const [isModerating, setIsModerating] = useState(false);
    const changeLocale = (lang: TLanguage): Locale => {
       let currentLocale = locale;
 
@@ -58,7 +69,75 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
 
    useEffect(() => {
       setLocale(changeLocale(lang));
+      console.log(advert.moderated);
    }, [lang]);
+
+   useEffect(() => {
+      setIsModerating(location.pathname === '/admin/dashboard' ? true : false);
+      setIsMyProduct(me?.id === advert.personId ? true : false);
+   }, []);
+
+   const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      try {
+         await ProductService.acceptProduct({ productId: advert.id });
+
+         const moderatedRes = await ProductService.getAllModeratedProducts({
+            page: 0,
+            size: 50,
+         });
+         const res = await ProductService.getAllProducts({
+            page: 0,
+            size: 50,
+         });
+
+         dispatch(setModeratedProducts(moderatedRes.data));
+
+         dispatch(setProducts(res.data));
+      } catch (e) {
+         console.log(e);
+      }
+   };
+   const handleReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      try {
+         await ProductService.rejectProduct({ productId: advert.id });
+
+         const moderatedRes = await ProductService.getAllModeratedProducts({
+            page: 0,
+            size: 50,
+         });
+         const res = await ProductService.getAllProducts({
+            page: 0,
+            size: 50,
+         });
+
+         dispatch(setModeratedProducts(moderatedRes.data));
+
+         dispatch(setProducts(res.data));
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
+   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      try {
+         await ProductService.deleteProduct({ productId: advert.id });
+
+         const response = await ProductService.getMyProducts({
+            page: 0,
+            size: 50,
+         });
+
+         dispatch(setMyProducts(response.data));
+      } catch (e) {
+         console.log(e);
+      }
+   };
 
    return (
       <div
@@ -106,23 +185,19 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                      })}
                   </span>
                </p>
-               {advert.moderated ? (
+               {!advert.moderated && isModerating && isAdmin ? (
                   <div className={cl.advertFooter__buttons}>
-                     <button
-                        className={cl.reject}
-                        onClick={(e) => {
-                           e.stopPropagation();
-                        }}
-                     >
+                     <button className={cl.reject} onClick={handleReject}>
                         REJECT
                      </button>
-                     <button
-                        className={cl.approve}
-                        onClick={(e) => {
-                           e.stopPropagation();
-                        }}
-                     >
+                     <button className={cl.approve} onClick={handleApprove}>
                         APPROVE
+                     </button>
+                  </div>
+               ) : isMyProduct ? (
+                  <div className={cl.advertFooter__buttons}>
+                     <button className={cl.reject} onClick={handleDelete}>
+                        DELETE
                      </button>
                   </div>
                ) : (

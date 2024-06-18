@@ -75,20 +75,20 @@
    "gear": "Механізм",
    "email": "Електронна пошта",
 
-   "coupe":"Купе",
-"universal":"Універсальний",
-"hatchback":"Хетчбек",
-"roadster":"Родстер",
-"liftback":"Ліфтбек",
-"crossover":"Кросовер",
-"sedan":"Седан",
-"offroad":"Бездоріжжя",
-"compact":"Компактний",
-"cabriolet":"Кабріолет",
+   "coupe": "Купе",
+   "universal": "Універсальний",
+   "hatchback": "Хетчбек",
+   "roadster": "Родстер",
+   "liftback": "Ліфтбек",
+   "crossover": "Кросовер",
+   "sedan": "Седан",
+   "offroad": "Бездоріжжя",
+   "compact": "Компактний",
+   "cabriolet": "Кабріолет",
 
-"no_desc": "Опис відсутній",
+   "no_desc": "Опис відсутній",
 
-"price_from": "Ціна від",
+   "price_from": "Ціна від",
    "price_to": "Ціна до",
    "year_from": "Рік з",
    "year_to": "Рік до",
@@ -107,5 +107,14 @@
    "company": "Компанія",
    "coloring": "Розмальовка",
    "seller": "Продавець",
-   "chats": "Чати"
+   "chats": "Чати",
+
+   "continue_with": "Продовживши",
+   "or": "Або",
+   "username": "Ім'я користувача",
+   "password": "Пароль",
+   "forgot_pass": "Забули пароль",
+   "already_have_an_account": "У вас є обліковий запис?",
+   "no_account?": "Немає облікового запису?",
+   "signup": "Реєстрація"
 }

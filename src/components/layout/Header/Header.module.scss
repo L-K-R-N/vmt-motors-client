@@ -136,21 +136,47 @@
 
    .themeSwitcher {
       border-radius: 999px;
-      border: 2px solid white;
-      height: 30px;
-      width: 60px;
+      height: 35px;
+      width: 35px;
       padding: 2px;
-      @include flex($justify: start);
-      transition: 0.3s;
+      @include flex($justify: center);
       cursor: pointer;
-      &__circle {
-         width: 22px;
-         height: 22px;
-         background: white;
-         border-radius: 999px;
+      position: relative;
+      & > svg {
+         color: white;
+         width: 100%;
+         height: 100%;
+         transition: 0.3s;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
       }
-      &.active {
-         justify-content: end;
+
+      &.dark {
+         & > svg {
+            &.sun {
+               opacity: 1;
+               padding-top: 0;
+            }
+            &.moon {
+               opacity: 0;
+               padding-bottom: 50px;
+            }
+         }
+      }
+      &.light {
+         & > svg {
+            &.sun {
+               opacity: 0;
+               padding-top: 50px;
+            }
+
+            &.moon {
+               opacity: 1;
+               padding-top: 0;
+            }
+         }
       }
    }
 }

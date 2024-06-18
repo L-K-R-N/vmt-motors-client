@@ -6,10 +6,10 @@ import talkLogo from './assets/authLogos/talk.svg';
 import appleLogo from './assets/authLogos/apple.svg';
 import naverLogo from './assets/authLogos/naver.svg';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 interface Props {
-   title: string;
    children: ReactNode;
-   link: string;
+   type: 'signin' | 'signup';
 }
 
 interface AuthVariant {
@@ -18,7 +18,7 @@ interface AuthVariant {
    link: string;
 }
 
-export const AuthLayout: React.FC<Props> = ({ children, title, link }) => {
+export const AuthLayout: React.FC<Props> = ({ children, type }) => {
    const [authVariants] = useState<AuthVariant[]>([
       {
          img: googleLogo,
@@ -41,30 +41,39 @@ export const AuthLayout: React.FC<Props> = ({ children, title, link }) => {
          name: 'Naver',
       },
    ]);
+
+   const { t } = useTranslation();
    return (
       <>
          <div className={cl.authLayout}>
             <div className={cl.authLayout__content}>
                <img src={logo} alt="" />
-               <h4 className={cl.authLayout__title}>{title}</h4>
+               <h4 className={cl.authLayout__title}>{t(type)}</h4>
                <ul className={cl.authLayout__variants}>
                   {authVariants.map((av, index) => (
                      <li key={index}>
                         <img src={av.img} alt="" />
-                        Continue with {av.name}
+                        {t('continue_with')} {av.name}
                      </li>
                   ))}
                </ul>
-               <span>OR</span>
+               <span>{t('or')}</span>
                <div className={cl.authLayout__children}>{children}</div>
                <div className={cl.control}>
                   <Link to={'/recover'} className={cl.link}>
-                     Forgot password?
+                     {t('forgot_pass')}?
                   </Link>
                   <p>
-                     Not a remember yet?{' '}
-                     <Link to={`/${link}`} className={cl.link}>
-                        Sign Up
+                     {t(
+                        type === 'signin'
+                           ? 'no_account?'
+                           : 'already_have_an_account',
+                     )}{' '}
+                     <Link
+                        to={`/${type === 'signin' ? 'signup' : 'signin'}`}
+                        className={cl.link}
+                     >
+                        {t(type === 'signin' ? 'signup' : 'signin')}
                      </Link>
                   </p>
                </div>

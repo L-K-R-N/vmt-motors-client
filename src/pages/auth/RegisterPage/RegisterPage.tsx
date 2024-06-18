@@ -8,6 +8,7 @@ import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RegisterPage = () => {
    const navigate = useNavigate();
@@ -16,6 +17,7 @@ const RegisterPage = () => {
    // const verificationForm = useVerification();
    const { isVerifing } = useAppSelector((state) => state.AuthReducer);
    useHideLayout();
+   const { t } = useTranslation();
 
    const dispatch = useAppDispatch();
 
@@ -25,7 +27,7 @@ const RegisterPage = () => {
       }
    }, [isVerifing]);
    return (
-      <AuthLayout title="Sign Up" link="signin">
+      <AuthLayout type="signup">
          <form
             className={cl.form}
             onSubmit={registerForm.handleSubmit(registerForm.onSubmit)}
@@ -33,7 +35,7 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Username"
+               label={t('username')}
                name="username"
                fieldType="input"
                rules={{ required: 'Username is required' }}
@@ -42,7 +44,7 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Name"
+               label={t('name')}
                name="name"
                fieldType="input"
                rules={{ required: 'Name is required' }}
@@ -50,7 +52,7 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Date of birth"
+               label={t('date_of_birth')}
                name="dateOfBirth"
                fieldType="input"
                rules={{ required: 'Date of birth is required' }}
@@ -58,7 +60,7 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Password"
+               label={t('password')}
                name="password"
                fieldType="input"
                rules={{ required: 'Password is required' }}
@@ -66,7 +68,7 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Email"
+               label={t('email')}
                name="email"
                fieldType="input"
                rules={{ required: 'Email is required' }}
@@ -74,13 +76,13 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label="Gender"
+               label={t('gender')}
                name="gender"
                fieldType="input"
                rules={{ required: 'Gender is required' }}
             />
             <Button type="submit" title="Registration">
-               Sign Up
+               {t('signup')}
             </Button>
          </form>
       </AuthLayout>

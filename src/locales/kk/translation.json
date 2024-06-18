@@ -75,20 +75,20 @@
    "gear": "Механизм",
    "email": "Электрондық пошта",
 
-   "coupe":"Купе",
-   "universal":"Әмбебап",
-   "hatchback":"Хетчбек",
-   "roadster":"Жолшы",
-   "liftback":"Лифтбек",
-   "crossover":"Кроссовер",
-   "sedan":"Седан",
-   "offroad":"Кез келген жерден жүре беретін",
-   "compact":"Ықшам",
-   "cabriolet":"Кабриолет",
+   "coupe": "Купе",
+   "universal": "Әмбебап",
+   "hatchback": "Хетчбек",
+   "roadster": "Жолшы",
+   "liftback": "Лифтбек",
+   "crossover": "Кроссовер",
+   "sedan": "Седан",
+   "offroad": "Кез келген жерден жүре беретін",
+   "compact": "Ықшам",
+   "cabriolet": "Кабриолет",
 
    "no_desc": "Сипаттамасы жоқ",
 
-   "price_from":"«Бағасы",
+   "price_from": "«Бағасы",
    "price_to": "Бағасы",
    "year_from": "Жылдан бастап",
    "year_to": "Жылға",
@@ -107,5 +107,14 @@
    "company": "Компания",
    "coloring": "Бояу",
    "seller": "Сатушы",
-   "chats": "Чаттар"
+   "chats": "Чаттар",
+
+   "continue_with": "Жалғастыру",
+   "or": "Немесе",
+   "username": "Пайдаланушы аты",
+   "password": "Құпия сөз",
+   "forgot_pass": "Құпия сөзді ұмыттыңыз",
+   "already_have_an_account": "Сізде есептік жазба бар ма?",
+   "no_account?": "Есептік жазба жоқ па?",
+   "signup": "Тіркелу"
 }
