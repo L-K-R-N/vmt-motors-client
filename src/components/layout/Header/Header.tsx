@@ -21,6 +21,7 @@ export const Header: React.FC<Props> = () => {
    const { t } = useTranslation();
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { me } = useAppSelector((state) => state.UserReducer);
+   const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { lang, theme, langs } = useAppSelector(
       (state) => state.SettingsReducer,
    );
@@ -28,7 +29,7 @@ export const Header: React.FC<Props> = () => {
    const [authMenuItems, setAuthMenuItems] = useState([
       {
          text: 'catalog',
-         to: 'adverts',
+         to: 'catalog',
       },
       {
          text: 'about',
@@ -141,10 +142,17 @@ export const Header: React.FC<Props> = () => {
                            <IoSunny className={cl.sun} />
                            <FaMoon className={cl.moon} />
                         </div>
-                        <Link to={'/profile'} className={cl.header__profile}>
-                           <img src={userIcon} alt="" />
-                           <span>{me?.username}</span>
-                        </Link>
+                        {isAuth ? (
+                           <Link
+                              to={`/profile/${me?.id}`}
+                              className={cl.header__profile}
+                           >
+                              <img src={userIcon} alt="" />
+                              <span>{me?.username}</span>
+                           </Link>
+                        ) : (
+                           <div className={cl.auth__btns}></div>
+                        )}
                      </div>
                   </div>
                </Wrapper>

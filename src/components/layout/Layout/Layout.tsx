@@ -20,18 +20,20 @@ export const Layout: React.FC<Props> = () => {
    //    navigate(isAuth ? '/about' : '/signin');
    // }, [isAuth]);
 
-   return isAuth ? (
+   return (
       <>
          <Header />
          <main className={cl.main}>
             <Suspense fallback={<Loader />}>
                <Sidebar />
-               <Outlet />
+               {isAuth ? (
+                  <Outlet />
+               ) : (
+                  <Navigate to="/signin" state={{ from: location }} replace />
+               )}
             </Suspense>
          </main>
          <Footer />
       </>
-   ) : (
-      <Navigate to="/signin" state={{ from: location }} replace />
    );
 };

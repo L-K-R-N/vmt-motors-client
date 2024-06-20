@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { handleRegister } from '@/api/hooks/Auth';
+import { IRegisterFormShema } from './RegisterPage';
 
 export interface IRegisterInputs {
    username: string;
@@ -19,7 +20,7 @@ export const useRegisterForm = () => {
       handleSubmit,
       formState: { errors },
       control,
-   } = useForm<IRegisterInputs>({
+   } = useForm<IRegisterFormShema>({
       mode: 'onChange',
    });
 
@@ -31,7 +32,7 @@ export const useRegisterForm = () => {
 
    const from = location.state?.from?.pathname || '/';
 
-   const onSubmit: SubmitHandler<IRegisterInputs> = (data) => {
+   const onSubmit: SubmitHandler<IRegisterFormShema> = (data) => {
       try {
          handleRegister(data, dispatch, navigate);
 

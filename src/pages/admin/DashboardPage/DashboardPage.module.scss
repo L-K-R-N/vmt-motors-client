@@ -20,7 +20,7 @@
    gap: 25px;
    width: 49%;
    max-height: 100%;
-   border: 1px solid var(--text-primary);
+   border: 1px solid white;
    overflow-y: scroll;
 
    &::-webkit-scrollbar {
@@ -35,6 +35,16 @@
       &-button {
          height: 10px;
       }
+   }
+
+   & > .no_products {
+      width: 100%;
+      height: 100%;
+      @include flex($justify: center);
+      font-size: 40px;
+      color: rgb(66, 66, 66);
+      font-weight: 700;
+      text-align: center;
    }
 }
 

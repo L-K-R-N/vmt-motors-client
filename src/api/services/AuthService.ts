@@ -23,8 +23,6 @@ export default class AuthService {
          username: data.username,
          password: data.password,
          name: data.name,
-         dateOfBirth: data.dateOfBirth,
-         gender: data.gender,
       });
    }
    static async verificationEmailSend(

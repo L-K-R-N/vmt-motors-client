@@ -38,9 +38,11 @@ const DashboardPage: React.FC<Props> = () => {
    return (
       <div className={cl.page}>
          <ul className={cl.dashboard}>
-            {moderatedProducts
-               ? moderatedProducts.map((p) => <AdvertCard advert={p} />)
-               : 'Нет объявлений для проверки'}
+            {moderatedProducts.length ? (
+               moderatedProducts.map((p) => <AdvertCard advert={p} />)
+            ) : (
+               <li className={cl.no_products}>Нет объявлений для проверки</li>
+            )}
          </ul>
          <Activity />
       </div>

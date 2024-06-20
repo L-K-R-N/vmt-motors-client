@@ -1,14 +1,17 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
-import { IUser } from '@/models/User.types';
-import { IStatusResponse } from '../models/Person';
+import { IStatusResponse, IUser } from '../models/Person';
 
 export default class PersonService {
    static async getMe(): Promise<AxiosResponse<IUser>> {
       return $api.get<IUser>('person/me');
    }
    static async getPerson(id: string): Promise<AxiosResponse<IUser>> {
-      return $api.get<IUser>(`person/${id}`);
+      return $api.get<IUser>(`person`, {
+         params: {
+            personId: id,
+         },
+      });
    }
    static async getPersonByUsername(
       username: string,
@@ -33,7 +36,7 @@ export default class PersonService {
       return $api.get<IStatusResponse>(`person/status/selected/${id}`);
    }
 
-   static async banPerson(id: string): Promise<AxiosResponse> {
+   static async banPerson(id: string): Promise<AxiosResponse<IUser>> {
       return $api.post<IUser>(`person/ban/ban/${id}`, {
          id,
       });
@@ -44,17 +47,30 @@ export default class PersonService {
       });
    }
 
-   static async changePersonPhoto(
-      id: string,
-      photo: string,
-   ): Promise<AxiosResponse> {
-      return $api.post<string>(`person/profile-photo/`, {
-         id,
-         photo,
+   static async changePersonPhoto(photo: FormData): Promise<AxiosResponse> {
+      return $api.post(
+         `person/profile_photo`,
+         {
+            file: photo,
+         },
+         {
+            headers: {
+               'Content-Type': 'multipart/form-data',
+            },
+         },
+      );
+   }
+   static async getPersonPhoto(data: {
+      id: string;
+   }): Promise<AxiosResponse<string>> {
+      return $api.get<string>(`person/profile_photo`, {
+         params: {
+            personId: data.id,
+         },
       });
    }
-   static async deletePersonPhoto(id: string): Promise<AxiosResponse> {
-      return $api.delete(`person/profile-photo/${id}`);
+   static async deletePersonPhoto(): Promise<AxiosResponse> {
+      return $api.delete(`person/profile_photo`);
    }
    static async changePersonContact(
       id: string,

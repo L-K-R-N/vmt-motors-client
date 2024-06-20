@@ -2,8 +2,9 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { BASE_URL } from './app.vars.ts';
 import { handleRefresh } from './hooks/Auth.ts';
 import { IAuthResponse } from './models/Auth.ts';
-import { getBrowserAndOS } from '@/store/reducers/AuthSlice.tsx';
+import { getBrowserAndOS, setIsAuth } from '@/store/reducers/AuthSlice.tsx';
 import { jwtDecode } from 'jwt-decode';
+import { store } from '@/store/index.ts';
 
 export const $api: AxiosInstance = axios.create({
    withCredentials: true,
@@ -40,7 +41,7 @@ const refreshTokens = async () => {
       console.log(e);
       localStorage.removeItem('token');
       localStorage.removeItem('refresh');
-
+      store.dispatch(setIsAuth(false));
       return null;
    }
 };
@@ -48,6 +49,7 @@ const refreshTokens = async () => {
 $api.interceptors.request.use(
    async (config) => {
       const access = localStorage.getItem('token');
+      const refresh = localStorage.getItem('refresh');
 
       if (access) {
          const decodedToken = jwtDecode(access);
@@ -67,8 +69,14 @@ $api.interceptors.request.use(
          }
 
          // if ()
-      }
-      // config.headers['Access-Control-Allow-Origin'] = `*`;
+      } else if (refresh) {
+         const newAccess = refreshTokens();
+         config.headers.Authorization = `Bearer ${newAccess}`;
+      } else {
+         localStorage.removeItem('token');
+         localStorage.removeItem('refresh');
+         store.dispatch(setIsAuth(false));
+      } // config.headers['Access-Control-Allow-Origin'] = `*`;
       // config.headers['Access-Control-Allow-Origin'] = '*';
       return config;
    },

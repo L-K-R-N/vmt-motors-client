@@ -2,38 +2,14 @@ import cl from './UsersListPage.module.scss';
 import { useHideFooter } from '@/hooks/useLayout';
 import { useEffect, useMemo, useState } from 'react';
 import { Activity } from '@/components/layout/Activity/Activity';
+import PersonService from '@/api/services/PersonService';
 
 interface Props {}
 
 const UsersListPage: React.FC<Props> = () => {
    useHideFooter();
    const [search, setSearch] = useState('');
-   const [users] = useState<{ username: string; role: string }[]>([
-      {
-         username: 'Владиaaслав Хван',
-         role: 'ADMINISTRATOR',
-      },
-      {
-         username: 'Владислав Хвaaан',
-         role: 'MODERATOR',
-      },
-      {
-         username: 'Владислaaaав Хван',
-         role: 'HELPER',
-      },
-      {
-         username: 'Владaaислав Хван',
-         role: 'ADMINISTRATOR',
-      },
-      {
-         username: 'Владиaслав Хван',
-         role: 'MODERATOR',
-      },
-      {
-         username: 'Влaaaадислав Хван',
-         role: 'HELPER',
-      },
-   ]);
+   const [users] = useState<{ username: string; role: string }[]>([]);
    const useFilterUsers = (
       users: { username: string; role: string }[],
       search: string,
@@ -49,6 +25,13 @@ const UsersListPage: React.FC<Props> = () => {
    };
    let filtredUsers = useFilterUsers(users, search);
 
+   const handleSetUsers = () => {
+      try {
+         const response = PersonService.getAllModerations;
+      } catch (e) {
+         console.log(e);
+      }
+   };
    useEffect(() => {
       filtredUsers = users;
    }, []);
@@ -73,16 +56,24 @@ const UsersListPage: React.FC<Props> = () => {
                   <div className={cl.usersList__column}>STAFF TYPE</div>
                   <div className={cl.usersList__column}>USERNAME</div>
                </div>
-               <div className={cl.usersList__body}>
-                  {filtredUsers.map((user) => (
-                     <div className={cl.usersList__line} key={user.username}>
-                        <div className={cl.usersList__column}>{user.role}</div>
-                        <div className={cl.usersList__column}>
-                           {user.username}
-                        </div>
-                     </div>
-                  ))}
-               </div>
+               <ul className={cl.usersList__body}>
+                  {filtredUsers.length ? (
+                     filtredUsers.map((user) => (
+                        <li className={cl.usersList__line} key={user.username}>
+                           <div className={cl.usersList__column}>
+                              {user.role}
+                           </div>
+                           <div className={cl.usersList__column}>
+                              {user.username}
+                           </div>
+                        </li>
+                     ))
+                  ) : (
+                     <li className={cl.no_products}>
+                        Нет пользователей для проверки
+                     </li>
+                  )}
+               </ul>
             </div>
          </div>
          <Activity />

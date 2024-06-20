@@ -7,6 +7,11 @@ import cl from './ProductPage.module.scss';
 import { IProduct } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import defaultPhoto from './assets/defaultPhoto.jpg';
+import maleAvatar from './assets/maleAvatar.jpg';
+import femaleAvatar from './assets/femaleAvatar.jpg';
+import PersonService from '@/api/services/PersonService';
+import { IUser } from '@/api/models/Person';
+import { useTranslation } from 'react-i18next';
 
 interface Props {}
 
@@ -14,16 +19,19 @@ const ProductPage: React.FC<Props> = () => {
    const [product, setProduct] = useState<IProduct | null>(null);
    const params = useParams();
    const [activeImgId, setActiveImgId] = useState(1);
+   const [user, setUser] = useState<IUser | null>(null);
+   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
    const {} = useForm<IStageInputs>({
       mode: 'onChange',
    });
+   const { t } = useTranslation();
 
    interface IStageInputs {
       start: string;
       end: string;
    }
 
-   const handleGetProduct = async (productId: string) => {
+   const handleSetProduct = async (productId: string) => {
       try {
          const response = await ProductService.getProduct({
             productId: productId,
@@ -34,19 +42,47 @@ const ProductPage: React.FC<Props> = () => {
          console.log(e);
       }
    };
+
+   const handleSetUser = async (id: string) => {
+      try {
+         const response = await PersonService.getPerson(id);
+
+         setUser(response.data);
+      } catch (e) {
+         console.log(e);
+      }
+   };
    useEffect(() => {
       // const newProducts = [...products];
       // const currentProduct = newProducts.find((p) => p.id === );
       if (params.id) {
-         handleGetProduct(params.id);
+         handleSetProduct(params.id);
       }
-      console.log(product);
    }, []);
+
+   useEffect(() => {
+      if (product?.personId) handleSetUser(product.personId);
+      console.log(product);
+   }, [product]);
    useHideSidebar();
 
    const [imgs] = useState<{ id: number; src: string }[]>([]);
 
    const navigate = useNavigate();
+
+   const handleGetAvatar = async () => {
+      try {
+         if (user) {
+            const response = await PersonService.getPersonPhoto({
+               id: user.id,
+            });
+
+            setAvatarUrl(response.data);
+         }
+      } catch (e) {
+         console.log(e);
+      }
+   };
 
    const chooseImg = (direction: 'next' | 'prev') => {
       switch (direction) {
@@ -59,6 +95,15 @@ const ProductPage: React.FC<Props> = () => {
             break;
       }
    };
+
+   useEffect(() => {
+      if (user && user.hasProfilePhoto) {
+         handleGetAvatar();
+      }
+   }, [user]);
+   // const toArray = (products: {}) => {
+   //    const keys = product
+   // }
 
    return (
       <div className={cl.page}>
@@ -98,9 +143,22 @@ const ProductPage: React.FC<Props> = () => {
                </div>
                <div className={cl.page__contentContainer}>
                   <div className={cl.info}>
-                     <div className={cl.owner}>
-                        <img className={cl.owner__avatar} src="" alt="" />
-                        <span className={cl.owner__name}>Владислав Найков</span>
+                     <div
+                        className={cl.owner}
+                        onClick={() => navigate(`/profile/${user?.id}`)}
+                     >
+                        <img
+                           className={cl.owner__avatar}
+                           src={
+                              avatarUrl
+                                 ? avatarUrl
+                                 : user?.gender === 'FEMALE'
+                                   ? femaleAvatar
+                                   : maleAvatar
+                           }
+                           alt=""
+                        />
+                        <span className={cl.owner__name}>{user?.username}</span>
                      </div>
                      <div className={cl.location}>
                         Beverly Hills, CA, United States
@@ -110,34 +168,17 @@ const ProductPage: React.FC<Props> = () => {
                            Vehicle Characteristics
                         </h5>
                         <ul className={cl.stats__list}>
-                           <li>
-                              <span>Year of release: </span>
-                              {product?.year}
-                           </li>
-                           <li>
-                              <span>Color: </span>
-                              {product?.color}
-                           </li>
-                           <li>
-                              <span>The body: </span>
-                              {product?.body}
-                           </li>
-                           <li>
-                              <span>Fuel: </span>
-                              {product?.fuel}
-                           </li>
-                           <li>
-                              <span>Mileage: </span>
-                              {product?.millage} км
-                           </li>
-                           <li>
-                              <span>Gear: </span>
-                              {product?.gear}
-                           </li>
-                           <li>
-                              <span>Generation: </span>
-                              {product?.generation}
-                           </li>
+                           {product &&
+                              Object.entries(product).map(
+                                 ([key, value]) =>
+                                    key !== 'id' &&
+                                    key !== 'personId' &&
+                                    key !== 'moderated' && (
+                                       <li>
+                                          <span>{t(key)}:</span> {value}
+                                       </li>
+                                    ),
+                              )}
                         </ul>
                      </div>
                      <div className={cl.info__btns}>
@@ -147,14 +188,24 @@ const ProductPage: React.FC<Props> = () => {
                         <button title="Send message">Send message</button>
                      </div>
                   </div>
-                  <div className={cl.comment}>
-                     <h5 className={cl.comment__title}>Комментарий продавца</h5>
+                  {product?.description && (
+                     <div className={cl.comment}>
+                        <h5 className={cl.comment__title}>
+                           Комментарий продавца
+                        </h5>
 
-                     <div className={cl.comment__text}>
-                        <h6 className={cl.comment__subtitle}>About this car</h6>
-                        <p className={cl.comment__desc}>{product?.desc}</p>
+                        <p
+                           className={[
+                              cl.comment__desc,
+                              !product?.description ? cl.no_comment : '',
+                           ].join(' ')}
+                        >
+                           {product?.description
+                              ? product?.description
+                              : 'Продавец не оставил комментарий'}
+                        </p>
                      </div>
-                  </div>
+                  )}
                </div>
             </div>
          </div>

@@ -177,7 +177,7 @@ export const Footer: React.FC<Props> = () => {
                      </div>
                      <p className={cl.footer__rights}>
                         <span>© {t('all_rights_reserved')}.</span>{' '}
-                        <span>vtmmotors@co.com</span>
+                        <span>vmtmotors@co.com</span>
                      </p>
                   </div>
                </Wrapper>

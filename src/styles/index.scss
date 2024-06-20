@@ -5,22 +5,25 @@ html {
 :root {
    /* light theme tokens */
    --background-primary-light: rgb(255, 255, 255);
+   --background-tertiary-light: rgb(255, 255, 255);
    --text-primary-light: rgb(0, 0, 0);
    --text-secondary-light: rgb(255, 255, 255);
    --text-tertiary-light: #404040;
    --background-secondary-light: rgb(0, 0, 0);
    --negative-light: rgb(255, 255, 255);
    --negative-02-light: rgba(0, 0, 0, 0.144);
-
+   --border-primary-light: rgb(255, 255, 255);
 
    /* dark theme tokens */
-   --background-primary-dark: rgb(18, 18, 20);
+   --background-primary-dark: rgb(23, 22, 22);
+   --background-tertiary-dark: rgb(29, 28, 46);
    --text-primary-dark: rgb(255, 255, 255);
    --text-secondary-dark: rgb(0, 0, 0);
    --text-tertiary-dark: #bdbdbd;
    --background-secondary-dark: rgb(255, 255, 255);
    --negative-dark: rgb(0, 0, 0);
    --negative-02-dark: rgba(255, 255, 255, 0.137);
+   --border-primary-dark: rgb(75, 75, 75);
 }
 
 /* map tokens to proper theme */
@@ -32,17 +35,20 @@ html {
    --text-secondary: var(--text-secondary-light);
    --negative-02: var(--negative-02-light);
    --text-tertiary: var(--text-tertiary-light);
+   --background-tertiary: var(--background-tertiary-light);
+   --border-primary: var(--border-primary-light);
 }
-
 
 [data-theme='dark'] {
    --background-primary: var(--background-primary-dark);
    --background-secondary: var(--background-secondary-dark);
    --negative: var(--negative-dark);
+   --background-tertiary: var(--background-tertiary-dark);
    --text-primary: var(--text-primary-dark);
    --text-secondary: var(--text-secondary-dark);
    --negative-02: var(--negative-02-dark);
    --text-tertiary: var(--text-tertiary-dark);
+   --border-primary: var(--border-primary-dark);
 }
 
 body {

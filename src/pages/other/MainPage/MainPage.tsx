@@ -6,12 +6,17 @@ import tgIcon from './assets/tg.svg';
 import youtubeIcon from './assets/youtube.svg';
 import mapJpg from './assets/map.jpg';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {}
 
 const MainPage: React.FC<Props> = () => {
    useHideSidebar();
+   const navigate = useNavigate();
    const { t } = useTranslation();
+
+   const { isAuth } = useAppSelector((state) => state.AuthReducer);
    return (
       <div className={cl.mainPage}>
          <div className={cl.mainPage__intro}>
@@ -23,9 +28,15 @@ const MainPage: React.FC<Props> = () => {
                <br />
                {t('info')}
             </p>
-            <Button title="Sign In" type="button">
-               {t('signin')}
-            </Button>
+            {!isAuth && (
+               <Button
+                  title="Sign In"
+                  type="button"
+                  onClick={() => navigate('/signin')}
+               >
+                  {t('signin')}
+               </Button>
+            )}
          </div>
          <div className={cl.mainPage__about}>
             <div className={cl.wrapper}>
@@ -60,7 +71,12 @@ const MainPage: React.FC<Props> = () => {
                   <h5>USA NY NEW YORK</h5>
                   <ul className={cl.mainPage__contacts_socialList}>
                      <li>
-                        <img src={instIcon} alt="" />
+                        <a
+                           href="https://www.instagram.com/vmt_motors_kr/"
+                           target="_blank"
+                        >
+                           <img src={instIcon} alt="Our instagram" />
+                        </a>
                      </li>
                      <li>
                         <img src={tgIcon} alt="" />
@@ -73,7 +89,7 @@ const MainPage: React.FC<Props> = () => {
             </div>
             <img className={cl.mainPage__contacts_img} src={mapJpg} alt="" />
          </div>
-         <div className={cl.mainPage__form}>
+         {/* <div className={cl.mainPage__form}>
             <div className={cl.wrapper}>
                <div className={cl.mainPage__form_content}>
                   <h4 className={cl.title}>VMT MOTORS</h4>
@@ -83,7 +99,7 @@ const MainPage: React.FC<Props> = () => {
                </div>
             </div>
          </div>
-         <div className={cl.mainPage__form_auth}></div>
+         <div className={cl.mainPage__form_auth}></div> */}
       </div>
    );
 };

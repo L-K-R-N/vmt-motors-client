@@ -16,12 +16,14 @@ import { be } from 'date-fns/locale';
 import { TLanguage } from '@/store/reducers/SettingsSlice';
 import { IProduct } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
+import { IoStarOutline } from 'react-icons/io5';
 import {
    setModeratedProducts,
    setMyProducts,
    setProducts,
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { MdOutlineStarBorderPurple500 } from 'react-icons/md';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
@@ -109,17 +111,23 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
             page: 0,
             size: 50,
          });
-         const res = await ProductService.getAllProducts({
-            page: 0,
-            size: 50,
-         });
+         // const res = await ProductService.getAllProducts({
+         //    page: 0,
+         //    size: 50,
+         // });
 
          dispatch(setModeratedProducts(moderatedRes.data));
 
-         dispatch(setProducts(res.data));
+         // dispatch(setProducts(res.data));
       } catch (e) {
          console.log(e);
       }
+   };
+
+   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      try {
+      } catch (e) {}
    };
 
    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -128,12 +136,17 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       try {
          await ProductService.deleteProduct({ productId: advert.id });
 
-         const response = await ProductService.getMyProducts({
+         const myProductsRes = await ProductService.getMyProducts({
+            page: 0,
+            size: 50,
+         });
+         const productsRes = await ProductService.getAllProducts({
             page: 0,
             size: 50,
          });
 
-         dispatch(setMyProducts(response.data));
+         dispatch(setMyProducts(myProductsRes.data));
+         dispatch(setProducts(productsRes.data));
       } catch (e) {
          console.log(e);
       }
@@ -152,17 +165,25 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
          <div className={cl.advertContainer}>
             <div className={cl.advertHeader}>
                <div className={cl.advertHeader__top}>
-                  <h4 className={cl.advertHeader__title}>{advert?.name}</h4>
+                  <h4 className={cl.advertHeader__title}>
+                     {advert?.name}
+                     <span className={cl.advertHeader__model}>
+                        {advert?.model}
+                     </span>
+                  </h4>
                   <p className={cl.advertHeader__price}>{advert?.price}$</p>
                   <button
-                     className={cl.advertHeader__isFavorite}
+                     className={[cl.advertHeader__isFavorite, cl.active].join(
+                        ' ',
+                     )}
                      title="Добавить в избранное"
+                     onClick={handleAddToCart}
                   >
-                     <FaStar />
+                     <IoStarOutline />
                   </button>
                </div>
-               <span className={cl.advertHeader__model}>{advert?.model}</span>
-               <p className={cl.advertHeader__desc}>{advert?.desc}</p>
+
+               <p className={cl.advertHeader__desc}>{advert?.description}</p>
                <span
                   className={[
                      cl.advertHeader__isNew,

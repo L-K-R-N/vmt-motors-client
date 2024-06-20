@@ -13,6 +13,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
 import { AppDispatch } from '@/store';
 import { IVerificationInputs } from '@/pages/auth/VerifyPage/useVerification';
+import { IRegisterFormShema } from '@/pages/auth/RegisterPage/RegisterPage';
 
 export const handleRefresh = async (
    data: IRefreshInputs,
@@ -43,17 +44,15 @@ export const handleRefresh = async (
 };
 
 export const handleRegister = async (
-   data: IRegisterInputs,
+   data: IRegisterFormShema,
    dispatch: AppDispatch,
    navigate: NavigateFunction,
 ) => {
    try {
       const dateOfBirth = new Date();
       const registerResponse = await AuthService.register({
-         dateOfBirth: dateOfBirth,
          password: data.password,
          username: data.username,
-         gender: data.gender,
          name: data.name,
       });
 

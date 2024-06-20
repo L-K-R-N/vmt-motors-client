@@ -12,7 +12,7 @@ export interface IProduct {
    trade: boolean;
    owner: TOwner;
    name: string;
-   desc: string;
+   description: string;
    brand: TBrand;
    body: TBody;
    color: TColor;

@@ -7,6 +7,9 @@ export const Products = () => {
       (state) => state.ProductsReducer,
    );
 
+
+   
+
    return (
       <>
          <div className={cl.wrapper}>

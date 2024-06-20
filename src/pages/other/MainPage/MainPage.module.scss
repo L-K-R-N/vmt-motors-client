@@ -129,6 +129,14 @@
          &List {
             @include flex();
             gap: 10px;
+
+            & > li {
+               opacity: 0.8;
+               transition: 0.3s;
+               &:hover {
+                  opacity: 1;
+               }
+            }
          }
       }
    }

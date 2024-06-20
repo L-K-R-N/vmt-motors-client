@@ -1,5 +1,5 @@
 import cl from './ProfilePage.module.scss';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import maleAvatar from './assets/maleAvatar.jpg';
 import femaleAvatar from './assets/femaleAvatar.jpg';
 import { useHideSidebar } from '@/hooks/useLayout';
@@ -8,15 +8,19 @@ import { BsHouseFill } from 'react-icons/bs';
 import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaCakeCandles } from 'react-icons/fa6';
 import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { MdLocationOn } from 'react-icons/md';
 // import { logout } from '@/store/reducers/AuthSlice';
-import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
 import { handleLogout } from '@/api/hooks/Auth';
 import { handleGetMe } from '@/api/hooks/Person';
+import PersonService from '@/api/services/PersonService';
+import { IUser } from '@/api/models/Person';
+import { IProduct } from '@/api/models/Products';
+import { setMyProducts } from '@/store/reducers/ProductsSlice';
+import { AvatarUpload } from '@/components/layout/UploadAvatar/UploadAvatar';
 
 interface Props {}
 
@@ -29,9 +33,13 @@ interface IUserInfoItem {
 const ProfilePage: React.FC<Props> = () => {
    const { t } = useTranslation();
    const { lang } = useAppSelector((state) => state.SettingsReducer);
+   // const { me } = useAppSelector((state) => state.UserReducer);
+   const dispatch = useAppDispatch();
+   const params = useParams();
    const { me } = useAppSelector((state) => state.UserReducer);
    const { myProducts } = useAppSelector((state) => state.ProductsReducer);
-   const dispatch = useAppDispatch();
+   const [user, setUser] = useState<IUser | null>(null);
+   const [products, setProducts] = useState<IProduct[]>([]);
    const [userInfo, setUserInfo] = useState<IUserInfoItem[]>([
       {
          icon: <FaCakeCandles />,
@@ -46,7 +54,7 @@ const ProfilePage: React.FC<Props> = () => {
       {
          icon: <BsHouseFill />,
          title: 'status',
-         value: me?.status ? me.status : 'none',
+         value: user?.status ? user.status : 'none',
       },
       {
          icon: <MdLocationOn />,
@@ -54,6 +62,22 @@ const ProfilePage: React.FC<Props> = () => {
          value: 'London, UK',
       },
    ]);
+   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+   const handleGetAvatar = async () => {
+      try {
+         if (user) {
+            const response = await PersonService.getPersonPhoto({
+               id: user.id,
+            });
+
+            setAvatarUrl(response.data);
+         }
+      } catch (e) {
+         console.log(e);
+      }
+   };
+
+   const [isMyProfile, setIsMyProfile] = useState(false);
    useHideSidebar();
 
    const navigate = useNavigate();
@@ -62,31 +86,62 @@ const ProfilePage: React.FC<Props> = () => {
    //    setIsEditPassword(true);
    // };
 
-   const handleGetMyProducts = async (params: IParams) => {
+   const handleSetProducts = async (personId: string, params: IParams) => {
       try {
-         const response = await ProductService.getMyProducts(params);
-
-         console.log(response.data);
-         dispatch(setMyProducts(response.data));
-
-         console.log(myProducts);
+         const response = await ProductService.getProductsByPerson({
+            personId,
+            params: {
+               limit: 25,
+               page: 0,
+            },
+         });
+         setProducts(response.data);
       } catch (e) {
          console.log(e);
       }
    };
 
-   useEffect(() => {
-      console.log(myProducts);
-   }, [myProducts]);
+   const handleSetUser = async (id: string) => {
+      try {
+         const response = await PersonService.getPerson(id);
+
+         setUser(response.data);
+      } catch (e) {}
+   };
 
    useEffect(() => {
-      handleGetMe(dispatch);
-      handleGetMyProducts({
-         page: 0,
-         size: 50,
-      });
-   }, []);
+      if (isMyProfile) {
+         dispatch(setMyProducts(products));
+      }
+   }, [products]);
 
+   useEffect(() => {
+      if (isMyProfile) {
+         dispatch(setMyProducts(products));
+      }
+   }, [isMyProfile]);
+
+   useLayoutEffect(() => {
+      if (params.id) {
+         handleSetUser(params.id);
+      }
+   }, [params]);
+
+   useLayoutEffect(() => {
+      if (user) {
+         handleSetProducts(user.id, {
+            page: 0,
+            size: 50,
+         });
+         setIsMyProfile(user.id === me?.id);
+      }
+   }, [user]);
+
+   useEffect(() => {
+      if (user && user.hasProfilePhoto) {
+         handleGetAvatar();
+      }
+   }, [user]);
    return (
       <div className={cl.profile}>
          <div className={cl.content}>
@@ -94,23 +149,45 @@ const ProfilePage: React.FC<Props> = () => {
                <img
                   className={cl.avatar}
                   src={
-                     me?.hasProfilePhoto
-                        ? ''
-                        : me?.gender === 'FEMALE'
+                     avatarUrl
+                        ? avatarUrl
+                        : user?.gender === 'FEMALE'
                           ? femaleAvatar
                           : maleAvatar
                   }
                   alt="Ваш аватар"
                />
                <div className={cl.left__buttons}>
-                  <button>{t('change_avatar')}</button>
-                  <button onClick={() => handleLogout(dispatch, navigate)}>
-                     {t('logout')}
-                  </button>
+                  {isMyProfile ? (
+                     <>
+                        {/* <button>{t('change_avatar')}</button> */}
+                        <AvatarUpload
+                           onAvatarUpload={() => handleGetAvatar()}
+                        />
+                        <button
+                           onClick={() => handleLogout(dispatch, navigate)}
+                        >
+                           {t('logout')}
+                        </button>
+                     </>
+                  ) : (
+                     <>
+                        <button>{t('report')}</button>
+                        <button
+                           onClick={() => handleLogout(dispatch, navigate)}
+                        >
+                           {t('send_message')}
+                        </button>
+                     </>
+                  )}
                </div>
-               <p className={cl.greeting}>
-                  {t('greeting')}, {me?.username}
-               </p>
+               {isMyProfile ? (
+                  <p className={cl.greeting}>
+                     {t('greeting')}, {user?.username}
+                  </p>
+               ) : (
+                  <></>
+               )}
                <ul className={cl.userInfo}>
                   {userInfo.map((item) => (
                      <li key={item.title}>
@@ -126,25 +203,33 @@ const ProfilePage: React.FC<Props> = () => {
             <div className={cl.right}>
                <div className={cl.right__info}>
                   <h5 className={cl.right__title}>{t('profile')}</h5>
-                  <h3 className={cl.right__username}>{me?.username}</h3>
+                  <h3 className={cl.right__username}>{user?.username}</h3>
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
                      <p className={cl.right__about_desc}>
-                        {me?.description ? me?.description : t('no_desc')}
+                        {user?.description ? user?.description : t('no_desc')}
                      </p>
                   </section>
                </div>
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {myProducts.length ? (
+                     {isMyProfile && myProducts.length ? (
                         myProducts.map((product) => (
+                           <AdvertCard advert={product} key={product.id} />
+                        ))
+                     ) : isMyProfile ? (
+                        <div className={cl.right__about_desc}>
+                           Вы пока не разместили ни одно рекламное объявление.{' '}
+                           <Link to={'/add'}>Сделайте это прямо сейчас</Link>
+                        </div>
+                     ) : products.length ? (
+                        products.map((product) => (
                            <AdvertCard advert={product} key={product.id} />
                         ))
                      ) : (
                         <div className={cl.right__about_desc}>
-                           Вы пока не разместили ни одно рекламное объявление.{' '}
-                           <Link to={'/add'}>Сделайте это прямо сейчас</Link>
+                           У пользователя пока нет активных объявлений.
                         </div>
                      )}
                   </div>

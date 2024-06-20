@@ -63,23 +63,22 @@ const App = () => {
 
    const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
       {
-         path: '/adverts',
+         path: '/catalog',
          element: <CatalogPage />,
          // loader: () => isAuth,
       },
-
-      // {
-      //    path: 'loader',
-      //    element: <Loader />,
-      // },
       {
          path: '/about',
          element: <MainPage />,
          // loader: () => isAuth,
       },
+      // {
+      //    path: 'loader',
+      //    element: <Loader />,
+      // },
 
       {
-         path: '/profile',
+         path: '/profile/:id',
          element: <ProfilePage />,
          // loader: () => isAuth,
       },
@@ -162,7 +161,7 @@ const App = () => {
       localStorage.setItem('theme', lastTheme ? lastTheme : 'dark');
       document.documentElement.setAttribute('data-theme', theme);
       if (window.location.pathname === '/') {
-         window.location.pathname = isAuth ? '/about' : '/signin';
+         window.location.pathname = '/about';
       }
       // navigate(
       //    isAuth ? '/signin' : '/about',

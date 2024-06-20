@@ -1,4 +1,4 @@
-import { IUser } from '@/models/User.types';
+import { IUser } from '@/api/models/Person';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IAuthState {

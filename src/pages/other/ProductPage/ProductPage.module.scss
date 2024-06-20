@@ -16,6 +16,7 @@
    &__content {
       @include flex($align: stretch);
       gap: 10px;
+      width: 100%;
    }
 
    .gallery {
@@ -29,7 +30,8 @@
          position: relative;
          border-radius: 20px;
          overflow: hidden;
-         border: 1px solid var(--background-secondary);
+         border: 1px solid white;
+         box-shadow: -4px 4px 10px 6px rgba(0, 0, 0, 0.404);
          & > img {
             object-fit: cover;
             width: 100%;
@@ -66,6 +68,7 @@
       &__list {
          @include flex();
          gap: 10px;
+         height: 140px;
          width: 100%;
          & > li {
             width: 25%;
@@ -89,13 +92,14 @@
    &__contentContainer {
       @include flex($align: stretch, $justify: start);
       gap: 10px;
-
+      
       width: 60%;
    }
 
    .info {
       width: 50%;
-      background: $black;
+      background: rgb(0, 0, 0);
+      border: 1px solid white;
       padding: 25px;
       border-radius: 20px;
       @include flex($direction: column, $justify: start, $align: stretch);
@@ -125,7 +129,10 @@
    .owner {
       @include flex($justify: start);
       gap: 10px;
-
+      cursor: pointer;
+      transition: 0.3s;
+      padding: 10px;
+      border-radius: 5px;
       &__avatar {
          width: 45px;
          height: 45px;
@@ -136,12 +143,17 @@
          font-weight: 600;
          font-size: 25px;
       }
+
+      &:hover {
+         background: rgba(255, 255, 255, 0.116);
+      }
    }
 
    .stats {
       @include flex($direction: column, $align: start);
       margin-top: 5px;
       gap: 25px;
+      font-family: $font-tildaSans;
       &__title {
          font-weight: 600;
          font-size: 28px;
@@ -151,15 +163,37 @@
          @include flex($direction: column, $align: start);
          gap: 12px;
          font-weight: 300;
+         padding-right: 20px;
+         max-height: 400px;
+         overflow-y: scroll;
+
+         &::-webkit-scrollbar {
+            background: transparent;
+            width: 10px;
+            &-thumb {
+               background: rgb(44, 44, 44);
+               border-radius: 999px;
+            }
+         }
+         // text-transform: uppercase;
+         & > li {
+            @include flex();
+            font-weight: 300;
+            letter-spacing: 1px;
+            width: 100%;
          & span {
-            font-weight: 600;
+            font-weight: 500;
+            color: rgb(97, 97, 97);
+            text-transform: capitalize;
+         }
          }
       }
    }
 
    .comment {
       width: 50%;
-      background: $black;
+      background: rgb(0, 0, 0);
+      border: 1px solid white;
       padding: 25px;
       border-radius: 20px;
       @include flex($direction: column, $justify: start, $align: stretch);
@@ -173,10 +207,12 @@
          font-weight: 600;
       }
 
-      &__subtitle {
-         font-size: 25px;
-         font-weight: 600;
-         margin-bottom: 10px;
+      &__desc {
+
+         &.no_comment {
+            color: rgb(88, 88, 88);
+            font-weight: 500;
+         }
       }
    }
 }

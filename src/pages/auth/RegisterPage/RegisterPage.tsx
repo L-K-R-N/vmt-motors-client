@@ -9,7 +9,36 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 
+const formShema = z.object({
+   username: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком короткий username'),
+   name: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком короткое имя'),
+   email: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком короткая почта'),
+   password: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком простой пароль'),
+});
+
+export type IRegisterFormShema = z.infer<typeof formShema>;
 const RegisterPage = () => {
    const navigate = useNavigate();
    const registerForm = useRegisterForm();
@@ -38,7 +67,6 @@ const RegisterPage = () => {
                label={t('username')}
                name="username"
                fieldType="input"
-               rules={{ required: 'Username is required' }}
             />
 
             <TextFieldController
@@ -47,15 +75,14 @@ const RegisterPage = () => {
                label={t('name')}
                name="name"
                fieldType="input"
-               rules={{ required: 'Name is required' }}
             />
+
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label={t('date_of_birth')}
-               name="dateOfBirth"
+               label={t('email')}
+               name="email"
                fieldType="input"
-               rules={{ required: 'Date of birth is required' }}
             />
             <TextFieldController
                control={registerForm.control}
@@ -63,24 +90,8 @@ const RegisterPage = () => {
                label={t('password')}
                name="password"
                fieldType="input"
-               rules={{ required: 'Password is required' }}
             />
-            <TextFieldController
-               control={registerForm.control}
-               errors={registerForm.errors}
-               label={t('email')}
-               name="email"
-               fieldType="input"
-               rules={{ required: 'Email is required' }}
-            />
-            <TextFieldController
-               control={registerForm.control}
-               errors={registerForm.errors}
-               label={t('gender')}
-               name="gender"
-               fieldType="input"
-               rules={{ required: 'Gender is required' }}
-            />
+
             <Button type="submit" title="Registration">
                {t('signup')}
             </Button>

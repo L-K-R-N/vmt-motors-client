@@ -17,8 +17,19 @@ export default class ProductService {
    }
    static async getProductsByPerson(data: {
       personId: string;
+      params: {
+         page: number,
+         limit: number
+      }
    }): Promise<AxiosResponse<IProduct[]>> {
-      return $api.get<IProduct[]>(`product/commodity/person/${data.personId}`);
+      return $api.get<IProduct[]>(`product/commodity/person`, {
+         params: {
+            personId: data.personId,
+            page: data.params.page,
+            limit: data.params.limit,
+
+         }
+      });
    }
    static async getProduct(data: {
       productId: string;
@@ -89,7 +100,7 @@ export default class ProductService {
       return $api.post('product/commodity', {
          type: data.type,
          name: data.name,
-         description: data.desc,
+         description: data.description,
          isNew: data.isNew,
          brand: data.brand,
          body: data.body,

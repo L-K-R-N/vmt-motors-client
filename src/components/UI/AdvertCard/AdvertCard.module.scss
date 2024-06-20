@@ -3,37 +3,42 @@
 @import '@/styles/fonts';
 
 .advert {
-   border-radius: 20px;
-   background: var(--negative);
-   box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.496);
-   padding: 20px;
+   // border-radius: 3px;
+   background: var(--background-tertiary);
+   // box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.496);
+
+   border: 1px solid rgb(175, 175, 175);
    // @include flex($justify: start);
    @include flex($align: stretch, $justify: start);
-   gap: 20px;
    font-family: $font-roboto;
    cursor: pointer;
-   opacity: 0.9;
+   opacity: 1;
+   height: auto;
    transition: 0.3s;
-   border: 1px solid white;
+   // border: 1px solid var(--border-primary);
    color: var(--text-primary);
    overflow: hidden;
-   height: 250px;
-   min-height: 250px;
+   position: relative;
    &:hover {
-      opacity: 1;
+      border-color: rgb(139, 139, 139);
    }
    &Img {
       // height: 100%;
       grid-area: 1 / 1 / 3 / 2;
-      border-radius: 10px;
-      width: 300px;
-      height: 100%;
+      margin: 10px;
+      border: 1px solid rgb(192, 192, 192);
+      width: 350px;
+      opacity: 0.6;
+      border-radius: 2px;
+      // min-height: 100%;
+      // height: 100%;
    }
 
    &Container {
       @include flex($direction: column, $align: stretch);
-      width: calc(100% - 300px);
+      width: calc(100% - 350px);
       gap: 30px;
+      padding: 10px;
    }
    &Header {
       @include flex($direction: column, $align: start, $justify: start);
@@ -45,32 +50,43 @@
          gap: 20px;
       }
       &__title {
-         font-size: 22px;
+         font-size: 24px;
          line-height: 150%;
-         font-weight: 400;
+         font-weight: 300;
          color: var(--text-primary);
          margin-right: auto;
+         text-transform: capitalize;
+
+         // @include flex($justify: start);
       }
 
       &__model {
-         font-size: 13px;
+         font-size: 18px;
          // line-height: 180%;
          font-family: $font-roboto;
 
-         font-weight: 400;
+         font-weight: 300;
          color: var(--text-primary);
          opacity: 0.4;
+         padding-left: 5px;
+         border-left: 1px solid gray;
+         margin-left: 5px;
       }
 
       &__desc {
-         font-size: 18px;
-         line-height: 150%;
-         font-weight: 400;
+         font-size: 20px;
+         line-height: 120%;
+         font-weight: 300;
+         padding-bottom: 10px;
          color: var(--text-primary);
+         overflow: hidden;
+         white-space: nowrap;
+         text-overflow: ellipsis;
+         max-width: 98%;
       }
 
       &__isNew {
-         border-radius: 4px;
+         border-radius: 2px;
          background: #64bd38;
          font-size: 16px;
          font-family: $font-tildaSans;
@@ -90,27 +106,38 @@
 
       &__price {
          font-size: 22px;
-         font-weight: 600;
+         font-weight: 300;
          color: var(--text-primary) !important;
+         // padding-right: 50px;
       }
 
       &__isFavorite {
          border: none;
          background: transparent;
          @include flex($justify: center);
-         color: #bdc2c7;
-         width: 25px;
-         height: 25px;
+         color: var(--background-secondary);
+         width: 30px;
+         height: 30px;
          padding-bottom: 4px;
-         opacity: 0.7;
+         opacity: 0.4;
          transition: 0.3s;
+         // position: absolute;
+         // top: 0;
+         // right: 0;
+         // padding: 7px 7px 10px 10px;
+         // border-bottom-left-radius: 20px;
+         // background-color: rgba(199, 199, 199, 0.545);
          &:hover {
-            opacity: 1;
+            opacity: 0.7;
          }
          & > svg {
             width: 100%;
             height: 100%;
          }
+
+         // &.active {
+         //    color: rgb(76, 248, 90);
+         // }
       }
 
       &.small {
@@ -128,8 +155,14 @@
 
          font-size: 16px;
          color: var(--text-primary);
-         font-weight: 500;
+         font-weight: 400;
          opacity: 0.4;
+
+         & > span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+         }
       }
 
       &__boosts {
@@ -141,14 +174,14 @@
          width: 100%;
          & > button {
             width: 50%;
-            padding: 10px;
+            padding: 8px;
             opacity: 0.7;
-            font-weight: 500;
+            font-weight: 300;
             @include flex($justify: center);
+            font-size: 18px;
             color: white;
             font-family: $font-tildaSans;
             border: none;
-            border-radius: 5px;
             transition: 0.3s;
             &:hover {
                opacity: 1;
@@ -165,7 +198,7 @@
 
    .fromOwner {
       @include flex($justify: center);
-      border-radius: 6px;
+      border-radius: 2px;
       background: var(--background-secondary);
       padding: 6px 8px;
       gap: 10px;
@@ -177,8 +210,6 @@
 
 @media screen and (max-width: 1100px) {
    .advert {
-      padding: 15px;
-      gap: 10px;
       height: 250px;
       min-height: 250px;
       &Img {
@@ -190,7 +221,7 @@
 
       &Container {
          @include flex($direction: column, $align: stretch);
-         width: calc(100% - 220px);
+         width: calc(100% - 250px);
          gap: 10px;
       }
       &Header {
@@ -202,7 +233,7 @@
             gap: 20px;
          }
          &__title {
-            font-size: 22px;
+            font-size: 25px;
          }
 
          &__model {
@@ -265,7 +296,7 @@
       }
 
       &Container {
-         width: calc(100% - 170px);
+         width: calc(100% - 210px);
          gap: 4px;
       }
       &Header {
