@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 interface Props {}
 
 export const FilterForm: React.FC<Props> = () => {
-   const { control, errors, handleSubmit, onSubmit } = useFilterForm();
+   const { control, errors, handleSubmit, onSubmit, handleReset } =
+      useFilterForm();
    const {
       brands,
       driveUnits,
@@ -19,6 +20,7 @@ export const FilterForm: React.FC<Props> = () => {
       owners,
       colorings,
       bodies,
+      types,
    } = useAppSelector((state) => state.FilterReducer);
 
    const { t } = useTranslation();
@@ -237,13 +239,14 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <TextFieldController
+               <SelectController
                   control={control}
                   errors={errors}
                   name="type"
-                  label={t('type')}
-                  fieldType="input"
+                  placeholder={t('type')}
                   rules={{ required: false }}
+                  isMulti={false}
+                  options={types}
                />
                {/* <TextFieldController
                   control={control}
@@ -282,7 +285,12 @@ export const FilterForm: React.FC<Props> = () => {
                   options={owners}
                />
                <h5 className={cl.title}>{t('seller')}</h5>
-               <button title={t('reset')} type="button" className={cl.resetBtn}>
+               <button
+                  title={t('reset')}
+                  type="button"
+                  className={cl.resetBtn}
+                  onClick={() => handleReset()}
+               >
                   {t('reset')}
                </button>
                <button title={t('show')} type="submit" className={cl.submitBtn}>

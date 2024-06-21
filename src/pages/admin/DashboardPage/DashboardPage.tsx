@@ -7,6 +7,7 @@ import ProductService from '@/api/services/ProductService';
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { setModeratedProducts } from '@/store/reducers/ProductsSlice';
+import { toast } from 'react-toastify';
 
 interface Props {}
 
@@ -18,11 +19,29 @@ const DashboardPage: React.FC<Props> = () => {
       (state) => state.ProductsReducer,
    );
 
-   const handleGetModeratedProducts = async (params: IParams) => {
+   const handleGetModeratedProducts = (params: IParams) => {
       try {
-         const response = await ProductService.getAllModeratedProducts(params);
+         const response = ProductService.getAllModeratedProducts(params);
 
-         dispatch(setModeratedProducts(response.data));
+         toast
+            .promise(response, {
+               pending: 'Объявления загружаются...',
+               success: {
+                  render({ data }) {
+                     return `${data.data.length > 0 ? 'Все объявления проверены!' : `${data.data.length} объявлений для проверки`}  `;
+                  },
+               },
+               error: {
+                  render({ data }) {
+                     return `${data}`.includes('403')
+                        ? 'Вы не являетесь админом'
+                        : 'Необработанная ошибка';
+                  },
+               },
+            })
+            .then((res) => {
+               dispatch(setModeratedProducts(res.data));
+            });
       } catch (e) {
          console.log(e);
       }

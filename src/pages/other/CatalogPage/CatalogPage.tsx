@@ -1,16 +1,13 @@
 import { FilterForm } from '@/components/layout/FilterForm/FilterForm';
 import cl from './CatalogPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
-import CatalogService from '@/api/services/ProductService';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Products } from '@/components/layout/Products/Products';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import {
-   setFiltredProducts,
-   setProducts,
-} from '@/store/reducers/ProductsSlice';
+import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
+import { ISearchProductsRequest } from '@/api/models/Products';
 
 interface Props {}
 
@@ -19,22 +16,26 @@ const CatalogPage: React.FC<Props> = () => {
    const dispatch = useAppDispatch();
    const { products } = useAppSelector((state) => state.ProductsReducer);
 
-   const handleGetProducts = async (params: IParams) => {
-      try {
-         const response = await ProductService.getAllProducts(params);
-
-         dispatch(setProducts(response.data));
-      } catch (e) {
-         console.log(e);
-      }
+   const handleGetProducts = () => {
+      const response = ProductService.getFiltredProducts(
+         {} as ISearchProductsRequest,
+      ).then((res) => {
+         dispatch(setProducts(res.data.result));
+         dispatch(setProductsCount(res.data.total));
+      });
    };
 
-   useEffect(() => {
-      handleGetProducts({
-         page: 0,
-         size: 50,
-      });
-      dispatch(setFiltredProducts(products));
+   // useEffect(() => {
+   //    dispatch(setProducts(filtredProducts));
+   // }, [filtredProducts]);
+
+   useLayoutEffect(() => {
+      // handleGetProducts({
+      //    page: 0,
+      //    size: 50,
+      // });
+      handleGetProducts();
+      // dispatch(setFiltredProducts(products));
    }, []);
    return (
       <div className={cl.ads}>

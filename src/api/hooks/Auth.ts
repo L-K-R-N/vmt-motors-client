@@ -182,17 +182,24 @@ export const handleCodeSend = (data: {
       accessToken: data.accessToken,
    });
 
-   toast.promise(verifyResponse, {
-      pending: 'Проверяем ваш email адрес...',
-      success: 'Мы отправили код подтверждения вам на почту!',
-      error: {
-         render({ data }) {
-            return `${data}`.includes('429')
-               ? 'Слишком много попыток, попробуйте позже'
-               : `${data}`.includes('409')
-                 ? 'Email уже занят'
-                 : 'Необработанная ошибка';
+   toast
+      .promise(verifyResponse, {
+         pending: 'Проверяем ваш email адрес...',
+         success: 'Мы отправили код подтверждения вам на почту!',
+         error: {
+            render({ data }) {
+               return `${data}`.includes('429')
+                  ? 'Слишком много попыток, попробуйте позже'
+                  : `${data}`.includes('409')
+                    ? 'Email уже занят'
+                    : 'Необработанная ошибка';
+            },
          },
-      },
-   });
+      })
+      .then(() => {
+         return true;
+      })
+      .catch((rej) => {
+         return false;
+      });
 };

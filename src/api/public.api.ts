@@ -46,8 +46,6 @@ $api.interceptors.request.use(
          //       refresh: refreshToken,
          //    });
          //    config.headers.Authorization = `Bearer ${newAccess}`;
-      } else {
-         handleLogout();
       }
 
       return config;

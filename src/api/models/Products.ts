@@ -1,6 +1,3 @@
-
-
-
 export interface IProduct {
    id: string;
    personId: string;
@@ -35,45 +32,41 @@ export type IPostProductRequest = Omit<
 >;
 
 export interface ISearchProductsRequest {
-   page: number;
-   size: number;
-   sortBy: TSorting;
-   reverse: boolean;
-   name: string;
-   type: TProductType;
-   isNew: boolean;
-   brand: TBrand;
-   body: TBody;
-   color: TColor;
-   coloring: TColoring;
-   model: string;
-   owner: TOwner;
-   priceFrom: number;
-   priceTo: number;
+   page?: number;
+   size?: number;
+   sortBy?: TSorting;
+   reverse?: boolean;
+   name?: string;
+   type?: TProductType;
+   isNew?: boolean;
+   brand?: TBrand;
+   body?: TBody;
+   color?: TColor;
+   coloring?: TColoring;
+   model?: string;
+   owner?: TOwner;
+   priceFrom?: number;
+   priceTo?: number;
 
-   yearFrom: number;
-   yearTo: number;
+   yearFrom?: number;
+   yearTo?: number;
 
-   millageFrom: number;
-   millageTo: number;
+   millageFrom?: number;
+   millageTo?: number;
 
-   from: string;
-   exchange: boolean;
-   trade: boolean;
-   generation: string;
-   gear: TGear;
-   fuel: TFuel;
-   driveUnit: TDriveUnit;
+   from?: string;
+   exchange?: boolean;
+   trade?: boolean;
+   generation?: string;
+   gear?: TGear;
+   fuel?: TFuel;
+   driveUnit?: TDriveUnit;
 }
-
 
 export interface ISelectItem<T> {
    value: T;
    label: string;
 }
-
-
-
 
 export type TColoring = 'MATTE' | 'GLOSSY' | 'METALLIC' | 'NACRE';
 

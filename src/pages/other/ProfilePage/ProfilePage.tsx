@@ -15,12 +15,12 @@ import { MdLocationOn } from 'react-icons/md';
 // import { logout } from '@/store/reducers/AuthSlice';
 import ProductService from '@/api/services/ProductService';
 import { handleLogout } from '@/api/hooks/Auth';
-import { handleGetMe } from '@/api/hooks/Person';
 import PersonService from '@/api/services/PersonService';
 import { IUser } from '@/api/models/Person';
 import { IProduct } from '@/api/models/Products';
 import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import { AvatarUpload } from '@/components/layout/UploadAvatar/UploadAvatar';
+import { toast } from 'react-toastify';
 
 interface Props {}
 
@@ -95,17 +95,27 @@ const ProfilePage: React.FC<Props> = () => {
                page: 0,
             },
          });
+
          setProducts(response.data);
       } catch (e) {
          console.log(e);
       }
    };
 
-   const handleSetUser = async (id: string) => {
+   const handleSetUser = (id: string) => {
       try {
-         const response = await PersonService.getPerson(id);
+         const response = PersonService.getPerson(id);
 
-         setUser(response.data);
+         toast
+            .promise(response, {
+               error: 'Аккаунт не найден',
+            })
+            .then((res) => {
+               setUser(res.data);
+            })
+            .catch(() => {
+               navigate('/catalog');
+            });
       } catch (e) {}
    };
 
@@ -164,18 +174,14 @@ const ProfilePage: React.FC<Props> = () => {
                         <AvatarUpload
                            onAvatarUpload={() => handleGetAvatar()}
                         />
-                        <button
-                           onClick={() => handleLogout(dispatch, navigate)}
-                        >
+                        <button onClick={() => handleLogout()}>
                            {t('logout')}
                         </button>
                      </>
                   ) : (
                      <>
                         <button>{t('report')}</button>
-                        <button
-                           onClick={() => handleLogout(dispatch, navigate)}
-                        >
+                        <button onClick={() => handleLogout()}>
                            {t('send_message')}
                         </button>
                      </>

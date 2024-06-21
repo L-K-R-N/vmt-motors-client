@@ -19,12 +19,14 @@ export interface IOption {
 
 export interface IProductsState {
    products: IProduct[];
+   productsCount: number;
    myProducts: IProduct[];
    moderatedProducts: IProduct[];
    filtredProducts: IProduct[];
 }
 const initialState: IProductsState = {
    products: [],
+   productsCount: 0,
    myProducts: [],
    moderatedProducts: [],
    filtredProducts: [],
@@ -37,7 +39,6 @@ export const ProductsSlice = createSlice({
       setProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.products = action.payload;
       },
-
       setFiltredProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.filtredProducts = action.payload;
       },
@@ -47,6 +48,9 @@ export const ProductsSlice = createSlice({
       },
       setModeratedProducts: (state, action: PayloadAction<IProduct[]>) => {
          state.moderatedProducts = action.payload;
+      },
+      setProductsCount: (state, action: PayloadAction<number>) => {
+         state.productsCount = action.payload;
       },
    },
 });
@@ -58,4 +62,5 @@ export const {
    setFiltredProducts,
    setMyProducts,
    setModeratedProducts,
+   setProductsCount,
 } = ProductsSlice.actions;

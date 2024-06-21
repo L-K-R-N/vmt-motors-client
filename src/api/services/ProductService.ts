@@ -6,6 +6,11 @@ import {
    ISearchProductsRequest,
 } from '../models/Products';
 
+interface ISearchResponse {
+   total: number;
+   result: IProduct[];
+}
+
 export default class ProductService {
    // GET
    static async getMyProducts(
@@ -18,17 +23,16 @@ export default class ProductService {
    static async getProductsByPerson(data: {
       personId: string;
       params: {
-         page: number,
-         limit: number
-      }
+         page: number;
+         limit: number;
+      };
    }): Promise<AxiosResponse<IProduct[]>> {
       return $api.get<IProduct[]>(`product/commodity/person`, {
          params: {
             personId: data.personId,
             page: data.params.page,
             limit: data.params.limit,
-
-         }
+         },
       });
    }
    static async getProduct(data: {
@@ -63,35 +67,20 @@ export default class ProductService {
 
    static async getFiltredProducts(
       data: ISearchProductsRequest,
-   ): Promise<AxiosResponse<IProduct[]>> {
-      return $api.get<IProduct[]>(`product/commodity/search/`, {
-         params: {
-            page: data.page,
-            size: data.size,
-            sortBy: data.sortBy,
-            reverse: data.reverse,
-            name: data.name,
-            type: data.type,
-            isNew: data.isNew,
-            brand: data.brand,
-            body: data.body,
-            owner: data.owner,
-            coloring: data.coloring,
-            model: data.model,
-            priceFrom: data.priceFrom,
-            priceTo: data.priceTo,
-            yearFrom: data.yearFrom,
-            yearTo: data.yearTo,
-            millageFrom: data.millageFrom,
-            millageTo: data.millageTo,
-            from: data.from,
-            exchange: data.exchange,
-            trade: data.trade,
-            generation: data.generation,
-            gear: data.gear,
-            fuel: data.fuel,
-            driveUnit: data.driveUnit,
-         },
+   ): Promise<AxiosResponse<ISearchResponse>> {
+      return $api.get<ISearchResponse>(`product/commodity/search`, {
+         params: data,
+
+         // () => {
+         //    let newParams = new Map();
+
+         //    Object.entries(data).map(([key, value]) => {
+         //       if (value && key) {
+         //          newParams.set(key, value);
+         //       }
+         //    });
+         //    return newParams;
+         // },
       });
    }
 

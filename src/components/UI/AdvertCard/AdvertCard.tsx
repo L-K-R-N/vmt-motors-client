@@ -24,6 +24,7 @@ import {
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { MdOutlineStarBorderPurple500 } from 'react-icons/md';
+import { toast } from 'react-toastify';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
@@ -79,44 +80,64 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       setIsMyProduct(me?.id === advert.personId ? true : false);
    }, []);
 
-   const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleApprove = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
       try {
-         await ProductService.acceptProduct({ productId: advert.id });
-
-         const moderatedRes = await ProductService.getAllModeratedProducts({
-            page: 0,
-            size: 50,
-         });
-         const res = await ProductService.getAllProducts({
-            page: 0,
-            size: 50,
+         const acceptResponse = ProductService.acceptProduct({
+            productId: advert.id,
          });
 
-         dispatch(setModeratedProducts(moderatedRes.data));
-
-         dispatch(setProducts(res.data));
+         toast
+            .promise(acceptResponse, {
+               success: 'Объявление одобрено!',
+               error: {
+                  render({ data }) {
+                     return `${data}`.includes('403')
+                        ? 'У Вас недостаточно прав'
+                        : 'Необработанная ошибка';
+                  },
+               },
+            })
+            .then((res) => {
+               ProductService.getAllModeratedProducts({
+                  page: 0,
+                  size: 50,
+               }).then((moderatedRes) => {
+                  dispatch(setModeratedProducts(moderatedRes.data));
+               });
+            });
       } catch (e) {
          console.log(e);
       }
    };
-   const handleReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleReject = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
       try {
-         await ProductService.rejectProduct({ productId: advert.id });
-
-         const moderatedRes = await ProductService.getAllModeratedProducts({
-            page: 0,
-            size: 50,
+         const rejectResponse = ProductService.rejectProduct({
+            productId: advert.id,
          });
-         // const res = await ProductService.getAllProducts({
-         //    page: 0,
-         //    size: 50,
-         // });
 
-         dispatch(setModeratedProducts(moderatedRes.data));
+         toast
+            .promise(rejectResponse, {
+               success: 'Объявление отклонено!',
+               error: {
+                  render({ data }) {
+                     return `${data}`.includes('403')
+                        ? 'У Вас недостаточно прав'
+                        : 'Необработанная ошибка';
+                  },
+               },
+            })
+            .then(() => {
+               ProductService.getAllModeratedProducts({
+                  page: 0,
+                  size: 50,
+               }).then((moderatedRes) => {
+                  dispatch(setModeratedProducts(moderatedRes.data));
+               });
+            });
 
          // dispatch(setProducts(res.data));
       } catch (e) {
