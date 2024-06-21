@@ -151,23 +151,32 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       } catch (e) {}
    };
 
-   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
       try {
-         await ProductService.deleteProduct({ productId: advert.id });
+         const deleteResponse = ProductService.deleteProduct({ productId: advert.id });
 
-         const myProductsRes = await ProductService.getMyProducts({
-            page: 0,
-            size: 50,
-         });
-         const productsRes = await ProductService.getAllProducts({
-            page: 0,
-            size: 50,
-         });
+         
 
-         dispatch(setMyProducts(myProductsRes.data));
-         dispatch(setProducts(productsRes.data));
+         toast
+            .promise(deleteResponse, {
+               success: 'Объявление удалено!',
+               error: {
+                  render({ data }) {
+                     return 'Произошла необработанная ошибка';
+                  },
+               },
+            })
+            .then(() => {
+               ProductService.getMyProducts({
+                  page: 0,
+                  size: 50,
+               }).then((res) => {
+                  dispatch(setMyProducts(res.data));
+               });
+            });
+
       } catch (e) {
          console.log(e);
       }
@@ -188,10 +197,9 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                <div className={cl.advertHeader__top}>
                   <h4 className={cl.advertHeader__title}>
                      {advert?.name}
-                     <span className={cl.advertHeader__model}>
-                        {advert?.model}
-                     </span>
+                    
                   </h4>
+                 
                   <p className={cl.advertHeader__price}>{advert?.price}$</p>
                   <button
                      className={[cl.advertHeader__isFavorite, cl.active].join(
@@ -203,8 +211,10 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                      <IoStarOutline />
                   </button>
                </div>
-
-               <p className={cl.advertHeader__desc}>{advert?.description}</p>
+               <span className={cl.advertHeader__model}>
+                  {advert?.model}
+               </span>
+               <p className={[cl.advertHeader__desc, cl.no_desc].join(' ')}>{advert?.description ? advert?.description : 'Описание не добавлено'}</p>
                <span
                   className={[
                      cl.advertHeader__isNew,

@@ -22,18 +22,24 @@ $api.interceptors.request.use(
    async (config) => {
       const { accessToken, refreshToken } = getTokens();
 
-      if (accessToken && refreshToken) {
+      if (accessToken) {
          const decodedToken = jwtDecode(accessToken);
          if (decodedToken.exp) {
             let expTime = decodedToken.exp * 1000;
             let curTime = new Date().getTime();
 
             if (expTime - curTime <= -3000) {
-               const newAccess = handleRefresh({
-                  device: navigator.userAgent,
-                  refresh: refreshToken,
-               });
-               config.headers.Authorization = `Bearer ${newAccess}`;
+
+               if (refreshToken) {
+                  const newAccess = handleRefresh({
+                     device: navigator.userAgent,
+                     refresh: refreshToken,
+                  });
+
+                  config.headers.Authorization = `Bearer ${newAccess}`;
+               } 
+               
+               
             } else {
                config.headers.Authorization = `Bearer ${accessToken}`;
             }

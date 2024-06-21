@@ -1,19 +1,11 @@
+import { ISelectItem, TBrand, TProductType, TOwner, TBody, TFuel, TGear, TDriveUnit, TColor, TColoring } from '@/api/models/Products';
+import ProductService from '@/api/services/ProductService';
+import { Data } from '@dnd-kit/core';
 import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import ProductService, {
-   TDriveUnit,
-   TFuel,
-   TGear,
-   TProductType,
-} from '@/api/services/ProductService';
-import {
-   ISelectItem,
-   TBody,
-   TBrand,
-   TColor,
-} from '@/store/reducers/FilterSlice';
-import { TOwner } from '@/store/reducers/ProductsSlice';
+import { toast } from 'react-toastify';
+
 
 export interface IPostProductInputs {
    name: string;
@@ -33,7 +25,7 @@ export interface IPostProductInputs {
    gear: ISelectItem<TGear>;
    driveUnit: ISelectItem<TDriveUnit>;
    color: ISelectItem<TColor>;
-   coloring: string;
+   coloring: ISelectItem<TColoring>;
    desc: string;
    price: number;
 }
@@ -43,60 +35,97 @@ export const useAddAdvert = () => {
       handleSubmit,
       formState: { errors },
       control,
+      reset
    } = useForm<IPostProductInputs>({
       mode: 'onChange',
    });
    const navigate = useNavigate();
 
+   
+
    const onSubmit: SubmitHandler<IPostProductInputs> = (data) => {
+      console.log({
+         body: 'cabriolet',
+         brand: data.brand.value,
+         color: data.color.value,
+         coloring: data.coloring.value,
+         description: data.desc,
+         driveUnit: data.driveUnit.value,
+         exchange: data.exchange,
+         from: data.from,
+         fuel: data.fuel.value,
+         gear: data.gear.value,
+         generation: data.generation,
+         isNew: false,
+         millage: Number(data.millage),
+         model: data.model,
+         name: data.name,
+         owner: data.owner.value,
+         price: Number(data.price),
+         trade: data.trade,
+         type: data.type.value,
+         year: Number(data.year),
+         createdAt: Date.now()
+      })
       try {
-         console.log(data);
-         ProductService.postProduct({
+         // console.log(data);
+         const productPostRes = ProductService.postProduct({
             body: 'cabriolet',
-            brand: data.brand.value,
-            color: data.color.value,
-            coloring: 'aaaa',
-            desc: data.desc,
-            driveUnit: data.driveUnit.value,
-            exchange: true,
+            brand: data.brand?.value,
+            color: data.color?.value,
+            coloring: data.coloring?.value,
+            description: data.desc,
+            driveUnit: data.driveUnit?.value,
+            exchange: data.exchange,
             from: data.from,
-            fuel: data.fuel.value,
-            gear: data.gear.value,
+            fuel: data.fuel?.value,
+            gear: data.gear?.value,
             generation: data.generation,
-            isNew: true,
+            isNew: false,
             millage: Number(data.millage),
             model: data.model,
             name: data.name,
-            owner: data.owner.value,
+            owner: data.owner?.value,
             price: Number(data.price),
-            trade: true,
-            type: data.type.value,
+            trade: data.trade,
+            type: data.type?.value,
             year: Number(data.year),
-         });
+            createdAt: new Date()
+
+         })
+
+         
+         toast.promise(productPostRes, {
+            pending: 'Проверяем корректность данных...',
+            success: 'Объявление отправлено на проверку!',
+            error: 'Произошла непредвиденная ошибка'
+         }).then(() => {
+            reset()
+         })
       } catch (e) {
          console.log({
             body: 'cabriolet',
             brand: data.brand.value,
             color: data.color.value,
-            coloring: 'aaaa',
-            desc: data.desc,
+            coloring: data.coloring.value,
+            description: data.desc,
             driveUnit: data.driveUnit.value,
-            exchange: true,
+            exchange: data.exchange,
             from: data.from,
             fuel: data.fuel.value,
             gear: data.gear.value,
             generation: data.generation,
-            isNew: true,
+            isNew: false,
             millage: Number(data.millage),
             model: data.model,
             name: data.name,
             owner: data.owner.value,
             price: Number(data.price),
-            trade: true,
+            trade: data.trade,
             type: data.type.value,
             year: Number(data.year),
-         });
-         console.log(e);
+         })
+
       }
    };
 

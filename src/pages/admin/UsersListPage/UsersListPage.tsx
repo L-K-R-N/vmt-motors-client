@@ -70,7 +70,7 @@ const UsersListPage: React.FC<Props> = () => {
                      ))
                   ) : (
                      <li className={cl.no_products}>
-                        Нет пользователей для проверки
+                        Пользователи не найдены
                      </li>
                   )}
                </ul>

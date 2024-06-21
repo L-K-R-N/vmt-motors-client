@@ -17,8 +17,9 @@ import cabrioletImg from './assets/body_imgs/cabriolet.png';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/UI/Button/Button';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { ISelectItem, TBody } from '@/store/reducers/FilterSlice';
 import { Controller } from 'react-hook-form';
+import { ISelectItem, TBody } from '@/api/models/Products';
+import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
 
 interface Props {}
 
@@ -35,7 +36,7 @@ const AddAdvertPage: React.FC<Props> = () => {
    //    console.log(products);
    // };
    const { errors, control, handleSubmit, onSubmit } = useAddAdvert();
-   const { brands, driveUnits, colors, fuels, gears, types, owners } = useAppSelector(
+   const { brands, driveUnits, colors, fuels, gears, types, owners, colorings } = useAppSelector(
       (state) => state.FilterReducer,
    );
 
@@ -161,14 +162,6 @@ const AddAdvertPage: React.FC<Props> = () => {
                      label={t("model")}
                      rules={{ required: 'Model is required' }}
                   /> */}
-                  <TextFieldController
-                     control={control}
-                     errors={errors}
-                     name="trade"
-                     fieldType="input"
-                     label={t("trade")}
-                     rules={{ required: 'Model is required' }}
-                  />
                   <SelectController
                         control={control}
                         errors={errors}
@@ -178,6 +171,22 @@ const AddAdvertPage: React.FC<Props> = () => {
                         options={owners}
                         isMulti={false}
                      />
+                  <CheckboxController
+                     control={control}
+                     errors={errors}
+                     name="trade"
+                     label={t('trade')}
+                     fieldType="input"
+                     rules={{ required: false }}
+                  />
+                  <CheckboxController
+                     control={control}
+                     errors={errors}
+                     name="exchange"
+                     label={t('exchange')}
+                     fieldType="input"
+                     rules={{ required: false }}
+                  />
                </div>
                <h4 className={cl.title}>{t('specifications')}</h4>
                <div className={[cl.block, cl.spec].join(' ')}>
@@ -193,13 +202,13 @@ const AddAdvertPage: React.FC<Props> = () => {
                      />
                   </div>
                   <div className={cl.elem}>
-                     <h5 className={cl.subtitle}>{t('transmission')}</h5>
+                     <h5 className={cl.subtitle}>{t('Type')}</h5>
                      <SelectController
                         control={control}
                         errors={errors}
-                        placeholder={t("transmission")}
+                        placeholder={t("Type")}
                         name="type"
-                        rules={{ required: 'Transmission type is required' }}
+                        rules={{ required: 'Type is required' }}
                         options={types}
                         isMulti={false}
                      />
@@ -310,6 +319,18 @@ const AddAdvertPage: React.FC<Props> = () => {
                         options={colors}
                      />
                   </div>
+                  <div className={cl.elem}>
+                     <h5 className={cl.subtitle}>{t('color')}</h5>
+                     <SelectController
+                        control={control}
+                        errors={errors}
+                        name="coloring"
+                        rules={{ required: 'Car coloring is required' }}
+                        placeholder={t('coloring')}
+                        isMulti={false}
+                        options={colorings}
+                     />
+                  </div>
                </div>
                <div className={cl.block}>
                   <h5 className={cl.subtitle}>{t('desc')}</h5>
@@ -329,7 +350,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                      control={control}
                      errors={errors}
                      fieldType="input"
-                     label={t('price')}
+                     label={`${t('price')} $`}
                      name="price"
                      // rules={{t('desc')} }
                   />

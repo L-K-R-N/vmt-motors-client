@@ -28,7 +28,7 @@ const DashboardPage: React.FC<Props> = () => {
                pending: 'Объявления загружаются...',
                success: {
                   render({ data }) {
-                     return `${data.data.length > 0 ? 'Все объявления проверены!' : `${data.data.length} объявлений для проверки`}  `;
+                     return `${data.data.length === 0 ? 'Все объявления проверены!' : `${data.data.length} объявлений для проверки`}  `;
                   },
                },
                error: {

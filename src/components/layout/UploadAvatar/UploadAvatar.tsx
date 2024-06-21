@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import cl from './UploadAvatar.module.scss';
 import PersonService from '@/api/services/PersonService';
+import { Button } from '@/components/UI/Button/Button';
 interface AvatarUploadProps {
    onAvatarUpload: () => void;
 }
@@ -40,13 +41,15 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
    }, [avatarFile]);
 
    return (
-      <div>
+      <div className={cl.container}>
          <input
             title="Upload avatar"
             type="file"
             onChange={handleAvatarChange}
+            className={cl.input}
          />
          {/* <button>Upload Avatar</button> */}
+         <button className={cl.btn} type='button' title='aaa'>Change photo</button>
       </div>
    );
 };

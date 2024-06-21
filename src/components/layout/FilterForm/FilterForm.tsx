@@ -4,6 +4,7 @@ import { useFilterForm } from './useFilterForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import { useTranslation } from 'react-i18next';
+import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
 
 interface Props {}
 
@@ -54,14 +55,25 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <TextFieldController
+               
+            <TextFieldController
                   control={control}
                   errors={errors}
-                  name="priceFrom"
+                  name="yearFrom"
+                  label={t('year_from')}
                   fieldType="input"
-                  label={`${t('price_from')} $`}
                   rules={{ required: false }}
                />
+                <SelectController
+                  control={control}
+                  errors={errors}
+                  rules={{ required: false }}
+                  name="driveUnit"
+                  placeholder={t('drive_unit')}
+                  options={driveUnits}
+                  isMulti={false}
+               />
+              
                <TextFieldController
                   fieldType="input"
                   label={t('generation')}
@@ -70,14 +82,16 @@ export const FilterForm: React.FC<Props> = () => {
                   name="generation"
                   rules={{ required: false }}
                />
-               <TextFieldController
+                <SelectController
                   control={control}
                   errors={errors}
-                  name="yearFrom"
-                  label={t('year_from')}
-                  fieldType="input"
+                  name="sortBy"
+                  placeholder={t('sort_by')}
                   rules={{ required: false }}
+                  isMulti={false}
+                  options={sortByOptions}
                />
+               
                <SelectController
                   control={control}
                   errors={errors}
@@ -96,16 +110,35 @@ export const FilterForm: React.FC<Props> = () => {
                   options={fuels}
                   isMulti={false}
                />
-               <SelectController
+               
+                <TextFieldController
+                  control={control}
+                  errors={errors}
+                  name="priceFrom"
+                  fieldType="input"
+                  label={`${t('price_from')} $`}
+                  rules={{ required: false }}
+               />
+              
+                 <TextFieldController
                   control={control}
                   errors={errors}
                   rules={{ required: false }}
-                  name="driveUnit"
-                  placeholder={t('drive_unit')}
-                  options={driveUnits}
-                  isMulti={false}
+                  name="priceTo"
+                  fieldType="input"
+                  label={`${t('price_to')} $`}
                />
-               <SelectController
+               
+               <TextFieldController
+               control={control}
+               errors={errors}
+               name="yearTo"
+               label={t('year_to')}
+               fieldType="input"
+               rules={{ required: false }}
+            />
+              
+              <SelectController
                   control={control}
                   errors={errors}
                   name="body"
@@ -114,22 +147,7 @@ export const FilterForm: React.FC<Props> = () => {
                   isMulti={false}
                   rules={{ required: false }}
                />
-               <TextFieldController
-                  control={control}
-                  errors={errors}
-                  rules={{ required: false }}
-                  name="priceTo"
-                  fieldType="input"
-                  label={`${t('price_to')} $`}
-               />
-               <TextFieldController
-                  control={control}
-                  errors={errors}
-                  name="yearTo"
-                  label={t('year_to')}
-                  fieldType="input"
-                  rules={{ required: false }}
-               />
+               
             </div>
             <div className={cl.line}>
                <h5 className={cl.title}>{t('color')}</h5>
@@ -151,15 +169,7 @@ export const FilterForm: React.FC<Props> = () => {
                   label={t('mileage_to')}
                   rules={{ required: false }}
                />
-               <SelectController
-                  control={control}
-                  errors={errors}
-                  name="sortBy"
-                  placeholder={t('sort_by')}
-                  rules={{ required: false }}
-                  isMulti={false}
-                  options={sortByOptions}
-               />
+              
                <TextFieldController
                   control={control}
                   errors={errors}
@@ -207,7 +217,7 @@ export const FilterForm: React.FC<Props> = () => {
                />
             </div>
             <div className={cl.line}>
-               <TextFieldController
+               <CheckboxController
                   control={control}
                   errors={errors}
                   name="exchange"
@@ -215,7 +225,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <TextFieldController
+               <CheckboxController
                   control={control}
                   errors={errors}
                   name="trade"
@@ -223,7 +233,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <TextFieldController
+               <CheckboxController
                   control={control}
                   errors={errors}
                   name="isNew"
@@ -231,7 +241,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <TextFieldController
+               <CheckboxController
                   control={control}
                   errors={errors}
                   name="reverse"
@@ -239,15 +249,7 @@ export const FilterForm: React.FC<Props> = () => {
                   fieldType="input"
                   rules={{ required: false }}
                />
-               <SelectController
-                  control={control}
-                  errors={errors}
-                  name="type"
-                  placeholder={t('type')}
-                  rules={{ required: false }}
-                  isMulti={false}
-                  options={types}
-               />
+              
                {/* <TextFieldController
                   control={control}
                   errors={errors}
@@ -275,6 +277,15 @@ export const FilterForm: React.FC<Props> = () => {
                   rules={{ required: false }}
                   disabled
                /> */}
+                <SelectController
+                  control={control}
+                  errors={errors}
+                  name="type"
+                  placeholder={t('type')}
+                  rules={{ required: false }}
+                  isMulti={false}
+                  options={types}
+               />
                <SelectController
                   control={control}
                   errors={errors}
@@ -284,7 +295,6 @@ export const FilterForm: React.FC<Props> = () => {
                   isMulti={false}
                   options={owners}
                />
-               <h5 className={cl.title}>{t('seller')}</h5>
                <button
                   title={t('reset')}
                   type="button"

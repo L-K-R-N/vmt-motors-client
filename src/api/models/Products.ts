@@ -32,35 +32,35 @@ export type IPostProductRequest = Omit<
 >;
 
 export interface ISearchProductsRequest {
-   page?: number;
-   size?: number;
-   sortBy?: TSorting;
-   reverse?: boolean;
-   name?: string;
-   type?: TProductType;
-   isNew?: boolean;
-   brand?: TBrand;
-   body?: TBody;
-   color?: TColor;
-   coloring?: TColoring;
-   model?: string;
-   owner?: TOwner;
-   priceFrom?: number;
-   priceTo?: number;
+   page: number | null;
+   size: number | null;
+   sortBy: TSorting | null;
+   reverse: boolean | null;
+   name: string | null;
+   type: TProductType | null;
+   isNew: boolean | null;
+   brand: TBrand | null;
+   body: TBody | null;
+   color: TColor | null;
+   coloring: TColoring | null;
+   model: string | null;
+   owner: TOwner | null;
+   priceFrom: number | null;
+   priceTo: number | null;
 
-   yearFrom?: number;
-   yearTo?: number;
+   yearFrom: number | null;
+   yearTo: number | null;
 
-   millageFrom?: number;
-   millageTo?: number;
+   millageFrom: number | null;
+   millageTo: number | null;
 
-   from?: string;
-   exchange?: boolean;
-   trade?: boolean;
-   generation?: string;
-   gear?: TGear;
-   fuel?: TFuel;
-   driveUnit?: TDriveUnit;
+   from: string | null;
+   exchange: boolean | null;
+   trade: boolean | null;
+   generation: string | null;
+   gear: TGear | null;
+   fuel: TFuel | null;
+   driveUnit: TDriveUnit | null;
 }
 
 export interface ISelectItem<T> {

@@ -13,7 +13,7 @@ export const Products = () => {
       <>
          <div className={cl.wrapper}>
             <div className={cl.panel}>
-               <span>{productsCount}</span>
+               <span className={cl.productsCount}>{productsCount} ads</span>
             </div>
             <div className={cl.cardList}>
                {products.length ? (
