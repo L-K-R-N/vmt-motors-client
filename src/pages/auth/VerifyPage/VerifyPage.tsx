@@ -1,46 +1,97 @@
 import cl from './VerifyPage.module.scss';
 import { Button } from '@/components/UI/Button/Button.tsx';
 import { useHideLayout } from '@/hooks/useLayout';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
+import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
-import { useVerificationForm } from './useVerification';
 import { useState } from 'react';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
+import { z } from 'zod';
+import { TextField } from '@/components/UI/TextField/TextField';
+import { getTokens } from '@/api/public.api';
+import { handleCheckCode, handleCodeSend } from '@/api/hooks/Auth';
+
+export const verifyFormShema = z.object({
+   email: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком короткая почта')
+      .email(),
+   code: z.string({
+      required_error: 'Это обязательное поле',
+   }),
+});
+
+export type IVerificationFormShema = z.infer<typeof verifyFormShema>;
 
 const VerifyPage = () => {
    const navigate = useNavigate();
-   const { isVerifing } = useAppSelector((state) => state.AuthReducer);
-   // const verificationForm = useVerificationForm();
-   const { control, errors, handleSubmit, onSubmit } = useVerificationForm();
+   const [isEmailSend, setIsEmailSend] = useState(false);
    const [code, setCode] = useState('');
+   const [email, setEmail] = useState('');
 
+   const handleSendEmail = () => {
+      const { accessToken } = getTokens();
+
+      if (accessToken && email) {
+         handleCodeSend({
+            email,
+            accessToken: `Bearer ${accessToken}`,
+         });
+
+         setIsEmailSend(true);
+      }
+   };
    useHideLayout();
-
-   const dispatch = useAppDispatch();
+   const handleVerify = () => {
+      if (code) {
+         handleCheckCode(code);
+      }
+   };
 
    return (
-      <AuthLayout title="Verification" link="signup">
-         <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
-            <TextFieldController
-               control={control}
-               errors={errors}
-               label="Verification code"
-               name="code"
-               fieldType="input"
-               rules={{ required: 'Verification code is required' }}
-            />
-            {/* <input
-               type="text"
-               value={code}
-               name="code"
-               title="Verification Code"
-               onChange={(e) => setCode(e.target.value)}
-            /> */}
-            <Button type="submit" title="Verification">
-               Verify
-            </Button>
+      <AuthLayout type="signup">
+         <form className={cl.form}>
+            {!isEmailSend ? (
+               <>
+                  <TextField
+                     title="Email"
+                     type="input"
+                     onChange={(e) => setEmail(e.target.value)}
+                     value={email}
+                  />
+                  <Button
+                     type="button"
+                     title="Send email"
+                     onClick={handleSendEmail}
+                  >
+                     Send code
+                  </Button>
+               </>
+            ) : (
+               <>
+                  <TextField
+                     title="Verification code"
+                     type="input"
+                     onChange={(e) => setCode(e.target.value)}
+                     value={code}
+                  />
+                  <Button
+                     type="button"
+                     title="Verification"
+                     onClick={handleVerify}
+                  >
+                     Verify
+                  </Button>
+                  <Button
+                     type="button"
+                     title="Back"
+                     onClick={() => setIsEmailSend(false)}
+                  >
+                     Change email
+                  </Button>
+               </>
+            )}
          </form>
       </AuthLayout>
    );

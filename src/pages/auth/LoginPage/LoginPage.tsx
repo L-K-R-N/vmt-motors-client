@@ -7,6 +7,33 @@ import { TextFieldController } from '@/components/UI/TextFieldController/TextFie
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { passwordRegex, usernameRegex } from '../RegisterPage/RegisterPage.tsx';
+import { z } from 'zod';
+
+export const loginFormShema = z.object({
+   username: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+
+      .refine((val) => usernameRegex.test(val), {
+         message: 'Неверный login',
+      }),
+
+   password: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      // .trim()
+      // .min(8, 'Слишком короткий пароль')
+      // .max(64, 'Слишком длинный пароль')
+      .refine((val) => passwordRegex.test(val), {
+         message: 'Неверный пароль',
+      }),
+});
+
+export type ILoginFormShema = z.infer<typeof loginFormShema>;
 
 const LoginPage = () => {
    const { t } = useTranslation();

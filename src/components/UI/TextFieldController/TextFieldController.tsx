@@ -7,6 +7,7 @@ import {
 } from 'react-hook-form';
 import cl from './TextFieldController.module.scss';
 import { TextField, TFieldType } from '../TextField/TextField';
+import { ReactNode } from 'react';
 
 interface Props<TFieldValues extends FieldValues>
    extends UseControllerProps<TFieldValues> {

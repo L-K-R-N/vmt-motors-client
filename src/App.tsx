@@ -4,6 +4,7 @@ import {
    RouteObject,
    Routes,
    useLocation,
+   useNavigate,
 } from 'react-router-dom';
 import './styles/main.scss';
 
@@ -33,6 +34,8 @@ import { IAuthResponse } from './api/models/Auth';
 import { BASE_URL } from './api/app.vars';
 import { handleGetMe } from './api/hooks/Person';
 import { VerifyPage } from './pages/auth/VerifyPage';
+import { ToastContainer } from 'react-toastify';
+import { handleRefresh } from './api/hooks/Auth';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -40,6 +43,7 @@ import { VerifyPage } from './pages/auth/VerifyPage';
 const App = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const dispatch = useAppDispatch();
+   // const navigate = useNavigate()
    // const { data: me, isLoading, isError } = useGetMeQuery();
    const { theme } = useAppSelector((state) => state.SettingsReducer);
    const [countryCode, setCountryCode] = useState<string | null>(null);
@@ -61,6 +65,7 @@ const App = () => {
       },
    ]);
 
+   const { me } = useAppSelector((state) => state.UserReducer);
    const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
       {
          path: '/catalog',
@@ -163,33 +168,13 @@ const App = () => {
       if (window.location.pathname === '/') {
          window.location.pathname = '/about';
       }
-      // navigate(
-      //    isAuth ? '/signin' : '/about',
-      // );
-   }, []);
-
-   const handleRefresh = async (data: IRefreshInputs) => {
-      try {
-         const { refresh, device } = data;
-         const response = await axios.post<IAuthResponse>(
-            `${BASE_URL}/auth/refresh`,
-            {
-               refreshToken: refresh,
-               deviceName: device,
-            },
-         );
-
-         localStorage.setItem('token', response.data.jwtToken);
-         localStorage.setItem('refresh', response.data.refreshToken);
-         console.log(200);
-         dispatch(setIsAuth(true));
-      } catch (e) {
-         localStorage.removeItem('token');
-         localStorage.removeItem('refresh');
-         console.log(400);
+      if (me && isAuth && !me.roles.includes('VERIFIED')) {
          dispatch(setIsAuth(false));
+         console.log(me);
+         window.location.pathname = '/verify';
       }
-   };
+      // navigate(isAuth ? '/signin' : '/about');
+   }, []);
 
    // useEffect(() => {
    //    const refresh = localStorage.getItem('refresh');
@@ -231,13 +216,22 @@ const App = () => {
 
    return (
       <BrowserRouter>
+         <ToastContainer limit={3} />
          <Routes>
             {unAuthRoutes.map((route) => (
-               <Route path={route.path} element={route.element} />
+               <Route
+                  key={route.path}
+                  path={route.path}
+                  element={route.element}
+               />
             ))}
             <Route element={<Layout />}>
                {authRoutes.map((route) => (
-                  <Route path={route.path} element={route.element} />
+                  <Route
+                     key={route.path}
+                     path={route.path}
+                     element={route.element}
+                  />
                ))}
             </Route>
          </Routes>

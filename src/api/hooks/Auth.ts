@@ -7,153 +7,192 @@ import {
 import axios from 'axios';
 import { BASE_URL } from '../app.vars';
 import { IAuthResponse } from '../models/Auth';
-import { IRegisterInputs } from '@/pages/auth/RegisterPage/useRegisterForm';
 import AuthService from '../services/AuthService';
-import { NavigateFunction } from 'react-router-dom';
-import { ILoginInputs } from '@/pages/auth/LoginPage/useLoginPage';
-import { AppDispatch } from '@/store';
-import { IVerificationInputs } from '@/pages/auth/VerifyPage/useVerification';
+import { store } from '@/store';
 import { IRegisterFormShema } from '@/pages/auth/RegisterPage/RegisterPage';
+import { toast } from 'react-toastify';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { ILoginFormShema } from '@/pages/auth/LoginPage/LoginPage';
 
-export const handleRefresh = async (
-   data: IRefreshInputs,
-   dispatch: AppDispatch,
-) => {
-   try {
-      const { refresh, device } = data;
-      const response = await axios.post<IAuthResponse>(
-         `${BASE_URL}/auth/refresh`,
-         {
-            refreshToken: refresh,
-            deviceName: device,
+export const handleRefresh = (data: IRefreshInputs) => {
+   const { refresh, device } = data;
+   const refreshResponse = axios.post<IAuthResponse>(
+      `${BASE_URL}/auth/refresh`,
+      {
+         refreshToken: refresh,
+         deviceName: device,
+      },
+   );
+
+   toast
+      .promise(refreshResponse, {
+         error: {
+            render({ data }) {
+               return `${data}`.includes('401')
+                  ? 'Время сессии истекло, нужно авторизоваться повторно'
+                  : 'Необработанная ошибка';
+               // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
+            },
          },
-      );
+      })
+      .then((res) => {
+         localStorage.setItem('token', res.data.jwtToken);
+         localStorage.setItem('refresh', res.data.refreshToken);
+         store.dispatch(setIsAuth(true));
 
-      localStorage.setItem('token', response.data.jwtToken);
-      localStorage.setItem('refresh', response.data.refreshToken);
-      console.log(200);
-      dispatch(setIsAuth(true));
-
-      return response.data.jwtToken;
-   } catch (e) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('refresh');
-      console.log(400);
-      dispatch(setIsAuth(false));
-   }
+         return res.data.jwtToken;
+      })
+      .catch(() => {
+         localStorage.removeItem('token');
+         localStorage.removeItem('refresh');
+         store.dispatch(setIsAuth(false));
+      });
 };
 
-export const handleRegister = async (
-   data: IRegisterFormShema,
-   dispatch: AppDispatch,
-   navigate: NavigateFunction,
-) => {
+export interface NewJwtPayload extends JwtPayload {
+   role: string[];
+}
+export const handleLogin = (data: ILoginFormShema) => {
+   const { password, username } = data;
+   const loginResponse = AuthService.login({
+      username,
+      password,
+      deviceName: getBrowserAndOS(navigator.userAgent),
+   });
+
+   toast
+      .promise(loginResponse, {
+         pending: 'Проверяем валидность данных...',
+         success: 'Вы успешно вошли в аккаунт! Осталось совсем чуть-чуть...',
+         error: {
+            render({ data }) {
+               return `${data}`.includes('429')
+                  ? 'Слишком много попыток, попробуйте позже'
+                  : `${data}`.includes('401')
+                    ? 'Вы ввели неверный логин или пароль'
+                    : 'Необработанная ошибка';
+               // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
+            },
+         },
+      })
+      .then((res) => {
+         const decodedToken: NewJwtPayload = jwtDecode(res.data.jwtToken);
+         // console.log(decodedToken, decodedToken.exp);
+         localStorage.setItem('token', res.data.jwtToken);
+         localStorage.setItem('refresh', res.data.refreshToken);
+         if (decodedToken.role.includes('VERIFIED')) {
+            store.dispatch(setIsAuth(true));
+
+            window.location.pathname = '/about';
+         } else {
+            store.dispatch(setIsVerifing(true));
+            window.location.pathname = '/verify';
+         }
+
+         // navigate(from, {replace: true})
+
+         // getMe();
+      });
+};
+
+export const handleRegister = async (data: IRegisterFormShema) => {
    try {
-      const dateOfBirth = new Date();
-      const registerResponse = await AuthService.register({
+      const registerResponse = AuthService.register({
          password: data.password,
          username: data.username,
          name: data.name,
       });
 
-      console.log(registerResponse.data);
-
-      const loginResponse = await AuthService.login({
-         username: data.username,
-         password: data.password,
-         deviceName: getBrowserAndOS(navigator.userAgent),
-      });
-
-      console.log(loginResponse);
-
-      localStorage.setItem('token', loginResponse.data.jwtToken);
-
-      localStorage.setItem('refresh', loginResponse.data.refreshToken);
-
-      const token = localStorage.getItem('token');
-
-      if (token) {
-         await AuthService.verificationEmailSend({
-            email: data.email,
-            accessToken: token,
+      toast
+         .promise(registerResponse, {
+            pending: 'Проверяем валидность данных...',
+            success: 'Регистрация прошла успешно, создаем Ваш аккаунт...',
+            error: {
+               render({ data }) {
+                  return `${data}`.includes('429')
+                     ? 'Слишком много попыток, попробуйте позже'
+                     : `${data}`.includes('409')
+                       ? 'Username уже занят'
+                       : 'Необработанная ошибка';
+                  // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
+               },
+            },
+         })
+         .then(() => {
+            handleLogin({
+               username: data.username,
+               password: data.password,
+            });
          });
-
-         dispatch(setIsVerifing(true));
-         navigate('/verify');
-      }
    } catch (e) {
       console.log(e);
    }
 };
 
-export const handleLogin = async (
-   data: ILoginInputs,
-   dispatch: AppDispatch,
-   navigate: NavigateFunction,
-) => {
-   try {
-      const { password, username } = data;
-      const loginResponse = await AuthService.login({
-         username,
-         password,
-         deviceName: getBrowserAndOS(navigator.userAgent),
-      });
-      console.log(loginResponse);
-
-      localStorage.setItem('token', loginResponse.data.jwtToken);
-
-      localStorage.setItem('refresh', loginResponse.data.refreshToken);
-
-      dispatch(setIsAuth(true));
-
-      // navigate(from, {replace: true})
-      navigate('/about');
-      // getMe();
-   } catch (e) {
-      console.log(e);
-   }
+export const handleLogout = () => {
+   localStorage.removeItem('refresh');
+   localStorage.removeItem('token');
+   store.dispatch(setIsAuth(false));
+   window.location.pathname = '/signin';
 };
 
-export const handleLogout = async (
-   dispatch: AppDispatch,
-   navigate: NavigateFunction,
-) => {
-   try {
-      dispatch(setIsAuth(false));
-      localStorage.removeItem('refresh');
-      localStorage.removeItem('token');
-      navigate('/signin');
-   } catch (e) {
-      console.log(e);
-   }
-};
+export const handleCheckCode = (code: string) => {
+   const verifyResponse = AuthService.verificationEmailVerify({
+      code: code,
+   });
 
-export const handleVerify = async (
-   inputs: IVerificationInputs,
-   dispatch: AppDispatch,
-   navigate: NavigateFunction,
-) => {
-   try {
-      await AuthService.verificationEmailVerify({
-         code: inputs.code,
-      });
-
-      dispatch(setIsAuth(true));
-      dispatch(setIsVerifing(false));
-
-      const refreshToken = localStorage.getItem('refresh');
-      if (refreshToken) {
-         handleRefresh(
-            {
+   toast
+      .promise(verifyResponse, {
+         pending: 'Проверяем валидность кода',
+         success: 'Аккаунт успешно подтвержден!',
+         error: {
+            render({ data }) {
+               return `${data}`.includes('429')
+                  ? 'Слишком много попыток, попробуйте позже'
+                  : `${data}`.includes('412')
+                    ? 'Код устарел, попробуйте снова'
+                    : `${data}`.includes('422')
+                      ? 'Вы ввели неверный код'
+                      : 'Необработанная ошибка';
+            },
+         },
+      })
+      .then(() => {
+         const refreshToken = localStorage.getItem('refresh');
+         if (refreshToken) {
+            handleRefresh({
                device: getBrowserAndOS(navigator.userAgent),
                refresh: refreshToken,
-            },
-            dispatch,
-         );
+            });
 
-         navigate('/about');
-      }
-   } catch (e) {
-      console.log(e);
-   }
+            store.dispatch(setIsAuth(true));
+            store.dispatch(setIsVerifing(false));
+
+            window.location.pathname = '/about';
+         }
+      });
+};
+
+export const handleCodeSend = (data: {
+   email: string;
+   accessToken: string;
+}) => {
+   const verifyResponse = AuthService.verificationEmailSend({
+      email: data.email,
+      accessToken: data.accessToken,
+   });
+
+   toast.promise(verifyResponse, {
+      pending: 'Проверяем ваш email адрес...',
+      success: 'Мы отправили код подтверждения вам на почту!',
+      error: {
+         render({ data }) {
+            return `${data}`.includes('429')
+               ? 'Слишком много попыток, попробуйте позже'
+               : `${data}`.includes('409')
+                 ? 'Email уже занят'
+                 : 'Необработанная ошибка';
+         },
+      },
+   });
 };

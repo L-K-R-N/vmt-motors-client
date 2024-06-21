@@ -7,6 +7,7 @@
    @include flex($justify: center);
    background: url('./assets/bg.jpg') no-repeat;
    background-size: cover;
+   font-family: $font-tildaSans;
    &__content {
       padding: 35px 130px;
       background: #141414;
@@ -42,7 +43,7 @@
          border-radius: 999px;
          background: white;
          padding: 6px 60px;
-         font-size: 13px;
+         font-size: 16px;
          line-height: 190%;
          font-weight: 500;
          transition: 0.3s;

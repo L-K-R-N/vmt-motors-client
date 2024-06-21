@@ -1,10 +1,7 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 import { BASE_URL } from './app.vars.ts';
-import { handleRefresh } from './hooks/Auth.ts';
-import { IAuthResponse } from './models/Auth.ts';
-import { getBrowserAndOS, setIsAuth } from '@/store/reducers/AuthSlice.tsx';
+import { handleLogout, handleRefresh } from './hooks/Auth.ts';
 import { jwtDecode } from 'jwt-decode';
-import { store } from '@/store/index.ts';
 
 export const $api: AxiosInstance = axios.create({
    withCredentials: true,
@@ -14,70 +11,45 @@ export const $api: AxiosInstance = axios.create({
    },
 });
 
-const getTokens = () => {
+export const getTokens = () => {
    const accessToken = localStorage.getItem('token');
    const refreshToken = localStorage.getItem('refresh');
 
    return { accessToken, refreshToken };
 };
 
-const refreshTokens = async () => {
-   const { refreshToken } = getTokens();
-
-   try {
-      const response = await axios.post<IAuthResponse>(
-         `${BASE_URL}/auth/refresh`,
-         {
-            refreshToken: localStorage.getItem('refresh'),
-            deviceName: getBrowserAndOS(navigator.userAgent),
-         },
-      );
-
-      localStorage.setItem('token', response.data.jwtToken);
-      localStorage.setItem('refresh', response.data.refreshToken);
-
-      return response.data.jwtToken;
-   } catch (e) {
-      console.log(e);
-      localStorage.removeItem('token');
-      localStorage.removeItem('refresh');
-      store.dispatch(setIsAuth(false));
-      return null;
-   }
-};
-
 $api.interceptors.request.use(
    async (config) => {
-      const access = localStorage.getItem('token');
-      const refresh = localStorage.getItem('refresh');
+      const { accessToken, refreshToken } = getTokens();
 
-      if (access) {
-         const decodedToken = jwtDecode(access);
-         // console.log(decodedToken, decodedToken.exp);
+      if (accessToken && refreshToken) {
+         const decodedToken = jwtDecode(accessToken);
          if (decodedToken.exp) {
             let expTime = decodedToken.exp * 1000;
             let curTime = new Date().getTime();
 
-            console.log(expTime - curTime);
-
             if (expTime - curTime <= -3000) {
-               const newAccess = refreshTokens();
+               const newAccess = handleRefresh({
+                  device: navigator.userAgent,
+                  refresh: refreshToken,
+               });
                config.headers.Authorization = `Bearer ${newAccess}`;
             } else {
-               config.headers.Authorization = `Bearer ${access}`;
+               config.headers.Authorization = `Bearer ${accessToken}`;
             }
          }
 
          // if ()
-      } else if (refresh) {
-         const newAccess = refreshTokens();
-         config.headers.Authorization = `Bearer ${newAccess}`;
+         // } else if (refreshToken) {
+         //    const newAccess = handleRefresh({
+         //       device: navigator.userAgent,
+         //       refresh: refreshToken,
+         //    });
+         //    config.headers.Authorization = `Bearer ${newAccess}`;
       } else {
-         localStorage.removeItem('token');
-         localStorage.removeItem('refresh');
-         store.dispatch(setIsAuth(false));
-      } // config.headers['Access-Control-Allow-Origin'] = `*`;
-      // config.headers['Access-Control-Allow-Origin'] = '*';
+         handleLogout();
+      }
+
       return config;
    },
    (error: AxiosError) => {

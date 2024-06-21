@@ -4,8 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { handleRegister } from '@/api/hooks/Auth';
-import { IRegisterFormShema } from './RegisterPage';
-
+import { IRegisterFormShema, registerFormShema } from './RegisterPage';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export interface IRegisterInputs {
    username: string;
    password: string;
@@ -20,22 +22,21 @@ export const useRegisterForm = () => {
       handleSubmit,
       formState: { errors },
       control,
-   } = useForm<IRegisterFormShema>({
-      mode: 'onChange',
-   });
-
+   } = useForm<IRegisterFormShema>({ resolver: zodResolver(registerFormShema) });
+   
    const navigate = useNavigate();
    const location = useLocation();
 
-   const dispatch = useAppDispatch();
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
 
    const from = location.state?.from?.pathname || '/';
 
+  
+
    const onSubmit: SubmitHandler<IRegisterFormShema> = (data) => {
       try {
-         handleRegister(data, dispatch, navigate);
-
+         handleRegister(data)
+        
          console.log(isAuth);
       } catch (e) {
          console.log(e);

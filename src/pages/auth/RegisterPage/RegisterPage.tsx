@@ -11,34 +11,43 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
-const formShema = z.object({
+export const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/;
+export const usernameRegex = /^[a-zA-Z0-9]{3,25}$/;
+
+export const registerFormShema = z.object({
    username: z
       .string({
          required_error: 'Это обязательное поле',
       })
       .trim()
-      .min(3, 'Слишком короткий username'),
+      .min(3, 'Слишком короткий username')
+      .max(25, 'Слишком длинный username')
+      .refine((val) => usernameRegex.test(val), {
+         message:
+            'Username может состоять только из букв a-Z и должен содержать в себе цифры',
+      }),
    name: z
       .string({
          required_error: 'Это обязательное поле',
       })
       .trim()
-      .min(3, 'Слишком короткое имя'),
-   email: z
-      .string({
-         required_error: 'Это обязательное поле',
-      })
-      .trim()
-      .min(3, 'Слишком короткая почта'),
+      .min(4, 'Слишком короткое имя')
+      .max(64, 'Слишком длинное имя'),
+
    password: z
       .string({
          required_error: 'Это обязательное поле',
       })
-      .trim()
-      .min(3, 'Слишком простой пароль'),
+      // .trim()
+      // .min(8, 'Слишком короткий пароль')
+      // .max(64, 'Слишком длинный пароль')
+      .refine((val) => passwordRegex.test(val), {
+         message:
+            'Пароль может состоять только из букв a-Z, должен содержать в себе цифры',
+      }),
 });
 
-export type IRegisterFormShema = z.infer<typeof formShema>;
+export type IRegisterFormShema = z.infer<typeof registerFormShema>;
 const RegisterPage = () => {
    const navigate = useNavigate();
    const registerForm = useRegisterForm();
@@ -51,10 +60,22 @@ const RegisterPage = () => {
    const dispatch = useAppDispatch();
 
    useEffect(() => {
-      if (isVerifing) {
-         navigate('/verify');
-      }
-   }, [isVerifing]);
+      // const { accessToken, refreshToken } = getTokens();
+      // if (accessToken && refreshToken) {
+      //    const decodedToken: NewJwtPayload = jwtDecode(accessToken);
+      //    localStorage.setItem('token', res.data.jwtToken);
+      //    localStorage.setItem('refresh', res.data.refreshToken);
+      //    if (decodedToken.role.includes('VERIFIED')) {
+      //       store.dispatch(setIsAuth(true));
+      //       window.location.pathname = '/about';
+      //    } else {
+      //       store.dispatch(setIsVerifing(true));
+      //       window.location.pathname = '/verify';
+      //    }
+      // } else {
+      //    handleLogout()
+      // }
+   }, []);
    return (
       <AuthLayout type="signup">
          <form
@@ -74,14 +95,6 @@ const RegisterPage = () => {
                errors={registerForm.errors}
                label={t('name')}
                name="name"
-               fieldType="input"
-            />
-
-            <TextFieldController
-               control={registerForm.control}
-               errors={registerForm.errors}
-               label={t('email')}
-               name="email"
                fieldType="input"
             />
             <TextFieldController

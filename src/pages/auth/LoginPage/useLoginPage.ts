@@ -8,6 +8,8 @@ import { getBrowserAndOS, setIsAuth } from '@/store/reducers/AuthSlice';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import AuthService from '@/api/services/AuthService';
 import { handleLogin } from '@/api/hooks/Auth';
+import { ILoginFormShema, loginFormShema } from './LoginPage';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface ILoginInputs {
    username: string;
@@ -20,9 +22,7 @@ export const useLoginPage = () => {
       handleSubmit,
       formState: { errors },
       control,
-   } = useForm<ILoginInputs>({
-      mode: 'onChange',
-   });
+   } = useForm<ILoginFormShema>({ resolver: zodResolver(loginFormShema) });
 
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const dispatch = useAppDispatch();
@@ -31,10 +31,10 @@ export const useLoginPage = () => {
 
    const from = location.state?.from?.pathname || '/';
 
-   const onSubmit: SubmitHandler<ILoginInputs> = async (data) => {
+   const onSubmit: SubmitHandler<ILoginFormShema> = async (data) => {
       // dispatch(login(data));
 
-      handleLogin(data, dispatch, navigate);
+      handleLogin(data);
    };
 
    return useMemo(
