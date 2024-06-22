@@ -12,10 +12,10 @@ interface Props {}
 export const PrivateRoute: React.FC<Props> = () => {
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const location = useLocation();
-   
-   return (
-      isAuth ? 
-      <Outlet/> : <Navigate to="/login" state={{ from: location}} replace/>
 
+   return isAuth ? (
+      <Outlet />
+   ) : (
+      <Navigate to="/about" state={{ from: location }} replace />
    );
 };

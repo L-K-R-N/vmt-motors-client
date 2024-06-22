@@ -181,7 +181,7 @@ const ProfilePage: React.FC<Props> = () => {
                   ) : (
                      <>
                         <button>{t('report')}</button>
-                        <button onClick={() => handleLogout()}>
+                        <button onClick={() => navigate(`/chats/${user?.id}`)}>
                            {t('send_message')}
                         </button>
                      </>

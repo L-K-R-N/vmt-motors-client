@@ -1,6 +1,6 @@
 import cl from './LoginPage.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useHideLayout } from '../../../hooks/useLayout.ts';
+import { useHideLayout, useShowHeader } from '../../../hooks/useLayout.ts';
 import { Button } from '@/components/UI/Button/Button.tsx';
 import { useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
@@ -45,7 +45,7 @@ const LoginPage = () => {
    //    control,
    //    setFocus,
    // } = useForm<ILoginInputs>();
-   useHideLayout();
+   useShowHeader();
 
    // const onSubmit: SubmitHandler<ILoginInputs> = (data) => {
    //    console.log(data);

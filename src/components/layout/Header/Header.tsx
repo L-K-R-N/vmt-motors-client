@@ -28,12 +28,12 @@ export const Header: React.FC<Props> = () => {
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
-         text: 'catalog',
-         to: 'catalog',
-      },
-      {
          text: 'about',
          to: 'about',
+      },
+      {
+         text: 'catalog',
+         to: 'catalog',
       },
       {
          text: 'profile',
@@ -46,6 +46,16 @@ export const Header: React.FC<Props> = () => {
       {
          text: 'chats',
          to: 'chats',
+      },
+   ]);
+   const [unAuthMenuItems, setUnAuthMenuItems] = useState([
+      {
+         text: 'about',
+         to: 'about',
+      },
+      {
+         text: 'catalog',
+         to: 'catalog',
       },
    ]);
 
@@ -79,19 +89,21 @@ export const Header: React.FC<Props> = () => {
                         />
                      </Link>
 
-                     <Menu items={authMenuItems} />
+                     <Menu items={isAuth ? authMenuItems : unAuthMenuItems} />
 
                      <div className={cl.header__control}>
-                        <Button
-                           title="Submit an ad"
-                           type="button"
-                           onClick={() => navigate('add')}
-                        >
-                           <div>
-                              <img src={plusIcon} alt="" />
-                              <span>{t('submit_an_ad')}</span>
-                           </div>
-                        </Button>
+                        {isAuth && (
+                           <Button
+                              title="Submit an ad"
+                              type="button"
+                              onClick={() => navigate('add')}
+                           >
+                              <div>
+                                 <img src={plusIcon} alt="" />
+                                 <span>{t('submit_an_ad')}</span>
+                              </div>
+                           </Button>
+                        )}
                         <div className={cl.lang}>
                            <span
                               className={cl.lang_current}
@@ -151,7 +163,10 @@ export const Header: React.FC<Props> = () => {
                               <span>{me?.username}</span>
                            </Link>
                         ) : (
-                           <div className={cl.auth__btns}></div>
+                           <div className={cl.auth__btns}>
+                              <Link to={'/signin'}>{t('Login')}</Link>
+                              <Link to={'/signup'}>{t('signup')}</Link>
+                           </div>
                         )}
                      </div>
                   </div>

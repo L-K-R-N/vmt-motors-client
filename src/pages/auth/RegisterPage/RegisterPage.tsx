@@ -1,6 +1,6 @@
 import cl from './RegisterPage.module.scss';
 import { Button } from '@/components/UI/Button/Button.tsx';
-import { useHideLayout } from '@/hooks/useLayout';
+import { useHideLayout, useShowHeader } from '@/hooks/useLayout';
 import { useNavigate } from 'react-router-dom';
 import { useRegisterForm } from './useRegisterForm';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
@@ -54,7 +54,7 @@ const RegisterPage = () => {
    // const verificationForm = useVerificationForm();
    // const verificationForm = useVerification();
    const { isVerifing } = useAppSelector((state) => state.AuthReducer);
-   useHideLayout();
+   useShowHeader();
    const { t } = useTranslation();
 
    const dispatch = useAppDispatch();

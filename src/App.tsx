@@ -36,6 +36,7 @@ import { handleGetMe } from './api/hooks/Person';
 import { VerifyPage } from './pages/auth/VerifyPage';
 import { ToastContainer } from 'react-toastify';
 import { handleRefresh } from './api/hooks/Auth';
+import { PrivateRoute } from './components/layout/PrivateRoute/PrivateRoute';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -63,10 +64,6 @@ const App = () => {
          element: <LoginPage />,
          // loader: () => !isAuth,
       },
-   ]);
-
-   const { me } = useAppSelector((state) => state.UserReducer);
-   const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
       {
          path: '/catalog',
          element: <CatalogPage />,
@@ -77,10 +74,6 @@ const App = () => {
          element: <MainPage />,
          // loader: () => isAuth,
       },
-      // {
-      //    path: 'loader',
-      //    element: <Loader />,
-      // },
 
       {
          path: '/profile/:id',
@@ -93,6 +86,15 @@ const App = () => {
          element: <ProductPage />,
          // loader: () => isAuth,
       },
+   ]);
+
+   const { me } = useAppSelector((state) => state.UserReducer);
+   const [authRoutes, setAuthRoutes] = useState<RouteObject[]>([
+      // {
+      //    path: 'loader',
+      //    element: <Loader />,
+      // },
+
       {
          path: '/add',
          element: <AddAdvertPage />,
@@ -100,6 +102,11 @@ const App = () => {
       },
       {
          path: '/chats',
+         element: <ChatsPage />,
+         // loader: () => isAuth,
+      },
+      {
+         path: '/chats/:personId',
          element: <ChatsPage />,
          // loader: () => isAuth,
       },
@@ -168,11 +175,11 @@ const App = () => {
       if (window.location.pathname === '/') {
          window.location.pathname = '/about';
       }
-      if (me && isAuth && !me.roles.includes('VERIFIED')) {
-         dispatch(setIsAuth(false));
-         console.log(me);
-         window.location.pathname = '/verify';
-      }
+      // if (me && isAuth && !me.roles.includes('VERIFIED')) {
+      //    dispatch(setIsAuth(false));
+      //    console.log(me);
+      //    window.location.pathname = '/verify';
+      // }
       // navigate(isAuth ? '/signin' : '/about');
    }, []);
 
@@ -218,21 +225,23 @@ const App = () => {
       <BrowserRouter>
          <ToastContainer limit={3} />
          <Routes>
-            {unAuthRoutes.map((route) => (
-               <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-               />
-            ))}
             <Route element={<Layout />}>
-               {authRoutes.map((route) => (
+               {unAuthRoutes.map((route) => (
                   <Route
                      key={route.path}
                      path={route.path}
                      element={route.element}
                   />
                ))}
+               <Route element={<PrivateRoute />}>
+                  {authRoutes.map((route) => (
+                     <Route
+                        key={route.path}
+                        path={route.path}
+                        element={route.element}
+                     />
+                  ))}
+               </Route>
             </Route>
          </Routes>
       </BrowserRouter>

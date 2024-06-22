@@ -1,6 +1,6 @@
 import cl from './VerifyPage.module.scss';
 import { Button } from '@/components/UI/Button/Button.tsx';
-import { useHideLayout } from '@/hooks/useLayout';
+import { useHideLayout, useShowHeader } from '@/hooks/useLayout';
 import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
 import { useState } from 'react';
@@ -42,7 +42,7 @@ const VerifyPage = () => {
          setIsEmailSend(true);
       }
    };
-   useHideLayout();
+   useShowHeader();
    const handleVerify = () => {
       if (code) {
          handleCheckCode(code);

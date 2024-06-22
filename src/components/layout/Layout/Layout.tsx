@@ -1,6 +1,6 @@
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import cl from './Layout.module.scss';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { Header } from '../Header/Header';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -26,11 +26,11 @@ export const Layout: React.FC<Props> = () => {
          <main className={cl.main}>
             <Suspense fallback={<Loader />}>
                <Sidebar />
-               {isAuth ? (
-                  <Outlet />
-               ) : (
-                  <Navigate to="/signin" state={{ from: location }} replace />
-               )}
+               {/* {isAuth ? ( */}
+               <Outlet />
+               {/* // ) : (
+               //    <Navigate to="/signin" state={{ from: location }} replace />
+               // )} */}
             </Suspense>
          </main>
          <Footer />
