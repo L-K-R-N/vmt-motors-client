@@ -130,7 +130,6 @@ export const useFilterForm = () => {
       setValue('type', null);
       setValue('yearFrom', '');
       setValue('yearTo', '');
-      
    };
 
    const onSubmit: SubmitHandler<IFilterInputs> = async (data) => {

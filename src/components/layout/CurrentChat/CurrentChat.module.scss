@@ -1,469 +1,132 @@
 @import '@/styles/vars';
 @import '@/styles/mixins';
 @import '@/styles/fonts';
-.header {
-   width: 100vw;
-   min-height: 80px;
-   padding: 10px 0;
-   @include flex($align: stretch);
-   background-color: black;
-   border-bottom: 2px solid $black;
-   font-family: $font-tildaSans;
-   &__content {
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
-      height: 100%;
-      gap: 30px;
-   }
+.currentChat {
+   width: 80%;
+   color: var(--text-primary);
+   font-weight: 400;
 
-   &__profile {
-      border-radius: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      @include flex($justify: center);
-      padding: 8px 25px;
-      gap: 7px;
-
-      font-size: 14px;
-      font-weight: 400;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: white;
-   }
-
-   &__control {
+   &__header {
       @include flex();
-      gap: 30px;
-      margin-left: auto;
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--negative-02);
+      flex-grow: 1;
+   }
 
-      & > button {
-         width: auto;
-         padding: 9px 12px;
-         & > div {
-            width: 100%;
-            height: 100%;
-            @include flex($justify: center);
-            gap: 13px;
-            font-size: 14px;
-            font-weight: 500;
-         }
-         border-radius: 10px;
+   &__user {
+      @include flex($justify: start);
+      gap: 12px;
+      font-size: 24px;
+
+      & > img {
+         border-radius: 999px;
+         width: 45px;
+         height: 45px;
+         background: var(--text-primary);
       }
    }
 
-   &__btn {
-      display: flex;
+   &__advert {
+      @include flex($justify: end);
+      gap: 14px;
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 22px;
    }
 
-   .lang {
-      color: white;
-      position: relative;
-      font-size: 16px;
+   &__price {
+      @include flex($justify: center);
+      padding: 3px 25px;
+      border-radius: 999px;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.163);
+      background: #52ff00;
+   }
 
-      font-family: $font-tildaSans;
-      font-weight: 300;
-      text-transform: uppercase;
+   &__main {
+      flex-grow: 10;
+      flex-grow: 10;
+      height: calc(100% - 80px);
+      @include flex($justify: end, $direction: column);
 
-      &_text {
+      &_messages {
          width: 100%;
-      }
-
-      &_item {
-         @include flex();
-
+         margin: 10px 0;
+         padding: 0 12px;
+         @include flex($direction: column, $align: start);
          gap: 10px;
-         width: 100%;
-         padding: 10px;
-         cursor: pointer;
-         &:hover {
-            background: rgba(255, 255, 255, 0.185);
-         }
-      }
-
-      &_list {
-         // @include flex($direction: column, $align: start);
-         gap: 10px;
-         position: absolute;
-         left: 0;
-         width: 100%;
-         top: 100%;
-         height: 0;
-         transition: 0.3s;
-         z-index: 99999;
-         background: rgba(0, 0, 0, 0.507);
-         border-radius: 5px;
+         max-height: 100%;
          overflow-y: scroll;
+
          &::-webkit-scrollbar {
             background: transparent;
-            width: 6px;
+            width: 8px;
 
-            &-button {
-               background: transparent;
-               height: 0;
-            }
             &-thumb {
-               background: white;
+               background-color: var(--negative-02);
                border-radius: 999px;
             }
          }
+      }
+   }
+   &__send {
+      &Container {
+         width: 100%;
+         position: relative;
+         padding: 10px 20px;
+      }
 
-         &.open {
-            height: calc(60px * 3);
+      &Input {
+         width: 100%;
+         border-radius: 999px;
+         border: none;
+         background: var(--negative-02);
+         font-weight: 400;
+         font-size: 20px;
+         padding: 10px 16px;
+         color: var(--text-primary);
+         &::placeholder {
          }
       }
 
-      & img {
-         width: 35px;
-         height: 35px;
+      &Btn {
+         position: absolute;
+         top: 50%;
+         right: 30px;
+         transform: translateY(-50%);
+         border: none;
+         background: transparent;
+         height: 36px;
+         width: 36px;
          @include flex($justify: center);
-         padding: 0;
-         margin: 0;
-      }
-
-      &_current {
-         @include flex();
-         gap: 10px;
-         width: 100%;
+         border-radius: 999px;
+         background: transparent;
+         padding: 4px;
          transition: 0.3s;
-         padding: 10px;
-         cursor: pointer;
+
          &:hover {
-            background: rgba(255, 255, 255, 0.185);
-            border-radius: 999px;
+            opacity: 0.7;
+            background: rgba(255, 255, 255, 0.189);
+         }
+         & > svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(90deg);
+            opacity: 0.5;
          }
       }
    }
 
-   .auth__btns {
+   .message {
+      background: var(--negative-02);
+      color: var(--text-primary);
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-size: 16px;
       @include flex();
 
-      & > a {
-         padding: 11px 25px;
-         border: 2px solid rgba(255, 255, 255, 0.478);
-         color: white;
-         font-size: 18px;
-         text-decoration: none;
-
-         font-weight: 400;
-         transition: 0.3s;
-         &:hover {
-            background: rgb(255, 255, 255);
-            color: black;
-         }
-         &:first-child {
-            border-radius: 18px 0 0 18px;
-            border-right-width: 1px;
-         }
-         &:last-child {
-            border-radius: 0 18px 18px 0;
-            border-left-width: 1px;
-         }
-      }
-   }
-
-   .themeSwitcher {
-      border-radius: 999px;
-      height: 35px;
-      width: 35px;
-      padding: 2px;
-      @include flex($justify: center);
-      cursor: pointer;
-      position: relative;
-      & > svg {
-         color: white;
-         width: 100%;
-         height: 100%;
-         transition: 0.3s;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-      }
-
-      &.dark {
-         & > svg {
-            &.sun {
-               opacity: 1;
-               padding-top: 0;
-            }
-            &.moon {
-               opacity: 0;
-               padding-bottom: 50px;
-            }
-         }
-      }
-      &.light {
-         & > svg {
-            &.sun {
-               opacity: 0;
-               padding-top: 50px;
-            }
-
-            &.moon {
-               opacity: 1;
-               padding-top: 0;
-            }
-         }
-      }
-   }
-}
-
-.logo {
-   width: 140px;
-   height: 100%;
-   text-decoration: none;
-   opacity: 0.8;
-   transition: 0.3s;
-   display: flex;
-   &__img {
-      object-fit: contain;
-      height: 100%;
-      width: 100%;
-   }
-
-   &:hover {
-      opacity: 1;
-   }
-}
-
-.authBtn {
-   border: 2px solid $black;
-   border-radius: 999px;
-   padding: 0 30px;
-
-   font-weight: 400;
-   font-size: 18px;
-
-   @include flex;
-   transition: 0.3s;
-
-   gap: 20px;
-   text-decoration: none;
-
-   color: $black;
-   & > svg {
-      width: 30px;
-      height: 30px;
-   }
-
-   &:hover {
-      border-color: $purple;
-      color: $purple;
-   }
-}
-
-.profileBlock {
-   display: flex;
-   align-items: stretch;
-   justify-content: center;
-   gap: 20px;
-}
-
-.mapBtn {
-   border-radius: 50%;
-
-   border: none;
-   // border: 2px solid;
-   background: transparent;
-   padding: 10px;
-   @include flex($justify: center);
-   & > svg {
-      width: 40px;
-      height: 40px;
-      color: $purple;
-   }
-}
-
-.likes {
-   width: -moz-fit-content;
-   width: fit-content;
-   align-items: center;
-   display: flex;
-   flex-direction: column;
-   color: white;
-   font-weight: 300;
-
-   &Img {
-      color: #ffad7e;
-   }
-}
-
-.authButtons {
-   display: flex;
-   gap: 20px;
-   align-items: center;
-
-   button {
-      transition: 0.3s all ease-in-out;
-      outline: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 17px;
-      position: relative;
-      border-radius: 24px;
-      padding: 10px 30px;
-      border: 1px solid #ffffff;
-
-      color: white;
-
-      & svg {
-         width: 25px;
-         height: 25px;
-      }
-   }
-}
-
-.search {
-   &Container {
-      position: relative;
-      height: 100%;
-      width: 50%;
-      &:has(.searchInput:hover) {
-         .searchIcon {
-            color: $black;
-         }
-      }
-
-      &:has(.searchInput:focus) {
-         .searchIcon {
-            color: $black;
-         }
-      }
-   }
-
-   &Icon {
-      position: absolute;
-      top: 50%;
-      left: 17px;
-      width: 26px;
-      height: 26px;
-      transform: translateY(-50%);
-      color: $gray;
-      transition: 0.3s;
-   }
-   &Input {
-      border-radius: 10px;
-      background: $white;
-      font-weight: 400;
-
-      padding: 10px;
-      padding-left: 60px;
-      border: 1px solid $soft-gray;
-      width: 100%;
-      height: 100%;
-
-      &::placeholder {
-         color: $gray;
-         transition: 0.3s;
-      }
-
-      &:hover {
-         &::placeholder {
-            color: $black;
-         }
-      }
-      &:focus {
-         &::placeholder {
-            color: $black;
-         }
-      }
-   }
-}
-
-@media (max-width: 1100px) {
-   .header {
-      &__control {
-         // width: 20%;
-      }
-
-      &__lang {
-         display: none;
-      }
-   }
-}
-@media (max-width: 1000px) {
-   .header {
-      .lang,
-      .themeSwitcher,
-      .header__profile {
-         display: none;
-      }
-      &__control {
-         & > button {
-            position: fixed;
-            z-index: 999;
-            bottom: 20px;
-            width: 80px;
-            height: 80px;
-            right: 20px;
-            @include flex($justify: center);
-            padding: 15px;
-            border-radius: 999px;
-            & > div {
-               & > span {
-                  display: none;
-               }
-
-               & > img {
-                  width: 100%;
-               }
-            }
-         }
-      }
-
-      &__lang {
-         display: none;
-      }
-   }
-}
-
-@media (max-width: 750px) {
-   .header {
-      &__control {
-         & > button {
-            width: 60px;
-            height: 60px;
-            padding: 10px;
-            border-radius: 999px;
-            & > div {
-               & > span {
-                  display: none;
-               }
-
-               & > img {
-                  width: 100%;
-               }
-            }
-         }
-      }
-      height: auto;
-      min-height: 0;
-      &__control {
-      }
-
-      &__content {
-         flex-direction: row;
-         position: relative;
-      }
-
-      .logo {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         opacity: 1;
-         transform: translate(-50%, -50%);
-         & > img {
-            min-width: 82px;
-            min-height: 45px;
-         }
+      &.my {
+         align-self: flex-end;
       }
    }
 }

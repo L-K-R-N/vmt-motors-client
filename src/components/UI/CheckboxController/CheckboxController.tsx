@@ -42,13 +42,18 @@ export function CheckboxController<TFieldValues extends FieldValues>({
             rules={rules}
             defaultValue={defaultValue}
             render={({ field }) => (
+               <div className={cl.label}>
+                  {label}
+                  <input
+                     title={label}
+                     type="checkbox"
+                     value={field.value}
+                     onChange={() => field.onChange(!field.value)}
+                     className={[cl.checkbox, cl.checked].join(' ')}
+                     disabled={disabled}
+                  />
+               </div>
 
-               
-                  <div className={cl.label}>
-                     {label}
-                     <input type="checkbox" {...field} className={[cl.checkbox, cl.checked].join(' ')} disabled={disabled}/>
-                  </div>
-               
                // <TextField
                //    type={fieldType}
                //    errors={errors}

@@ -48,7 +48,6 @@
          font-family: $font-tildaSans;
          &::placeholder {
             color: var(--text-primary);
-            opacity: 0.5;
          }
       }
 
@@ -78,15 +77,9 @@
          }
       }
 
-      & div:has( > input[type='checkbox']) {
-      
-       padding: 10px;
-         
-        
-   
+      & div:has(> input[type='checkbox']) {
+         padding: 10px;
       }
-   
-     
    }
 
    .title {

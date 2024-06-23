@@ -12,6 +12,7 @@ import femaleAvatar from './assets/femaleAvatar.jpg';
 import PersonService from '@/api/services/PersonService';
 import { IUser } from '@/api/models/Person';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 interface Props {}
 
@@ -21,6 +22,7 @@ const ProductPage: React.FC<Props> = () => {
    const [activeImgId, setActiveImgId] = useState(1);
    const [user, setUser] = useState<IUser | null>(null);
    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+   const [isFavorite, setIsFavorite] = useState(false);
    const {} = useForm<IStageInputs>({
       mode: 'onChange',
    });
@@ -43,15 +45,25 @@ const ProductPage: React.FC<Props> = () => {
       }
    };
 
-   const handleSetUser = async (id: string) => {
+   const handleSetUser = (id: string) => {
       try {
-         const response = await PersonService.getPerson(id);
+         const response = PersonService.getPerson(id);
 
-         setUser(response.data);
+         toast
+            .promise(response, {
+               error: 'Пользователь, разместивший данный товар, не найден',
+            })
+            .then((res) => {
+               setUser(res.data);
+            })
+            .catch(() => {
+               navigate(-1);
+            });
       } catch (e) {
          console.log(e);
       }
    };
+
    useEffect(() => {
       // const newProducts = [...products];
       // const currentProduct = newProducts.find((p) => p.id === );
@@ -175,7 +187,8 @@ const ProductPage: React.FC<Props> = () => {
                                     key !== 'personId' &&
                                     key !== 'moderated' && (
                                        <li>
-                                          <span>{t(key)}:</span> {value}
+                                          <span>{t(key)}:</span>
+                                          <span>{value}</span>
                                        </li>
                                     ),
                               )}
@@ -185,7 +198,12 @@ const ProductPage: React.FC<Props> = () => {
                         <button title="Get contact" onClick={() => navigate}>
                            Get contact
                         </button>
-                        <button title="Send message">Send message</button>
+                        <button
+                           title="Send message"
+                           onClick={() => navigate(`/chats`)}
+                        >
+                           Send message
+                        </button>
                      </div>
                   </div>
                   {product?.description && (

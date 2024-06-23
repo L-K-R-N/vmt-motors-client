@@ -1,7 +1,9 @@
 import SockJS from 'sockjs-client';
 import Stomp, { Client } from 'stompjs';
+import $api from '../public.api';
+import { AxiosResponse } from 'axios';
 
-interface Message {
+interface IMessageResponse {
    t: 'MESSAGE';
    o: {
       id: string;
@@ -10,6 +12,14 @@ interface Message {
       chatId: string;
       replyMessageId: string | null;
       attachments: Attachment[];
+   };
+}
+
+interface IMessageReadResponse {
+   t: 'READ';
+   o: {
+      chatId: string;
+      messageId: string;
    };
 }
 
@@ -26,9 +36,25 @@ interface Attachment {
    name: string;
 }
 
-interface Error {
+interface IErrorResponse {
    message: string;
    timestamp: number;
+}
+
+export interface IChatResponse {
+   chatId: string;
+   firstPersonId: string;
+   secondPersonId: string;
+   firstPersonIdLastReadMessageId: string;
+   secondPersonIdLastReadMessageId: string;
+   lastMessage: IMessageResponse;
+}
+
+export class ChatService {
+   static async getAllChats() // params: IParams,
+   : Promise<AxiosResponse<IChatResponse[]>> {
+      return $api.get<IChatResponse[]>('chat/all');
+   }
 }
 
 class WebSocketService {
@@ -59,8 +85,8 @@ class WebSocketService {
 
    public subscribe(
       id: string,
-      onMessageReceived: (message: Message) => void,
-      onErrorReceived: (error: Error) => void,
+      onMessageReceived: (message: IMessageResponse) => void,
+      onErrorReceived: (error: IErrorResponse) => void,
    ): void {
       if (this.stompClient) {
          this.stompClient.subscribe(`/user/${id}/queue/message`, (payload) => {
@@ -75,9 +101,13 @@ class WebSocketService {
 
    public sendMessage(message: {
       receiverId: string;
+      // text: string;
+      // replyMessageId: string | null;
+      // attachments: string[];
+
+      // chatId: number;
+      // chatType: 'SINGLE';
       text: string;
-      replyMessageId: string | null;
-      attachments: string[];
    }): void {
       if (this.stompClient) {
          this.stompClient.send(

@@ -20,13 +20,31 @@ export const Header: React.FC<Props> = () => {
    const { isShowHeader } = useAppSelector((state) => state.LayoutReducer);
    const { t } = useTranslation();
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
-   const { me } = useAppSelector((state) => state.UserReducer);
+   const { me, isAdmin } = useAppSelector((state) => state.UserReducer);
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { lang, theme, langs } = useAppSelector(
       (state) => state.SettingsReducer,
    );
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [authMenuItems, setAuthMenuItems] = useState([
+      {
+         text: 'about',
+         to: 'about',
+      },
+      {
+         text: 'catalog',
+         to: 'catalog',
+      },
+      {
+         text: 'profile',
+         to: 'profile',
+      },
+      {
+         text: 'chats',
+         to: 'chats',
+      },
+   ]);
+   const [adminMenuItems, setAdminMenuItems] = useState([
       {
          text: 'about',
          to: 'about',
@@ -89,7 +107,15 @@ export const Header: React.FC<Props> = () => {
                         />
                      </Link>
 
-                     <Menu items={isAuth ? authMenuItems : unAuthMenuItems} />
+                     <Menu
+                        items={
+                           isAuth && isAdmin
+                              ? adminMenuItems
+                              : isAuth
+                                ? authMenuItems
+                                : unAuthMenuItems
+                        }
+                     />
 
                      <div className={cl.header__control}>
                         {isAuth && (

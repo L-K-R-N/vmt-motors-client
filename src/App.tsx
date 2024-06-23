@@ -37,6 +37,8 @@ import { VerifyPage } from './pages/auth/VerifyPage';
 import { ToastContainer } from 'react-toastify';
 import { handleRefresh } from './api/hooks/Auth';
 import { PrivateRoute } from './components/layout/PrivateRoute/PrivateRoute';
+import { setIsAdmin } from './store/reducers/UserSlice';
+import { AdminRoute } from './components/layout/AdminRoute/AdminRoute';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -110,6 +112,9 @@ const App = () => {
          element: <ChatsPage />,
          // loader: () => isAuth,
       },
+   ]);
+
+   const [adminRoutes, setAdminRoutes] = useState<RouteObject[]>([
       {
          path: '/admin/users-list',
          element: <UsersListPage />,
@@ -175,13 +180,18 @@ const App = () => {
       if (window.location.pathname === '/') {
          window.location.pathname = '/about';
       }
-      // if (me && isAuth && !me.roles.includes('VERIFIED')) {
-      //    dispatch(setIsAuth(false));
-      //    console.log(me);
-      //    window.location.pathname = '/verify';
-      // }
-      // navigate(isAuth ? '/signin' : '/about');
    }, []);
+
+   useEffect(() => {
+      if (
+         (me && isAuth && me.roles.includes('MODERATOR')) ||
+         me?.roles.includes('ADMIN')
+      ) {
+         dispatch(setIsAdmin(true));
+      } else {
+         dispatch(setIsAdmin(false));
+      }
+   }, [me, isAuth]);
 
    // useEffect(() => {
    //    const refresh = localStorage.getItem('refresh');
@@ -241,6 +251,16 @@ const App = () => {
                         element={route.element}
                      />
                   ))}
+
+                  <Route element={<AdminRoute />}>
+                     {adminRoutes.map((route) => (
+                        <Route
+                           key={route.path}
+                           path={route.path}
+                           element={route.element}
+                        />
+                     ))}
+                  </Route>
                </Route>
             </Route>
          </Routes>

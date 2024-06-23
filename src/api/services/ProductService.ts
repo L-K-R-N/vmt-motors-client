@@ -110,6 +110,11 @@ export default class ProductService {
       });
    }
 
+   static async addToBasket(productId: string): Promise<AxiosResponse> {
+      return $api.post(`product/basket`, {
+         commodityId: productId,
+      });
+   }
    static async rejectProduct(data: {
       productId: string;
    }): Promise<AxiosResponse> {

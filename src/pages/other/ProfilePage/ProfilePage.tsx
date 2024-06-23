@@ -181,7 +181,7 @@ const ProfilePage: React.FC<Props> = () => {
                   ) : (
                      <>
                         <button>{t('report')}</button>
-                        <button onClick={() => navigate(`/chats/${user?.id}`)}>
+                        <button onClick={() => navigate(`/chats`)}>
                            {t('send_message')}
                         </button>
                      </>

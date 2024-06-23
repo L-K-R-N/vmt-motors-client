@@ -18,8 +18,14 @@ export default class PersonService {
    ): Promise<AxiosResponse<IUser>> {
       return $api.get<IUser>(`person/by-username${username}`);
    }
-   static async getAllPersons(): Promise<AxiosResponse<IUser[]>> {
-      return $api.get<IUser[]>('person/all');
+   static async getAllPersons(
+      personIds: string[],
+   ): Promise<AxiosResponse<IUser[]>> {
+      return $api.get<IUser[]>('person/all', {
+         params: {
+            personIds,
+         },
+      });
    }
 
    static async getStatus(id: string): Promise<AxiosResponse<IStatusResponse>> {

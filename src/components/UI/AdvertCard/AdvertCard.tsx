@@ -1,29 +1,19 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import cl from './AdvertCard.module.scss';
 import ownerIcon from './assets/owner.svg';
-import { FaStar } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import defaultPhoto from './assets/defaultPhoto.jpg';
-import { Locale, formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { ru } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
-import { ko } from 'date-fns/locale';
-import { kk } from 'date-fns/locale';
-import { zhCN } from 'date-fns/locale';
-import { uk } from 'date-fns/locale';
-import { be } from 'date-fns/locale';
-import { TLanguage } from '@/store/reducers/SettingsSlice';
 import { IProduct } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import { IoStarOutline } from 'react-icons/io5';
 import {
    setModeratedProducts,
    setMyProducts,
-   setProducts,
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { MdOutlineStarBorderPurple500 } from 'react-icons/md';
 import { toast } from 'react-toastify';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
@@ -40,38 +30,9 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const location = useLocation();
    const [isMyProduct, setIsMyProduct] = useState(false);
    const [isModerating, setIsModerating] = useState(false);
-   const changeLocale = (lang: TLanguage): Locale => {
-      let currentLocale = locale;
-
-      switch (lang) {
-         case 'ru':
-            currentLocale = ru;
-            break;
-         case 'en':
-            currentLocale = enUS;
-            break;
-         case 'be':
-            currentLocale = be;
-            break;
-         case 'kk':
-            currentLocale = kk;
-            break;
-         case 'ko':
-            currentLocale = ko;
-            break;
-         case 'uk':
-            currentLocale = uk;
-            break;
-         case 'zh':
-            currentLocale = zhCN;
-            break;
-      }
-
-      return currentLocale;
-   };
-
+   const [isFavorite, setIsFavorite] = useState(false);
    useEffect(() => {
-      setLocale(changeLocale(lang));
+      // setLocale(changeLocale(lang));
       console.log(advert.moderated);
    }, [lang]);
 
@@ -79,6 +40,8 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       setIsModerating(location.pathname === '/admin/dashboard' ? true : false);
       setIsMyProduct(me?.id === advert.personId ? true : false);
    }, []);
+
+   const handleCheckInBasket = () => {};
 
    const handleApprove = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -145,19 +108,43 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       }
    };
 
-   const handleAddToCart = async (e: React.MouseEvent<HTMLButtonElement>) => {
+   const handleAddToBasket = (
+      e: React.MouseEvent<HTMLButtonElement>,
+      productId: string,
+   ) => {
       e.stopPropagation();
       try {
-      } catch (e) {}
+         const response = ProductService.addToBasket(productId);
+
+         toast
+            .promise(response, {
+               success: `Товар ${isFavorite ? 'удален из избранного' : 'добавлен в избранное!'}`,
+               error: {
+                  render({ data }) {
+                     return `${data}`.includes('403')
+                        ? 'Авторизуйтесь, чтобы добавлять товары в избранное!'
+                        : `${data}`.includes('409')
+                          ? 'Товар уже добавлен в избранное'
+                          : 'Необработанная ошибка';
+                  },
+               },
+            })
+            .then((res) => {
+               setIsFavorite((prev) => !prev);
+            })
+            .catch(() => {});
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
       try {
-         const deleteResponse = ProductService.deleteProduct({ productId: advert.id });
-
-         
+         const deleteResponse = ProductService.deleteProduct({
+            productId: advert.id,
+         });
 
          toast
             .promise(deleteResponse, {
@@ -176,7 +163,6 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   dispatch(setMyProducts(res.data));
                });
             });
-
       } catch (e) {
          console.log(e);
       }
@@ -195,26 +181,26 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
          <div className={cl.advertContainer}>
             <div className={cl.advertHeader}>
                <div className={cl.advertHeader__top}>
-                  <h4 className={cl.advertHeader__title}>
-                     {advert?.name}
-                    
-                  </h4>
-                 
+                  <h4 className={cl.advertHeader__title}>{advert?.name}</h4>
+
                   <p className={cl.advertHeader__price}>{advert?.price}$</p>
                   <button
-                     className={[cl.advertHeader__isFavorite, cl.active].join(
-                        ' ',
-                     )}
+                     className={[
+                        cl.advertHeader__isFavorite,
+                        isFavorite ? cl.active : '',
+                     ].join(' ')}
                      title="Добавить в избранное"
-                     onClick={handleAddToCart}
+                     onClick={(e) => handleAddToBasket(e, advert.id)}
                   >
                      <IoStarOutline />
                   </button>
                </div>
-               <span className={cl.advertHeader__model}>
-                  {advert?.model}
-               </span>
-               <p className={[cl.advertHeader__desc, cl.no_desc].join(' ')}>{advert?.description ? advert?.description : 'Описание не добавлено'}</p>
+               <span className={cl.advertHeader__model}>{advert?.model}</span>
+               <p className={[cl.advertHeader__desc, cl.no_desc].join(' ')}>
+                  {advert?.description
+                     ? advert?.description
+                     : 'Описание не добавлено'}
+               </p>
                <span
                   className={[
                      cl.advertHeader__isNew,
