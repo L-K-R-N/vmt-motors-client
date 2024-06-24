@@ -5,9 +5,9 @@ export interface IStatusResponse {
 
 export interface IUser {
    id: string;
-   username?: string;
+   username: string;
    gender?: 'FEMALE' | 'MALE';
-   phoneNumber: string;
+   phoneNumber?: string;
    banned?: boolean;
    description?: string;
    email: string;

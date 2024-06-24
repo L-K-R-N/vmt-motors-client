@@ -1,0 +1,62 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.themeSwitcher {
+   border-radius: 999px;
+
+   padding: 2px;
+   @include flex($justify: center);
+   cursor: pointer;
+   position: relative;
+   & > svg {
+      color: white;
+      height: 35px;
+      width: 35px;
+      transition: 0.3s;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      opacity: 0.4;
+   }
+
+   &.dark {
+      & > svg {
+         &.sun {
+            opacity: 0.8;
+            padding-top: 0;
+            z-index: 999;
+            &:hover {
+               opacity: 1;
+            }
+         }
+         &.moon {
+            opacity: 0;
+            padding-bottom: 50px;
+            z-index: -1;
+         }
+      }
+   }
+   &.light {
+      & > svg {
+         &.sun {
+            opacity: 0;
+            padding-top: 50px;
+            z-index: -1;
+         }
+
+         &.moon {
+            opacity: 0.8;
+            padding-top: 0;
+            z-index: 999;
+            height: 30px;
+
+            &:hover {
+               opacity: 1 !important;
+            }
+         }
+      }
+   }
+}

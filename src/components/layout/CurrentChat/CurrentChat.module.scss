@@ -5,11 +5,10 @@
    width: 80%;
    color: var(--text-primary);
    font-weight: 400;
-
    &__header {
       @include flex();
       width: 100%;
-      padding: 13px 20px;
+      padding: 7px 20px;
       background: var(--negative-02);
       flex-grow: 1;
    }
@@ -18,7 +17,13 @@
       @include flex($justify: start);
       gap: 12px;
       font-size: 24px;
-
+      cursor: pointer;
+      transition: 0.3s;
+      padding: 10px;
+      border-radius: 999px;
+      &:hover {
+         background: rgba(0, 0, 0, 0.368);
+      }
       & > img {
          border-radius: 999px;
          width: 45px;
@@ -46,18 +51,18 @@
    &__main {
       flex-grow: 10;
       flex-grow: 10;
-      height: calc(100% - 80px);
+      height: calc(100% - 70px);
       @include flex($justify: end, $direction: column);
 
       &_messages {
          width: 100%;
          margin: 10px 0;
          padding: 0 12px;
-         @include flex($direction: column, $align: start);
+         @include flex($direction: column-reverse, $align: start);
          gap: 10px;
          max-height: 100%;
          overflow-y: scroll;
-
+         overflow-x: hidden;
          &::-webkit-scrollbar {
             background: transparent;
             width: 8px;
@@ -73,26 +78,33 @@
       &Container {
          width: 100%;
          position: relative;
-         padding: 10px 20px;
+         // padding: 10px 20px;
       }
 
       &Input {
          width: 100%;
-         border-radius: 999px;
          border: none;
          background: var(--negative-02);
          font-weight: 400;
          font-size: 20px;
          padding: 10px 16px;
          color: var(--text-primary);
+         padding-right: 55px;
+         min-height: 50px;
+         max-height: 150px;
          &::placeholder {
+         }
+
+         &::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
          }
       }
 
       &Btn {
          position: absolute;
          top: 50%;
-         right: 30px;
+         right: 20px;
          transform: translateY(-50%);
          border: none;
          background: transparent;
@@ -123,10 +135,20 @@
       border-radius: 12px;
       padding: 13px 18px;
       font-size: 16px;
+      line-height: 130%;
       @include flex();
+      max-width: 48%;
 
+      & > span {
+         max-width: 100%;
+
+         // text-overflow: ellipsis;
+         // overflow: hidden;
+         word-wrap: break-word;
+      }
       &.my {
          align-self: flex-end;
+         background: #609149;
       }
    }
 }

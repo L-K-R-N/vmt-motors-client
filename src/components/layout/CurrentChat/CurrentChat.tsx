@@ -173,26 +173,21 @@
 //    );
 // };
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cl from './CurrentChat.module.scss';
-import WebSocketService from '@/api/services/ChatService';
+import WebSocketService, {
+   ChatService,
+   IGetMessagesRequest,
+   IMessage,
+   IMessageResponse,
+} from '@/api/services/ChatService';
 import { getTokens } from '@/api/public.api';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useParams } from 'react-router-dom';
-import { IUser } from '@/api/models/Person';
 import { IoIosArrowUp } from 'react-icons/io';
-
-interface Message {
-   t: 'MESSAGE';
-   o: {
-      id: string;
-      text: string;
-      senderId: string;
-      chatId: string;
-      replyMessageId: string | null;
-      attachments: Attachment[];
-   };
-}
+import { useNavigate } from 'react-router-dom';
+import maleAvatar from './assets/maleAvatar.jpg';
+import femaleAvatar from './assets/femaleAvatar.jpg';
+import { BlockObserver } from '../BlockObserver/BlockObserver';
 
 interface Attachment {
    id: string;
@@ -212,34 +207,59 @@ interface Error {
    timestamp: number;
 }
 
-interface Props {
-   person: IUser | null;
-}
+interface Props {}
 
-export const CurrentChat: React.FC<Props> = ({ person }) => {
-   const [messages, setMessages] = useState<Message[]>([]);
+export const CurrentChat: React.FC<Props> = () => {
+   const [messages, setMessages] = useState<IMessage[]>([]);
    const [errors, setErrors] = useState<Error[]>([]);
    const [webSocketService] = useState(new WebSocketService());
    const [messageText, setMessageText] = useState('');
    const { me } = useAppSelector((state) => state.UserReducer);
+   const navigate = useNavigate();
+   const chatRef = useRef<HTMLUListElement | null>(null);
    // const [personId, setPersonId] = useState<string | null>(null);
+   const { currentPerson, currentChat } = useAppSelector(
+      (state) => state.ChatReducer,
+   );
+
+   const handleGetMessages = (
+      messagesType: 'new' | 'old',
+      offsetMessageId?: string,
+   ) => {
+      if (currentChat)
+         ChatService.getMessages(messagesType, {
+            chatId: currentChat.chatId,
+            limit: 100,
+            offsetMessageId: offsetMessageId,
+         }).then((res) => {
+            setMessages((prev) => [...prev, ...res.data]);
+            console.log(messages);
+         });
+   };
+
    useEffect(() => {
       const { accessToken } = getTokens();
-      if (accessToken && me) {
+      setMessages([]);
+      webSocketService.disconnect();
+      if (accessToken && me && currentChat) {
          webSocketService.connect(accessToken).then(() => {
             webSocketService.subscribe(
                me.id,
                handleMessageReceived,
                handleErrorReceived,
             );
+
+            handleGetMessages('old');
          });
       }
-   }, [webSocketService]);
 
-   const handleMessageReceived = (message: Message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      return () => webSocketService.disconnect();
+   }, [webSocketService, currentPerson]);
+
+   const handleMessageReceived = (message: IMessageResponse) => {
+      setMessages((prevMessages) => [message.o, ...prevMessages]);
    };
-
+   // .reverse()
    const handleErrorReceived = (error: Error) => {
       setErrors((prevErrors) => [...prevErrors, error]);
    };
@@ -250,19 +270,14 @@ export const CurrentChat: React.FC<Props> = ({ person }) => {
    //    }
    // }, [params]);
 
-   const sendMessage = (text: string) => {
-      if (person) {
-         webSocketService.sendMessage({
-            receiverId: person.id,
-            text: text,
-            // replyMessageId: null,
+   const sendMessage = (personId: string, text: string) => {
+      webSocketService.sendMessage({
+         receiverId: personId,
+         text: text,
+         // replyMessageId: null,
 
-            // attachments: [],
-
-            // chatId: 1,
-            // chatType: 'SINGLE',
-         });
-      }
+         // attachments: [],
+      });
    };
 
    const markMessageAsRead = (chatId: string, messageId: string) => {
@@ -270,12 +285,18 @@ export const CurrentChat: React.FC<Props> = ({ person }) => {
    };
 
    const handleSendMessage = () => {
-      if (messageText) {
-         sendMessage(messageText);
+      if (messageText && currentPerson) {
+         sendMessage(currentPerson.id, messageText);
          setMessageText('');
          // console.log(messages);
       }
    };
+
+   useEffect(() => {
+      if (chatRef.current) {
+         chatRef.current.scrollTop = chatRef.current.scrollHeight;
+      }
+   }, [currentChat, currentPerson]);
 
    useEffect(() => {
       console.log(errors);
@@ -285,12 +306,22 @@ export const CurrentChat: React.FC<Props> = ({ person }) => {
    }, [messages]);
    return (
       <div className={cl.currentChat}>
-         {person ? (
+         {currentPerson ? (
             <>
                <div className={cl.currentChat__header}>
-                  <div className={cl.currentChat__user}>
-                     <img src="" alt="" />
-                     <span>{person.username}</span>
+                  <div
+                     className={cl.currentChat__user}
+                     onClick={() => navigate(`/profile/${currentPerson.id}`)}
+                  >
+                     <img
+                        src={
+                           currentPerson.gender === 'FEMALE'
+                              ? femaleAvatar
+                              : maleAvatar
+                        }
+                        alt=""
+                     />
+                     <span>{currentPerson.username}</span>
                   </div>
                   {/* <div className={cl.currentChat__advert}>
                      <p className={cl.currentChat__model}>BMW X5 2020Y</p>
@@ -298,16 +329,16 @@ export const CurrentChat: React.FC<Props> = ({ person }) => {
                   </div> */}
                </div>
                <div className={cl.currentChat__main}>
-                  <ul className={cl.currentChat__main_messages}>
+                  <ul className={cl.currentChat__main_messages} ref={chatRef}>
                      {messages.map((message) => (
                         <li
-                           key={message.o.id}
+                           key={message?.id}
                            className={[
                               cl.message,
-                              message.o.senderId === me?.id ? cl.my : '',
+                              message?.senderId === me?.id ? cl.my : '',
                            ].join(' ')}
                         >
-                           {message.o.text}
+                           <span>{message?.text}</span>
                            {/* <button
                               onClick={() =>
                                  markMessageAsRead(
@@ -320,11 +351,26 @@ export const CurrentChat: React.FC<Props> = ({ person }) => {
                            </button> */}
                         </li>
                      ))}
+                     <BlockObserver
+                        onBlockVisible={
+                           () => {
+                              handleGetMessages(
+                                 'old',
+                                 messages[messages.length - 1]?.id,
+                              );
+                              // console.log(messages[messages.length - 1]);
+                           }
+                           // console.log(
+                           //    messages[0],
+                           //    messages[messages.length - 1],
+                           // )
+                        }
+                     />
                   </ul>
                   <div className={cl.currentChat__sendContainer}>
-                     <input
+                     <textarea
                         title="Write a message"
-                        type="text"
+                        // type="text"
                         placeholder="Write a message"
                         className={cl.currentChat__sendInput}
                         value={messageText}

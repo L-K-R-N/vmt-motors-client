@@ -1,0 +1,9 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.observer {
+   height: 5px;
+   background: black;
+   width: 100%;
+}

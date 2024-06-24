@@ -39,6 +39,8 @@ import { handleRefresh } from './api/hooks/Auth';
 import { PrivateRoute } from './components/layout/PrivateRoute/PrivateRoute';
 import { setIsAdmin } from './store/reducers/UserSlice';
 import { AdminRoute } from './components/layout/AdminRoute/AdminRoute';
+import { ChangeProfilePage } from './pages/other/ChangeProfilePage';
+import { BasketPage } from './pages/other/BasketPage';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -103,8 +105,25 @@ const App = () => {
          // loader: () => isAuth,
       },
       {
+         path: 'adverts/change/:productId',
+         element: <AddAdvertPage />,
+         // loader: () => isAuth,
+      },
+
+      {
+         path: '/profile/change',
+         element: <ChangeProfilePage />,
+         // loader: () => isAuth,
+      },
+
+      {
          path: '/chats',
          element: <ChatsPage />,
+         // loader: () => isAuth,
+      },
+      {
+         path: '/favourites',
+         element: <BasketPage />,
          // loader: () => isAuth,
       },
       {

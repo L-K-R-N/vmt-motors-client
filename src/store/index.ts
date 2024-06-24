@@ -8,6 +8,7 @@ import CartReducer from './reducers/CartSlice';
 import LayoutReducer from './reducers/LayoutSlice';
 import FilterReducer from './reducers/FilterSlice';
 import SettingsReducer from './reducers/SettingsSlice';
+import ChatReducer from './reducers/ChatSlice';
 import storage from 'redux-persist/lib/storage';
 
 // export const store = createStore(rootReducer)
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
    CartReducer,
    FilterReducer,
    SettingsReducer,
+   ChatReducer,
    [personApi.reducerPath]: personApi.reducer,
 });
 

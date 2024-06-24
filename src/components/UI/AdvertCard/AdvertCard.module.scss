@@ -122,8 +122,8 @@
          background: transparent;
          @include flex($justify: center);
          color: var(--background-secondary);
-         width: 25px;
-         height: 25px;
+         min-width: 25px;
+         min-height: 25px;
          padding-bottom: 4px;
          opacity: 0.4;
          transition: 0.3s;
@@ -143,6 +143,11 @@
 
          &.active {
             color: rgb(76, 248, 90);
+            opacity: 0.7;
+
+            &:hover {
+               opacity: 0.5;
+            }
          }
       }
 
@@ -197,6 +202,9 @@
             }
             &.reject {
                background: #ff0909;
+            }
+            &.change {
+               background: #678bf4;
             }
          }
       }

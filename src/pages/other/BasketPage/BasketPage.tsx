@@ -1,5 +1,5 @@
 import { FilterForm } from '@/components/layout/FilterForm/FilterForm';
-import cl from './CatalogPage.module.scss';
+import cl from './BasketPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useLayoutEffect } from 'react';
 import { Products } from '@/components/layout/Products/Products';
@@ -11,12 +11,10 @@ import { ISearchProductsRequest } from '@/api/models/Products';
 
 interface Props {}
 
-const CatalogPage: React.FC<Props> = () => {
+const BasketPage: React.FC<Props> = () => {
    useHideSidebar();
    const dispatch = useAppDispatch();
-   const { products, productsCount } = useAppSelector(
-      (state) => state.ProductsReducer,
-   );
+   const { products } = useAppSelector((state) => state.ProductsReducer);
 
    const handleGetProducts = () => {
       const response = ProductService.getFiltredProducts(
@@ -42,17 +40,11 @@ const CatalogPage: React.FC<Props> = () => {
    }, []);
    return (
       <div className={cl.ads}>
-         <div className={cl.filterForm}>
-            <FilterForm />
-         </div>
          <div className={cl.wrapper}>
-            <div className={cl.panel}>
-               <span className={cl.productsCount}>{productsCount} ads</span>
-            </div>
             <Products products={products} />
          </div>
       </div>
    );
 };
 
-export default CatalogPage;
+export default BasketPage;

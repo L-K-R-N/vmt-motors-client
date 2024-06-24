@@ -6,12 +6,15 @@ import defaultPhoto from './assets/defaultPhoto.jpg';
 import { formatDistanceToNow } from 'date-fns';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { enUS } from 'date-fns/locale';
-import { IProduct } from '@/api/models/Products';
+import { IProduct, ISearchProductsRequest } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import { IoStarOutline } from 'react-icons/io5';
+import { FaStar } from 'react-icons/fa6';
+import { FaRegStar } from 'react-icons/fa6';
 import {
    setModeratedProducts,
    setMyProducts,
+   setProducts,
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { toast } from 'react-toastify';
@@ -39,9 +42,16 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    useEffect(() => {
       setIsModerating(location.pathname === '/admin/dashboard' ? true : false);
       setIsMyProduct(me?.id === advert.personId ? true : false);
+      handleCheckInBasket();
    }, []);
 
-   const handleCheckInBasket = () => {};
+   const handleCheckInBasket = () => {
+      const inBasketRes = ProductService.hasProductInBasket(advert.id).then(
+         (res) => {
+            setIsFavorite(res.data.has);
+         },
+      );
+   };
 
    const handleApprove = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -108,31 +118,44 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       }
    };
 
-   const handleAddToBasket = (
+   const handleToggleToBasket = (
       e: React.MouseEvent<HTMLButtonElement>,
       productId: string,
    ) => {
       e.stopPropagation();
       try {
-         const response = ProductService.addToBasket(productId);
+         if (!isFavorite) {
+            const response = ProductService.addToBasket(productId);
 
-         toast
-            .promise(response, {
-               success: `Товар ${isFavorite ? 'удален из избранного' : 'добавлен в избранное!'}`,
-               error: {
-                  render({ data }) {
-                     return `${data}`.includes('403')
-                        ? 'Авторизуйтесь, чтобы добавлять товары в избранное!'
-                        : `${data}`.includes('409')
-                          ? 'Товар уже добавлен в избранное'
-                          : 'Необработанная ошибка';
+            toast
+               .promise(response, {
+                  success: `Товар добавлен в избранное!`,
+                  error: {
+                     render({ data }) {
+                        return `${data}`.includes('403')
+                           ? 'Авторизуйтесь, чтобы добавлять товары в избранное!'
+                           : 'Необработанная ошибка';
+                     },
                   },
-               },
-            })
-            .then((res) => {
-               setIsFavorite((prev) => !prev);
-            })
-            .catch(() => {});
+               })
+               .then(() => {
+                  setIsFavorite(true);
+               })
+               .catch(() => {
+                  console.log(e);
+               });
+         } else {
+            const response = ProductService.deleleFromBasket(productId);
+
+            toast
+               .promise(response, {
+                  success: `Товар удален из избранного!`,
+                  error: 'Необработанная ошибка',
+               })
+               .then(() => {
+                  setIsFavorite(false);
+               });
+         }
       } catch (e) {
          console.log(e);
       }
@@ -162,10 +185,21 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                }).then((res) => {
                   dispatch(setMyProducts(res.data));
                });
+               ProductService.getFiltredProducts(
+                  {} as ISearchProductsRequest,
+               ).then((searchRes) => {
+                  dispatch(setProducts(searchRes.data.result));
+               });
             });
       } catch (e) {
          console.log(e);
       }
+   };
+
+   const handleChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      navigate(`/change/${advert.id}`);
    };
 
    return (
@@ -190,9 +224,9 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                         isFavorite ? cl.active : '',
                      ].join(' ')}
                      title="Добавить в избранное"
-                     onClick={(e) => handleAddToBasket(e, advert.id)}
+                     onClick={(e) => handleToggleToBasket(e, advert.id)}
                   >
-                     <IoStarOutline />
+                     {isFavorite ? <FaStar /> : <FaRegStar />}
                   </button>
                </div>
                <span className={cl.advertHeader__model}>{advert?.model}</span>
@@ -234,6 +268,9 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   </div>
                ) : isMyProduct ? (
                   <div className={cl.advertFooter__buttons}>
+                     <button className={cl.change} onClick={handleChange}>
+                        CHANGE
+                     </button>
                      <button className={cl.reject} onClick={handleDelete}>
                         DELETE
                      </button>

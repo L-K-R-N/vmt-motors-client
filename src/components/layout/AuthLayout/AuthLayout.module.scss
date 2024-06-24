@@ -117,3 +117,42 @@
       }
    }
 }
+@media (max-width: 450px) {
+   .authLayout {
+      .logo {
+         width: 130px;
+      }
+
+      &__title {
+         margin-bottom: 10px;
+      }
+      &__content {
+         width: 100vw;
+         height: 100vh;
+         border-radius: 0;
+         padding: 14px;
+
+         & > span {
+            margin: 5px 0;
+         }
+      }
+
+      &__children {
+         width: 100%;
+      }
+
+      &__variants {
+         width: 100%;
+
+         & > li {
+            padding: 6px 10px;
+            font-size: 14px;
+            line-height: 120%;
+         }
+      }
+
+      & button {
+         width: 100%;
+      }
+   }
+}

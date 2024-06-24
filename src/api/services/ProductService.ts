@@ -35,6 +35,16 @@ export default class ProductService {
          },
       });
    }
+   static async hasProductInBasket(
+      productId: string,
+   ): Promise<AxiosResponse<{ has: boolean }>> {
+      return $api.get<{ has: boolean }>(`product/basket/has`, {
+         params: {
+            commodityId: productId,
+         },
+      });
+   }
+
    static async getProduct(data: {
       productId: string;
    }): Promise<AxiosResponse<IProduct>> {
@@ -146,6 +156,14 @@ export default class ProductService {
       return $api.delete(`product/commodity`, {
          data: {
             commodityId: data.productId,
+         },
+      });
+   }
+
+   static async deleleFromBasket(productId: string): Promise<AxiosResponse> {
+      return $api.delete(`product/basket`, {
+         data: {
+            commodityId: productId,
          },
       });
    }

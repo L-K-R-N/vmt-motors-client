@@ -14,6 +14,10 @@ import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
 import { FaMoon } from 'react-icons/fa';
 import { IoSunny } from 'react-icons/io5';
+import { FaSun } from 'react-icons/fa6';
+import { PiSunHorizonFill } from 'react-icons/pi';
+import { PiSunDimFill } from 'react-icons/pi';
+import { ThemeSwitcher } from '@/components/UI/ThemeSwitcher/ThemeSwitcher';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -25,6 +29,7 @@ export const Header: React.FC<Props> = () => {
    const { lang, theme, langs } = useAppSelector(
       (state) => state.SettingsReducer,
    );
+
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [authMenuItems, setAuthMenuItems] = useState([
       {
@@ -36,9 +41,10 @@ export const Header: React.FC<Props> = () => {
          to: 'catalog',
       },
       {
-         text: 'profile',
-         to: 'profile',
+         text: 'Cart',
+         to: '/favourites',
       },
+
       {
          text: 'chats',
          to: 'chats',
@@ -54,9 +60,10 @@ export const Header: React.FC<Props> = () => {
          to: 'catalog',
       },
       {
-         text: 'profile',
-         to: 'profile',
+         text: 'Cart',
+         to: '/favourites',
       },
+
       {
          text: 'admin',
          to: 'admin/dashboard',
@@ -86,11 +93,6 @@ export const Header: React.FC<Props> = () => {
       changeLanguage(newLang);
       setIsLangsOpen(false);
    };
-
-   useEffect(() => {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-   }, [theme]);
 
    return (
       <>
@@ -165,21 +167,7 @@ export const Header: React.FC<Props> = () => {
                               ))}
                            </ul>
                         </div>
-                        <div
-                           className={[
-                              cl.themeSwitcher,
-                              theme === 'dark' ? cl.dark : cl.light,
-                           ].join(' ')}
-                           onClick={() =>
-                              dispatch(
-                                 setTheme(theme === 'dark' ? 'light' : 'dark'),
-                              )
-                           }
-                        >
-                           {/* <span className={cl.themeSwitcher__circle}></span> */}
-                           <IoSunny className={cl.sun} />
-                           <FaMoon className={cl.moon} />
-                        </div>
+                        <ThemeSwitcher />
                         {isAuth ? (
                            <Link
                               to={`/profile/${me?.id}`}

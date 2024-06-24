@@ -3,16 +3,18 @@ import Stomp, { Client } from 'stompjs';
 import $api from '../public.api';
 import { AxiosResponse } from 'axios';
 
-interface IMessageResponse {
+export interface IMessageResponse {
    t: 'MESSAGE';
-   o: {
-      id: string;
-      text: string;
-      senderId: string;
-      chatId: string;
-      replyMessageId: string | null;
-      attachments: Attachment[];
-   };
+   o: IMessage;
+}
+
+export interface IMessage {
+   id: string;
+   text: string;
+   senderId: string;
+   chatId: string;
+   replyMessageId: string | null;
+   attachments: Attachment[];
 }
 
 interface IMessageReadResponse {
@@ -47,13 +49,25 @@ export interface IChatResponse {
    secondPersonId: string;
    firstPersonIdLastReadMessageId: string;
    secondPersonIdLastReadMessageId: string;
-   lastMessage: IMessageResponse;
+   lastMessage: IMessage;
 }
 
+export interface IGetMessagesRequest {
+   chatId: string;
+   offsetMessageId?: string;
+   limit: number;
+}
 export class ChatService {
-   static async getAllChats() // params: IParams,
-   : Promise<AxiosResponse<IChatResponse[]>> {
+   static async getAllChats(): Promise<AxiosResponse<IChatResponse[]>> {
       return $api.get<IChatResponse[]>('chat/all');
+   }
+   static async getMessages(
+      type: 'new' | 'old',
+      data: IGetMessagesRequest,
+   ): Promise<AxiosResponse<IMessage[]>> {
+      return $api.get<IMessage[]>(`chat/message/${type}`, {
+         params: data,
+      });
    }
 }
 
@@ -81,6 +95,10 @@ class WebSocketService {
             },
          );
       });
+   }
+
+   public disconnect(): void {
+      this.stompClient?.disconnect(() => {});
    }
 
    public subscribe(

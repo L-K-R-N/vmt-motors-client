@@ -160,52 +160,6 @@
          }
       }
    }
-
-   .themeSwitcher {
-      border-radius: 999px;
-      height: 35px;
-      width: 35px;
-      padding: 2px;
-      @include flex($justify: center);
-      cursor: pointer;
-      position: relative;
-      & > svg {
-         color: white;
-         width: 100%;
-         height: 100%;
-         transition: 0.3s;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-      }
-
-      &.dark {
-         & > svg {
-            &.sun {
-               opacity: 1;
-               padding-top: 0;
-            }
-            &.moon {
-               opacity: 0;
-               padding-bottom: 50px;
-            }
-         }
-      }
-      &.light {
-         & > svg {
-            &.sun {
-               opacity: 0;
-               padding-top: 50px;
-            }
-
-            &.moon {
-               opacity: 1;
-               padding-top: 0;
-            }
-         }
-      }
-   }
 }
 
 .logo {
@@ -388,11 +342,20 @@
 }
 @media (max-width: 1000px) {
    .header {
-      .lang,
-      .themeSwitcher,
-      .header__profile {
+      .lang {
          display: none;
       }
+
+      .themeSwitcher {
+         position: absolute;
+         top: 50%;
+         right: 10px;
+         transform: translateY(-50%);
+         z-index: 99999;
+         width: 30px;
+         display: none;
+      }
+
       &__control {
          & > button {
             position: fixed;
@@ -464,6 +427,8 @@
             min-width: 82px;
             min-height: 45px;
          }
+
+         display: none;
       }
    }
 }
