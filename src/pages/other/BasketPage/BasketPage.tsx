@@ -5,24 +5,26 @@ import { useLayoutEffect } from 'react';
 import { Products } from '@/components/layout/Products/Products';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
+import { setBasketProducts, setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
 import { ISearchProductsRequest } from '@/api/models/Products';
-
+import { MdProductionQuantityLimits } from "react-icons/md";
 interface Props {}
 
 const BasketPage: React.FC<Props> = () => {
    useHideSidebar();
    const dispatch = useAppDispatch();
-   const { products } = useAppSelector((state) => state.ProductsReducer);
+   const { products, basketProducts } = useAppSelector((state) => state.ProductsReducer);
 
    const handleGetProducts = () => {
-      const response = ProductService.getFiltredProducts(
-         {} as ISearchProductsRequest,
+      const response = ProductService.getProductsInBasket(
+         'old', {
+            limit: 50,
+         }
       ).then((res) => {
-         console.log(res.data.result);
-         dispatch(setProducts(res.data.result));
-         dispatch(setProductsCount(res.data.total));
+         dispatch(setBasketProducts(res.data.map((resItem) => resItem.commodity)));
+         console.log(res.data.map((resItem) => resItem.commodity))
+         
       });
    };
 
@@ -36,12 +38,19 @@ const BasketPage: React.FC<Props> = () => {
       //    size: 50,
       // });
       handleGetProducts();
-      // dispatch(setFiltredProducts(products));
+      
+      return () => {
+         dispatch(setBasketProducts([]))
+      }
    }, []);
    return (
       <div className={cl.ads}>
          <div className={cl.wrapper}>
-            <Products products={products} />
+            { basketProducts?.length ?
+
+               <Products products={basketProducts} /> : <div className={cl.noProducts}><MdProductionQuantityLimits/>В корзине пока пусто</div>
+
+            }
          </div>
       </div>
    );

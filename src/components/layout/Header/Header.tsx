@@ -42,7 +42,7 @@ export const Header: React.FC<Props> = () => {
       },
       {
          text: 'Cart',
-         to: '/favourites',
+         to: 'cart',
       },
 
       {
@@ -61,7 +61,7 @@ export const Header: React.FC<Props> = () => {
       },
       {
          text: 'Cart',
-         to: '/favourites',
+         to: 'cart',
       },
 
       {

@@ -21,7 +21,7 @@ import { IProduct } from '@/api/models/Products';
 import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import { AvatarUpload } from '@/components/layout/UploadAvatar/UploadAvatar';
 import { toast } from 'react-toastify';
-
+import { IoSettingsSharp } from 'react-icons/io5';
 interface Props {}
 
 interface IUserInfoItem {
@@ -174,14 +174,20 @@ const ProfilePage: React.FC<Props> = () => {
                         <AvatarUpload
                            onAvatarUpload={() => handleGetAvatar()}
                         />
-                        <button onClick={() => handleLogout()}>
+                        <button
+                           title={t('logout')}
+                           onClick={() => handleLogout()}
+                        >
                            {t('logout')}
                         </button>
                      </>
                   ) : (
                      <>
-                        <button>{t('report')}</button>
-                        <button onClick={() => navigate(`/chats`)}>
+                        <button title={t('report')}>{t('report')}</button>
+                        <button
+                           title={t('send_message')}
+                           onClick={() => navigate(`/chats`)}
+                        >
                            {t('send_message')}
                         </button>
                      </>
@@ -208,7 +214,16 @@ const ProfilePage: React.FC<Props> = () => {
             </div>
             <div className={cl.right}>
                <div className={cl.right__info}>
-                  <h5 className={cl.right__title}>{t('profile')}</h5>
+                  <div className={cl.right__infoTop}>
+                     <h5 className={cl.right__title}>{t('profile')}</h5>
+                     <button
+                        title={t('settings')}
+                        className={cl.settingsBtn}
+                        onClick={() => navigate('/profile/me/change')}
+                     >
+                        <IoSettingsSharp />
+                     </button>
+                  </div>
                   <h3 className={cl.right__username}>{user?.username}</h3>
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>

@@ -133,7 +133,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   error: {
                      render({ data }) {
                         return `${data}`.includes('403')
-                           ? 'Авторизуйтесь, чтобы добавлять товары в избранное!'
+                           ? 'Авторизуйтесь, чтобы добавлять товары в корзину!'
                            : 'Необработанная ошибка';
                      },
                   },
@@ -149,7 +149,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
 
             toast
                .promise(response, {
-                  success: `Товар удален из избранного!`,
+                  success: `Товар удален из корзины!`,
                   error: 'Необработанная ошибка',
                })
                .then(() => {

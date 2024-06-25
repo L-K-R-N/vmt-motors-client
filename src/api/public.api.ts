@@ -29,7 +29,6 @@ $api.interceptors.request.use(
             let curTime = new Date().getTime();
 
             if (expTime - curTime <= -3000) {
-
                if (refreshToken) {
                   const newAccess = handleRefresh({
                      device: navigator.userAgent,
@@ -37,9 +36,9 @@ $api.interceptors.request.use(
                   });
 
                   config.headers.Authorization = `Bearer ${newAccess}`;
-               } 
-               
-               
+               } else {
+                  handleLogout();
+               }
             } else {
                config.headers.Authorization = `Bearer ${accessToken}`;
             }

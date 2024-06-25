@@ -111,7 +111,7 @@ const App = () => {
       },
 
       {
-         path: '/profile/change',
+         path: '/profile/me/change',
          element: <ChangeProfilePage />,
          // loader: () => isAuth,
       },
@@ -122,7 +122,7 @@ const App = () => {
          // loader: () => isAuth,
       },
       {
-         path: '/favourites',
+         path: '/cart',
          element: <BasketPage />,
          // loader: () => isAuth,
       },
@@ -225,13 +225,13 @@ const App = () => {
    useEffect(() => {
       if (isAuth) {
          // dispatch(setMe(handleGetMe(dispatch)));
-         const refresh = localStorage.getItem('refresh');
-         if (refresh) {
-            handleRefresh({
-               refresh: refresh,
-               device: getBrowserAndOS(navigator.userAgent),
-            });
-         }
+         // const refresh = localStorage.getItem('refresh');
+         // if (refresh) {
+         //    handleRefresh({
+         //       refresh: refresh,
+         //       device: getBrowserAndOS(navigator.userAgent),
+         //    });
+         // }
          handleGetMe(dispatch);
       }
    }, [isAuth]);

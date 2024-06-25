@@ -89,7 +89,7 @@ export default class PersonService {
    }
    static async changePersonDateOfBirth(
       id: string,
-      dateOfBirth: string,
+      dateOfBirth: Date,
    ): Promise<AxiosResponse<string>> {
       return $api.post<string>(`person/edit/date-of-birth/`, {
          id,

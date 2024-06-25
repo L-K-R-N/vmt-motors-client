@@ -12,7 +12,7 @@ export interface IUser {
    description?: string;
    email: string;
    contact?: string;
-   dateOfBirth: string;
+   dateOfBirth: Date;
    roles: string[];
    name?: string;
    status?: string;

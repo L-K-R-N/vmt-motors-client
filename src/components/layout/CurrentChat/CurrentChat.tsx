@@ -229,9 +229,10 @@ export const CurrentChat: React.FC<Props> = () => {
       if (currentChat)
          ChatService.getMessages(messagesType, {
             chatId: currentChat.chatId,
-            limit: 100,
+            limit: 50,
             offsetMessageId: offsetMessageId,
          }).then((res) => {
+            console.log(res.data)
             setMessages((prev) => [...prev, ...res.data]);
             console.log(messages);
          });
@@ -329,7 +330,23 @@ export const CurrentChat: React.FC<Props> = () => {
                   </div> */}
                </div>
                <div className={cl.currentChat__main}>
+                  <BlockObserver
+                        onBlockVisible={
+                           () => {
+                              handleGetMessages(
+                                 'old',
+                                 messages[messages.length - 1]?.id,
+                              );
+                              // console.log(messages[messages.length - 1]);
+                           }
+                           // console.log(
+                           //    messages[0],
+                           //    messages[messages.length - 1],
+                           // )
+                        }
+                     />
                   <ul className={cl.currentChat__main_messages} ref={chatRef}>
+                  
                      {messages.map((message) => (
                         <li
                            key={message?.id}
@@ -351,21 +368,7 @@ export const CurrentChat: React.FC<Props> = () => {
                            </button> */}
                         </li>
                      ))}
-                     <BlockObserver
-                        onBlockVisible={
-                           () => {
-                              handleGetMessages(
-                                 'old',
-                                 messages[messages.length - 1]?.id,
-                              );
-                              // console.log(messages[messages.length - 1]);
-                           }
-                           // console.log(
-                           //    messages[0],
-                           //    messages[messages.length - 1],
-                           // )
-                        }
-                     />
+                     
                   </ul>
                   <div className={cl.currentChat__sendContainer}>
                      <textarea

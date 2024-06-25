@@ -5,10 +5,17 @@ import {
    IPostProductRequest,
    ISearchProductsRequest,
 } from '../models/Products';
+import { IProductsState } from '@/store/reducers/ProductsSlice';
 
 interface ISearchResponse {
    total: number;
    result: IProduct[];
+}
+
+interface IBasketResponse {
+   commodity: IProduct;
+   id: string;
+   commodityId: string;
 }
 
 export default class ProductService {
@@ -93,6 +100,20 @@ export default class ProductService {
          // },
       });
    }
+   static async getProductsInBasket(
+      type: 'old' | 'new',
+      data: {
+         limit: number,
+         offsetBasketId?: string
+      },
+   ): Promise<AxiosResponse<IBasketResponse[]>> {
+      return $api.get<IBasketResponse[]>(`product/basket/${type}`, {
+         params: data,
+
+      });
+   }
+
+
 
    // POST
    static async postProduct(data: IPostProductRequest): Promise<AxiosResponse> {
