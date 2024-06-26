@@ -17,7 +17,7 @@ const initialState: IAuthState = {
 
 export interface IRefreshInputs {
    refresh: string;
-   device: string;
+   device?: string;
 }
 
 export function getBrowserAndOS(userAgent: string) {

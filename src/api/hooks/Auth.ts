@@ -14,13 +14,12 @@ import { toast } from 'react-toastify';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { ILoginFormShema } from '@/pages/auth/LoginPage/LoginPage';
 
-export const handleRefresh = (data: IRefreshInputs) => {
-   const { refresh, device } = data;
+export const handleRefresh = (refresh: string) => {
    const refreshResponse = axios.post<IAuthResponse>(
       `${BASE_URL}/auth/refresh`,
       {
          refreshToken: refresh,
-         deviceName: device,
+         deviceName: getBrowserAndOS(navigator.userAgent),
       },
    );
 
@@ -47,6 +46,8 @@ export const handleRefresh = (data: IRefreshInputs) => {
          localStorage.removeItem('refresh');
          store.dispatch(setIsAuth(false));
       });
+
+   return '';
 };
 
 export interface NewJwtPayload extends JwtPayload {
@@ -160,10 +161,7 @@ export const handleCheckCode = (code: string) => {
       .then(() => {
          const refreshToken = localStorage.getItem('refresh');
          if (refreshToken) {
-            handleRefresh({
-               device: getBrowserAndOS(navigator.userAgent),
-               refresh: refreshToken,
-            });
+            handleRefresh(refreshToken);
 
             store.dispatch(setIsAuth(true));
             store.dispatch(setIsVerifing(false));

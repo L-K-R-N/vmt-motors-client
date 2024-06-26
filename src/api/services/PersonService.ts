@@ -16,7 +16,11 @@ export default class PersonService {
    static async getPersonByUsername(
       username: string,
    ): Promise<AxiosResponse<IUser>> {
-      return $api.get<IUser>(`person/by-username${username}`);
+      return $api.get<IUser>(`person/by-username`, {
+         params: {
+            username,
+         },
+      });
    }
    static async getAllPersons(
       personIds: string[],
@@ -42,9 +46,12 @@ export default class PersonService {
       return $api.get<IStatusResponse>(`person/status/selected/${id}`);
    }
 
-   static async banPerson(id: string): Promise<AxiosResponse<IUser>> {
-      return $api.post<IUser>(`person/ban/ban/${id}`, {
-         id,
+   static async managePerson(
+      type: 'ban' | 'unban',
+      personId: string,
+   ): Promise<AxiosResponse<IUser>> {
+      return $api.post<IUser>(`person/ban/${type}`, {
+         personId,
       });
    }
    static async unbanPerson(id: string): Promise<AxiosResponse> {
@@ -79,71 +86,65 @@ export default class PersonService {
       return $api.delete(`person/profile_photo`);
    }
    static async changePersonContact(
-      id: string,
       contact: string,
    ): Promise<AxiosResponse<string>> {
-      return $api.post<string>(`person/edit/contact/`, {
-         id,
+      return $api.post<string>(`person/edit/contact`, {
          contact,
       });
    }
    static async changePersonDateOfBirth(
-      id: string,
       dateOfBirth: Date,
    ): Promise<AxiosResponse<string>> {
       return $api.post<string>(`person/edit/date-of-birth/`, {
-         id,
          dateOfBirth,
       });
    }
    static async changePersonDesc(
-      id: string,
-      desc: string,
+      description: string,
    ): Promise<AxiosResponse<string>> {
-      return $api.post<string>(`person/edit/description/`, {
-         id,
-         desc,
+      return $api.post<string>(`person/edit/description`, {
+         description,
       });
    }
    static async changePersonGender(
-      id: string,
       gender: 'FEMALE' | 'MALE',
    ): Promise<AxiosResponse<string>> {
-      return $api.post<string>(`person/edit/gender/`, {
-         id,
+      return $api.post<string>(`person/edit/gender`, {
          gender,
       });
    }
-   static async changePersonName(
-      id: string,
-      name: string,
+   static async changePersonStatus(
+      gender: string,
    ): Promise<AxiosResponse<string>> {
-      return $api.post<string>(`person/edit/name/`, {
-         id,
+      return $api.post<string>(`person/edit/status/`, {
+         gender,
+      });
+   }
+   static async changePersonName(name: string): Promise<AxiosResponse<string>> {
+      return $api.post<string>(`person/edit/name`, {
          name,
       });
    }
    static async changePersonPassword(
-      id: string,
       password: string,
    ): Promise<AxiosResponse<string>> {
       return $api.post<string>(`person/edit/password/`, {
-         id,
          password,
       });
    }
    static async changePersonUsername(
-      id: string,
       username: string,
    ): Promise<AxiosResponse<string>> {
       return $api.post<string>(`person/edit/username/`, {
-         id,
          username,
       });
    }
 
-   static async addModeration(personId: string): Promise<AxiosResponse> {
-      return $api.post('person/moderation/add/', { personId });
+   static async toggleRole(
+      type: 'add' | 'remove',
+      personId: string,
+   ): Promise<AxiosResponse> {
+      return $api.post(`person/moderation/${type}`, { personId });
    }
    static async removeModeration(
       personId: string,
@@ -152,8 +153,17 @@ export default class PersonService {
          personId,
       });
    }
-   static async getAllModerations(id: string): Promise<AxiosResponse<IUser[]>> {
-      return $api.get<IUser[]>(`person/moderation/all/${id}`);
+   static async getAllModerators(): Promise<AxiosResponse<IUser[]>> {
+      return $api.get<IUser[]>(`person/moderation/all`);
+   }
+   static async searchUsersByUsername(
+      username: string,
+   ): Promise<AxiosResponse<IUser[]>> {
+      return $api.get<IUser[]>(`person/all`, {
+         params: {
+            username,
+         },
+      });
    }
 }
 

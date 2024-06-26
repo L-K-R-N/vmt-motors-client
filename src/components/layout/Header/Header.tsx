@@ -2,22 +2,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import cl from './Header.module.scss';
 import logo from './assets/logo.svg';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { Wrapper } from '../Wrapper/Wrapper';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { Button } from '@/components/UI/Button/Button';
 import plusIcon from './assets/plus.svg';
 import userIcon from './assets/user.svg';
-import { TLanguage, setLang, setTheme } from '@/store/reducers/SettingsSlice';
+import { TLanguage, setLang } from '@/store/reducers/SettingsSlice';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
-import { FaMoon } from 'react-icons/fa';
-import { IoSunny } from 'react-icons/io5';
-import { FaSun } from 'react-icons/fa6';
-import { PiSunHorizonFill } from 'react-icons/pi';
-import { PiSunDimFill } from 'react-icons/pi';
 import { ThemeSwitcher } from '@/components/UI/ThemeSwitcher/ThemeSwitcher';
+import PersonService from '@/api/services/PersonService';
+import { toast } from 'react-toastify';
+import { setMe } from '@/store/reducers/UserSlice';
 interface Props {}
 
 export const Header: React.FC<Props> = () => {
@@ -94,6 +91,21 @@ export const Header: React.FC<Props> = () => {
       setIsLangsOpen(false);
    };
 
+   const handleOpenProfile = () => {
+      try {
+         const response = PersonService.getMe();
+
+         toast
+            .promise(response, {
+               error: 'Аккаунт не найден',
+            })
+            .then((res) => {
+               setMe(res.data);
+               navigate(`/profile/${res.data.id}`);
+            });
+      } catch (e) {}
+   };
+
    return (
       <>
          {isShowHeader && (
@@ -120,17 +132,18 @@ export const Header: React.FC<Props> = () => {
                      />
 
                      <div className={cl.header__control}>
-                        {isAuth && (
-                           <Button
+                        {isAuth && location.pathname !== '/chats' && (
+                           <button
                               title="Submit an ad"
                               type="button"
                               onClick={() => navigate('add')}
+                              className={cl.submitBtn}
                            >
                               <div>
                                  <img src={plusIcon} alt="" />
                                  <span>{t('submit_an_ad')}</span>
                               </div>
-                           </Button>
+                           </button>
                         )}
                         <div className={cl.lang}>
                            <span
@@ -169,13 +182,15 @@ export const Header: React.FC<Props> = () => {
                         </div>
                         <ThemeSwitcher />
                         {isAuth ? (
-                           <Link
-                              to={`/profile/${me?.id}`}
+                           <button
+                              onClick={handleOpenProfile}
                               className={cl.header__profile}
                            >
-                              <img src={userIcon} alt="" />
-                              <span>{me?.username}</span>
-                           </Link>
+                              <>
+                                 <img src={userIcon} alt="" />
+                                 <span>{me?.username}</span>
+                              </>
+                           </button>
                         ) : (
                            <div className={cl.auth__btns}>
                               <Link to={'/signin'}>{t('Login')}</Link>

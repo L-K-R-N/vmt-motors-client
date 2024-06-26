@@ -199,6 +199,15 @@ const App = () => {
       if (window.location.pathname === '/') {
          window.location.pathname = '/about';
       }
+
+      // const refresh = localStorage.getItem('refresh');
+
+      // if (refresh) {
+
+      //    handleRefresh({
+      //       refresh
+      //    })
+      // }
    }, []);
 
    useEffect(() => {

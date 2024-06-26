@@ -22,12 +22,15 @@ import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import { AvatarUpload } from '@/components/layout/UploadAvatar/UploadAvatar';
 import { toast } from 'react-toastify';
 import { IoSettingsSharp } from 'react-icons/io5';
+import { setMe } from '@/store/reducers/UserSlice';
+import { setCurrentPerson } from '@/store/reducers/ChatSlice';
 interface Props {}
 
 interface IUserInfoItem {
    icon: ReactNode;
    title: string;
    value: string;
+   visible: boolean;
 }
 
 const ProfilePage: React.FC<Props> = () => {
@@ -45,21 +48,20 @@ const ProfilePage: React.FC<Props> = () => {
          icon: <FaCakeCandles />,
          title: 'age',
          value: '20',
+         visible: false,
       },
-      {
-         icon: <PiHandbagSimpleFill />,
-         title: 'occupation',
-         value: 'Seller',
-      },
+
       {
          icon: <BsHouseFill />,
          title: 'status',
-         value: user?.status ? user.status : 'none',
+         value: user?.status ? user.status : 'Not active',
+         visible: true,
       },
       {
          icon: <MdLocationOn />,
          title: 'location',
          value: 'London, UK',
+         visible: false,
       },
    ]);
    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -126,8 +128,9 @@ const ProfilePage: React.FC<Props> = () => {
    }, [products]);
 
    useEffect(() => {
-      if (isMyProfile) {
+      if (isMyProfile && user) {
          dispatch(setMyProducts(products));
+         dispatch(setMe(user));
       }
    }, [isMyProfile]);
 
@@ -152,6 +155,14 @@ const ProfilePage: React.FC<Props> = () => {
          handleGetAvatar();
       }
    }, [user]);
+
+   const handleSendMessage = () => {
+      if (user) {
+         dispatch(setCurrentPerson(user));
+
+         navigate(`/chats`);
+      }
+   };
    return (
       <div className={cl.profile}>
          <div className={cl.content}>
@@ -186,7 +197,7 @@ const ProfilePage: React.FC<Props> = () => {
                         <button title={t('report')}>{t('report')}</button>
                         <button
                            title={t('send_message')}
-                           onClick={() => navigate(`/chats`)}
+                           onClick={handleSendMessage}
                         >
                            {t('send_message')}
                         </button>
@@ -202,7 +213,10 @@ const ProfilePage: React.FC<Props> = () => {
                )}
                <ul className={cl.userInfo}>
                   {userInfo.map((item) => (
-                     <li key={item.title}>
+                     <li
+                        key={item.title}
+                        className={!item.visible ? cl.hidden : ''}
+                     >
                         <span>
                            {item.icon}
                            <span>{t(item.title)}</span>

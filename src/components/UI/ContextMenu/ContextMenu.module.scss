@@ -1,0 +1,33 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.menu {
+   display: none;
+   background: var(--border-primary);
+   border: 2px solid var(--text-primary);
+   border-radius: 5px;
+   font-family: $font-tildaSans;
+   color: var(--text-primary);
+   font-weight: 500;
+   font-size: 16px;
+   @include flex($direction: column, $align: start);
+   display: none;
+   overflow: hidden;
+   & > li {
+      @include flex();
+      gap: 5px;
+      padding: 10px 15px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.1s;
+      width: 100%;
+
+      &:hover {
+         background: rgba(0, 0, 0, 0.079);
+      }
+   }
+   &.show {
+      display: flex;
+   }
+}

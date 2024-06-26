@@ -25,7 +25,6 @@ const rootReducer = combineReducers({
    FilterReducer,
    SettingsReducer,
    ChatReducer,
-   [personApi.reducerPath]: personApi.reducer,
 });
 
 const persistConfig = {
@@ -46,7 +45,7 @@ export const store = configureStore({
    middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
          serializableCheck: false,
-      }).concat(personApi.middleware),
+      })
 });
 
 export const persistor = persistStore(store);

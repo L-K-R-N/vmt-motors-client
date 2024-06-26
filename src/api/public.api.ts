@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { BASE_URL } from './app.vars.ts';
 import { handleLogout, handleRefresh } from './hooks/Auth.ts';
 import { jwtDecode } from 'jwt-decode';
@@ -30,10 +30,7 @@ $api.interceptors.request.use(
 
             if (expTime - curTime <= -3000) {
                if (refreshToken) {
-                  const newAccess = handleRefresh({
-                     device: navigator.userAgent,
-                     refresh: refreshToken,
-                  });
+                  const newAccess = handleRefresh(refreshToken);
 
                   config.headers.Authorization = `Bearer ${newAccess}`;
                } else {
@@ -60,52 +57,56 @@ $api.interceptors.request.use(
    },
 );
 
-// $api.interceptors.response.use(
-//    (response: AxiosResponse) => {
-//       return response;
-//    },
-//    async (error) => {
-//       const originalRequest = error.config;
-//       const status = error.response?.status;
+$api.interceptors.response.use(
+   (response: AxiosResponse) => {
+      return response;
+   },
+   async (error) => {
+      const originalRequest = error.config;
+      const status = error.response?.status;
 
-//       if (status === 401 && !originalRequest._retry401) {
-//          originalRequest._retry401 = true;
-//          const newAccessToken = await refreshTokens();
+      if (status === 401 && !originalRequest._retry401) {
+         originalRequest._retry401 = true;
+         const refresh = localStorage.getItem('refresh');
 
-//          if (newAccessToken) {
-//             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//             return $api(originalRequest);
-//          } else {
-//             return Promise.reject(error);
-//          }
-//       }
+         if (refresh) {
+            const newAccessToken = handleRefresh(refresh);
 
-//       if (status === 403 && !originalRequest._retry403) {
-//          originalRequest._retry403 = true;
-//          const newAccessToken = await refreshTokens();
+            if (newAccessToken) {
+               originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+               return $api(originalRequest);
+            } else {
+               return Promise.reject(error);
+            }
+         }
+      }
 
-//          if (newAccessToken) {
-//             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//             return $api(originalRequest);
-//          } else {
-//             return Promise.reject(error);
-//          }
-//       }
-//       // const decodedToken = jwtDecode(access);
-//       // console.log(decodedToken, decodedToken.exp);
-//       // if (decodedToken.exp) {
-//       //    let expTime = decodedToken.exp * 1000;
-//       //    let curTime = new Date().getTime();
+      // if (status === 403 && !originalRequest._retry403) {
+      //    originalRequest._retry403 = true;
+      //    const newAccessToken = await refreshTokens();
 
-//       //    console.log(expTime - curTime);
+      //    if (newAccessToken) {
+      //       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      //       return $api(originalRequest);
+      //    } else {
+      //       return Promise.reject(error);
+      //    }
+      // }
+      // const decodedToken = jwtDecode(access);
+      // console.log(decodedToken, decodedToken.exp);
+      // if (decodedToken.exp) {
+      //    let expTime = decodedToken.exp * 1000;
+      //    let curTime = new Date().getTime();
 
-//       //    if (expTime - curTime <= -3000) {
-//       //       const newAccess = refreshTokens();
-//       //       config.headers.Authorization = `Bearer ${newAccess}`;
-//       //    } else {
-//       //    }
-//       // }
-//    },
-// );
+      //    console.log(expTime - curTime);
+
+      //    if (expTime - curTime <= -3000) {
+      //       const newAccess = refreshTokens();
+      //       config.headers.Authorization = `Bearer ${newAccess}`;
+      //    } else {
+      //    }
+      // }
+   },
+);
 
 export default $api;

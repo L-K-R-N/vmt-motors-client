@@ -11,7 +11,6 @@
 .usersList {
    font-family: $font-tildaSans;
    background: black;
-   padding: 30px;
    @include flex($direction: column, $justify: start, $align: stretch);
    border-radius: 20px;
    color: white;
@@ -20,16 +19,15 @@
    &__header {
       @include flex;
       gap: 30px;
-      padding-bottom: 20px;
+      padding: 20px 30px;
       border-bottom: 2px solid rgba(255, 255, 255, 0.5);
       & > input {
          padding: 6px 13px;
          border-radius: 999px;
          border: none;
          color: black;
-         text-transform: uppercase;
          padding-right: 40px;
-
+         width: 100%;
          &::placeholder {
             color: #706d6d;
          }
@@ -39,8 +37,16 @@
    &__line {
       @include flex;
       gap: 30px;
-      padding: 20px 0;
       border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      padding: 20px 30px;
+      transition: 0.1s;
+
+      &.user {
+         &:hover {
+            background: rgba(56, 56, 56, 0.729);
+         }
+      }
    }
 
    &__column {
@@ -64,6 +70,12 @@
          text-align: center;
       }
    }
+}
+
+.contextMenuContainer {
+   position: fixed;
+   top: 0;
+   left: 0;
 }
 
 @media (max-width: 1600px) {

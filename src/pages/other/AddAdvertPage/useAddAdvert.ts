@@ -1,11 +1,23 @@
-import { ISelectItem, TBrand, TProductType, TOwner, TBody, TFuel, TGear, TDriveUnit, TColor, TColoring } from '@/api/models/Products';
+import {
+   ISelectItem,
+   TBrand,
+   TProductType,
+   TOwner,
+   TBody,
+   TFuel,
+   TGear,
+   TDriveUnit,
+   TColor,
+   TColoring,
+} from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import { Data } from '@dnd-kit/core';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { z } from 'zod';
 
 export interface IPostProductInputs {
    name: string;
@@ -30,18 +42,69 @@ export interface IPostProductInputs {
    price: number;
 }
 
+export const addProductFormShema = z.object({
+   name: z
+      .string()
+      .trim()
+      .min(4, 'Слишком короткое имя')
+      .max(64, 'Слишком длинное имя'),
+   // status: z.string().optional(),
+   // gender: z
+   //    .object({
+   //       value: z.union([z.literal('MALE'), z.literal('FEMALE')]).optional(),
+   //       label: z.string().optional(),
+   //    })
+   //    .nullable(),
+   // model: z
+   //    .string()
+   //    .trim()
+   //    .min(4, 'Слишком короткая модель')
+   //    .max(30, 'Слишком длинная модель'),
+
+   // year: z
+   //    .number({ required_error: 'Это обязательное поле' })
+   //    .min(1990)
+   //    .max(2024),
+   // type: z.object({
+   //    value: z
+   //       .union([z.literal('MALE'), z.literal('FEMALE')])
+   //       .optional(),
+   //    label: z.string().optional(),
+   // }),
+   // millage: number,
+   // from: string,
+   // exchange: boolean,
+   // trade: boolean,
+   // owner: ISelectItem<TOwner>,
+   // body: TBody,
+   // photo: string,
+   // generation: string,
+   // fuel: ISelectItem<TFuel>,
+   // gear: ISelectItem<TGear>,
+   // driveUnit: ISelectItem<TDriveUnit>,
+   // color: ISelectItem<TColor>,
+   // coloring: ISelectItem<TColoring>,
+   // desc: string,
+   // price: number,
+   // phoneNumber: z
+   //    .string()
+   //    .trim()
+   //    .min(4, 'Телефон не должен быть короче 4 символов')
+   //    .max(13, 'Телефон не должен быть длиннее 13 символов'),
+});
+
+export type IProductFormShema = z.infer<typeof addProductFormShema>;
+
 export const useAddAdvert = () => {
    const {
       handleSubmit,
       formState: { errors },
       control,
-      reset
-   } = useForm<IPostProductInputs>({
-      mode: 'onChange',
+      reset,
+   } = useForm<IProductFormShema>({
+      resolver: zodResolver(addProductFormShema),
    });
    const navigate = useNavigate();
-
-   
 
    const onSubmit: SubmitHandler<IPostProductInputs> = (data) => {
       console.log({
@@ -65,8 +128,8 @@ export const useAddAdvert = () => {
          trade: data.trade,
          type: data.type.value,
          year: Number(data.year),
-         createdAt: Date.now()
-      })
+         createdAt: Date.now(),
+      });
       try {
          // console.log(data);
          const productPostRes = ProductService.postProduct({
@@ -90,18 +153,18 @@ export const useAddAdvert = () => {
             trade: data.trade,
             type: data.type?.value,
             year: Number(data.year),
-            createdAt: new Date()
+            createdAt: new Date(),
+         });
 
-         })
-
-         
-         toast.promise(productPostRes, {
-            pending: 'Проверяем корректность данных...',
-            success: 'Объявление отправлено на проверку!',
-            error: 'Произошла непредвиденная ошибка'
-         }).then(() => {
-            reset()
-         })
+         toast
+            .promise(productPostRes, {
+               pending: 'Проверяем корректность данных...',
+               success: 'Объявление отправлено на проверку!',
+               error: 'Произошла непредвиденная ошибка',
+            })
+            .then(() => {
+               reset();
+            });
       } catch (e) {
          console.log({
             body: 'cabriolet',
@@ -124,8 +187,7 @@ export const useAddAdvert = () => {
             trade: data.trade,
             type: data.type.value,
             year: Number(data.year),
-         })
-
+         });
       }
    };
 

@@ -6,7 +6,7 @@
    // border-radius: 3px;
    background: var(--background-tertiary);
    box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.356);
-
+   border: 1px solid var(--text-primary);
    // @include flex($justify: start);
    @include flex($align: stretch, $justify: start);
    font-family: $font-roboto;

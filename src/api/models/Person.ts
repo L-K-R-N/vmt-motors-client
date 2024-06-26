@@ -15,6 +15,6 @@ export interface IUser {
    dateOfBirth: Date;
    roles: string[];
    name?: string;
-   status?: string;
+   status?: 'ONLINE' |'NOT_DISTURB' |'NOT_ACTIVE' |'INVISIBLE',
    hasProfilePhoto?: boolean;
 }

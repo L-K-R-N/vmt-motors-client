@@ -54,7 +54,7 @@ export function SelectController<TFieldValues extends FieldValues, TOptions>({
                />
             )}
          />
-         {errors && name && <label>{errors[name]?.message as ReactNode}</label>}
+         {/* {errors && name && <label>{errors[name]?.message as ReactNode}</label>} */}
       </div>
    );
 }

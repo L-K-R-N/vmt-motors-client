@@ -1,4 +1,5 @@
 import Select from 'react-select/creatable';
+import cl from './MySelect.module.scss'
 import { GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
 import {
    ControllerRenderProps,
@@ -7,6 +8,8 @@ import {
    FieldValues,
    Path,
 } from 'react-hook-form';
+import { ReactNode, useId, useRef } from 'react';
+import { title } from 'process';
 
 const SelectStyles: StylesConfig = {
    control: (styles) => ({
@@ -36,7 +39,7 @@ const SelectStyles: StylesConfig = {
    valueContainer: (styles) => ({
       ...styles,
       padding: '0',
-      fontSize: '16px',
+      fontSize: '16px',textTransform: 'capitalize',
       gap: '5px',
    }),
    placeholder: (styles) => ({
@@ -85,7 +88,7 @@ const SelectStyles: StylesConfig = {
       cursor: 'pointer',
       fontSize: '16px',
       opacity: 0.8,
-
+      textTransform: 'capitalize',
       fontFamily: 'Tilda Sans',
       borderBottom: '1px solid #4646462a',
       margin: 0,
@@ -184,8 +187,26 @@ export function MySelect<
    field,
    options,
    disabled,
+   errors,
+   name
 }: Props<TFieldValues, TName>) {
+   const id = useId();
+
+   const labelEl = useRef<HTMLLabelElement | null>(null);
    return (
+     <div className={cl.controller}>
+       <label
+            className={[
+               cl.label,
+               errors && errors[name]?.message ? cl.error : '',
+            ].join(' ')}
+            htmlFor={id}
+            ref={labelEl}
+         >
+            {errors && errors[name]?.message
+               ? (errors[name]?.message as ReactNode)
+               : placeholder}
+         </label>
       <Select
          styles={SelectStyles}
          placeholder={placeholder}
@@ -204,5 +225,6 @@ export function MySelect<
             // }
          }}
       />
+     </div>
    );
 }
