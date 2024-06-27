@@ -96,6 +96,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
 
+
       & > button {
          bottom: 70px;
          right: 10px;
@@ -107,7 +108,7 @@
    }
 }
 
-@media (max-width: 270px) {
+@media (max-width: 400px) {
    .cardList {
       gap: 10px;
       display: grid;

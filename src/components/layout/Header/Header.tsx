@@ -108,25 +108,27 @@ export const Header: React.FC<Props> = () => {
       } catch (e) {}
    };
 
-   useEffect(() => {
-      const updateLayout = () => {
-         if (headerRef.current) {
-            const headerHeight = headerRef.current.offsetHeight;
+   // useEffect(() => {
+      
+      
+   //    const updateLayout = () => {
+   //       if (headerRef.current) {
+   //          const headerHeight = headerRef.current.offsetHeight;
 
-            document.documentElement.style.setProperty(
-               '--header-height',
-               `${headerHeight}px`,
-            );
-         }
-      };
+   //          document.documentElement.style.setProperty(
+   //             '--header-height',
+   //             `${headerHeight}px`,
+   //          );
+   //       }
+   //    };
 
-      updateLayout();
-      window.addEventListener('resize', updateLayout);
+   //    updateLayout();
+   //    window.addEventListener('resize', updateLayout);
 
-      return () => {
-         window.removeEventListener('resize', updateLayout);
-      };
-   }, []);
+   //    return () => {
+   //       window.removeEventListener('resize', updateLayout);
+   //    };
+   // }, [headerRef.current]);
 
    return (
       <>
@@ -154,7 +156,7 @@ export const Header: React.FC<Props> = () => {
                      />
 
                      <div className={cl.header__control}>
-                        {(isAuth && location.pathname !== '/chats') ||
+                        {(isAuth && location.pathname !== '/chats' && location.pathname !== '/add') &&
                            (!location.pathname.includes('admin') && (
                               <button
                                  title="Submit an ad"

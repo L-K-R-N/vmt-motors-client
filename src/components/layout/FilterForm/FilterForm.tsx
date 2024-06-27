@@ -5,12 +5,23 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import { useTranslation } from 'react-i18next';
 import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
+import { useState } from 'react';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { setActiveVariant } from '@/store/reducers/FilterSlice';
 
 interface Props {}
 
 export const FilterForm: React.FC<Props> = () => {
-   const { control, errors, handleSubmit, onSubmit, handleReset } =
-      useFilterForm();
+   const {
+      control,
+      errors,
+      handleSubmit,
+      onSubmit,
+      handleReset,
+
+      variants,
+   } = useFilterForm();
+   const dispatch = useAppDispatch();
    const {
       brands,
       driveUnits,
@@ -22,6 +33,7 @@ export const FilterForm: React.FC<Props> = () => {
       colorings,
       bodies,
       types,
+      activeVariant,
       models,
    } = useAppSelector((state) => state.FilterReducer);
 
@@ -30,15 +42,36 @@ export const FilterForm: React.FC<Props> = () => {
    return (
       <>
          <div className={cl.wrapper}>
+            <ul className={cl.types}>
+               {types.map((type) => (
+                  <li>{type.label}</li>
+               ))}
+            </ul>
+
             <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
-               <TextFieldController
-                  control={control}
-                  errors={errors}
-                  name="name"
-                  label={t('name')}
-                  fieldType="input"
-                  rules={{ required: false }}
-               />
+               <ul className={cl.variants}>
+                  {variants.map((v) => (
+                     <li
+                        className={activeVariant === v ? cl.active : ''}
+                        onClick={() => {
+                           dispatch(setActiveVariant(v));
+                           console.log(activeVariant);
+                        }}
+                     >
+                        {v}
+                     </li>
+                  ))}
+               </ul>
+               <div className={cl.line}>
+                  <TextFieldController
+                     control={control}
+                     errors={errors}
+                     name="name"
+                     label={t('name')}
+                     fieldType="input"
+                     rules={{ required: false }}
+                  />
+               </div>
                <div className={cl.line}>
                   <SelectController
                      control={control}
@@ -235,14 +268,14 @@ export const FilterForm: React.FC<Props> = () => {
                      fieldType="input"
                      rules={{ required: false }}
                   />
-                  <CheckboxController
+                  {/* <CheckboxController
                      control={control}
                      errors={errors}
                      name="isNew"
                      label={t('is_new')}
                      fieldType="input"
                      rules={{ required: false }}
-                  />
+                  /> */}
                   <CheckboxController
                      control={control}
                      errors={errors}
@@ -279,7 +312,7 @@ export const FilterForm: React.FC<Props> = () => {
                   rules={{ required: false }}
                   disabled
                /> */}
-                  <SelectController
+                  {/* <SelectController
                      control={control}
                      errors={errors}
                      name="type"
@@ -287,7 +320,7 @@ export const FilterForm: React.FC<Props> = () => {
                      rules={{ required: false }}
                      isMulti={false}
                      options={types}
-                  />
+                  /> */}
                   <SelectController
                      control={control}
                      errors={errors}

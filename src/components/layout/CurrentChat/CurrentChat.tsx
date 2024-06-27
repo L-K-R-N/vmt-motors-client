@@ -183,11 +183,15 @@ import WebSocketService, {
 } from '@/api/services/ChatService';
 import { getTokens } from '@/api/public.api';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowUp, IoIosChatbubbles } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import maleAvatar from './assets/maleAvatar.jpg';
 import femaleAvatar from './assets/femaleAvatar.jpg';
 import { BlockObserver } from '../BlockObserver/BlockObserver';
+import { setCurrentChat, setCurrentPerson } from '@/store/reducers/ChatSlice';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { IoArrowBack } from "react-icons/io5";
+
 
 interface Attachment {
    id: string;
@@ -217,6 +221,7 @@ export const CurrentChat: React.FC<Props> = () => {
    const { me } = useAppSelector((state) => state.UserReducer);
    const navigate = useNavigate();
    const chatRef = useRef<HTMLUListElement | null>(null);
+   const dispatch = useAppDispatch();
    // const [personId, setPersonId] = useState<string | null>(null);
    const [isMessagesEnd, setIsMessagesEnd] = useState(false);
    const { currentPerson, currentChat } = useAppSelector(
@@ -325,17 +330,30 @@ export const CurrentChat: React.FC<Props> = () => {
       console.log(messages);
    }, [messages]);
 
-   const handleClickEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+   const handleClickEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
       // e.preventDefault();
       if (e.key === 'Enter') {
          handleSendMessage();
       }
    };
+
+   const openChats = () => {
+      dispatch(setCurrentChat(null))
+      dispatch(setCurrentPerson(null))
+      console.log(1)
+   }
    return (
       <div className={cl.currentChat}>
          {currentPerson ? (
             <>
                <div className={cl.currentChat__header}>
+               <button
+                  title="Back"
+                  className={cl.backBtn}
+                  onClick={openChats}
+               >
+                  <IoArrowBack />
+               </button>
                   <div
                      className={cl.currentChat__user}
                      onClick={() => navigate(`/profile/${currentPerson.id}`)}
@@ -397,7 +415,7 @@ export const CurrentChat: React.FC<Props> = () => {
                      </li>
                   </ul>
                   <div className={cl.currentChat__sendContainer}>
-                     <textarea
+                     <input
                         title="Write a message"
                         // type="text"
                         placeholder="Write a message"

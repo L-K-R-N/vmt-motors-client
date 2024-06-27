@@ -1,7 +1,18 @@
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { TBrand, TColor, TBody, TDriveUnit, TFuel, TGear, TOwner, TProductType, ISelectItem, TSorting, TColoring } from '@/api/models/Products';
+import {
+   TBrand,
+   TColor,
+   TBody,
+   TDriveUnit,
+   TFuel,
+   TGear,
+   TOwner,
+   TProductType,
+   ISelectItem,
+   TSorting,
+   TColoring,
+} from '@/api/models/Products';
 
 export interface IFilterState {
    brands: ISelectItem<string>[];
@@ -16,6 +27,7 @@ export interface IFilterState {
    bodies: ISelectItem<TBody>[];
    sortByOptions: ISelectItem<TSorting>[];
    colorings: ISelectItem<TColoring>[];
+   activeVariant: string;
 }
 
 const initialState: IFilterState = {
@@ -44,6 +56,7 @@ const initialState: IFilterState = {
          label: 'ХЗ ВООБЩЕ ЧТО ЭТО',
       },
    ],
+   activeVariant: 'all',
    fuels: [
       {
          value: 'BIODIESEL',
@@ -99,21 +112,20 @@ const initialState: IFilterState = {
    owners: [
       {
          value: 'COMPANY',
-         label: 'COMPANY'
+         label: 'COMPANY',
       },
       {
          value: 'OWNER',
-         label: 'OWNER'
+         label: 'OWNER',
       },
       {
          value: 'PRIVATE_OWNER',
-         label: 'PRIVATE_OWNER'
+         label: 'PRIVATE_OWNER',
       },
       {
          value: 'OTHER',
-         label: 'OTHER'
-      }
-     
+         label: 'OTHER',
+      },
    ],
    colors: [
       {
@@ -237,29 +249,29 @@ const initialState: IFilterState = {
          label: 'universal',
       },
    ],
-   
+
    sortByOptions: [
       {
          value: 'createdAt',
-         label: 'createdAt'
-      }
+         label: 'createdAt',
+      },
    ],
    colorings: [
       {
          value: 'MATTE',
-         label: 'Matte'
+         label: 'Matte',
       },
       {
          value: 'GLOSSY',
-         label: 'Glossy'
+         label: 'Glossy',
       },
       {
          value: 'METALLIC',
-         label: 'Metallic'
+         label: 'Metallic',
       },
       {
          value: 'NACRE',
-         label: 'Nacre'
+         label: 'Nacre',
       },
    ],
 };
@@ -277,10 +289,13 @@ export const ProductsSlice = createSlice({
       setGenerations: (state, action: PayloadAction<ISelectItem<string>[]>) => {
          state.generations = action.payload;
       },
-      
+      setActiveVariant: (state, action: PayloadAction<string>) => {
+         state.activeVariant = action.payload;
+      },
    },
 });
 
 export default ProductsSlice.reducer;
 
-export const { setBrands, setGenerations, setModels } = ProductsSlice.actions;
+export const { setBrands, setGenerations, setModels, setActiveVariant } =
+   ProductsSlice.actions;

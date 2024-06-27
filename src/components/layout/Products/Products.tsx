@@ -12,11 +12,9 @@ export const Products: FC<Props> = ({ products }) => {
       <>
          <div className={cl.wrapper}>
             <div className={cl.cardList}>
-               {products.length ? (
+               {products.length && (
                   products.map((p) => <AdvertCard advert={p} key={p.id} />)
-               ) : (
-                  <h3 className={cl.errTitle}>Объявления не найдены</h3>
-               )}
+               ) }
             </div>
          </div>
       </>

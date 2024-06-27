@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
@@ -17,6 +17,7 @@ import {
    ISelectItem,
 } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 interface IFilterInputs {
    page: number;
@@ -50,6 +51,8 @@ interface IFilterInputs {
    driveUnit: ISelectItem<TDriveUnit> | null;
 }
 
+const variants = ['all', 'used_cars', 'new'];
+
 export const useFilterForm = () => {
    const {
       handleSubmit,
@@ -61,7 +64,13 @@ export const useFilterForm = () => {
       mode: 'onChange',
    });
    const dispatch = useAppDispatch();
+   const { activeVariant } = useAppSelector((state) => state.FilterReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
+   const [currentVariant, setCurrentVariant] = useState<string>('all');
+
+   useEffect(() => {
+      setCurrentVariant(activeVariant);
+   }, [activeVariant]);
 
    const handleSearchProducts = async (data: IFilterInputs) => {
       try {
@@ -73,7 +82,12 @@ export const useFilterForm = () => {
             name: data.name || null,
             sortBy: data.sortBy?.value || null,
             type: data.type?.value || null,
-            isNew: data.isNew || null,
+            isNew:
+               currentVariant === 'new'
+                  ? true
+                  : currentVariant === 'used_cars'
+                    ? false
+                    : null,
             color: data.color?.value || null,
             owner: data.owner?.value || null,
             brand: data.brand?.value || null,
@@ -143,6 +157,7 @@ export const useFilterForm = () => {
          handleSubmit,
          reset,
          handleReset,
+         variants,
       }),
       [errors],
    );

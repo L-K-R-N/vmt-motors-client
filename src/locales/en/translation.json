@@ -58,7 +58,7 @@
    "year_of_release": "Year of release",
    "transmission": "Transmission type",
    "mileage": "Car mileage",
-   "body": "The body",
+   "body": "Body",
    "photo": "Photo",
    "generation": "Generation",
    "engine": "Engine",
@@ -116,5 +116,16 @@
    "forgot_pass": "Forgot password",
    "already_have_an_account": "Already have an account",
    "no_account?": "No account?",
-   "signup": "Sign up"
+   "signup": "Sign up",
+
+
+   "cart": "Cart",
+   "sort_by": "Sort by",
+   "millage_from": "Millage from",
+   "millage_to": "Millage from",
+   "sort_by": "Sort by",
+   "sort_by": "Sort by",
+   "sort_by": "Sort by",
+   "sort_by": "Sort by",
+   "sort_by": "Sort by"
 }

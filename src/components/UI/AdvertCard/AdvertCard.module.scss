@@ -30,7 +30,7 @@
       width: 300px;
       height: 200px;
       min-height: 100%;
-      opacity: 0.6;
+      
       border-radius: 6px;
       margin: 20px;
       // min-height: 100%;
@@ -324,9 +324,10 @@
          }
 
          &__model {
-            font-size: 9px;
+            font-size: 11px;
             // line-height: 180%;
             font-family: $font-roboto;
+            display: none;
 
             font-weight: 400;
          }
@@ -393,7 +394,7 @@
       .fromOwner {
          border-radius: 6px;
          padding: 2px 4px;
-         font-size: 10px;
+         font-size: 14px;
          gap: 5px;
          font-family: $font-tildaSans;
          font-weight: 400;
@@ -434,11 +435,11 @@
             gap: 3px;
          }
          &__title {
-            font-size: 13px !important;
+            font-size: 16px !important;
          }
 
          &__desc {
-            font-size: 10px !important;
+            font-size: 14px !important;
          }
 
          &__price {
@@ -451,6 +452,7 @@
             position: absolute;
             top: 10px;
             right: 10px;
+            color: black;
          }
       }
 
@@ -462,7 +464,7 @@
          &__location {
             @include flex();
             width: 100%;
-            font-size: 10px !important;
+            font-size: 13px !important;
          }
 
          &__buttons {
@@ -475,7 +477,38 @@
 @media screen and (max-width: 360px) {
    .advert {
       &Img {
-         height: 90px;
+      }
+
+      &Header {
+        
+            &__top {
+               width: 100%;
+               gap: 7px;
+   
+               @include flex($direction: column, $align: start);
+               gap: 3px;
+            }
+            &__title {
+               font-size: 13px !important;
+            }
+   
+            &__desc {
+               font-size: 12px !important;
+            }
+   
+            &__price {
+               font-size: 13px !important;
+            }
+   
+            
+         &__isFavorite {
+            width: 14px !important;
+            height: 14px !important;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: black;
+         }
       }
    }
 }

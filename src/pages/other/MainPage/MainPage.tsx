@@ -64,8 +64,8 @@ const MainPage: React.FC<Props> = () => {
             <div className={cl.mainPage__contacts_content}>
                <h4 className={cl.mainPage__contacts_title}>{t('contacts')}</h4>
                <ul className={cl.mainPage__contacts_list}>
-                  <li>{t('phone')}: +1 123 456 78</li>
-                  <li>Email: hello@firm.com</li>
+                  <li>{t('phone')}: +82 10-7680-6606</li>
+                  <li>Email: vmt-motors@mail.ru</li>
                </ul>
                <div className={cl.mainPage__contacts_social}>
                   <h5>USA NY NEW YORK</h5>

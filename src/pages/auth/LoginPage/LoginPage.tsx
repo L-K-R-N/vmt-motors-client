@@ -5,10 +5,12 @@ import { Button } from '@/components/UI/Button/Button.tsx';
 import { useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { passwordRegex, usernameRegex } from '../RegisterPage/RegisterPage.tsx';
 import { z } from 'zod';
+import { FaEye } from 'react-icons/fa';
+import { FaEyeSlash } from 'react-icons/fa';
 
 export const loginFormShema = z.object({
    username: z
@@ -38,6 +40,7 @@ export type ILoginFormShema = z.infer<typeof loginFormShema>;
 const LoginPage = () => {
    const { t } = useTranslation();
    const { errors, handleSubmit, onSubmit, control } = useLoginPage();
+   const [isPassShow, setIsPassShow] = useState(false);
 
    // const {
    //    handleSubmit,
@@ -69,14 +72,24 @@ const LoginPage = () => {
                rules={{ required: 'Username number' }}
             />
 
-            <TextFieldController
-               control={control}
-               errors={errors}
-               label={t('password')}
-               name="password"
-               fieldType="input"
-               rules={{ required: 'Enter password' }}
-            />
+            <div className={cl.passContainer}>
+               <TextFieldController
+                  control={control}
+                  errors={errors}
+                  label={t('password')}
+                  name="password"
+                  fieldType="input"
+                  rules={{ required: 'Enter password' }}
+                  inputType={isPassShow ? 'text' : 'password'}
+               />
+               <button
+                  className={cl.passBtn}
+                  type="button"
+                  onClick={() => setIsPassShow(!isPassShow)}
+               >
+                  {isPassShow ? <FaEye /> : <FaEyeSlash />}
+               </button>
+            </div>
 
             <Button type="submit" title={t('signin')}>
                {t('signin')}

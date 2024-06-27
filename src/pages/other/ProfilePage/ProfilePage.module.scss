@@ -10,14 +10,14 @@
    align-items: stretch;
    width: 100%;
    position: relative;
-
+   padding-top: calc(var(--header-height));
    .avatar {
       border-radius: 50%;
       border: 8px solid $white;
       min-width: calc(25vw - 120px);
       min-height: calc(25vw - 120px);
-      height: calc(25vw - 120px);
-      width: calc(25vw - 120px);
+      height: calc(30vw - 120px);
+      width: calc(30vw - 120px);
    }
 
    .defaultText {
@@ -26,7 +26,7 @@
    .left {
       @include flex($direction: column, $justify: start);
       gap: 20px;
-      padding: 20px 60px 40px;
+      padding: 20px 50px 40px;
       background: #000000;
 
       &__buttons {
@@ -34,15 +34,19 @@
          gap: 20px;
          width: 100%;
          margin-bottom: 40px;
-         & > button {
+         min-width: 50%;
+         flex-wrap: wrap;
+         & > button,
+         div {
             font-size: 18px;
             font-weight: 600;
             line-height: 150%;
             color: $black;
             padding: 8px 10px;
             border-radius: 10px;
-            background: $white;
-            min-width: 40%;
+            background: white;
+            min-width: 50%;
+            width: 100%;
             @include flex($justify: center);
             border: none;
          }
@@ -70,6 +74,7 @@
          font-size: 24px;
          line-height: 150%;
          font-weight: 400;
+         gap: 20px;
          text-wrap: nowrap;
          & > span {
             @include flex($align: center, $justify: start);
@@ -157,6 +162,7 @@
       }
 
       &__about_desc {
+         word-wrap: break-word;
          font-size: 24px;
          line-height: 150%;
          color: #666565;
@@ -297,6 +303,7 @@
          }
 
          &__about_desc {
+            word-wrap: break-word;
             font-size: 18px;
             line-height: 150%;
             color: #666565;
@@ -345,8 +352,9 @@
             flex-direction: column;
             width: 100%;
             gap: 10px;
-            margin-bottom: 20px;
-            & > button {
+            margin-bottom: 0;
+            & > button,
+            div {
                width: auto;
                background: var(--text-primary);
                color: var(--text-secondary);
@@ -416,7 +424,7 @@
             @include flex($align: start, $direction: column, $justify: start);
             gap: 25px;
             padding-bottom: 40px;
-
+            padding-top: 0;
             border-bottom: 1px solid $black;
          }
 
@@ -431,12 +439,18 @@
             text-shadow: 0 5px 5px rgba(0, 0, 0, 0.305);
          }
 
+         &__about {
+            max-width: 100%;
+         }
+
          &__about_desc {
             font-size: 18px;
             line-height: 150%;
             color: #666565;
             // max-width: 70%;
             font-weight: 400;
+            word-wrap: break-word;
+            max-width: 100%;
          }
 
          &__ads {
@@ -449,6 +463,23 @@
          .blockTitle {
             margin-bottom: 10px;
          }
+      }
+   }
+}
+
+@media screen and (max-width: 400px) {
+   .profile {
+      .content {
+         flex-direction: column;
+      }
+
+      .avatar {
+         border-radius: 50%;
+         border-color: $black;
+         min-width: 25vw;
+         min-height: 25vw;
+         height: 70vw;
+         width: 70vw;
       }
    }
 }

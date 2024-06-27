@@ -13,7 +13,7 @@ import PersonService from '@/api/services/PersonService';
 import { IUser } from '@/api/models/Person';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-
+import { IoChevronBack } from 'react-icons/io5';
 interface Props {}
 
 const ProductPage: React.FC<Props> = () => {
@@ -119,9 +119,21 @@ const ProductPage: React.FC<Props> = () => {
 
    return (
       <div className={cl.page}>
+         <button title="Back" className={cl.back} onClick={() => navigate(-1)}>
+            <IoChevronBack />
+         </button>
          <div className={cl.wrapper}>
             <h3 className={cl.pageTitle}>
-               {product?.name} {product?.model} {product?.brand}
+               <button
+                  title="Back"
+                  className={cl.back}
+                  onClick={() => navigate(-1)}
+               >
+                  <IoChevronBack />
+               </button>
+               <span>
+                  {product?.name} {product?.model} {product?.brand}
+               </span>
             </h3>
             <div className={cl.page__content}>
                <div className={cl.gallery}>
@@ -195,7 +207,10 @@ const ProductPage: React.FC<Props> = () => {
                         </ul>
                      </div>
                      <div className={cl.info__btns}>
-                        <button title="Get contact" onClick={() => navigate}>
+                        <button
+                           title="Get contact"
+                           onClick={() => navigate(`/profile/${user?.id}`)}
+                        >
                            Get contact
                         </button>
                         <button

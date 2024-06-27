@@ -18,7 +18,7 @@ interface Props<TFieldValues extends FieldValues>
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
    control: Control<TFieldValues, any>;
    fieldType: TFieldType;
-   inputType?: 'number' | 'text';
+   inputType?: 'number' | 'text' | 'password';
    styles?: {
       width: string;
       height: string;

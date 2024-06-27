@@ -4,6 +4,7 @@
 
 .add {
    font-family: $font-tildaSans;
+   padding-top: calc(var(--header-height));
    &Header {
       width: 100vw;
       background: url('./assets//bg.png');
@@ -36,7 +37,7 @@
       padding: 20px;
       box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
       gap: 25px !important;
-      border: 1px solid white;
+      border: 1px solid var(--text-primary);
       @include flex($direction: column, $align: stretch, $justify: start);
       & input,
       & textarea {
@@ -91,6 +92,7 @@
       background: #60c300;
       width: auto;
       align-self: start;
+      border: 1px solid var(--text-primary);
    }
    .subtitle {
       font-size: 18px;
@@ -103,6 +105,7 @@
       background: #60c300;
       width: auto;
       align-self: start;
+      border: 1px solid var(--text-primary);
    }
 
    .spec {

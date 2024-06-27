@@ -7,10 +7,11 @@ import { TextFieldController } from '@/components/UI/TextFieldController/TextFie
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-
+import { FaEye } from 'react-icons/fa';
+import { FaEyeSlash } from 'react-icons/fa';
 export const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/;
 export const usernameRegex = /^[a-zA-Z0-9]{3,25}$/;
 
@@ -56,6 +57,7 @@ const RegisterPage = () => {
    const { isVerifing } = useAppSelector((state) => state.AuthReducer);
    useShowHeader();
    const { t } = useTranslation();
+   const [isPassShow, setIsPassShow] = useState(false);
 
    const dispatch = useAppDispatch();
 
@@ -97,13 +99,24 @@ const RegisterPage = () => {
                name="name"
                fieldType="input"
             />
-            <TextFieldController
-               control={registerForm.control}
-               errors={registerForm.errors}
-               label={t('password')}
-               name="password"
-               fieldType="input"
-            />
+            <div className={cl.passContainer}>
+               <TextFieldController
+                  control={registerForm.control}
+                  errors={registerForm.errors}
+                  label={t('password')}
+                  name="password"
+                  fieldType="input"
+                  rules={{ required: 'Enter password' }}
+                  inputType={isPassShow ? 'text' : 'password'}
+               />
+               <button
+                  className={cl.passBtn}
+                  type="button"
+                  onClick={() => setIsPassShow(!isPassShow)}
+               >
+                  {isPassShow ? <FaEye /> : <FaEyeSlash />}
+               </button>
+            </div>
 
             <Button type="submit" title="Registration">
                {t('signup')}

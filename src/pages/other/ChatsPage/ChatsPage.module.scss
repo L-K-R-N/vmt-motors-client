@@ -6,7 +6,8 @@
    width: 100vw;
    @include flex($align: stretch);
    font-family: $font-tildaSans;
-   max-height: calc(100vh - var(--header-height));
+   height: calc(100vh);
+   padding-top: calc(var(--header-height));
    overflow: hidden;
    .backBtn {
       display: none;
@@ -97,7 +98,6 @@
       width: 100vw;
       @include flex($align: stretch);
       font-family: $font-tildaSans;
-      max-height: 90vh;
       .chatsList {
          width: 30%;
 
@@ -161,7 +161,6 @@
       width: 100vw;
       @include flex($align: stretch);
       font-family: $font-tildaSans;
-      max-height: 90vh;
       .backBtn {
          display: block;
          border-radius: 999px;
@@ -178,15 +177,16 @@
       .chatsList {
          width: 100vw;
          position: fixed;
-         top: 0;
+         top: var(--header-height);
          left: 0;
-         z-index: 99999999;
-         transform: translateY(-100vh);
+         z-index: 9996;
+         transform: translateX(-100vw);
          height: 100vh;
-         background: rgba(2, 2, 2, 0.83);
-         backdrop-filter: blur(5px);
+         background: var(--background-primary);
+         transition: 0.3s;
+         border-right: none;
          &.active {
-            transform: translateY(0);
+            transform: translateX(0);
          }
          &__search {
             &_input {

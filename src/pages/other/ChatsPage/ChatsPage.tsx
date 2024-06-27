@@ -2,7 +2,7 @@ import cl from './ChatsPage.module.scss';
 import { useShowHeader } from '@/hooks/useLayout';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ChatService, IChatResponse } from '@/api/services/ChatService';
 import { useNavigate } from 'react-router-dom';
 import PersonService from '@/api/services/PersonService';
@@ -28,6 +28,63 @@ const ChatsPage: React.FC<Props> = () => {
    );
    const [isMenuOpen, setIsMenuOpen] = useState(true);
    const navigate = useNavigate();
+
+
+   // function debounce<T extends (...args: any[]) => any>(
+   //    func: T,
+   //    delay: number,
+   // ): (...args: Parameters<T>) => void {
+   //    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+   //    return (...args) => {
+   //       if (timeoutId) {
+   //          clearTimeout(timeoutId);
+   //       }
+   //       timeoutId = setTimeout(() => {
+   //          func(...args);
+   //       }, delay);
+   //    };
+   // }
+
+   // const fetchChats = useCallback((username: string) => {
+   //    console.log(username);
+   //    try {
+   //       if (username.length) {
+   //          const response = PersonService.getPersonByUsername(username)
+   //             .then((res) => {
+   //                setUsers([res.data]);
+   //             })
+   //             .catch(() => {
+   //                setUsers([]);
+   //             });
+   //          // toast.promise(response, {
+   //          //    error: {
+   //          //       render({ data }) {
+   //          //          return `${data}`.includes('404')
+   //          //             ? 'Пользователь с таким username не найден'
+   //          //             : 'Опять ебаная ошибка(';
+   //          //          // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
+   //          //       },
+   //          //    },
+   //          // })
+   //       } else {
+   //          PersonService.getAllModerators().then((res) => {
+   //             setUsers(res.data);
+   //          });
+   //       }
+   //    } catch (e) {}
+   // }, []);
+
+   // const debounceFetchUsers = useCallback(
+   //    debounce((username: string) => fetchChats(username), 500),
+   //    [fetchChats],
+   // );
+
+   // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+   //    // setSearch()
+   //    debounceFetchUsers(e.target.value);
+   // };
+
 
    const handleSetChats = () => {
       ChatService.getAllChats()
@@ -60,12 +117,13 @@ const ChatsPage: React.FC<Props> = () => {
          setUsers([]);
          // chats.forEach((chat) =>
          PersonService.getAllPersons(
-            chats.map((chat) => chat.secondPersonId),
+            chats.map((chat) => chat.secondPersonId === me?.id ? chat.firstPersonId : chat.secondPersonId)
          ).then((res) => {
             dispatch(setUsers(res?.data));
          });
          // );
-         console.log(chats.map((chat) => chat.secondPersonId));
+         console.log(chats.map((chat) => chat.secondPersonId === me?.id ? chat.firstPersonId : chat.secondPersonId));
+         console.log(chats)
       }
    }, [chats]);
 
@@ -79,6 +137,17 @@ const ChatsPage: React.FC<Props> = () => {
       setIsMenuOpen(false);
    };
 
+   useEffect(() => {
+      if (!currentChat || !currentPerson) {
+         setIsMenuOpen(true)
+      }
+   }, [currentChat, currentPerson])
+
+
+   const handleSearchChats = () => {
+
+   }
+
    return (
       <div className={cl.page}>
          <div className={[cl.chatsList, isMenuOpen ? cl.active : ''].join(' ')}>
@@ -87,6 +156,7 @@ const ChatsPage: React.FC<Props> = () => {
                   placeholder="Search by chats"
                   className={cl.chatsList__search_input}
                   title="Search chat"
+                  onChange={handleSearchChats}
                />
             </div>
             <ul className={cl.chatsList__main}>
@@ -120,14 +190,6 @@ const ChatsPage: React.FC<Props> = () => {
          <div className={cl.currentChat}>
             <CurrentChat />
          </div>
-
-         <button
-            title="Back"
-            className={cl.backBtn}
-            onClick={() => setIsMenuOpen(true)}
-         >
-            <IoIosChatbubbles />
-         </button>
       </div>
    );
 };

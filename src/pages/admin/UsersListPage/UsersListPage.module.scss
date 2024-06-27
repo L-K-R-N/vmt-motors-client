@@ -15,14 +15,15 @@
    border-radius: 20px;
    color: white;
    font-weight: 400;
-   width: 48%;
+   width: 49%;
+   border: 1px solid var(--text-primary);
    &__header {
       @include flex;
       gap: 30px;
-      padding: 20px 30px;
+      padding: 20px;
       border-bottom: 2px solid rgba(255, 255, 255, 0.5);
       & > input {
-         padding: 6px 13px;
+         padding: 10px 13px;
          border-radius: 999px;
          border: none;
          color: black;
@@ -100,10 +101,21 @@
 
 @media (max-width: 900px) {
    .page {
-      padding: 10px;
+      padding: 0;
+      height: calc(100vh - var(--header-height));
+      gap: 0;
    }
 
    .usersList {
       padding: 10px;
+      height: 50%;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid white;
+      &__header {
+
+         padding: 10px 0;
+      }
    }
 }
+

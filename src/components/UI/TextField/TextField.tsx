@@ -17,7 +17,7 @@ interface Props<TFieldValues extends FieldValues> {
    value?: string;
    type: TFieldType;
    disabled?: boolean;
-   inputType?: 'number' | 'text';
+   inputType?: 'number' | 'text' | 'password';
    onChange?: (
       e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
    ) => void;

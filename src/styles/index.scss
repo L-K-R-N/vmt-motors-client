@@ -24,6 +24,16 @@ html {
    --negative-dark: rgb(0, 0, 0);
    --negative-02-dark: rgba(255, 255, 255, 0.137);
    --border-primary-dark: rgb(75, 75, 75);
+
+
+
+   --header-height: 80px;
+
+   
+@media screen and (max-width: 750px) {
+   --header-height: 70px;
+}
+   
 }
 
 /* map tokens to proper theme */
@@ -150,3 +160,4 @@ input:-webkit-autofill {
 .no-scroll {
    overflow: hidden;
 }
+

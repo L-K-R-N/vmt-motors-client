@@ -10,22 +10,19 @@
    font-weight: 600;
 }
 
-.wrapper {
-   max-width: 1000px;
-   margin: 0 auto;
-}
-
 .filterForm {
    margin-bottom: 40px;
 }
 .ads {
    // @include flex($direction: column, $align: stretch);
+   padding-top: var(--header-height);
    width: 100vw;
 }
 
 .wrapper {
    max-width: 1000px;
    margin: 0 auto;
+   padding: 0 20px;
 }
 
 .panel {
@@ -52,6 +49,7 @@
 @media (max-width: 900px) {
    .ads {
       padding: 20px;
+      padding-top: var(--header-height);
    }
 
    .slider {
@@ -139,8 +137,17 @@
    }
 }
 @media (max-width: 700px) {
+   .filterForm {
+      margin-bottom: 20px;
+   }
+
+   .panel {
+      margin-bottom: 10px;
+      border-radius: 10px;
+   }
    .ads {
       padding: 10px;
+      padding-top: var(--header-height);
    }
    .container {
       margin-right: 0;

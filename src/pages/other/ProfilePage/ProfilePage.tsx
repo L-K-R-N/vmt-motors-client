@@ -195,7 +195,6 @@ const ProfilePage: React.FC<Props> = () => {
                      </>
                   ) : (
                      <>
-                        <button title={t('report')}>{t('report')}</button>
                         <button
                            title={t('send_message')}
                            onClick={handleSendMessage}

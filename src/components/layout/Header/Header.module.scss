@@ -3,12 +3,16 @@
 @import '@/styles/fonts';
 .header {
    width: 100vw;
-   min-height: 80px;
+   height: 80px;
    padding: 10px 0;
    @include flex($align: stretch);
    background-color: black;
    border-bottom: 2px solid $black;
    font-family: $font-tildaSans;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 990;
    &__content {
       display: flex;
       flex-direction: row;
@@ -335,6 +339,7 @@
 
 @media (max-width: 1100px) {
    .header {
+      
       &__control {
          // width: 20%;
       }
@@ -391,6 +396,7 @@
 
 @media (max-width: 750px) {
    .header {
+      height: 70px;
       &__control {
          .submitBtn {
             width: 60px;
@@ -408,7 +414,6 @@
             }
          }
       }
-      height: auto;
       min-height: 0;
       &__control {
       }

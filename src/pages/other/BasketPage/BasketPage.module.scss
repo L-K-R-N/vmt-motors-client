@@ -21,6 +21,7 @@
 .ads {
    // @include flex($direction: column, $align: stretch);
    padding: 30px;
+   padding-top: calc(var(--header-height) + 30px);
    width: 100vw;
 }
 
@@ -42,6 +43,7 @@
 @media (max-width: 900px) {
    .ads {
       padding: 20px;
+      padding-top: calc(var(--header-height) + 20px);
    }
    .mainPage {
       &__intro {
@@ -127,6 +129,7 @@
 @media (max-width: 700px) {
    .ads {
       padding: 10px;
+      padding-top: calc(var(--header-height) + 10px);
    }
    .container {
       margin-right: 0;
