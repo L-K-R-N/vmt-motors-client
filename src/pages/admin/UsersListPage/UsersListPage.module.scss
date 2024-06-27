@@ -77,89 +77,33 @@
    top: 0;
    left: 0;
 }
-
 @media (max-width: 1600px) {
    .page {
       padding: 20px;
+   }
 
-      &__title {
-         font-size: 32px;
-         font-weight: 600;
-      }
-      &__desc {
-         font-size: 20px;
-
-         & > span {
-            font-weight: 600;
-         }
-
-         .vmt {
-            color: #5cc400;
-         }
-      }
-      &__about {
-         width: 100vw;
-         padding: 40px 30px 25px 30px;
-
-         &_desc {
-            font-size: 15px;
-         }
-
-         &_content {
-            & > p {
-               font-size: 15px;
-            }
-         }
-      }
-
-      &__contacts {
-         height: auto;
-         flex-direction: column-reverse;
-
-         &_content,
-         &_img {
-            width: 100%;
-         }
-
-         &_content {
-            padding: 50px 25px 75px 25px;
-            & > h4 {
-               font-size: 32px;
-            }
-         }
-
-         &_list {
-            gap: 25px;
-            font-size: 15px;
-         }
-
-         &_social {
-            & > h5 {
-               font-size: 15px;
-            }
-
-            &List {
-               @include flex();
-               gap: 10px;
-
-               & img {
-                  height: 35px;
-               }
-            }
-         }
-      }
+   .usersList {
+      padding: 25px 15px;
    }
 }
-@media (max-width: 700px) {
-   .container {
-      margin-right: 0;
+@media (max-width: 1400px) {
+   .page {
+      flex-direction: column;
+   }
+
+   .usersList {
+      height: 49%;
+      width: 100%;
+      border: 1px solid var(--text-primary);
+   }
+}
+
+@media (max-width: 900px) {
+   .page {
       padding: 10px;
    }
-}
 
-@media (max-width: 470px) {
-   .container {
-      margin-right: 0;
-      padding-bottom: 40px;
+   .usersList {
+      padding: 10px;
    }
 }

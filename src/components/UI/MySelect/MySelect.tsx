@@ -1,5 +1,5 @@
 import Select from 'react-select/creatable';
-import cl from './MySelect.module.scss'
+import cl from './MySelect.module.scss';
 import { GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
 import {
    ControllerRenderProps,
@@ -39,7 +39,8 @@ const SelectStyles: StylesConfig = {
    valueContainer: (styles) => ({
       ...styles,
       padding: '0',
-      fontSize: '16px',textTransform: 'capitalize',
+      fontSize: '16px',
+      textTransform: 'capitalize',
       gap: '5px',
    }),
    placeholder: (styles) => ({
@@ -188,14 +189,15 @@ export function MySelect<
    options,
    disabled,
    errors,
-   name
+   handleChange,
+   name,
 }: Props<TFieldValues, TName>) {
    const id = useId();
 
    const labelEl = useRef<HTMLLabelElement | null>(null);
    return (
-     <div className={cl.controller}>
-       <label
+      <div className={cl.controller}>
+         <label
             className={[
                cl.label,
                errors && errors[name]?.message ? cl.error : '',
@@ -207,24 +209,24 @@ export function MySelect<
                ? (errors[name]?.message as ReactNode)
                : placeholder}
          </label>
-      <Select
-         styles={SelectStyles}
-         placeholder={placeholder}
-         isMulti={isMulti}
-         {...field}
-         options={options}
-         value={field?.value}
-         isDisabled={disabled}
-         isClearable={true}
-         onChange={(newValue) => {
-            field?.onChange(newValue);
+         <Select
+            styles={SelectStyles}
+            placeholder={placeholder}
+            isMulti={isMulti}
+            {...field}
+            options={options}
+            value={field?.value}
+            isDisabled={disabled}
+            isClearable={true}
+            onChange={(newValue) => {
+               field?.onChange(newValue);
 
-            // if (handleChange) {
-            //    handleChange(field.value);
-            //    console.log(field.value);
-            // }
-         }}
-      />
-     </div>
+               if (handleChange && field?.value) {
+                  handleChange(field.value);
+                  console.log(field.value);
+               }
+            }}
+         />
+      </div>
    );
 }

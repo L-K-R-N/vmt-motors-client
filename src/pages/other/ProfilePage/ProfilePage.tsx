@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { setMe } from '@/store/reducers/UserSlice';
 import { setCurrentPerson } from '@/store/reducers/ChatSlice';
+import { Products } from '@/components/layout/Products/Products';
 interface Props {}
 
 interface IUserInfoItem {
@@ -228,17 +229,19 @@ const ProfilePage: React.FC<Props> = () => {
             </div>
             <div className={cl.right}>
                <div className={cl.right__info}>
+                  <h5 className={cl.right__title}>{t('profile')}</h5>
                   <div className={cl.right__infoTop}>
-                     <h5 className={cl.right__title}>{t('profile')}</h5>
-                     <button
-                        title={t('settings')}
-                        className={cl.settingsBtn}
-                        onClick={() => navigate('/profile/me/change')}
-                     >
-                        <IoSettingsSharp />
-                     </button>
+                     <h3 className={cl.right__username}>{user?.username}</h3>
+                     {isMyProfile && (
+                        <button
+                           title={t('settings')}
+                           className={cl.settingsBtn}
+                           onClick={() => navigate('/profile/me/change')}
+                        >
+                           <IoSettingsSharp />
+                        </button>
+                     )}
                   </div>
-                  <h3 className={cl.right__username}>{user?.username}</h3>
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
                      <p className={cl.right__about_desc}>
@@ -250,18 +253,14 @@ const ProfilePage: React.FC<Props> = () => {
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
                      {isMyProfile && myProducts.length ? (
-                        myProducts.map((product) => (
-                           <AdvertCard advert={product} key={product.id} />
-                        ))
+                        <Products products={myProducts} />
                      ) : isMyProfile ? (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}
                            <Link to={'/add'}>Сделайте это прямо сейчас</Link>
                         </div>
                      ) : products.length ? (
-                        products.map((product) => (
-                           <AdvertCard advert={product} key={product.id} />
-                        ))
+                        <Products products={products} />
                      ) : (
                         <div className={cl.right__about_desc}>
                            У пользователя пока нет активных объявлений.

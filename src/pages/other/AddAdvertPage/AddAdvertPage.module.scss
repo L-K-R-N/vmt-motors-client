@@ -52,7 +52,6 @@
       }
 
       & label {
-         display: none;
       }
 
       & textarea {
@@ -118,9 +117,6 @@
          @include flex($direction: column, $justify: start);
          gap: 10px;
          width: 100%;
-         & label {
-            display: none;
-         }
 
          & > div {
             width: 100%;
@@ -277,6 +273,10 @@
 
       .block {
          padding: 10px;
+
+         &.spec {
+            flex-direction: column !important;
+         }
       }
 
       .title {

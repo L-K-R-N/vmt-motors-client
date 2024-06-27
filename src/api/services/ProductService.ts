@@ -103,17 +103,14 @@ export default class ProductService {
    static async getProductsInBasket(
       type: 'old' | 'new',
       data: {
-         limit: number,
-         offsetBasketId?: string
+         limit: number;
+         offsetBasketId?: string;
       },
    ): Promise<AxiosResponse<IBasketResponse[]>> {
       return $api.get<IBasketResponse[]>(`product/basket/${type}`, {
          params: data,
-
       });
    }
-
-
 
    // POST
    static async postProduct(data: IPostProductRequest): Promise<AxiosResponse> {
@@ -191,13 +188,11 @@ export default class ProductService {
 
    // PUT
 
-   static async editProduct(data: {
-      productId: string;
-   }): Promise<AxiosResponse> {
-      return $api.delete(`product/commodity/`, {
-         data: {
-            commodityId: data.productId,
-         },
+   static async editProduct(
+      product: IPostProductRequest,
+   ): Promise<AxiosResponse> {
+      return $api.put(`product/commodity`, {
+         product,
       });
    }
 }

@@ -72,6 +72,7 @@ export const useChangeProfile = () => {
             }
 
             toast.success('Данные усешно обновлены!');
+            navigate(-1);
          }
       } catch (e) {
          toast.error('Не удалось изменить данные');

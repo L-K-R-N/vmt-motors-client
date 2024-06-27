@@ -10,9 +10,9 @@ export interface IProduct {
    owner: TOwner;
    name: string;
    description: string;
-   brand: TBrand;
-   body: TBody;
-   color: TColor;
+   brand: string;
+   body: string;
+   color: string;
    coloring: string;
    model: string;
    price: number;

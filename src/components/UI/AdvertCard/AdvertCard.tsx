@@ -12,6 +12,7 @@ import { IoStarOutline } from 'react-icons/io5';
 import { FaStar } from 'react-icons/fa6';
 import { FaRegStar } from 'react-icons/fa6';
 import {
+   setFiltredProducts,
    setModeratedProducts,
    setMyProducts,
    setProducts,
@@ -25,11 +26,11 @@ interface Props {
 }
 
 export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
+   const { lang } = useAppSelector((state) => state.SettingsReducer);
+   const { me, isAdmin } = useAppSelector((state) => state.UserReducer);
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const { lang } = useAppSelector((state) => state.SettingsReducer);
    const [locale, setLocale] = useState(enUS);
-   const { me, isAdmin } = useAppSelector((state) => state.UserReducer);
    const location = useLocation();
    const [isMyProduct, setIsMyProduct] = useState(false);
    const [isModerating, setIsModerating] = useState(false);
@@ -133,9 +134,10 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   error: {
                      render({ data }) {
                         return `${data}`.includes('403')
-                           ? 'Авторизуйтесь, чтобы добавлять товары в корзину!' : 
-                           `${data}`.includes('404') ? 'Товар еще не прошел модерацию'
-                           : 'Необработанная ошибка';
+                           ? 'Авторизуйтесь, чтобы добавлять товары в корзину!'
+                           : `${data}`.includes('404')
+                             ? 'Товар еще не прошел модерацию'
+                             : 'Необработанная ошибка';
                      },
                   },
                })
@@ -189,7 +191,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                ProductService.getFiltredProducts(
                   {} as ISearchProductsRequest,
                ).then((searchRes) => {
-                  dispatch(setProducts(searchRes.data.result));
+                  dispatch(setFiltredProducts(searchRes.data.result));
                });
             });
       } catch (e) {
@@ -200,7 +202,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const handleChange = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
-      navigate(`/change/${advert.id}`);
+      navigate(`/adverts/change/${advert.id}`);
    };
 
    return (

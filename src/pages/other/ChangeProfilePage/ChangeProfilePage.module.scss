@@ -38,6 +38,7 @@
       box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
       gap: 25px !important;
       border: 1px solid white;
+      border: 1px solid var(--text-primary);
       @include flex($direction: column, $align: stretch, $justify: start);
       & input,
       & textarea {
@@ -112,8 +113,6 @@
       align-self: start;
    }
 
-   
-  
    & button {
       font-weight: 500;
       border-radius: 10px;
@@ -130,12 +129,13 @@
       border: none;
       background: transparent;
       font-weight: 400;
-      font-size: 20px;  
+      font-size: 20px;
       color: var(--text-primary);
       border-radius: 0;
-      padding:  0;
+      padding: 0;
       transition: 0.3s;
-      border-bottom: 1px solid var(--text-primary);
+      // border-bottom: 1px solid var(--text-primary);
+      text-decoration: underline;
 
       opacity: 0.7;
 
@@ -152,10 +152,7 @@
          gap: 14px !important;
       }
       &Title {
-         font-size: 34px;
-         font-weight: 500;
-         color: $white;
-         text-align: center;
+         font-size: 50px;
       }
 
       & input {
@@ -206,14 +203,11 @@
 @media screen and (max-width: 700px) {
    .add {
       &Header {
-         padding: 50px 30px;
+         padding: 20px 10px;
       }
 
       &Title {
-         font-size: 28px;
-         font-weight: 500;
-         color: $white;
-         text-align: center;
+         font-size: 40px;
       }
 
       .wrapper {

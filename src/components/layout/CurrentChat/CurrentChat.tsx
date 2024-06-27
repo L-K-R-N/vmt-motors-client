@@ -218,6 +218,7 @@ export const CurrentChat: React.FC<Props> = () => {
    const navigate = useNavigate();
    const chatRef = useRef<HTMLUListElement | null>(null);
    // const [personId, setPersonId] = useState<string | null>(null);
+   const [isMessagesEnd, setIsMessagesEnd] = useState(false);
    const { currentPerson, currentChat } = useAppSelector(
       (state) => state.ChatReducer,
    );
@@ -226,13 +227,18 @@ export const CurrentChat: React.FC<Props> = () => {
       messagesType: 'new' | 'old',
       offsetMessageId?: string,
    ) => {
-      if (currentChat)
+      if (currentChat && currentPerson && !isMessagesEnd)
          ChatService.getMessages(messagesType, {
             chatId: currentChat.chatId,
             limit: 50,
             offsetMessageId: offsetMessageId,
          }).then((res) => {
-            console.log(res.data)
+            if (!res.data.length) {
+               setIsMessagesEnd(true);
+               return;
+            }
+            console.log(res.data);
+
             setMessages((prev) => [...prev, ...res.data]);
             console.log(messages);
          });
@@ -242,20 +248,33 @@ export const CurrentChat: React.FC<Props> = () => {
       const { accessToken } = getTokens();
       setMessages([]);
       webSocketService.disconnect();
-      if (accessToken && me && currentChat) {
+      if (accessToken && me) {
          webSocketService.connect(accessToken).then(() => {
             webSocketService.subscribe(
                me.id,
                handleMessageReceived,
                handleErrorReceived,
             );
-
             handleGetMessages('old');
          });
       }
 
-      return () => webSocketService.disconnect();
-   }, [webSocketService, currentPerson]);
+      return () => {
+         webSocketService.disconnect();
+         setIsMessagesEnd(false);
+         setMessages([]);
+      };
+   }, [webSocketService]);
+
+   useEffect(() => {
+      if (!currentChat || !currentPerson) {
+         setMessages([]);
+      }
+      if (currentPerson && currentChat) {
+         setIsMessagesEnd(false);
+         setMessages([]);
+      }
+   }, [currentPerson, currentChat]);
 
    const handleMessageReceived = (message: IMessageResponse) => {
       setMessages((prevMessages) => [message.o, ...prevMessages]);
@@ -305,6 +324,13 @@ export const CurrentChat: React.FC<Props> = () => {
    useEffect(() => {
       console.log(messages);
    }, [messages]);
+
+   const handleClickEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      // e.preventDefault();
+      if (e.key === 'Enter') {
+         handleSendMessage();
+      }
+   };
    return (
       <div className={cl.currentChat}>
          {currentPerson ? (
@@ -330,23 +356,7 @@ export const CurrentChat: React.FC<Props> = () => {
                   </div> */}
                </div>
                <div className={cl.currentChat__main}>
-                  <BlockObserver
-                        onBlockVisible={
-                           () => {
-                              handleGetMessages(
-                                 'old',
-                                 messages[messages.length - 1]?.id,
-                              );
-                              // console.log(messages[messages.length - 1]);
-                           }
-                           // console.log(
-                           //    messages[0],
-                           //    messages[messages.length - 1],
-                           // )
-                        }
-                     />
                   <ul className={cl.currentChat__main_messages} ref={chatRef}>
-                  
                      {messages.map((message) => (
                         <li
                            key={message?.id}
@@ -368,7 +378,23 @@ export const CurrentChat: React.FC<Props> = () => {
                            </button> */}
                         </li>
                      ))}
-                     
+                     <li>
+                        <BlockObserver
+                           onBlockVisible={
+                              () => {
+                                 handleGetMessages(
+                                    'old',
+                                    messages[messages.length - 1]?.id,
+                                 );
+                                 console.log(messages[messages.length - 1]);
+                              }
+                              // console.log(
+                              //    messages[0],
+                              //    messages[messages.length - 1],
+                              // )
+                           }
+                        />
+                     </li>
                   </ul>
                   <div className={cl.currentChat__sendContainer}>
                      <textarea
@@ -378,6 +404,7 @@ export const CurrentChat: React.FC<Props> = () => {
                         className={cl.currentChat__sendInput}
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
+                        onKeyUp={handleClickEnter}
                      />
                      <button
                         title="Send message"

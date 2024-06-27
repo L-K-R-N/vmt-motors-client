@@ -18,6 +18,7 @@ interface Props<TFieldValues extends FieldValues>
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
    control: Control<TFieldValues, any>;
    fieldType: TFieldType;
+   inputType?: 'number' | 'text';
    styles?: {
       width: string;
       height: string;
@@ -33,6 +34,7 @@ export function TextFieldController<TFieldValues extends FieldValues>({
    label,
    fieldType,
    styles,
+   inputType,
    disabled,
 }: Props<TFieldValues>) {
    return (
@@ -50,6 +52,7 @@ export function TextFieldController<TFieldValues extends FieldValues>({
                   field={field}
                   name={name}
                   styles={styles}
+                  inputType={inputType}
                   disabled={disabled}
                />
             )}

@@ -8,6 +8,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
 import { ISearchProductsRequest } from '@/api/models/Products';
+import { CarsLine } from '@/components/layout/CarsLine/CarsLine';
 
 interface Props {}
 
@@ -42,6 +43,9 @@ const CatalogPage: React.FC<Props> = () => {
    }, []);
    return (
       <div className={cl.ads}>
+         <div className={cl.slider}>
+            <CarsLine />
+         </div>
          <div className={cl.filterForm}>
             <FilterForm />
          </div>

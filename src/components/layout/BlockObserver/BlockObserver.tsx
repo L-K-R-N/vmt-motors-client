@@ -1,43 +1,32 @@
+import React, { useEffect, useRef } from 'react';
 import cl from './BlockObserver.module.scss';
-
-import { useState, useEffect, useRef, FC } from 'react';
-
-interface BlockObserverProps {
-   onBlockVisible: () => void;
-}
-
-export const BlockObserver: FC<BlockObserverProps> = ({ onBlockVisible }) => {
-   const [isVisible, setIsVisible] = useState<boolean>(false);
-   const blockRef = useRef<HTMLDivElement>(null);
+export const BlockObserver: React.FC<{ onBlockVisible: () => void }> = ({
+   onBlockVisible,
+}) => {
+   const observerRef = useRef<IntersectionObserver>();
 
    useEffect(() => {
-      const observer = new IntersectionObserver(
-         (entries) => {
-            entries.forEach((entry) => {
-               if (entry.isIntersecting) {
-                  setIsVisible(true);
-                  onBlockVisible();
-               } else {
-                  setIsVisible(false);
-               }
-            });
-         },
-         {
-            rootMargin: '0px',
-            threshold: 1.0,
-         },
-      );
+      observerRef.current = new IntersectionObserver((entries, observer) => {
+         entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+               onBlockVisible();
+               observer.disconnect();
+            }
+         });
+      });
 
-      if (blockRef.current) {
-         observer.observe(blockRef.current);
+      if (observerRef.current) {
+         observerRef.current.observe(
+            document.getElementById('observer-block')!,
+         );
       }
 
       return () => {
-         if (blockRef.current) {
-            observer.unobserve(blockRef.current);
+         if (observerRef.current) {
+            observerRef.current.disconnect();
          }
       };
    }, [onBlockVisible]);
 
-   return <div className={cl.observer} ref={blockRef}></div>;
+   return <div className={cl.observer} id="observer-block"></div>;
 };

@@ -1,0 +1,323 @@
+@import '@/styles/vars';
+@import '@/styles/mixins';
+@import '@/styles/fonts';
+
+.add {
+   font-family: $font-tildaSans;
+   &Header {
+      width: 100vw;
+      background: url('./assets//bg.png');
+      background-size: 100% 100%;
+      padding: 116px 30px;
+      @include flex($justify: center);
+   }
+
+   &Title {
+      font-size: 48px;
+      font-weight: 500;
+      color: $white;
+      text-align: center;
+   }
+
+   .wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+   }
+
+   &Form {
+      @include flex($direction: column, $align: stretch);
+      gap: 20px;
+      padding: 30px;
+   }
+
+   .block {
+      border-radius: 10px;
+      background: var(--negative);
+      padding: 20px;
+      box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.384);
+      gap: 25px !important;
+      border: 1px solid white;
+      @include flex($direction: column, $align: stretch, $justify: start);
+      & input,
+      & textarea {
+         border-color: var(--text-primary);
+         color: var(--text-primary);
+         border-radius: 5px;
+         padding: 8px 13px;
+         font-size: 16px;
+         font-family: $font-tildaSans;
+         &::placeholder {
+            color: var(--text-primary);
+         }
+      }
+
+      & label {
+      }
+
+      & textarea {
+         resize: none;
+         height: 250px;
+      }
+
+      &__content {
+         @include flex();
+      }
+
+      .contactForm {
+         @include flex($direction: column);
+         gap: 15px;
+
+         & input {
+            &::placeholder {
+               color: var(--text-primary);
+               opacity: 0.5;
+               font-weight: 300;
+            }
+         }
+      }
+
+      & div:has(> input[type='checkbox']) {
+         padding: 10px;
+      }
+   }
+
+   .title {
+      font-size: 20px;
+      color: white;
+      font-weight: 500;
+      padding: 19px 108px;
+      font-family: $font-tildaSans;
+      border-radius: 10px;
+      background: #60c300;
+      width: auto;
+      align-self: start;
+   }
+   .subtitle {
+      font-size: 18px;
+      color: white;
+      @include flex($justify: center);
+      font-weight: 400;
+      padding: 9px 38px;
+      font-family: $font-tildaSans;
+      border-radius: 10px;
+      background: #60c300;
+      width: auto;
+      align-self: start;
+   }
+
+   .spec {
+      @include flex();
+      gap: 20px;
+
+      .subtitle {
+         width: 100%;
+         padding: 9px;
+      }
+      .elem {
+         @include flex($direction: column, $justify: start);
+         gap: 10px;
+         width: 100%;
+
+         & > div {
+            width: 100%;
+         }
+
+         & input {
+            border-color: var(--text-primary);
+            border-radius: 5px;
+            width: 100%;
+            color: var(--text-primary);
+            font-weight: 300;
+            &::placeholder {
+               color: var(--text-primary);
+               opacity: 0.5;
+
+               &:hover {
+                  opacity: 1;
+               }
+            }
+         }
+         & > h5 {
+            align-self: center;
+         }
+      }
+   }
+
+   .bodies {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px;
+
+      & > li {
+         @include flex($direction: column);
+         gap: 15px;
+         font-size: 22px;
+         color: var(--text-primary);
+         font-weight: 400;
+         cursor: pointer;
+         opacity: 0.8;
+         transition: 0.3s;
+
+         &:hover {
+            opacity: 1;
+         }
+         &.active {
+            opacity: 1;
+            & > img {
+               box-shadow: 0 0 0 4px rgba(0, 255, 0, 0.584);
+            }
+         }
+         & > img {
+            height: 120px;
+            border-radius: 15px;
+            width: 100%;
+            border: 2px solid black;
+         }
+      }
+   }
+   & button {
+      font-weight: 500;
+      border-radius: 10px;
+      width: auto;
+      align-self: center;
+      font-size: 24px;
+      font-family: $font-tildaSans;
+      text-wrap: wrap;
+      line-height: 120%;
+      padding: 14px;
+   }
+}
+
+@media screen and (max-width: 800px) {
+   .add {
+      .block {
+         padding: 13x;
+         gap: 14px !important;
+      }
+      &Title {
+         font-size: 34px;
+         font-weight: 500;
+         color: $white;
+         text-align: center;
+      }
+
+      & input {
+         font-size: 14px !important;
+      }
+      .wrapper {
+         max-width: 1000px;
+         margin: 0 auto;
+      }
+
+      &Form {
+         @include flex($direction: column, $align: stretch);
+         gap: 20px;
+         padding: 30px;
+      }
+
+      .title {
+         font-size: 20px;
+
+         padding: 12px 50px;
+         text-align: center;
+         align-self: start;
+      }
+      .subtitle {
+         font-size: 18px;
+         padding: 6px 20px;
+      }
+
+      .bodies {
+         grid-template-columns: repeat(3, 1fr);
+         grid-template-rows: repeat(4, 1fr);
+         gap: 10px;
+         font-family: $font-tildaSans;
+         & > li {
+            gap: 5px;
+            font-size: 18px;
+            & > img {
+               height: 110px;
+               border-radius: 15px;
+               width: 100%;
+               border: 2px solid black;
+            }
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 700px) {
+   .add {
+      &Header {
+         padding: 50px 30px;
+      }
+
+      &Title {
+         font-size: 28px;
+         font-weight: 500;
+         color: $white;
+         text-align: center;
+      }
+
+      .wrapper {
+         max-width: 1000px;
+         margin: 0 auto;
+      }
+
+      &Form {
+         @include flex($direction: column, $align: stretch);
+         gap: 20px;
+         padding: 15px;
+      }
+
+      .block {
+         padding: 10px;
+      }
+      .spec {
+         flex-direction: column !important;
+      }
+      .title {
+         font-size: 16px;
+         color: white;
+         padding: 12px 50px;
+         font-family: $font-tildaSans;
+         border-radius: 10px;
+         background: #60c300;
+         width: auto;
+         text-align: center;
+         align-self: start;
+      }
+      .subtitle {
+         width: 100%;
+         font-size: 14px;
+         padding: 4px;
+      }
+
+      .bodies {
+         grid-template-columns: repeat(2, 1fr);
+
+         & > li {
+            font-size: 16px;
+            & > img {
+               height: 90px;
+               border-radius: 15px;
+               width: 100%;
+               border: 1px solid black;
+            }
+         }
+      }
+      & button {
+         width: 100%;
+         padding: 10px 0;
+      }
+   }
+}
+
+@media screen and (max-width: 450px) {
+   .add {
+      & input {
+         font-size: 12px !important;
+      }
+   }
+}

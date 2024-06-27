@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import cl from './Header.module.scss';
 import logo from './assets/logo.svg';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu } from '../Menu/Menu';
 import { Wrapper } from '../Wrapper/Wrapper';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -23,6 +23,8 @@ export const Header: React.FC<Props> = () => {
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { me, isAdmin } = useAppSelector((state) => state.UserReducer);
    const { isAuth } = useAppSelector((state) => state.AuthReducer);
+   const headerRef = useRef<HTMLDivElement>(null);
+
    const { lang, theme, langs } = useAppSelector(
       (state) => state.SettingsReducer,
    );
@@ -106,10 +108,30 @@ export const Header: React.FC<Props> = () => {
       } catch (e) {}
    };
 
+   useEffect(() => {
+      const updateLayout = () => {
+         if (headerRef.current) {
+            const headerHeight = headerRef.current.offsetHeight;
+
+            document.documentElement.style.setProperty(
+               '--header-height',
+               `${headerHeight}px`,
+            );
+         }
+      };
+
+      updateLayout();
+      window.addEventListener('resize', updateLayout);
+
+      return () => {
+         window.removeEventListener('resize', updateLayout);
+      };
+   }, []);
+
    return (
       <>
          {isShowHeader && (
-            <header className={cl.header}>
+            <header className={cl.header} ref={headerRef}>
                <Wrapper>
                   <div className={cl.header__content}>
                      <Link to={'/about'} className={cl.logo}>
@@ -132,19 +154,20 @@ export const Header: React.FC<Props> = () => {
                      />
 
                      <div className={cl.header__control}>
-                        {isAuth && location.pathname !== '/chats' && (
-                           <button
-                              title="Submit an ad"
-                              type="button"
-                              onClick={() => navigate('add')}
-                              className={cl.submitBtn}
-                           >
-                              <div>
-                                 <img src={plusIcon} alt="" />
-                                 <span>{t('submit_an_ad')}</span>
-                              </div>
-                           </button>
-                        )}
+                        {(isAuth && location.pathname !== '/chats') ||
+                           (!location.pathname.includes('admin') && (
+                              <button
+                                 title="Submit an ad"
+                                 type="button"
+                                 onClick={() => navigate('add')}
+                                 className={cl.submitBtn}
+                              >
+                                 <div>
+                                    <img src={plusIcon} alt="" />
+                                    <span>{t('submit_an_ad')}</span>
+                                 </div>
+                              </button>
+                           ))}
                         <div className={cl.lang}>
                            <span
                               className={cl.lang_current}

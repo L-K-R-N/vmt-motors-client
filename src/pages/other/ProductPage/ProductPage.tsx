@@ -145,13 +145,13 @@ const ProductPage: React.FC<Props> = () => {
                         onClick={() => chooseImg('next')}
                      ></button>
                   </div>
-                  <ul className={cl.gallery__list}>
+                  {/* <ul className={cl.gallery__list}>
                      {imgs.map((img) => (
                         <li onClick={() => setActiveImgId(img.id)}>
                            <img key={img.id} src={img.src} alt="" />
                         </li>
                      ))}
-                  </ul>
+                  </ul> */}
                </div>
                <div className={cl.page__contentContainer}>
                   <div className={cl.info}>
@@ -172,9 +172,9 @@ const ProductPage: React.FC<Props> = () => {
                         />
                         <span className={cl.owner__name}>{user?.username}</span>
                      </div>
-                     <div className={cl.location}>
+                     {/* <div className={cl.location}>
                         Beverly Hills, CA, United States
-                     </div>
+                     </div> */}
                      <div className={cl.stats}>
                         <h5 className={cl.stats__title}>
                            Vehicle Characteristics

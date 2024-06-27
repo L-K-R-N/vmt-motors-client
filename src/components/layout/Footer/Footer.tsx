@@ -1,6 +1,6 @@
 import cl from './Footer.module.scss';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Wrapper } from '../Wrapper/Wrapper';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ export const Footer: React.FC<Props> = () => {
    const { isShowFooter } = useAppSelector((state) => state.LayoutReducer);
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { t } = useTranslation();
+   const dispatch = useAppDispatch();
    const { lang, langs } = useAppSelector((state) => state.SettingsReducer);
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [navLists, setNavLists] = useState<INavList[]>([
@@ -86,7 +87,26 @@ export const Footer: React.FC<Props> = () => {
          ],
       },
    ]);
-   const dispatch = useAppDispatch();
+   const footerRef = useRef<HTMLDivElement>(null);
+   useEffect(() => {
+      const updateLayout = () => {
+         if (footerRef.current) {
+            const footerHeight = footerRef.current.offsetHeight;
+
+            document.documentElement.style.setProperty(
+               '--footer-height',
+               `${footerHeight}px`,
+            );
+         }
+      };
+
+      updateLayout();
+      window.addEventListener('resize', updateLayout);
+
+      return () => {
+         window.removeEventListener('resize', updateLayout);
+      };
+   }, []);
 
    const handleChangeLang = (newLang: TLanguage) => {
       dispatch(setLang(newLang));
@@ -99,7 +119,7 @@ export const Footer: React.FC<Props> = () => {
    return (
       <>
          {isShowFooter && (
-            <footer className={cl.footer}>
+            <footer className={cl.footer} ref={footerRef}>
                <Wrapper>
                   <div className={cl.footer__content}>
                      <div className={cl.footer__container}>

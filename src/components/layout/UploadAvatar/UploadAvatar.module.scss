@@ -5,7 +5,7 @@
 .container {
    position: relative;
    cursor: pointer;
-   z-index: 9999;
+   z-index: 999;
 }
 
 .input {
@@ -24,10 +24,11 @@
 
    font-weight: 600;
    line-height: 150%;
-   color: $black;
+   color: black;
    padding: 8px 10px;
    border-radius: 10px;
-   background: var(--text-secondary);
+   background: white;
+
    min-width: 40%;
    width: 100%;
    @include flex($justify: center);

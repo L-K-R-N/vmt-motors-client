@@ -13,7 +13,6 @@
 .wrapper {
    max-width: 1000px;
    margin: 0 auto;
-   
 }
 
 .filterForm {
@@ -27,11 +26,13 @@
 
 .noProducts {
    width: 100%;
-   height:100%;
-   opacity: 0.1;
+   height: 100%;
+   opacity: 0.16;
    @include flex($justify: center, $direction: column);
    font-size: 60px;
+   color: var(--text-primary);
    font-family: $font-tildaSans;
+   text-align: center;
    & > svg {
       width: 40%;
       height: 70%;
@@ -130,6 +131,20 @@
    .container {
       margin-right: 0;
       padding: 10px;
+   }
+
+   .noProducts {
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      @include flex($justify: center, $direction: column);
+      font-size: 36px;
+      font-family: $font-tildaSans;
+      text-align: center;
+      & > svg {
+         width: 60%;
+         height: 30%;
+      }
    }
 }
 

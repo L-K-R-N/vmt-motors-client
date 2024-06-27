@@ -2,13 +2,14 @@
 @import '@/styles/mixins';
 @import '@/styles/fonts';
 .currentChat {
-   width: 80%;
+   width: 100%;
    color: var(--text-primary);
    font-weight: 400;
+   height: calc(100vh - var(--header-height));
+
    &__header {
       @include flex();
       width: 100%;
-      padding: 7px 20px;
       background: var(--negative-02);
       flex-grow: 1;
    }
@@ -17,12 +18,13 @@
       @include flex($justify: start);
       gap: 12px;
       font-size: 24px;
+      padding: 16px 20px;
       cursor: pointer;
       transition: 0.3s;
-      padding: 10px;
-      border-radius: 999px;
+      border-radius: 10px;
+      width: 100%;
       &:hover {
-         background: rgba(0, 0, 0, 0.368);
+         background: rgba(15, 15, 15, 0.116);
       }
       & > img {
          border-radius: 999px;

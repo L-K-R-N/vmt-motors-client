@@ -24,10 +24,10 @@ export const ChatSlice = createSlice({
       setChats: (state, action: PayloadAction<IChatResponse[]>) => {
          state.chats = action.payload;
       },
-      setCurrentPerson: (state, action: PayloadAction<IUser>) => {
+      setCurrentPerson: (state, action: PayloadAction<IUser | null>) => {
          state.currentPerson = action.payload;
       },
-      setCurrentChat: (state, action: PayloadAction<IChatResponse>) => {
+      setCurrentChat: (state, action: PayloadAction<IChatResponse | null>) => {
          state.currentChat = action.payload;
       },
       setUsers: (state, action: PayloadAction<IUser[]>) => {

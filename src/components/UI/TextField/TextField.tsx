@@ -17,6 +17,7 @@ interface Props<TFieldValues extends FieldValues> {
    value?: string;
    type: TFieldType;
    disabled?: boolean;
+   inputType?: 'number' | 'text';
    onChange?: (
       e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
    ) => void;
@@ -35,6 +36,7 @@ export function TextField<TFieldValues extends FieldValues>({
    onChange,
    type,
    styles,
+   inputType,
    disabled,
 }: Props<TFieldValues>) {
    const id = useId();
@@ -61,7 +63,7 @@ export function TextField<TFieldValues extends FieldValues>({
                id={id}
                onChange={field ? field.onChange : onChange}
                value={field ? field.value : value}
-               type="text"
+               type={inputType ? inputType : 'text'}
                title={title}
                placeholder={title}
                style={styles}

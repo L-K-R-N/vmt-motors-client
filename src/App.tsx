@@ -41,6 +41,7 @@ import { setIsAdmin } from './store/reducers/UserSlice';
 import { AdminRoute } from './components/layout/AdminRoute/AdminRoute';
 import { ChangeProfilePage } from './pages/other/ChangeProfilePage';
 import { BasketPage } from './pages/other/BasketPage';
+import { ChangeAdvertPage } from './pages/other/ChangeAdvertPage';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -106,7 +107,7 @@ const App = () => {
       },
       {
          path: 'adverts/change/:productId',
-         element: <AddAdvertPage />,
+         element: <ChangeAdvertPage />,
          // loader: () => isAuth,
       },
 
@@ -241,7 +242,7 @@ const App = () => {
          //       device: getBrowserAndOS(navigator.userAgent),
          //    });
          // }
-         handleGetMe(dispatch);
+         handleGetMe();
       }
    }, [isAuth]);
 

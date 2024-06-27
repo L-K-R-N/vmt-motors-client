@@ -25,10 +25,10 @@ export default class PersonService {
    static async getAllPersons(
       personIds: string[],
    ): Promise<AxiosResponse<IUser[]>> {
-      return $api.get<IUser[]>('person/all', {
-         params: {
-            personIds,
-         },
+      return $api.get<IUser[]>(`person/all?personIds=${personIds}`, {
+         // params: {
+         //    personIds: personIds,
+         // },
       });
    }
 
