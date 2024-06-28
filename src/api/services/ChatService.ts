@@ -120,7 +120,7 @@ class WebSocketService {
    public sendMessage(message: {
       receiverId: string;
       // text: string;
-      // replyMessageId: string | null;
+      replyMessageId: string | null;
       // attachments: string[];
 
       // chatId: number;

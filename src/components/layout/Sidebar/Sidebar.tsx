@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import cl from './Sidebar.module.scss';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useLayoutEffect, useState } from 'react';
-
+import { RiMenu3Fill } from 'react-icons/ri';
 interface Props {}
 
 export const navList = [
@@ -29,6 +29,7 @@ export const Sidebar: React.FC<Props> = () => {
    const { isShowSidebar } = useAppSelector((state) => state.LayoutReducer);
    // const isBlanket = useMediaQuery('(maxWidth: 1024px)');
    const [selectedItemId, setSelectedItemId] = useState<null | number>(null);
+   const [isOpen, setIsOpen] = useState(false);
    const location = useLocation();
 
    useLayoutEffect(() => {
@@ -64,6 +65,13 @@ export const Sidebar: React.FC<Props> = () => {
                      ))}
                   </ul>
                </nav>
+               <button
+                  title="Toggle admin menu"
+                  className={cl.controlBtn}
+                  onClick={() => setIsOpen(!isOpen)}
+               >
+                  <RiMenu3Fill />
+               </button>
             </div>
          )}
       </>

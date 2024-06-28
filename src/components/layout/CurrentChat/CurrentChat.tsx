@@ -1,178 +1,3 @@
-// import { useEffect, useState } from 'react';
-// import cl from './CurrentChat.module.scss';
-// import WebSocketService from '@/api/services/ChatService';
-// import { getTokens } from '@/api/public.api';
-// import { useAppSelector } from '@/hooks/useAppSelector';
-// import { useParams } from 'react-router-dom';
-// import { BiMailSend } from 'react-icons/bi';
-// import { IoIosArrowUp } from 'react-icons/io';
-// interface Message {
-//    t: 'MESSAGE';
-//    o: {
-//       id: string;
-//       text: string;
-//       senderId: string;
-//       chatId: string;
-//       replyMessageId: string | null;
-//       attachments: Attachment[];
-//    };
-// }
-
-// interface Attachment {
-//    id: string;
-//    contentType:
-//       | 'APPLICATION'
-//       | 'AUDIO'
-//       | 'IMAGE'
-//       | 'MULTIPART'
-//       | 'TEXT'
-//       | 'VIDEO'
-//       | 'OTHER';
-//    name: string;
-// }
-
-// interface Error {
-//    message: string;
-//    timestamp: number;
-// }
-
-// interface Props {
-//    // personId: string | null;
-// }
-
-// export const CurrentChat: React.FC<Props> = () => {
-//    const [messages, setMessages] = useState<Message[]>([]);
-//    const [errors, setErrors] = useState<Error[]>([]);
-//    const [webSocketService] = useState(new WebSocketService());
-//    const [messageText, setMessageText] = useState('');
-//    const { me } = useAppSelector((state) => state.UserReducer);
-//    const [personId, setPersonId] = useState<string | null>(null);
-//    const params = useParams();
-//    useEffect(() => {
-//       const { accessToken } = getTokens();
-//       if (accessToken && me) {
-//          webSocketService.connect(accessToken).then(() => {
-//             webSocketService.subscribe(
-//                me.id,
-//                handleMessageReceived,
-//                handleErrorReceived,
-//             );
-//          });
-//       }
-//    }, [webSocketService]);
-
-//    const handleMessageReceived = (message: Message) => {
-//       setMessages((prevMessages) => [...prevMessages, message]);
-//    };
-
-//    const handleErrorReceived = (error: Error) => {
-//       setErrors((prevErrors) => [...prevErrors, error]);
-//    };
-
-//    useEffect(() => {
-//       if (params.personId) {
-//          setPersonId(params.personId);
-//       }
-//    }, [params]);
-
-//    const sendMessage = (text: string) => {
-//       if (personId) {
-//          webSocketService.sendMessage({
-//             receiverId: personId,
-//             text: text,
-//             // replyMessageId: null,
-
-//             // attachments: [],
-
-//             // chatId: 1,
-//             // chatType: 'SINGLE',
-//          });
-//       }
-//    };
-
-//    const markMessageAsRead = (chatId: string, messageId: string) => {
-//       webSocketService.markMessageAsRead(chatId, messageId);
-//    };
-
-//    const handleSendMessage = () => {
-//       if (messageText) {
-//          sendMessage(messageText);
-//          setMessageText('');
-//          // console.log(messages);
-//       }
-//    };
-
-//    useEffect(() => {
-//       console.log(errors);
-//    }, [errors]);
-//    useEffect(() => {
-//       console.log(messages);
-//    }, [messages]);
-//    return (
-//       <div className={cl.currentChat}>
-//          {personId ? (
-//             <>
-//                <div className={cl.currentChat__header}>
-//                   <div className={cl.currentChat__user}>
-//                      <img src="" alt="" />
-//                      <span>Владислав Хван</span>
-//                   </div>
-//                   <div className={cl.currentChat__advert}>
-//                      <p className={cl.currentChat__model}>BMW X5 2020Y</p>
-//                      <span className={cl.currentChat__price}>20.000$</span>
-//                   </div>
-//                </div>
-//                <div className={cl.currentChat__main}>
-//                   <ul className={cl.currentChat__main_messages}>
-//                      {messages.map((message) => (
-//                         <li
-//                            key={message.o.id}
-//                            className={[
-//                               cl.message,
-//                               message.o.senderId === me?.id ? cl.my : '',
-//                            ].join(' ')}
-//                         >
-//                            {message.o.text}
-//                            {/* <button
-//                               onClick={() =>
-//                                  markMessageAsRead(
-//                                     message.o.chatId,
-//                                     message.o.id,
-//                                  )
-//                               }
-//                            >
-//                               Mark as Read
-//                            </button> */}
-//                         </li>
-//                      ))}
-//                   </ul>
-//                   <div className={cl.currentChat__sendContainer}>
-//                      <input
-//                         title="Write a message"
-//                         type="text"
-//                         placeholder="Write a message"
-//                         className={cl.currentChat__sendInput}
-//                         value={messageText}
-//                         onChange={(e) => setMessageText(e.target.value)}
-//                      />
-//                      <button
-//                         title="Send message"
-//                         className={cl.currentChat__sendBtn}
-//                         type="button"
-//                         onClick={handleSendMessage}
-//                      >
-//                         <IoIosArrowUp />
-//                      </button>
-//                   </div>
-//                </div>
-//             </>
-//          ) : (
-//             <div>Выберите чат</div>
-//          )}
-//       </div>
-//    );
-// };
-
 import { useEffect, useRef, useState } from 'react';
 import cl from './CurrentChat.module.scss';
 import WebSocketService, {
@@ -190,8 +15,12 @@ import femaleAvatar from './assets/femaleAvatar.jpg';
 import { BlockObserver } from '../BlockObserver/BlockObserver';
 import { setCurrentChat, setCurrentPerson } from '@/store/reducers/ChatSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { IoArrowBack } from "react-icons/io5";
-
+import { IoArrowBack } from 'react-icons/io5';
+import { GoDotFill } from 'react-icons/go';
+import {
+   ContextMenu,
+   IContextMenuItem,
+} from '@/components/UI/ContextMenu/ContextMenu';
 
 interface Attachment {
    id: string;
@@ -224,9 +53,25 @@ export const CurrentChat: React.FC<Props> = () => {
    const dispatch = useAppDispatch();
    // const [personId, setPersonId] = useState<string | null>(null);
    const [isMessagesEnd, setIsMessagesEnd] = useState(false);
+   const [lastReadMessageId, setLastMessageId] = useState<string | null>(null);
+   const [replyMessageId, setReplyMessageId] = useState<string | null>(null);
    const { currentPerson, currentChat } = useAppSelector(
       (state) => state.ChatReducer,
    );
+   const [selectedMessage, setSelectedMessage] = useState<IMessage | null>(
+      null,
+   );
+   const contextMenuRef = useRef<HTMLDivElement>(null);
+   const [isContextMenuShow, setContextMenuShow] = useState(false);
+   const [contextMenuItems, setContextMenuItems] = useState<IContextMenuItem[]>(
+      [
+         {
+            title: 'Ответить',
+            handleClick: handleReplyMessage,
+         },
+      ],
+   );
+   // const chatRef = useRef<HTMLDivElement>(null);
 
    const handleGetMessages = (
       messagesType: 'new' | 'old',
@@ -248,6 +93,14 @@ export const CurrentChat: React.FC<Props> = () => {
             console.log(messages);
          });
    };
+
+   function handleReplyMessage() {
+      if (selectedMessage) {
+         setReplyMessageId(selectedMessage.id);
+         setContextMenuShow(false);
+         console.log(replyMessageId);
+      }
+   }
 
    useEffect(() => {
       const { accessToken } = getTokens();
@@ -295,11 +148,15 @@ export const CurrentChat: React.FC<Props> = () => {
    //    }
    // }, [params]);
 
-   const sendMessage = (personId: string, text: string) => {
+   const sendMessage = (
+      personId: string,
+      text: string,
+      replyMessageId: string | null,
+   ) => {
       webSocketService.sendMessage({
          receiverId: personId,
          text: text,
-         // replyMessageId: null,
+         replyMessageId: replyMessageId,
 
          // attachments: [],
       });
@@ -311,9 +168,15 @@ export const CurrentChat: React.FC<Props> = () => {
 
    const handleSendMessage = () => {
       if (messageText && currentPerson) {
-         sendMessage(currentPerson.id, messageText);
+         sendMessage(currentPerson.id, messageText, replyMessageId);
          setMessageText('');
+         setReplyMessageId(null);
          // console.log(messages);
+      }
+   };
+   const handleReadMessage = (messageId: string) => {
+      if (messageId && currentChat) {
+         markMessageAsRead(messageId, currentChat.chatId);
       }
    };
 
@@ -337,23 +200,43 @@ export const CurrentChat: React.FC<Props> = () => {
       }
    };
 
+   const handleContextMenuOpen = (
+      e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+      message: IMessage,
+   ) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!contextMenuRef.current) return;
+      setSelectedMessage(message);
+
+      contextMenuRef.current.style.top = `${e.clientY + 5}px`;
+      contextMenuRef.current.style.left = `${e.clientX + 5}px`;
+      // console.log(message);
+      setContextMenuShow(true);
+      console.log(selectedMessage);
+   };
+
+   useEffect(() => {
+      // console.log(selectedMessage);
+   }, [selectedMessage]);
+
    const openChats = () => {
-      dispatch(setCurrentChat(null))
-      dispatch(setCurrentPerson(null))
-      console.log(1)
-   }
+      dispatch(setCurrentChat(null));
+      dispatch(setCurrentPerson(null));
+      console.log(1);
+   };
    return (
-      <div className={cl.currentChat}>
+      <div className={cl.currentChat} onClick={() => setContextMenuShow(false)}>
          {currentPerson ? (
             <>
                <div className={cl.currentChat__header}>
-               <button
-                  title="Back"
-                  className={cl.backBtn}
-                  onClick={openChats}
-               >
-                  <IoArrowBack />
-               </button>
+                  <button
+                     title="Back"
+                     className={cl.backBtn}
+                     onClick={openChats}
+                  >
+                     <IoArrowBack />
+                  </button>
                   <div
                      className={cl.currentChat__user}
                      onClick={() => navigate(`/profile/${currentPerson.id}`)}
@@ -382,8 +265,13 @@ export const CurrentChat: React.FC<Props> = () => {
                               cl.message,
                               message?.senderId === me?.id ? cl.my : '',
                            ].join(' ')}
+                           onClick={() => handleReadMessage(message.id)}
+                           onContextMenu={(e) =>
+                              handleContextMenuOpen(e, message)
+                           }
                         >
                            <span>{message?.text}</span>
+                           <GoDotFill />
                            {/* <button
                               onClick={() =>
                                  markMessageAsRead(
@@ -433,6 +321,12 @@ export const CurrentChat: React.FC<Props> = () => {
                         <IoIosArrowUp />
                      </button>
                   </div>
+               </div>
+               <div className={cl.contextMenuContainer} ref={contextMenuRef}>
+                  <ContextMenu
+                     list={contextMenuItems}
+                     isShow={isContextMenuShow}
+                  />
                </div>
             </>
          ) : (

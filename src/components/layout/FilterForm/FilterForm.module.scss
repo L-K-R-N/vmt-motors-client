@@ -11,7 +11,7 @@
    @include flex($direction: column, $justify: start, $align: stretch);
    gap: 30px;
    font-family: $font-tildaSans;
-   padding: 20px;
+   padding: 20px 50px;
    // border: 1px solid white;
    border-radius: 25px;
    transition: 0.3s;

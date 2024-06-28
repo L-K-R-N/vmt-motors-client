@@ -6,6 +6,12 @@
    color: var(--text-primary);
    font-weight: 400;
    height: calc(100vh - var(--header-height));
+
+   .contextMenuContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+   }
    &__header {
       @include flex();
       width: 100%;
@@ -18,11 +24,10 @@
       @include flex($justify: start);
       gap: 12px;
       font-size: 24px;
-      padding: 16px 20px;
       padding-left: 10px;
+      height: 100%;
       cursor: pointer;
       transition: 0.3s;
-      border-radius: 10px;
       width: 100%;
       &:hover {
          background: rgba(15, 15, 15, 0.116);
@@ -66,7 +71,7 @@
          margin: 10px 0;
          padding: 0 12px;
          @include flex($direction: column-reverse, $align: start);
-         gap: 10px;
+         gap: 1px;
          max-height: 100%;
          overflow-y: scroll;
          overflow-x: hidden;
@@ -101,7 +106,7 @@
          min-height: 50px;
          max-height: 150px;
          resize: none;
-         
+
          &::placeholder {
          }
 
@@ -140,35 +145,46 @@
    }
 
    .message {
-      background: var(--negative-02);
-      color: var(--text-primary);
-      border-radius: 12px;
-      padding: 13px 18px;
-      font-size: 16px;
-      line-height: 130%;
-      @include flex();
-      max-width: 48%;
+      @include flex($justify: start);
+      gap: 10px;
+      width: 100%;
+      padding: 5px 0;
 
+      & > svg {
+         color: var(--text-tertiary);
+         opacity: 0.6;
+      }
       & > span {
-         max-width: 100%;
-
+         max-width: 48%;
+         background: var(--negative-02);
+         color: var(--text-primary);
+         border-radius: 12px;
+         padding: 13px 18px;
+         font-size: 16px;
+         line-height: 130%;
          // text-overflow: ellipsis;
          // overflow: hidden;
          word-wrap: break-word;
       }
       &.my {
-         align-self: flex-end;
-         background: #609149;
-         color: white;
+         justify-content: end;
+         flex-direction: row-reverse;
+         & > span {
+            align-self: flex-end;
+            background: #82c463;
+            color: white;
+         }
+      }
+
+      &.read {
       }
    }
 }
 
-
 @media screen and (max-width: 600px) {
    .backBtn {
       display: flex !important;
-      @include flex($justify: center) ;
+      @include flex($justify: center);
       width: 40px;
       height: 40px;
       background: transparent;
@@ -195,19 +211,16 @@
          height: 11%;
       }
 
-      &__main { 
+      &__main {
          height: 89%;
       }
       .message {
          padding: 10px 12px;
       }
    }
-
-   
-   
 }
 
-@media screen  and (max-height: 900px){
+@media screen and (max-height: 900px) {
    .currentChat {
       &__header {
          @include flex();
@@ -217,15 +230,13 @@
          height: 9%;
       }
 
-      &__main { 
-         height:91%;
+      &__main {
+         height: 91%;
       }
-      
    }
 }
 
-
-@media screen  and (max-height: 800px){
+@media screen and (max-height: 800px) {
    .currentChat {
       &__header {
          @include flex();
@@ -235,14 +246,13 @@
          height: 11%;
       }
 
-      &__main { 
+      &__main {
          height: 89%;
       }
-      
    }
 }
 
-@media screen  and (max-height: 700px){
+@media screen and (max-height: 700px) {
    .currentChat {
       &__header {
          @include flex();
@@ -252,13 +262,12 @@
          height: 13%;
       }
 
-      &__main { 
+      &__main {
          height: 87%;
       }
-      
    }
 }
-@media screen  and (max-height: 590px){
+@media screen and (max-height: 590px) {
    .currentChat {
       &__header {
          @include flex();
@@ -268,14 +277,13 @@
          height: 15%;
       }
 
-      &__main { 
+      &__main {
          height: 85%;
       }
-      
    }
 }
 
-@media screen  and (max-height:450px){
+@media screen and (max-height: 450px) {
    .currentChat {
       &__header {
          @include flex();
@@ -285,9 +293,8 @@
          height: 17%;
       }
 
-      &__main { 
+      &__main {
          height: 83%;
       }
-      
    }
 }

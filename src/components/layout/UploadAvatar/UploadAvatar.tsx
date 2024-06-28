@@ -15,12 +15,13 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
    const handleAvatarUpload = async () => {
       if (avatarFile) {
          try {
-            const formData = new FormData();
-            formData.append('file', avatarFile);
-            console.log(formData, avatarFile);
+            let formData = new FormData();
+            await formData.append('file', avatarFile);
+            console.log(formData.values(), avatarFile);
 
-            if (formData) {
+            if (formData.values()) {
                await PersonService.changePersonPhoto(formData);
+               console.log(1);
 
                onAvatarUpload();
             }
@@ -32,12 +33,14 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
          setAvatarFile(e.target.files[0]);
-         console.log(e.target.files);
+         // console.log(e.target.files);
       }
    };
 
    useEffect(() => {
-      handleAvatarUpload();
+      if (avatarFile) {
+         handleAvatarUpload();
+      }
    }, [avatarFile]);
 
    return (
@@ -47,9 +50,12 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
             type="file"
             onChange={handleAvatarChange}
             className={cl.input}
+            accept="image/*,.png,.jpg,.gif,.web,"
          />
          {/* <button>Upload Avatar</button> */}
-         <button className={cl.btn} type='button' title='aaa'>Change photo</button>
+         <button className={cl.btn} type="button" title="aaa">
+            Change photo
+         </button>
       </div>
    );
 };

@@ -66,11 +66,11 @@ export default class PersonService {
          {
             file: photo,
          },
-         {
-            headers: {
-               'Content-Type': 'multipart/form-data',
-            },
-         },
+         // {
+         //    headers: {
+         //       'Content-Type': 'multipart/form-data',
+         //    },
+         // },
       );
    }
    static async getPersonPhoto(data: {

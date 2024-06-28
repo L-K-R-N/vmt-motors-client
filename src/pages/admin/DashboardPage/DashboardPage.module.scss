@@ -84,6 +84,12 @@
       border-radius: 0;
       border: none;
 
-      border-bottom: 1px solid white;
+      background: var(--negative);
+      border-bottom: 1px solid var(--text-primary);
+      & > .no_products {
+         font-size: 30px;
+         color: rgb(134, 134, 134);
+         opacity: 0.5;
+      }
    }
 }
