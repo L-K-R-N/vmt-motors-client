@@ -102,15 +102,14 @@ export const Header: React.FC<Props> = () => {
                error: 'Аккаунт не найден',
             })
             .then((res) => {
-               setMe(res.data);
-               navigate(`/profile/${res.data.id}`);
+               setMe(res?.data);
+               navigate(`/profile/${res?.data?.id}`);
             });
       } catch (e) {}
    };
 
    // useEffect(() => {
-      
-      
+
    //    const updateLayout = () => {
    //       if (headerRef.current) {
    //          const headerHeight = headerRef.current.offsetHeight;
@@ -156,8 +155,10 @@ export const Header: React.FC<Props> = () => {
                      />
 
                      <div className={cl.header__control}>
-                        {(isAuth && location.pathname !== '/chats' && location.pathname !== '/add') &&
-                           (!location.pathname.includes('admin') && (
+                        {isAuth &&
+                           location.pathname !== '/chats' &&
+                           location.pathname !== '/add' &&
+                           !location.pathname.includes('admin') && (
                               <button
                                  title="Submit an ad"
                                  type="button"
@@ -169,7 +170,7 @@ export const Header: React.FC<Props> = () => {
                                     <span>{t('submit_an_ad')}</span>
                                  </div>
                               </button>
-                           ))}
+                           )}
                         <div className={cl.lang}>
                            <span
                               className={cl.lang_current}

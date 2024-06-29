@@ -39,7 +39,7 @@ const ProductPage: React.FC<Props> = () => {
             productId: productId,
          });
 
-         setProduct(response.data);
+         setProduct(response?.data);
       } catch (e) {
          console.log(e);
       }
@@ -54,7 +54,7 @@ const ProductPage: React.FC<Props> = () => {
                error: 'Пользователь, разместивший данный товар, не найден',
             })
             .then((res) => {
-               setUser(res.data);
+               setUser(res?.data);
             })
             .catch(() => {
                navigate(-1);
@@ -89,7 +89,7 @@ const ProductPage: React.FC<Props> = () => {
                id: user.id,
             });
 
-            setAvatarUrl(response.data);
+            setAvatarUrl(response?.data);
          }
       } catch (e) {
          console.log(e);

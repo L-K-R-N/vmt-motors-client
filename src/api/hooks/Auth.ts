@@ -35,11 +35,11 @@ export const handleRefresh = (refresh: string) => {
          },
       })
       .then((res) => {
-         localStorage.setItem('token', res.data.jwtToken);
-         localStorage.setItem('refresh', res.data.refreshToken);
+         localStorage.setItem('token', res?.data?.jwtToken);
+         localStorage.setItem('refresh', res?.data?.refreshToken);
          store.dispatch(setIsAuth(true));
 
-         return res.data.jwtToken;
+         return res?.data?.jwtToken;
       })
       .catch(() => {
          localStorage.removeItem('token');
@@ -77,10 +77,10 @@ export const handleLogin = (data: ILoginFormShema) => {
          },
       })
       .then((res) => {
-         const decodedToken: NewJwtPayload = jwtDecode(res.data.jwtToken);
+         const decodedToken: NewJwtPayload = jwtDecode(res?.data?.jwtToken);
          // console.log(decodedToken, decodedToken.exp);
-         localStorage.setItem('token', res.data.jwtToken);
-         localStorage.setItem('refresh', res.data.refreshToken);
+         localStorage.setItem('token', res?.data?.jwtToken);
+         localStorage.setItem('refresh', res?.data?.refreshToken);
          if (decodedToken.role.includes('VERIFIED')) {
             store.dispatch(setIsAuth(true));
 
@@ -99,9 +99,9 @@ export const handleLogin = (data: ILoginFormShema) => {
 export const handleRegister = async (data: IRegisterFormShema) => {
    try {
       const registerResponse = AuthService.register({
-         password: data.password,
-         username: data.username,
-         name: data.name,
+         password: data?.password,
+         username: data?.username,
+         name: data?.name,
       });
 
       toast
@@ -121,8 +121,8 @@ export const handleRegister = async (data: IRegisterFormShema) => {
          })
          .then(() => {
             handleLogin({
-               username: data.username,
-               password: data.password,
+               username: data?.username,
+               password: data?.password,
             });
          });
    } catch (e) {
@@ -176,8 +176,8 @@ export const handleCodeSend = (data: {
    accessToken: string;
 }) => {
    const verifyResponse = AuthService.verificationEmailSend({
-      email: data.email,
-      accessToken: data.accessToken,
+      email: data?.email,
+      accessToken: data?.accessToken,
    });
 
    toast

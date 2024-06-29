@@ -151,9 +151,9 @@ const App = () => {
    //    const res = await axios.get<{ countryCode: string }>(
    //       'http://ip-api.com/json',
    //    );
-   //    console.log(res, res.status === 200, res.data?.countryCode);
-   //    if (res.status === 200) {
-   //       return res.data?.countryCode;
+   //    console.log(res, res?.status === 200, res?.data?.countryCode);
+   //    if (res?.status === 200) {
+   //       return res?.data?.countryCode;
    //    }
    // }
 

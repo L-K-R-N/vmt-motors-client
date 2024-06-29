@@ -60,26 +60,21 @@ export default class PersonService {
       });
    }
 
-   static async changePersonPhoto(photo: FormData): Promise<AxiosResponse> {
-      return $api.post(
-         `person/profile_photo`,
-         {
-            file: photo,
+   static async changePersonPhoto(file: FormData): Promise<AxiosResponse> {
+      return $api.post(`person/profile_photo`, file, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
          },
-         // {
-         //    headers: {
-         //       'Content-Type': 'multipart/form-data',
-         //    },
-         // },
-      );
+      });
    }
    static async getPersonPhoto(data: {
       id: string;
    }): Promise<AxiosResponse<string>> {
       return $api.get<string>(`person/profile_photo`, {
          params: {
-            personId: data.id,
+            personId: data?.id,
          },
+         responseType: 'blob',
       });
    }
    static async deletePersonPhoto(): Promise<AxiosResponse> {

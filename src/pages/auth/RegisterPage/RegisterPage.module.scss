@@ -47,6 +47,8 @@
 
          & > svg {
             width: 100%;
+            color: var(--text-primary);
+            transition: 0.3s;
             height: 100%;
          }
       }
@@ -71,8 +73,17 @@
       }
    }
 
+   input {
+      color: var(--text-primary);
+      border-color: var(--text-primary) !important;
+      transition: 0.3s;
+      &::placeholder {
+         color: var(--text-primary);
+      }
+   }
+
    label {
-      color: white;
+      color: var(--text-primary);
       margin-left: 20px;
    }
 }

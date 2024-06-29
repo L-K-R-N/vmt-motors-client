@@ -63,7 +63,7 @@ const UsersListPage: React.FC<Props> = () => {
 
    useEffect(() => {
       PersonService.getAllModerators().then((res) => {
-         setUsers(res.data);
+         setUsers(res?.data);
       });
    }, []);
 
@@ -89,7 +89,7 @@ const UsersListPage: React.FC<Props> = () => {
          if (username.length) {
             const response = PersonService.getPersonByUsername(username)
                .then((res) => {
-                  setUsers([res.data]);
+                  setUsers([res?.data]);
                })
                .catch(() => {
                   setUsers([]);
@@ -106,7 +106,7 @@ const UsersListPage: React.FC<Props> = () => {
             // })
          } else {
             PersonService.getAllModerators().then((res) => {
-               setUsers(res.data);
+               setUsers(res?.data);
             });
          }
       } catch (e) {}
@@ -178,7 +178,7 @@ const UsersListPage: React.FC<Props> = () => {
 
       try {
          PersonService.getPerson(currentPerson.id).then((res) => {
-            const newPerson = res.data;
+            const newPerson = res?.data;
 
             setCurrentPerson(newPerson);
 

@@ -32,35 +32,35 @@ export type IPostProductRequest = Omit<
 >;
 
 export interface ISearchProductsRequest {
-   page: number | null;
-   size: number | null;
-   sortBy: TSorting | null;
-   reverse: boolean | null;
-   name: string | null;
-   type: TProductType | null;
-   isNew: boolean | null;
-   brand: TBrand | null;
-   body: TBody | null;
-   color: TColor | null;
-   coloring: TColoring | null;
-   model: string | null;
-   owner: TOwner | null;
-   priceFrom: number | null;
-   priceTo: number | null;
+   page?: number | null;
+   size?: number | null;
+   sortBy?: TSorting | null;
+   reverse?: boolean | null;
+   name?: string | null;
+   type?: string | null;
+   isNew?: boolean | null;
+   brand?: TBrand | null;
+   body?: TBody | null;
+   color?: TColor | null;
+   coloring?: TColoring | null;
+   model?: string | null;
+   owner?: TOwner | null;
+   priceFrom?: number | null;
+   priceTo?: number | null;
 
-   yearFrom: number | null;
-   yearTo: number | null;
+   yearFrom?: number | null;
+   yearTo?: number | null;
 
-   millageFrom: number | null;
-   millageTo: number | null;
+   millageFrom?: number | null;
+   millageTo?: number | null;
 
-   from: string | null;
-   exchange: boolean | null;
-   trade: boolean | null;
-   generation: string | null;
-   gear: TGear | null;
-   fuel: TFuel | null;
-   driveUnit: TDriveUnit | null;
+   from?: string | null;
+   exchange?: boolean | null;
+   trade?: boolean | null;
+   generation?: string | null;
+   gear?: TGear | null;
+   fuel?: TFuel | null;
+   driveUnit?: TDriveUnit | null;
 }
 
 export interface ISelectItem<T> {

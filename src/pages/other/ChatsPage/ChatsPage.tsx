@@ -29,7 +29,6 @@ const ChatsPage: React.FC<Props> = () => {
    const [isMenuOpen, setIsMenuOpen] = useState(true);
    const navigate = useNavigate();
 
-
    // function debounce<T extends (...args: any[]) => any>(
    //    func: T,
    //    delay: number,
@@ -52,7 +51,7 @@ const ChatsPage: React.FC<Props> = () => {
    //       if (username.length) {
    //          const response = PersonService.getPersonByUsername(username)
    //             .then((res) => {
-   //                setUsers([res.data]);
+   //                setUsers([res?.data]);
    //             })
    //             .catch(() => {
    //                setUsers([]);
@@ -69,7 +68,7 @@ const ChatsPage: React.FC<Props> = () => {
    //          // })
    //       } else {
    //          PersonService.getAllModerators().then((res) => {
-   //             setUsers(res.data);
+   //             setUsers(res?.data);
    //          });
    //       }
    //    } catch (e) {}
@@ -85,21 +84,22 @@ const ChatsPage: React.FC<Props> = () => {
    //    debounceFetchUsers(e.target.value);
    // };
 
-
    const handleSetChats = () => {
-      ChatService.getAllChats()
-         .then((res) => {
-            dispatch(setChats(res.data));
-            console.log();
-            // PersonService.getAllPersons(
-            //    res.data.map((chat) => chat.secondPersonId),
-            // ).then((usersRes) => {
-            //    dispatch(setUsers(usersRes.data));
-            // });
-         })
-         .catch((e) => {
-            console.log(e);
-         });
+      try {
+         ChatService.getAllChats()
+            .then((res) => {
+               dispatch(setChats(res?.data));
+               console.log();
+               // PersonService.getAllPersons(
+               //    res?.data?.map((chat) => chat.secondPersonId),
+               // ).then((usersRes) => {
+               //    dispatch(setUsers(usersres?.data));
+               // });
+            })
+            .catch((e) => {
+               console.log(e);
+            });
+      } catch (e) {}
    };
 
    useEffect(() => {
@@ -113,40 +113,48 @@ const ChatsPage: React.FC<Props> = () => {
    }, []);
 
    useEffect(() => {
-      if (chats.length) {
-         setUsers([]);
-         // chats.forEach((chat) =>
-         PersonService.getAllPersons(
-            chats.map((chat) => chat.secondPersonId === me?.id ? chat.firstPersonId : chat.secondPersonId)
-         ).then((res) => {
-            dispatch(setUsers(res?.data));
-         });
-         // );
-         console.log(chats.map((chat) => chat.secondPersonId === me?.id ? chat.firstPersonId : chat.secondPersonId));
-         console.log(chats)
-      }
+      try {
+         if (chats.length) {
+            setUsers([]);
+            // chats.forEach((chat) =>
+            PersonService.getAllPersons(
+               chats.map((chat) =>
+                  chat.secondPersonId === me?.id
+                     ? chat.firstPersonId
+                     : chat.secondPersonId,
+               ),
+            ).then((res) => {
+               dispatch(setUsers(res?.data));
+            });
+            // );
+            console.log(
+               chats.map((chat) =>
+                  chat.secondPersonId === me?.id
+                     ? chat.firstPersonId
+                     : chat.secondPersonId,
+               ),
+            );
+            console.log(chats);
+         }
+      } catch (e) {}
    }, [chats]);
 
-   const handleChangeChat = (user: IUser, chat: IChatResponse) => {
+   const handleChangeChat = (user: IUser) => {
       dispatch(setCurrentPerson(null));
-      dispatch(setCurrentChat(null));
+      // dispatch(setCurrentChat(null));
 
       dispatch(setCurrentPerson(user));
-      dispatch(setCurrentChat(chat));
 
       setIsMenuOpen(false);
    };
 
    useEffect(() => {
       if (!currentChat || !currentPerson) {
-         setIsMenuOpen(true)
+         setIsMenuOpen(true);
       }
-   }, [currentChat, currentPerson])
+   }, [currentChat, currentPerson]);
 
-
-   const handleSearchChats = () => {
-
-   }
+   const handleSearchChats = () => {};
 
    return (
       <div className={cl.page}>
@@ -164,9 +172,7 @@ const ChatsPage: React.FC<Props> = () => {
                   users.map((user, index) => (
                      <li
                         className={cl.chatsList__item}
-                        onClick={() =>
-                           handleChangeChat(users[index], chats[index])
-                        }
+                        onClick={() => handleChangeChat(users[index])}
                         key={user.id}
                      >
                         <img
@@ -220,12 +226,12 @@ export default ChatsPage;
 
 //    useEffect(() => {
 //       ChatService.getAllChats().then((res) => {
-//          setChats(res.data);
+//          setChats(res?.data);
 //          console.log();
 //          PersonService.getAllPersons(
-//             res.data.map((chat) => chat.secondPersonId),
+//             res?.data?.map((chat) => chat.secondPersonId),
 //          ).then((usersRes) => {
-//             setUsers(usersRes.data);
+//             setUsers(usersres?.data);
 //          });
 //       });
 //    }, []);

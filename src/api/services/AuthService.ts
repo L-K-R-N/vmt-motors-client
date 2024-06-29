@@ -12,32 +12,32 @@ export default class AuthService {
       data: ILoginRequest,
    ): Promise<AxiosResponse<IAuthResponse>> {
       return $api.post<IAuthResponse>('auth/login', {
-         login: data.username,
-         password: data.password,
-         deviceName: data.deviceName,
+         login: data?.username,
+         password: data?.password,
+         deviceName: data?.deviceName,
       });
    }
 
    static async register(data: IRegisterRequest): Promise<AxiosResponse> {
       return $api.post('auth/signup', {
-         username: data.username,
-         password: data.password,
-         name: data.name,
+         username: data?.username,
+         password: data?.password,
+         name: data?.name,
       });
    }
    static async verificationEmailSend(
       data: IVerifyRequest,
    ): Promise<AxiosResponse> {
       return $api.post('auth/verification/email/send', {
-         access: data.accessToken,
-         email: data.email,
+         access: data?.accessToken,
+         email: data?.email,
       });
    }
    static async verificationEmailVerify(data: {
       code: string;
    }): Promise<AxiosResponse> {
       return $api.post('auth/verification/email/verify', {
-         verificationCode: data.code,
+         verificationCode: data?.code,
       });
    }
 

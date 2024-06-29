@@ -6,6 +6,8 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from 'i18next';
 import { TLanguage, setLang } from '@/store/reducers/SettingsSlice';
+import { useNavigate } from 'react-router-dom';
+import { setActiveType } from '@/store/reducers/FilterSlice';
 interface Props {}
 
 export interface INavList {
@@ -15,15 +17,16 @@ export interface INavList {
 
 interface IItem {
    name: string;
-   link: string;
+   handleClick?: () => void;
 }
 
 export const Footer: React.FC<Props> = () => {
    const { isShowFooter } = useAppSelector((state) => state.LayoutReducer);
+   const { lang, langs } = useAppSelector((state) => state.SettingsReducer);
    // const { isAuth } = useAppSelector((state) => state.AuthReducer);
    const { t } = useTranslation();
+   const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const { lang, langs } = useAppSelector((state) => state.SettingsReducer);
    const [isLangsOpen, setIsLangsOpen] = useState(false);
    const [navLists, setNavLists] = useState<INavList[]>([
       {
@@ -31,15 +34,21 @@ export const Footer: React.FC<Props> = () => {
          items: [
             {
                name: 'about',
-               link: 'about',
+               handleClick: () => {
+                  navigate('/about');
+               },
             },
             {
                name: 'contact',
-               link: 'contact',
+               handleClick: () => {
+                  navigate('/about');
+               },
             },
             {
                name: 'help_faq',
-               link: 'faq',
+               handleClick: () => {
+                  navigate('/about');
+               },
             },
          ],
       },
@@ -47,24 +56,70 @@ export const Footer: React.FC<Props> = () => {
          name: 'categories',
          items: [
             {
-               name: 'cars',
-               link: 'cars',
+               name: 'AUTOMOBILE',
+               handleClick: () => {
+                  navigate('/catalog');
+
+                  dispatch(
+                     setActiveType({
+                        label: 'AUTOMOBILE',
+                        value: 'AUTOMOBILE',
+                     }),
+                  );
+                  window.scrollTo(0, 0);
+               },
             },
             {
-               name: 'details',
-               link: 'details',
+               name: 'CONSUMABLES',
+               handleClick: () => {
+                  navigate('/catalog');
+                  dispatch(
+                     setActiveType({
+                        label: 'CONSUMABLES',
+                        value: 'CONSUMABLES',
+                     }),
+                  );
+                  window.scrollTo(0, 0);
+               },
             },
             {
-               name: 'motor_vehicles',
-               link: 'vehicles',
+               name: 'DETAILS',
+               handleClick: () => {
+                  navigate('/catalog');
+                  dispatch(
+                     setActiveType({
+                        label: 'DETAILS',
+                        value: 'DETAILS',
+                     }),
+                  );
+                  window.scrollTo(0, 0);
+               },
             },
             {
-               name: 'equipment',
-               link: 'equipment',
+               name: 'MOTORCYCLE',
+               handleClick: () => {
+                  navigate('/catalog');
+                  dispatch(
+                     setActiveType({
+                        label: 'MOTORCYCLE',
+                        value: 'MOTORCYCLE',
+                     }),
+                  );
+                  window.scrollTo(0, 0);
+               },
             },
             {
-               name: 'consumables',
-               link: 'consumables',
+               name: 'SPECIAL_EQUIPMENTS',
+               handleClick: () => {
+                  navigate('/catalog');
+                  dispatch(
+                     setActiveType({
+                        label: 'SPECIAL_EQUIPMENTS',
+                        value: 'SPECIAL_EQUIPMENTS',
+                     }),
+                  );
+                  window.scrollTo(0, 0);
+               },
             },
          ],
       },
@@ -73,7 +128,11 @@ export const Footer: React.FC<Props> = () => {
          items: [
             {
                name: 'all_brands',
-               link: 'all',
+               handleClick: () => {
+                  navigate('/catalog');
+
+                  window.scrollTo(0, 0);
+               },
             },
          ],
       },
@@ -82,7 +141,6 @@ export const Footer: React.FC<Props> = () => {
          items: [
             {
                name: 'partner',
-               link: 'partner',
             },
          ],
       },
@@ -136,7 +194,8 @@ export const Footer: React.FC<Props> = () => {
                                     {list.items.map((item) => (
                                        <li
                                           className={cl.footer__listItem}
-                                          key={item.link}
+                                          key={item.name}
+                                          onClick={item.handleClick}
                                        >
                                           {t(item.name)}
                                        </li>

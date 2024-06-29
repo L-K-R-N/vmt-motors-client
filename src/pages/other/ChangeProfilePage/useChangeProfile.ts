@@ -52,23 +52,23 @@ export const useChangeProfile = () => {
       console.log(1);
       try {
          if (me) {
-            if (data.name) {
-               PersonService.changePersonName(data.name);
+            if (data?.name) {
+               PersonService.changePersonName(data?.name);
             }
-            if (data.contact) {
-               PersonService.changePersonContact(data.contact);
+            if (data?.contact) {
+               PersonService.changePersonContact(data?.contact);
             }
-            if (data.description) {
-               PersonService.changePersonDesc(data.description);
+            if (data?.description) {
+               PersonService.changePersonDesc(data?.description);
             }
-            // if (data.dateOfBirth) {
-            //    PersonService.changePersonDateOfBirth(data.dateOfBirth);
+            // if (data?.dateOfBirth) {
+            //    PersonService.changePersonDateOfBirth(data?.dateOfBirth);
             // }
-            if (data.gender && data.gender.value) {
-               PersonService.changePersonGender(data.gender.value);
+            if (data?.gender && data?.gender.value) {
+               PersonService.changePersonGender(data?.gender.value);
             }
-            if (data.dateOfBirth) {
-               PersonService.changePersonDateOfBirth(data.dateOfBirth);
+            if (data?.dateOfBirth) {
+               PersonService.changePersonDateOfBirth(data?.dateOfBirth);
             }
 
             toast.success('Данные усешно обновлены!');

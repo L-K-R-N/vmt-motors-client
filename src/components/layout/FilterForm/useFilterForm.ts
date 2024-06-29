@@ -66,51 +66,52 @@ export const useFilterForm = () => {
    const dispatch = useAppDispatch();
    const { activeVariant } = useAppSelector((state) => state.FilterReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
-   const [currentVariant, setCurrentVariant] = useState<string>('all');
+   const [isNew, setIsNew] = useState<boolean | null>(null);
 
    useEffect(() => {
-      setCurrentVariant(activeVariant);
+      setIsNew(
+         activeVariant === 'new'
+            ? true
+            : activeVariant === 'used_cars'
+              ? false
+              : null,
+      );
    }, [activeVariant]);
 
    const handleSearchProducts = async (data: IFilterInputs) => {
       try {
          const response = await ProductService.getFiltredProducts({
-            page: data.page || null,
-            size: data.size || null,
-            // sortBy: data.sortBy.value || null,
-            reverse: data.reverse || null,
-            name: data.name || null,
-            sortBy: data.sortBy?.value || null,
-            type: data.type?.value || null,
-            isNew:
-               currentVariant === 'new'
-                  ? true
-                  : currentVariant === 'used_cars'
-                    ? false
-                    : null,
-            color: data.color?.value || null,
-            owner: data.owner?.value || null,
-            brand: data.brand?.value || null,
-            body: data.body?.value || null,
-            coloring: data.coloring?.value || null,
-            model: data.model || null,
-            priceFrom: Number(data.priceFrom) || null,
-            priceTo: Number(data.priceTo) || null,
-            yearFrom: Number(data.yearFrom) || null,
-            yearTo: Number(data.yearTo) || null,
-            millageFrom: Number(data.millageFrom) || null,
-            millageTo: Number(data.millageTo) || null,
-            from: data.from || null,
-            exchange: data.exchange || null,
-            trade: data.trade || null,
-            generation: data.generation || null,
-            gear: data.gear?.value || null,
-            fuel: data.fuel?.value || null,
-            driveUnit: data.driveUnit?.value || null,
+            page: data?.page || null,
+            size: data?.size || null,
+            // sortBy: data?.sortBy.value || null,
+            reverse: data?.reverse || null,
+            name: data?.name || null,
+            sortBy: data?.sortBy?.value || null,
+            type: data?.type?.value || null,
+            isNew: isNew,
+            color: data?.color?.value || null,
+            owner: data?.owner?.value || null,
+            brand: data?.brand?.value || null,
+            body: data?.body?.value || null,
+            coloring: data?.coloring?.value || null,
+            model: data?.model || null,
+            priceFrom: Number(data?.priceFrom) || null,
+            priceTo: Number(data?.priceTo) || null,
+            yearFrom: Number(data?.yearFrom) || null,
+            yearTo: Number(data?.yearTo) || null,
+            millageFrom: Number(data?.millageFrom) || null,
+            millageTo: Number(data?.millageTo) || null,
+            from: data?.from || null,
+            exchange: data?.exchange || null,
+            trade: data?.trade || null,
+            generation: data?.generation || null,
+            gear: data?.gear?.value || null,
+            fuel: data?.fuel?.value || null,
+            driveUnit: data?.driveUnit?.value || null,
          });
 
-         dispatch(setProducts(response.data.result));
-         dispatch(setProductsCount(response.data.total));
+         dispatch(setProducts(response?.data?.result));
+         dispatch(setProductsCount(response?.data?.total));
       } catch (e) {
          console.log(e);
       }
@@ -157,6 +158,7 @@ export const useFilterForm = () => {
          handleSubmit,
          reset,
          handleReset,
+         isNew,
          variants,
       }),
       [errors],

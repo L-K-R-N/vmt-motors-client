@@ -28,7 +28,7 @@ const DashboardPage: React.FC<Props> = () => {
                pending: 'Объявления загружаются...',
                success: {
                   render({ data }) {
-                     return `${data.data.length === 0 ? 'Все объявления проверены!' : `${data.data.length} объявлений для проверки`}  `;
+                     return `${data?.data?.length === 0 ? 'Все объявления проверены!' : `${data?.data?.length} объявлений для проверки`}  `;
                   },
                },
                error: {
@@ -40,7 +40,7 @@ const DashboardPage: React.FC<Props> = () => {
                },
             })
             .then((res) => {
-               dispatch(setModeratedProducts(res.data));
+               dispatch(setModeratedProducts(res?.data));
             });
       } catch (e) {
          console.log(e);

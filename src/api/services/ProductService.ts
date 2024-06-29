@@ -36,9 +36,9 @@ export default class ProductService {
    }): Promise<AxiosResponse<IProduct[]>> {
       return $api.get<IProduct[]>(`product/commodity/person`, {
          params: {
-            personId: data.personId,
-            page: data.params.page,
-            limit: data.params.limit,
+            personId: data?.personId,
+            page: data?.params.page,
+            limit: data?.params.limit,
          },
       });
    }
@@ -57,7 +57,7 @@ export default class ProductService {
    }): Promise<AxiosResponse<IProduct>> {
       return $api.get<IProduct>(`product/commodity/one`, {
          params: {
-            commodityId: data.productId,
+            commodityId: data?.productId,
          },
       });
    }
@@ -115,26 +115,26 @@ export default class ProductService {
    // POST
    static async postProduct(data: IPostProductRequest): Promise<AxiosResponse> {
       return $api.post('product/commodity', {
-         type: data.type,
-         name: data.name,
-         description: data.description,
-         isNew: data.isNew,
-         brand: data.brand,
-         body: data.body,
-         from: data.from,
-         exchange: data.exchange,
-         trade: data.trade,
-         millage: data.millage,
-         owner: data.owner,
-         color: data.color,
-         coloring: data.coloring,
-         model: data.model,
-         price: data.price,
-         year: data.year,
-         generation: data.generation,
-         gear: data.gear,
-         fuel: data.fuel,
-         driveUnit: data.driveUnit,
+         type: data?.type,
+         name: data?.name,
+         description: data?.description,
+         isNew: data?.isNew,
+         brand: data?.brand,
+         body: data?.body,
+         from: data?.from,
+         exchange: data?.exchange,
+         trade: data?.trade,
+         millage: data?.millage,
+         owner: data?.owner,
+         color: data?.color,
+         coloring: data?.coloring,
+         model: data?.model,
+         price: data?.price,
+         year: data?.year,
+         generation: data?.generation,
+         gear: data?.gear,
+         fuel: data?.fuel,
+         driveUnit: data?.driveUnit,
       });
    }
 
@@ -147,14 +147,14 @@ export default class ProductService {
       productId: string;
    }): Promise<AxiosResponse> {
       return $api.post(`product/commodity/moderation/reject`, {
-         commodityId: data.productId,
+         commodityId: data?.productId,
       });
    }
    static async acceptProduct(data: {
       productId: string;
    }): Promise<AxiosResponse> {
       return $api.post(`product/commodity/moderation/accept`, {
-         commodityId: data.productId,
+         commodityId: data?.productId,
       });
    }
 
@@ -164,7 +164,7 @@ export default class ProductService {
    }): Promise<AxiosResponse> {
       return $api.delete(`product/commodity/photo`, {
          data: {
-            commodityPhotoId: data.photoId,
+            commodityPhotoId: data?.photoId,
          },
       });
    }
@@ -173,7 +173,7 @@ export default class ProductService {
    }): Promise<AxiosResponse> {
       return $api.delete(`product/commodity`, {
          data: {
-            commodityId: data.productId,
+            commodityId: data?.productId,
          },
       });
    }

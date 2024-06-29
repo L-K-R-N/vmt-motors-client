@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import cl from './CurrentChat.module.scss';
 import WebSocketService, {
    ChatService,
@@ -83,13 +83,13 @@ export const CurrentChat: React.FC<Props> = () => {
             limit: 50,
             offsetMessageId: offsetMessageId,
          }).then((res) => {
-            if (!res.data.length) {
+            if (!res?.data?.length) {
                setIsMessagesEnd(true);
                return;
             }
-            console.log(res.data);
+            console.log(res?.data);
 
-            setMessages((prev) => [...prev, ...res.data]);
+            setMessages((prev) => [...prev, ...res?.data]);
             console.log(messages);
          });
    };
@@ -125,14 +125,32 @@ export const CurrentChat: React.FC<Props> = () => {
    }, [webSocketService]);
 
    useEffect(() => {
-      if (!currentChat || !currentPerson) {
-         setMessages([]);
-      }
-      if (currentPerson && currentChat) {
+      // if (!currentChat || !currentPerson) {
+      setMessages([]);
+      // }
+      if (currentPerson) {
          setIsMessagesEnd(false);
          setMessages([]);
+         handleGetMessages('old');
       }
-   }, [currentPerson, currentChat]);
+   }, [currentPerson]);
+
+   useEffect(() => {
+      if (currentPerson) {
+         try {
+            ChatService.getAllChats().then((res) => {
+               const thisChat = res.data.find(
+                  (chat) =>
+                     chat.firstPersonId === currentPerson.id ||
+                     chat.secondPersonId === currentPerson.id,
+               );
+               if (thisChat) {
+                  dispatch(setCurrentChat(thisChat));
+               }
+            });
+         } catch (e) {}
+      }
+   }, [currentPerson]);
 
    const handleMessageReceived = (message: IMessageResponse) => {
       setMessages((prevMessages) => [message.o, ...prevMessages]);
@@ -166,7 +184,8 @@ export const CurrentChat: React.FC<Props> = () => {
       webSocketService.markMessageAsRead(chatId, messageId);
    };
 
-   const handleSendMessage = () => {
+   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
       if (messageText && currentPerson) {
          sendMessage(currentPerson.id, messageText, replyMessageId);
          setMessageText('');
@@ -176,7 +195,7 @@ export const CurrentChat: React.FC<Props> = () => {
    };
    const handleReadMessage = (messageId: string) => {
       if (messageId && currentChat) {
-         markMessageAsRead(messageId, currentChat.chatId);
+         markMessageAsRead(currentChat.chatId, messageId);
       }
    };
 
@@ -184,7 +203,7 @@ export const CurrentChat: React.FC<Props> = () => {
       if (chatRef.current) {
          chatRef.current.scrollTop = chatRef.current.scrollHeight;
       }
-   }, [currentChat, currentPerson]);
+   }, [currentPerson]);
 
    useEffect(() => {
       console.log(errors);
@@ -193,12 +212,12 @@ export const CurrentChat: React.FC<Props> = () => {
       console.log(messages);
    }, [messages]);
 
-   const handleClickEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      // e.preventDefault();
-      if (e.key === 'Enter') {
-         handleSendMessage();
-      }
-   };
+   // const handleClickEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+   //    // e.preventDefault();
+   //    if (e.key === 'Enter') {
+   //       handleSendMessage();
+   //    }
+   // };
 
    const handleContextMenuOpen = (
       e: React.MouseEvent<HTMLLIElement, MouseEvent>,
@@ -302,7 +321,10 @@ export const CurrentChat: React.FC<Props> = () => {
                         />
                      </li>
                   </ul>
-                  <div className={cl.currentChat__sendContainer}>
+                  <form
+                     className={cl.currentChat__sendContainer}
+                     onSubmit={(e) => handleSendMessage(e)}
+                  >
                      <input
                         title="Write a message"
                         // type="text"
@@ -310,17 +332,16 @@ export const CurrentChat: React.FC<Props> = () => {
                         className={cl.currentChat__sendInput}
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
-                        onKeyUp={handleClickEnter}
+                        // onKeyUp={handleClickEnter}
                      />
                      <button
                         title="Send message"
                         className={cl.currentChat__sendBtn}
-                        type="button"
-                        onClick={handleSendMessage}
+                        type="submit"
                      >
                         <IoIosArrowUp />
                      </button>
-                  </div>
+                  </form>
                </div>
                <div className={cl.contextMenuContainer} ref={contextMenuRef}>
                   <ContextMenu

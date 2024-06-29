@@ -7,7 +7,7 @@ export const handleGetMe = async () => {
       const response = await PersonService.getMe();
 
       console.log(response);
-      store.dispatch(setMe(response.data));
+      store.dispatch(setMe(response?.data));
    } catch (e) {
       console.log(e);
    }

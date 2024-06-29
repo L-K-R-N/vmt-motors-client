@@ -34,11 +34,11 @@ export const useFetchFilters = () => {
             // console.log(response)
 
             setLocalMakes(
-               response.data.Results.map((car) => car.Mfr_CommonName),
+               response?.data?.Results.map((car) => car.Mfr_CommonName),
             );
             dispatch(
                setBrands(
-                  response.data.Results.map((car) => ({
+                  response?.data?.Results.map((car) => ({
                      value: car.Mfr_CommonName,
                      label: car.Mfr_CommonName,
                   })),
@@ -66,11 +66,11 @@ export const useFetchFilters = () => {
                `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${selectedMake}?format=json`,
             );
             setLocalModels(
-               makesResponse.data.Results.map((car) => car.Model_Name),
+               makesresponse?.data?.Results.map((car) => car.Model_Name),
             );
             dispatch(
                setModels(
-                  makesResponse.data.Results.map((car) => ({
+                  makesresponse?.data?.Results.map((car) => ({
                      value: car.Model_Name,
                      label: car.Model_Name,
                   })),
@@ -92,8 +92,8 @@ export const useFetchFilters = () => {
    //     const fetchGenerations = async () => {
    //     try {
    //     const response = await axios.get<IFilter[]>(`https://api.thecarsdb.com/v2/generations?make=${selectedMake}&model=${selectedModel}`);
-   //     setLocalGenerations(response.data.map((car) => car.generation));
-   //     dispatch(setGenerations(response.data.map((car) => ({
+   //     setLocalGenerations(response?.data?.map((car) => car.generation));
+   //     dispatch(setGenerations(response?.data?.map((car) => ({
    //         value: car.make,
    //         label: car.make
    //      }))))

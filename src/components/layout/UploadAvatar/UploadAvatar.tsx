@@ -19,9 +19,11 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
             await formData.append('file', avatarFile);
             console.log(formData.values(), avatarFile);
 
-            if (formData.values()) {
+            if (formData.has('file')) {
                await PersonService.changePersonPhoto(formData);
-               console.log(1);
+               for (const pair of formData.entries()) {
+                  console.log(pair[0], pair[1]);
+               }
 
                onAvatarUpload();
             }

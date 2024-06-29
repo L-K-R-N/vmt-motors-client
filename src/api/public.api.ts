@@ -57,7 +57,7 @@ $api.interceptors.request.use(
    },
 );
 
-$api.interceptors.response.use(
+$api.interceptors.response?.use(
    (response: AxiosResponse) => {
       return response;
    },

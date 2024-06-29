@@ -30,8 +30,8 @@ import { IOption } from '@/models/Select.types';
 
 // const formatGroupLabel = (data: GroupedOption) => (
 //   <div style={groupStyles}>
-//     <span>{data.label}</span>
-//     <span style={groupBadgeStyles}>{data.options.length}</span>
+//     <span>{data?.label}</span>
+//     <span style={groupBadgeStyles}>{data?.options.length}</span>
 //   </div>
 // );
 

@@ -49,7 +49,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const handleCheckInBasket = () => {
       const inBasketRes = ProductService.hasProductInBasket(advert.id).then(
          (res) => {
-            setIsFavorite(res.data.has);
+            setIsFavorite(res?.data?.has);
          },
       );
    };
@@ -78,7 +78,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   page: 0,
                   size: 50,
                }).then((moderatedRes) => {
-                  dispatch(setModeratedProducts(moderatedRes.data));
+                  dispatch(setModeratedProducts(moderatedres?.data));
                });
             });
       } catch (e) {
@@ -109,11 +109,11 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   page: 0,
                   size: 50,
                }).then((moderatedRes) => {
-                  dispatch(setModeratedProducts(moderatedRes.data));
+                  dispatch(setModeratedProducts(moderatedres?.data));
                });
             });
 
-         // dispatch(setProducts(res.data));
+         // dispatch(setProducts(res?.data));
       } catch (e) {
          console.log(e);
       }
@@ -186,12 +186,12 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   page: 0,
                   size: 50,
                }).then((res) => {
-                  dispatch(setMyProducts(res.data));
+                  dispatch(setMyProducts(res?.data));
                });
                ProductService.getFiltredProducts(
                   {} as ISearchProductsRequest,
                ).then((searchRes) => {
-                  dispatch(setFiltredProducts(searchRes.data.result));
+                  dispatch(setFiltredProducts(searchres?.data?.result));
                });
             });
       } catch (e) {

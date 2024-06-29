@@ -28,6 +28,15 @@
       margin-bottom: 10px;
    }
 
+   input {
+      color: var(--text-primary);
+      border-color: var(--text-primary) !important;
+      transition: 0.3s;
+      &::placeholder {
+         color: var(--text-primary);
+      }
+   }
+
    .control {
       display: flex;
       justify-content: end;

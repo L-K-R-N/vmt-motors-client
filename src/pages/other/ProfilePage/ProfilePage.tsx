@@ -25,6 +25,8 @@ import { IoSettingsSharp } from 'react-icons/io5';
 import { setMe } from '@/store/reducers/UserSlice';
 import { setCurrentPerson } from '@/store/reducers/ChatSlice';
 import { Products } from '@/components/layout/Products/Products';
+import { Buffer } from 'buffer';
+import { handleGetMe } from '@/api/hooks/Person';
 interface Props {}
 
 interface IUserInfoItem {
@@ -73,7 +75,31 @@ const ProfilePage: React.FC<Props> = () => {
                id: user.id,
             });
 
-            setAvatarUrl(response.data);
+            // const binaryData = Buffer.from(response.data, 'base64');
+            // setPhotoBytes(binaryData);
+
+            const blob = new Blob([response.data], { type: 'image/jpeg' });
+            const photoUrl = URL.createObjectURL(blob);
+            setAvatarUrl(photoUrl);
+            // // setAvatarUrl(blobPhoto(response.data));
+            // // const file = new Blob([new File(response.data, 'img/png')], {
+            // //    type: 'image.png',
+            // // });
+            // const base64Image = `data:image/png;base64,${response.data}`;
+            // console.log(base64Image);
+            // // setAvatarUrl(response?.data);
+
+            // const arrayBuffer = await response.data;
+            // const buffer = Buffer.from(arrayBuffer);
+            // const fileType = await FileType.fromBuffer(buffer);
+            // if (fileType.ext) {
+            //    const outputFileName = `yourfilenamehere.${fileType.ext}`;
+            //    fs.createWriteStream(outputFileName).write(buffer);
+            // } else {
+            //    console.log(
+            //       'File type could not be reliably determined! The binary data may be malformed! No file saved!',
+            //    );
+            // }
          }
       } catch (e) {
          console.log(e);
@@ -89,17 +115,37 @@ const ProfilePage: React.FC<Props> = () => {
    //    setIsEditPassword(true);
    // };
 
-   const handleSetProducts = async (personId: string, params: IParams) => {
-      try {
-         const response = await ProductService.getProductsByPerson({
-            personId,
-            params: {
-               limit: 25,
-               page: 0,
-            },
-         });
+   const blobPhoto = (bytes: string) => {
+      const blob = new Blob([bytes], { type: 'image/png' });
 
-         setProducts(response.data);
+      const photoUrl = URL.createObjectURL(blob);
+
+      return photoUrl;
+   };
+
+   const handleSetProducts = async (
+      isMyProfile: boolean,
+      personId?: string,
+   ) => {
+      try {
+         if (isMyProfile) {
+            const response = await ProductService.getMyProducts({
+               size: 25,
+               page: 0,
+            });
+
+            setProducts(response?.data);
+         } else if (personId) {
+            const response = await ProductService.getProductsByPerson({
+               personId,
+               params: {
+                  limit: 25,
+                  page: 0,
+               },
+            });
+
+            setProducts(response?.data);
+         }
       } catch (e) {
          console.log(e);
       }
@@ -114,7 +160,7 @@ const ProfilePage: React.FC<Props> = () => {
                error: 'Аккаунт не найден',
             })
             .then((res) => {
-               setUser(res.data);
+               setUser(res?.data);
             })
             .catch(() => {
                navigate('/catalog');
@@ -123,15 +169,9 @@ const ProfilePage: React.FC<Props> = () => {
    };
 
    useEffect(() => {
-      if (isMyProfile) {
-         dispatch(setMyProducts(products));
-      }
-   }, [products]);
-
-   useEffect(() => {
-      if (isMyProfile && user) {
-         dispatch(setMyProducts(products));
-         dispatch(setMe(user));
+      if (user) {
+         handleSetProducts(isMyProfile, user.id);
+         handleGetMe();
       }
    }, [isMyProfile]);
 
@@ -143,15 +183,8 @@ const ProfilePage: React.FC<Props> = () => {
 
    useLayoutEffect(() => {
       if (user) {
-         handleSetProducts(user.id, {
-            page: 0,
-            size: 50,
-         });
          setIsMyProfile(user.id === me?.id);
       }
-   }, [user]);
-
-   useEffect(() => {
       if (user && user.hasProfilePhoto) {
          handleGetAvatar();
       }
@@ -206,7 +239,7 @@ const ProfilePage: React.FC<Props> = () => {
                </div>
                {isMyProfile ? (
                   <p className={cl.greeting}>
-                     {t('greeting')}, {user?.username}
+                     {t('greeting')}, {me?.username}
                   </p>
                ) : (
                   <></>
@@ -244,22 +277,24 @@ const ProfilePage: React.FC<Props> = () => {
                   <section className={cl.right__about}>
                      <h4 className={cl.blockTitle}>{t('profile_about')}</h4>
                      <p className={cl.right__about_desc}>
-                        {user?.description ? user?.description : t('no_desc')}
+                        {isMyProfile && me?.description
+                           ? me?.description
+                           : user?.description
+                             ? user.description
+                             : t('no_desc')}
                      </p>
                   </section>
                </div>
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {isMyProfile && myProducts.length ? (
-                        <Products products={myProducts} />
+                     {products.length ? (
+                        <Products products={products} />
                      ) : isMyProfile ? (
                         <div className={cl.right__about_desc}>
                            Вы пока не разместили ни одно рекламное объявление.{' '}
                            <Link to={'/add'}>Сделайте это прямо сейчас</Link>
                         </div>
-                     ) : products.length ? (
-                        <Products products={products} />
                      ) : (
                         <div className={cl.right__about_desc}>
                            У пользователя пока нет активных объявлений.

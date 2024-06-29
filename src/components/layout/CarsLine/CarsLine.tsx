@@ -21,7 +21,7 @@ export const CarsLine: React.FC<Props> = () => {
          size: 50,
       })
          .then((res) => {
-            setProducts(res.data);
+            setProducts(res?.data);
          })
          .then(() => {
             products.map((product) => {

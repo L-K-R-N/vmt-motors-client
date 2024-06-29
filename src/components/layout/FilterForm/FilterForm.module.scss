@@ -3,8 +3,36 @@
 @import '@/styles/fonts';
 
 .types {
-   @include flex();
-   font-family: $font-tildaSans;
+   @include flex($justify: center);
+   font-family: $font-roboto;
+   margin-top: 10px;
+   flex-wrap: wrap;
+   & > li {
+      border-right: 2px solid black;
+      padding: 5px 10px;
+      font-size: 22px;
+      cursor: pointer;
+
+      &:last-child {
+         border-right: none;
+      }
+      &.active {
+         color: #5cc400 !important;
+      }
+   }
+}
+
+.container {
+   width: 100%;
+   height: 100%;
+}
+
+.wrapper {
+   padding: 0 20px;
+}
+
+.toggleFilters {
+   display: none;
 }
 
 .form {
@@ -19,7 +47,7 @@
    box-shadow: -3px 4px 4px 3px rgba(0, 0, 0, 0.13);
    background: var(--negative);
    border: 2px solid var(--text-primary);
-   margin: 20px;
+   margin-top: 20px;
    margin-bottom: 0;
 
    .variants {
@@ -115,7 +143,7 @@
    display: grid;
    gap: 20px;
 
-   & > div,
+   & > div > div,
    button {
       box-shadow: -4px 4px 4px 0 rgba(0, 0, 0, 0.241);
       border-radius: 5px;
@@ -273,6 +301,35 @@
 }
 
 @media screen and (max-width: 800px) {
+   .types {
+      li {
+         font-size: 16px;
+      }
+   }
+
+   .toggleFilters {
+      @include flex($justify: center);
+      background: transparent;
+      border: none;
+      border: 3px solid var(--text-primary);
+      color: var(--text-primary);
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-family: $font-roboto;
+      font-size: 14px;
+      & > svg {
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   .container {
+      display: none;
+
+      &.show {
+         display: block;
+      }
+   }
    .form {
       @include flex($direction: column, $justify: start, $align: stretch);
       gap: 30px;
@@ -478,6 +535,16 @@
    }
 }
 
+@media screen and (max-width: 700px) {
+   .form {
+      margin: 10px;
+   }
+
+   .wrapper {
+      padding: 0 5px;
+   }
+}
+
 @media screen and (max-width: 450px) {
    .form {
       @include flex($direction: column, $justify: start, $align: stretch);
@@ -541,6 +608,14 @@
 
       .title {
          font-size: 12px;
+      }
+   }
+}
+
+@media screen and (max-width: 500px) {
+   .types {
+      li {
+         // font-size: 14px;
       }
    }
 }

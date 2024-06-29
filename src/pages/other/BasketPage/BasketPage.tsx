@@ -21,9 +21,9 @@ const BasketPage: React.FC<Props> = () => {
          limit: 50,
       }).then((res) => {
          dispatch(
-            setBasketProducts(res.data.map((resItem) => resItem.commodity)),
+            setBasketProducts(res?.data?.map((resItem) => resItem.commodity)),
          );
-         console.log(res.data.map((resItem) => resItem.commodity));
+         console.log(res?.data?.map((resItem) => resItem.commodity));
       });
    };
 

@@ -68,7 +68,7 @@ const MainPage: React.FC<Props> = () => {
                   <li>Email: vmt-motors@mail.ru</li>
                </ul>
                <div className={cl.mainPage__contacts_social}>
-                  <h5>USA NY NEW YORK</h5>
+                  <h5>South Korea, Busan</h5>
                   <ul className={cl.mainPage__contacts_socialList}>
                      <li>
                         <a

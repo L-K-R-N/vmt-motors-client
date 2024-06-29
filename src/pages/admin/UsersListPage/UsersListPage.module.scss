@@ -6,6 +6,8 @@
    padding: 30px;
    @include flex($align: stretch);
    width: 100%;
+   padding-top: calc(var(--header-height) + 30px);
+   height: 100vh;
 }
 
 .usersList {

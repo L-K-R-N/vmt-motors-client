@@ -22,9 +22,10 @@ export interface IFilterState {
    fuels: ISelectItem<TFuel>[];
    gears: ISelectItem<TGear>[];
    colors: ISelectItem<TColor>[];
-   types: ISelectItem<TProductType>[];
+   types: ISelectItem<string>[];
    owners: ISelectItem<TOwner>[];
    bodies: ISelectItem<TBody>[];
+   activeType: ISelectItem<string>;
    sortByOptions: ISelectItem<TSorting>[];
    colorings: ISelectItem<TColoring>[];
    activeVariant: string;
@@ -57,6 +58,10 @@ const initialState: IFilterState = {
       },
    ],
    activeVariant: 'all',
+   activeType: {
+      value: 'AUTOMOBILE',
+      label: 'AUTOMOBILE',
+   },
    fuels: [
       {
          value: 'BIODIESEL',
@@ -292,10 +297,18 @@ export const ProductsSlice = createSlice({
       setActiveVariant: (state, action: PayloadAction<string>) => {
          state.activeVariant = action.payload;
       },
+      setActiveType: (state, action: PayloadAction<ISelectItem<string>>) => {
+         state.activeType = action.payload;
+      },
    },
 });
 
 export default ProductsSlice.reducer;
 
-export const { setBrands, setGenerations, setModels, setActiveVariant } =
-   ProductsSlice.actions;
+export const {
+   setBrands,
+   setGenerations,
+   setModels,
+   setActiveVariant,
+   setActiveType,
+} = ProductsSlice.actions;

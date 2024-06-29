@@ -23,9 +23,9 @@ const CatalogPage: React.FC<Props> = () => {
       const response = ProductService.getFiltredProducts(
          {} as ISearchProductsRequest,
       ).then((res) => {
-         console.log(res.data.result);
-         dispatch(setProducts(res.data.result));
-         dispatch(setProductsCount(res.data.total));
+         console.log(res?.data?.result);
+         dispatch(setProducts(res?.data?.result));
+         dispatch(setProductsCount(res?.data?.total));
       });
    };
 

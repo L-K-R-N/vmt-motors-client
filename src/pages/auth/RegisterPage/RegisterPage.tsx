@@ -65,8 +65,8 @@ const RegisterPage = () => {
       // const { accessToken, refreshToken } = getTokens();
       // if (accessToken && refreshToken) {
       //    const decodedToken: NewJwtPayload = jwtDecode(accessToken);
-      //    localStorage.setItem('token', res.data.jwtToken);
-      //    localStorage.setItem('refresh', res.data.refreshToken);
+      //    localStorage.setItem('token', res?.data?.jwtToken);
+      //    localStorage.setItem('refresh', res?.data?.refreshToken);
       //    if (decodedToken.role.includes('VERIFIED')) {
       //       store.dispatch(setIsAuth(true));
       //       window.location.pathname = '/about';
