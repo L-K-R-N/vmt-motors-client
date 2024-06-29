@@ -9,8 +9,12 @@ import { Button } from '@/components/UI/Button/Button';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { ISelectItem, TBody } from '@/api/models/Products';
 import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
-import { useFetchFilters } from '@/hooks/useFetchFilters';
 import { Loader } from '@/components/UI/Loader/Loader';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { setModels, setBrands } from '@/store/reducers/FilterSlice';
+import { brandsData } from '../../../data/brands.json';
+import { Controller } from 'react-hook-form';
+import Select from 'react-select';
 
 interface Props {}
 
@@ -18,9 +22,34 @@ interface IBody extends ISelectItem<TBody> {
    img: string;
 }
 
+export interface IBrand {
+   id: string;
+   name: string;
+}
+export interface IModel {
+   id: string;
+   name: string;
+   class: string;
+   'year-from': number;
+   'year-to': number;
+   generations: IGeneration[];
+}
+
+export interface IGeneration {
+   id: string;
+   name: string;
+   'year-start': number;
+   'year-stop': number;
+}
+
 const AddAdvertPage: React.FC<Props> = () => {
    useHideSidebar();
    const { t } = useTranslation();
+   const [selectedBrand, setSelectedBrand] = useState<IBrand | null>(null);
+   const [selectedModel, setSelectedModel] = useState<IModel | null>(null);
+   const [selectedGeneration, setSelectedGeneration] = useState('');
+   const [isLoading, setIsLoading] = useState(false);
+   const dispatch = useAppDispatch();
    // const fetchProducts = async () => {
    //    const products = await CatalogService.getProducts();
 
@@ -91,10 +120,78 @@ const AddAdvertPage: React.FC<Props> = () => {
          label: 'Cabriolet',
       },
    ]);
+   const [logos, setLogos] = useState<string[]>([]);
 
    const [selectedBodyValue, setSelectedBodyValue] = useState<TBody>(
       bodies[0].value,
    );
+
+   useEffect(() => {
+      const newLogos = brandsData.map((b) => {
+         return import(`../../../data/logos/${b.id}.png`).then(
+            (res: { default: string }) => res.default,
+            //    {
+            //    // setLogos([...logos, 'aaa']);
+            //    // console.log(res.default);
+            // },
+         );
+      });
+
+      console.log(newLogos);
+   }, []);
+
+   useEffect(() => {
+      // console.log(logos);
+      // console.log(brandsData);
+   }, [logos]);
+
+   // const OptionWithImage = (props) => (
+   //    <components.Option {...props}>
+   //       <img
+   //          src={props.data.value === 'audi' ? audiImage : bmwImage} // Используйте соответствующее изображение для каждой марки
+   //          alt={props.data.label}
+   //          style={{ width: '20px', marginRight: '10px' }}
+   //       />
+   //       {props.data.label}
+   //    </components.Option>
+   // );
+
+   useEffect(() => {
+      // onFilterChange(selectedBrand, selectedModel);
+   }, [selectedBrand, selectedModel]);
+
+   const handleBrandChange = (brand: IBrand) => {
+      setSelectedBrand(brand);
+      setSelectedModel(null);
+      console.log(brand);
+
+      // Загрузка моделей для выбранной марки
+      import(`../../../data/models/${brand.id}.json`).then(
+         (data: { default: IModel[] }) => {
+            console.log(data.default);
+            dispatch(
+               setModels(
+                  data.default.map((model) => ({
+                     value: model.id,
+                     label: model.name,
+                  })),
+               ),
+            );
+         },
+      );
+   };
+
+   useEffect(() => {
+      const newBrands = brandsData.map((brand) => ({
+         value: brand.id,
+         label: brand.name,
+      }));
+      dispatch(setBrands(newBrands));
+   }, []);
+
+   const handleModelChange = (model: IModel) => {
+      setSelectedModel(model);
+   };
 
    // const toIOption = (items: string[]) => {
    //    const brandsOptions: IOption[] = [];
@@ -108,12 +205,7 @@ const AddAdvertPage: React.FC<Props> = () => {
    //    return brandsOptions;
    // };
 
-   const {
-      handleGenerationChange,
-      handleMakeChange,
-      handleModelChange,
-      isLoading,
-   } = useFetchFilters();
+   // const { handleBrandChange, isLoading } = useFetchFilters();
 
    useEffect(() => {
       // brandsOptions = toIOption(brands);
@@ -138,14 +230,81 @@ const AddAdvertPage: React.FC<Props> = () => {
                         name="name"
                         placeholder={t('name')}
                      />
-                     <SelectController
+                     {/* <SelectController
                         control={control}
                         errors={errors}
                         name="brand"
                         options={brands}
                         placeholder={t('brand')}
                         isMulti={false}
-                        handleChange={(brand) => handleMakeChange(brand)}
+                        handleChange={(brand) =>
+                           handleBrandChange({
+                              id: brand.value,
+                              name: brand.label,
+                           })
+                        }
+                     /> */}
+                     <Controller
+                        name="brand"
+                        control={control}
+                        render={({ field }) => (
+                           <Select
+                              // styles={SelectStyles}
+                              placeholder="Brand"
+                              isMulti={false}
+                              {...field}
+                              options={brands}
+                              value={{
+                                 value: selectedBrand?.id,
+                                 label: selectedBrand?.name,
+                              }}
+                              isDisabled={false}
+                              components={{
+                                 DropdownIndicator: null, // Убираем индикатор создания нового значения
+                                 IndicatorSeparator: null, // Убираем разделитель индикатора
+                              }}
+                              isClearable={true}
+                              onChange={(newValue) => {
+                                 if (newValue?.value && newValue?.label) {
+                                    handleBrandChange({
+                                       id: newValue.value,
+                                       name: newValue.label,
+                                    });
+                                 }
+                              }}
+                           />
+                        )}
+                     />
+                     <Controller
+                        name="model"
+                        control={control}
+                        render={({ field }) => (
+                           <Select
+                              // styles={SelectStyles}
+                              placeholder="Model"
+                              isMulti={false}
+                              {...field}
+                              options={models}
+                              value={{
+                                 value: selectedModel?.id,
+                                 label: selectedModel?.name,
+                              }}
+                              isDisabled={false}
+                              components={{
+                                 DropdownIndicator: null, // Убираем индикатор создания нового значения
+                                 IndicatorSeparator: null, // Убираем разделитель индикатора
+                              }}
+                              isClearable={true}
+                              onChange={(newValue) => {
+                                 // if (newValue?.value && newValue?.label) {
+                                 //    handleModelChange({
+                                 //       id: newValue.value,
+                                 //       name: newValue.label,
+                                 //    });
+                                 // }
+                              }}
+                           />
+                        )}
                      />
                      <SelectController
                         control={control}

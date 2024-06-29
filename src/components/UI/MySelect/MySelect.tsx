@@ -1,4 +1,4 @@
-import Select from 'react-select/creatable';
+import Select from 'react-select';
 import cl from './MySelect.module.scss';
 import { GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
 import {
@@ -10,7 +10,8 @@ import {
 } from 'react-hook-form';
 import { ReactNode, useId, useRef } from 'react';
 import { title } from 'process';
-
+import { ISelectItem } from '@/api/models/Products';
+import { components } from 'react-select';
 const SelectStyles: StylesConfig = {
    control: (styles) => ({
       ...styles,
@@ -168,6 +169,7 @@ const SelectStyles: StylesConfig = {
 interface Props<
    TFieldValues extends FieldValues,
    TName extends FieldPath<TFieldValues>,
+   TValue,
 > {
    placeholder: string;
    isMulti: boolean;
@@ -175,13 +177,16 @@ interface Props<
    field?: ControllerRenderProps<TFieldValues, TName>;
    errors?: FieldErrors<TFieldValues>;
    name?: Path<TFieldValues>;
-   handleChange?: (value: string) => void;
+   handleChange?: (value: ISelectItem<string>) => void;
    disabled?: boolean;
+   value?: ISelectItem<TValue>;
+   onChange?: (value: ISelectItem<TValue>) => void;
 }
 
 export function MySelect<
    TFieldValues extends FieldValues,
    TName extends FieldPath<TFieldValues>,
+   TValue,
 >({
    placeholder,
    isMulti,
@@ -191,7 +196,9 @@ export function MySelect<
    errors,
    handleChange,
    name,
-}: Props<TFieldValues, TName>) {
+   value,
+   onChange,
+}: Props<TFieldValues, TName, TValue>) {
    const id = useId();
 
    const labelEl = useRef<HTMLLabelElement | null>(null);
@@ -215,15 +222,26 @@ export function MySelect<
             isMulti={isMulti}
             {...field}
             options={options}
-            value={field?.value}
+            value={field ? field.value : value}
             isDisabled={disabled}
+            components={{
+               DropdownIndicator: null, // Убираем индикатор создания нового значения
+               IndicatorSeparator: null, // Убираем разделитель индикатора
+            }}
             isClearable={true}
             onChange={(newValue) => {
-               field?.onChange(newValue);
+               if (field) {
+                  field?.onChange(newValue);
 
-               if (handleChange && field?.value) {
-                  handleChange(field.value);
-                  console.log(field.value);
+                  if (handleChange && field?.value) {
+                     handleChange({
+                        value: field.value.value,
+                        label: field.value.label,
+                     });
+                     console.log(field.value);
+                  }
+               } else if (onChange) {
+                  onChange(newValue as ISelectItem<TValue>);
                }
             }}
          />

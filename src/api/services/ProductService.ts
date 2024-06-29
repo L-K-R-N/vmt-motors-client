@@ -158,6 +158,14 @@ export default class ProductService {
       });
    }
 
+   static async uploadPhotos(data: {
+      productId: string;
+   }): Promise<AxiosResponse> {
+      return $api.post(`product/commodity/moderation/accept`, {
+         commodityId: data?.productId,
+      });
+   }
+
    // DELETE
    static async deleteProductPhoto(data: {
       photoId: string;

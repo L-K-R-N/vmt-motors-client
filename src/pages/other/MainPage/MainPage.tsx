@@ -8,7 +8,7 @@ import mapJpg from './assets/map.jpg';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useNavigate } from 'react-router-dom';
-
+import { AiFillTikTok } from 'react-icons/ai';
 interface Props {}
 
 const MainPage: React.FC<Props> = () => {
@@ -78,6 +78,14 @@ const MainPage: React.FC<Props> = () => {
                            <img src={instIcon} alt="Our instagram" />
                         </a>
                      </li>
+                     {/* <li>
+                        <a
+                           href="https://www.tiktok.com/@vmt_motors"
+                           target="_blank"
+                        >
+                           <AiFillTikTok />
+                        </a>
+                     </li> */}
                      <li>
                         <img src={tgIcon} alt="" />
                      </li>

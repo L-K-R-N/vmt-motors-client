@@ -1,0 +1,1573 @@
+{
+   "brandsData": [
+      {
+         "id": "AC",
+         "name": "AC",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "ACURA", "name": "Acura", "popular": false, "country": "Япония" },
+      {
+         "id": "ADLER",
+         "name": "Adler",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "AION",
+         "name": "GAC Aion",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "AITO", "name": "Aito", "popular": false, "country": "Китай" },
+      {
+         "id": "AIWAYS",
+         "name": "Aiways",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "AIXAM",
+         "name": "Aixam",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "ALFA_ROMEO",
+         "name": "Alfa Romeo",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "ALPINA",
+         "name": "Alpina",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "ALPINE",
+         "name": "Alpine",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "AMBERAUTO",
+         "name": "Амберавто",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "AMBERTRUCK",
+         "name": "Ambertruck",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "AMC",
+         "name": "AMC",
+         "popular": false,
+         "country": "Северная Америка"
+      },
+      {
+         "id": "AM_GENERAL",
+         "name": "AM General",
+         "popular": false,
+         "country": "США"
+      },
+      { "id": "APAL", "name": "Apal", "popular": false, "country": "Россия" },
+      {
+         "id": "ARCFOX",
+         "name": "Arcfox",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "ARIEL",
+         "name": "Ariel",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "ARO", "name": "Aro", "popular": false, "country": "Румыния" },
+      {
+         "id": "ASIA",
+         "name": "Asia",
+         "popular": false,
+         "country": "Южная Корея"
+      },
+      {
+         "id": "ASTON_MARTIN",
+         "name": "Aston Martin",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "ATOM", "name": "Атом", "popular": false, "country": "Россия" },
+      { "id": "AUBURN", "name": "Auburn", "popular": false, "country": "США" },
+      { "id": "AUDI", "name": "Audi", "popular": true, "country": "Германия" },
+      { "id": "AURUS", "name": "Aurus", "popular": false, "country": "Россия" },
+      {
+         "id": "AUSTIN",
+         "name": "Austin",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "AUSTIN_HEALEY",
+         "name": "Austin Healey",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "AUTOBIANCHI",
+         "name": "Autobianchi",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "AUTO_UNION",
+         "name": "Auto Union",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "AVATR", "name": "Avatr", "popular": false, "country": "Китай" },
+      {
+         "id": "AVTOKAM",
+         "name": "Автокам",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "BAIC", "name": "BAIC", "popular": false, "country": "Китай" },
+      { "id": "BAJAJ", "name": "Bajaj", "popular": false, "country": "Индия" },
+      {
+         "id": "BALTIJAS_DZIPS",
+         "name": "Baltijas Dzips",
+         "popular": false,
+         "country": "Латвия"
+      },
+      {
+         "id": "BAOJUN",
+         "name": "Baojun",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "BATMOBILE",
+         "name": "Batmobile",
+         "popular": false,
+         "country": "США"
+      },
+      { "id": "BAW", "name": "BAW", "popular": false, "country": "Китай" },
+      {
+         "id": "BELGEE",
+         "name": "Belgee",
+         "popular": false,
+         "country": "Беларусь"
+      },
+      {
+         "id": "BENTLEY",
+         "name": "Bentley",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "BERTONE",
+         "name": "Bertone",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "BILENKIN",
+         "name": "Bilenkin",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "BIO_AUTO",
+         "name": "Bio Auto",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "BITTER",
+         "name": "Bitter",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "BLAVAL",
+         "name": "Blaval",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "BMW", "name": "BMW", "popular": true, "country": "Германия" },
+      {
+         "id": "BORGWARD",
+         "name": "Borgward",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "BRABUS",
+         "name": "Brabus",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "BRILLIANCE",
+         "name": "Brilliance",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "BRISTOL",
+         "name": "Bristol",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "BUFORI",
+         "name": "Bufori",
+         "popular": false,
+         "country": "Малайзия"
+      },
+      {
+         "id": "BUGATTI",
+         "name": "Bugatti",
+         "popular": false,
+         "country": "Франция"
+      },
+      { "id": "BUICK", "name": "Buick", "popular": false, "country": "США" },
+      { "id": "BYD", "name": "BYD", "popular": false, "country": "Китай" },
+      { "id": "BYVIN", "name": "Byvin", "popular": false, "country": "Китай" },
+      {
+         "id": "CADILLAC",
+         "name": "Cadillac",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "CALLAWAY",
+         "name": "Callaway",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "CARBODIES",
+         "name": "Carbodies",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "CATERHAM",
+         "name": "Caterham",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "CHANA", "name": "Chana", "popular": false, "country": "Китай" },
+      {
+         "id": "CHANGAN",
+         "name": "Changan",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "CHANGFENG",
+         "name": "Changfeng",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "CHANGHE",
+         "name": "Changhe",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "CHERY", "name": "CHERY", "popular": true, "country": "Китай" },
+      {
+         "id": "CHERYEXEED",
+         "name": "EXEED",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "CHEVROLET",
+         "name": "Chevrolet",
+         "popular": true,
+         "country": "США"
+      },
+      {
+         "id": "CHRYSLER",
+         "name": "Chrysler",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "CIIMO",
+         "name": "Ciimo (Dongfeng-Honda)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "CITROEN",
+         "name": "Citroen",
+         "popular": true,
+         "country": "Франция"
+      },
+      {
+         "id": "CIZETA",
+         "name": "Cizeta",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "CODA", "name": "Coda", "popular": false, "country": "США" },
+      {
+         "id": "COGGIOLA",
+         "name": "Coggiola",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "CORD", "name": "Cord", "popular": false, "country": "США" },
+      {
+         "id": "CUPRA",
+         "name": "Cupra",
+         "popular": false,
+         "country": "Испания"
+      },
+      {
+         "id": "DACIA",
+         "name": "Dacia",
+         "popular": false,
+         "country": "Румыния"
+      },
+      { "id": "DADI", "name": "Dadi", "popular": false, "country": "Китай" },
+      {
+         "id": "DAEWOO",
+         "name": "Daewoo",
+         "popular": true,
+         "country": "Южная Корея"
+      },
+      {
+         "id": "DAIHATSU",
+         "name": "Daihatsu",
+         "popular": false,
+         "country": "Япония"
+      },
+      {
+         "id": "DAIMLER",
+         "name": "Daimler",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "DALLARA",
+         "name": "Dallara",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "DATSUN",
+         "name": "Datsun",
+         "popular": false,
+         "country": "Япония"
+      },
+      { "id": "DAYUN", "name": "Dayun", "popular": false, "country": "Китай" },
+      {
+         "id": "DECO_RIDES",
+         "name": "Deco Rides",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "DELAGE",
+         "name": "Delage",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "DELOREAN",
+         "name": "DeLorean",
+         "popular": false,
+         "country": "США"
+      },
+      { "id": "DENZA", "name": "Denza", "popular": false, "country": "Китай" },
+      {
+         "id": "DERWAYS",
+         "name": "Derways",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "DESOTO", "name": "DeSoto", "popular": false, "country": "США" },
+      {
+         "id": "DE_TOMASO",
+         "name": "De Tomaso",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "DKW", "name": "DKW", "popular": false, "country": "Германия" },
+      { "id": "DODGE", "name": "Dodge", "popular": false, "country": "США" },
+      {
+         "id": "DONGFENG",
+         "name": "Dongfeng",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "DONINVEST",
+         "name": "Doninvest",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "DONKERVOORT",
+         "name": "Donkervoort",
+         "popular": false,
+         "country": "Нидерланды"
+      },
+      { "id": "DS", "name": "DS", "popular": false, "country": "Франция" },
+      {
+         "id": "DW_HOWER",
+         "name": "DW Hower",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "EAGLE", "name": "Eagle", "popular": false, "country": "США" },
+      {
+         "id": "EAGLE_CARS",
+         "name": "Eagle Cars",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "ENOVATE",
+         "name": "Enovate (Enoreve)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "EVERUS",
+         "name": "Everus",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "EVOLUTE",
+         "name": "Evolute",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "EXCALIBUR",
+         "name": "Excalibur",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "EXLANTIX",
+         "name": "Exlantix",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "E_CAR", "name": "E-Car", "popular": false, "country": "Китай" },
+      {
+         "id": "E_MOBIL",
+         "name": "Ё-мобиль",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "FACEL_VEGA",
+         "name": "Facel Vega",
+         "popular": false,
+         "country": "Франция"
+      },
+      { "id": "FAW", "name": "FAW", "popular": false, "country": "Китай" },
+      {
+         "id": "FERRARI",
+         "name": "Ferrari",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "FIAT", "name": "Fiat", "popular": false, "country": "Италия" },
+      { "id": "FISKER", "name": "Fisker", "popular": false, "country": "США" },
+      {
+         "id": "FLANKER",
+         "name": "Flanker",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "FORD", "name": "Ford", "popular": true, "country": "США" },
+      {
+         "id": "FORTHING",
+         "name": "Forthing",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "FOTON", "name": "Foton", "popular": false, "country": "Китай" },
+      { "id": "FSO", "name": "FSO", "popular": false, "country": "Польша" },
+      { "id": "FUQI", "name": "Fuqi", "popular": false, "country": "Китай" },
+      { "id": "GAC", "name": "GAC", "popular": false, "country": "Китай" },
+      { "id": "GAZ", "name": "ГАЗ", "popular": true, "country": "Россия" },
+      { "id": "GEELY", "name": "Geely", "popular": true, "country": "Китай" },
+      {
+         "id": "GENESIS",
+         "name": "Genesis",
+         "popular": false,
+         "country": "Южная Корея"
+      },
+      { "id": "GEO", "name": "Geo", "popular": false, "country": "США" },
+      { "id": "GMC", "name": "GMC", "popular": false, "country": "США" },
+      {
+         "id": "GOGGOMOBIL",
+         "name": "Goggomobil",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "GONOW", "name": "Gonow", "popular": false, "country": "Китай" },
+      {
+         "id": "GORDON",
+         "name": "Gordon",
+         "popular": false,
+         "country": "Чехия"
+      },
+      {
+         "id": "GP",
+         "name": "GP",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "GREAT_WALL",
+         "name": "Great Wall",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "HAFEI", "name": "Hafei", "popular": false, "country": "Китай" },
+      { "id": "HAIMA", "name": "Haima", "popular": false, "country": "Китай" },
+      {
+         "id": "HANOMAG",
+         "name": "Hanomag",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "HANTENG",
+         "name": "Hanteng",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "HAVAL", "name": "Haval", "popular": true, "country": "Китай" },
+      {
+         "id": "HAWTAI",
+         "name": "Hawtai",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "HEINKEL",
+         "name": "Heinkel",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "HENNESSEY",
+         "name": "Hennessey",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "HINDUSTAN",
+         "name": "Hindustan",
+         "popular": false,
+         "country": "Индия"
+      },
+      { "id": "HIPHI", "name": "HiPhi", "popular": false, "country": "Китай" },
+      {
+         "id": "HISPANO_SUIZA",
+         "name": "Hispano-Suiza",
+         "popular": false,
+         "country": "Испания"
+      },
+      {
+         "id": "HOLDEN",
+         "name": "Holden",
+         "popular": false,
+         "country": "Австралия"
+      },
+      { "id": "HONDA", "name": "Honda", "popular": true, "country": "Япония" },
+      {
+         "id": "HONGQI",
+         "name": "Hongqi",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "HORCH",
+         "name": "Horch",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "HOZON", "name": "Hozon", "popular": false, "country": "Китай" },
+      { "id": "HSV", "name": "HSV", "popular": false, "country": "Австралия" },
+      {
+         "id": "HUAIHAI_HOANN",
+         "name": "Huaihai (Hoann)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "HUANGHAI",
+         "name": "HuangHai",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "HUAZI", "name": "Huazi", "popular": false, "country": "Китай" },
+      { "id": "HUDSON", "name": "Hudson", "popular": false, "country": "США" },
+      { "id": "HUMMER", "name": "Hummer", "popular": false, "country": "США" },
+      { "id": "HYCAN", "name": "Hycan", "popular": false, "country": "Китай" },
+      {
+         "id": "HYUNDAI",
+         "name": "Hyundai",
+         "popular": true,
+         "country": "Южная Корея"
+      },
+      { "id": "ICAR", "name": "iCar", "popular": false, "country": "Китай" },
+      { "id": "IG", "name": "Иж", "popular": false, "country": "Россия" },
+      {
+         "id": "IM_MOTORS",
+         "name": "IM Motors (Zhiji)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "INEOS",
+         "name": "Ineos",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "INFINITI",
+         "name": "Infiniti",
+         "popular": false,
+         "country": "Япония"
+      },
+      {
+         "id": "INNOCENTI",
+         "name": "Innocenti",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "INTERNATIONAL",
+         "name": "International",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "INVICTA",
+         "name": "Invicta",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "IRAN_KHODRO",
+         "name": "Iran Khodro",
+         "popular": false,
+         "country": "Иран"
+      },
+      {
+         "id": "ISDERA",
+         "name": "Isdera",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "ISUZU", "name": "Isuzu", "popular": false, "country": "Япония" },
+      { "id": "IVECO", "name": "Iveco", "popular": false, "country": "Италия" },
+      { "id": "JAC", "name": "JAC", "popular": false, "country": "Китай" },
+      {
+         "id": "JAECOO",
+         "name": "Jaecoo",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "JAGUAR",
+         "name": "Jaguar",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "JEEP", "name": "Jeep", "popular": false, "country": "США" },
+      {
+         "id": "JENSEN",
+         "name": "Jensen",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "JETOUR",
+         "name": "Jetour",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "JETTA", "name": "Jetta", "popular": false, "country": "Китай" },
+      {
+         "id": "JINBEI",
+         "name": "Jinbei",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "JMC", "name": "JMC", "popular": false, "country": "Китай" },
+      { "id": "JMEV", "name": "JMEV", "popular": false, "country": "Китай" },
+      {
+         "id": "JONWAY",
+         "name": "Jonway",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "KAIYI", "name": "KAIYI", "popular": false, "country": "Китай" },
+      {
+         "id": "KANONIR",
+         "name": "Канонир",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "KARMA", "name": "Karma", "popular": false, "country": "США" },
+      { "id": "KAWEI", "name": "Kawei", "popular": false, "country": "Китай" },
+      {
+         "id": "KG_MOBILITY",
+         "name": "KG Mobility",
+         "popular": false,
+         "country": "Южная Корея"
+      },
+      { "id": "KIA", "name": "Kia", "popular": true, "country": "Южная Корея" },
+      {
+         "id": "KOENIGSEGG",
+         "name": "Koenigsegg",
+         "popular": false,
+         "country": "Швеция"
+      },
+      {
+         "id": "KOMBAT",
+         "name": "Комбат",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "KTM", "name": "KTM AG", "popular": false, "country": "Австрия" },
+      { "id": "KYC", "name": "KYC", "popular": false, "country": "Китай" },
+      {
+         "id": "LAMBORGHINI",
+         "name": "Lamborghini",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "LANCIA",
+         "name": "Lancia",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "LANDWIND",
+         "name": "Landwind",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "LAND_ROVER",
+         "name": "Land Rover",
+         "popular": true,
+         "country": "Великобритания"
+      },
+      {
+         "id": "LEAPMOTOR",
+         "name": "Leapmotor",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "LEXUS", "name": "Lexus", "popular": true, "country": "Япония" },
+      {
+         "id": "LIEBAO",
+         "name": "Liebao Motor",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "LIFAN", "name": "Lifan", "popular": false, "country": "Китай" },
+      {
+         "id": "LIGIER",
+         "name": "Ligier",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "LINCOLN",
+         "name": "Lincoln",
+         "popular": false,
+         "country": "США"
+      },
+      { "id": "LIVAN", "name": "Livan", "popular": false, "country": "Китай" },
+      {
+         "id": "LIXIANG",
+         "name": "LiXiang",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "LOGEM", "name": "Logem", "popular": false, "country": "Китай" },
+      {
+         "id": "LOTUS",
+         "name": "Lotus",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "LTI",
+         "name": "LTI",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "LUAZ", "name": "ЛуАЗ", "popular": false, "country": "Украина" },
+      { "id": "LUCID", "name": "Lucid", "popular": false, "country": "США" },
+      {
+         "id": "LUXEED",
+         "name": "Luxeed",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "LUXGEN",
+         "name": "Luxgen",
+         "popular": false,
+         "country": "Тайвань"
+      },
+      {
+         "id": "LYNK_CO",
+         "name": "Lynk & Co",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "MAHINDRA",
+         "name": "Mahindra",
+         "popular": false,
+         "country": "Индия"
+      },
+      { "id": "MAPLE", "name": "Maple", "popular": false, "country": "Китай" },
+      {
+         "id": "MARCOS",
+         "name": "Marcos",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MARLIN",
+         "name": "Marlin",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MARUSSIA",
+         "name": "Marussia",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "MARUTI",
+         "name": "Maruti",
+         "popular": false,
+         "country": "Индия"
+      },
+      {
+         "id": "MASERATI",
+         "name": "Maserati",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "MATRA",
+         "name": "Matra",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "MAXEED",
+         "name": "Maxeed",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "MAXUS", "name": "Maxus", "popular": false, "country": "Китай" },
+      {
+         "id": "MAYBACH",
+         "name": "Maybach",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "MAZDA", "name": "Mazda", "popular": true, "country": "Япония" },
+      {
+         "id": "MCLAREN",
+         "name": "McLaren",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "MEGA", "name": "Mega", "popular": false, "country": "Франция" },
+      {
+         "id": "MERCEDES",
+         "name": "Mercedes-Benz",
+         "popular": true,
+         "country": "Германия"
+      },
+      {
+         "id": "MERCURY",
+         "name": "Mercury",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "MESSERSCHMITT",
+         "name": "Messerschmitt",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "METROCAB",
+         "name": "Metrocab",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MG",
+         "name": "MG",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MICROCAR",
+         "name": "Microcar",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "MINELLI",
+         "name": "Minelli",
+         "popular": false,
+         "country": "Швейцария"
+      },
+      {
+         "id": "MINI",
+         "name": "Mini",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MITSUBISHI",
+         "name": "Mitsubishi",
+         "popular": true,
+         "country": "Япония"
+      },
+      {
+         "id": "MITSUOKA",
+         "name": "Mitsuoka",
+         "popular": false,
+         "country": "Япония"
+      },
+      {
+         "id": "MOBILIZE",
+         "name": "Mobilize",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "MORGAN",
+         "name": "Morgan",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MORRIS",
+         "name": "Morris",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "MOSCVICH",
+         "name": "Москвич",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "M_HERO",
+         "name": "M-Hero",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "NASH", "name": "Nash", "popular": false, "country": "США" },
+      { "id": "NIO", "name": "Nio", "popular": false, "country": "Китай" },
+      {
+         "id": "NISSAN",
+         "name": "Nissan",
+         "popular": true,
+         "country": "Япония"
+      },
+      {
+         "id": "NOBLE",
+         "name": "Noble",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "OLDSMOBILE",
+         "name": "Oldsmobile",
+         "popular": false,
+         "country": "США"
+      },
+      { "id": "OMODA", "name": "OMODA", "popular": false, "country": "Китай" },
+      { "id": "OPEL", "name": "Opel", "popular": true, "country": "Германия" },
+      { "id": "ORA", "name": "Ora", "popular": false, "country": "Китай" },
+      { "id": "OSCA", "name": "Osca", "popular": false, "country": "Италия" },
+      { "id": "OSHAN", "name": "Oshan", "popular": false, "country": "Китай" },
+      { "id": "OTING", "name": "Oting", "popular": false, "country": "Китай" },
+      {
+         "id": "OVERLAND",
+         "name": "Overland",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "PACKARD",
+         "name": "Packard",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "PAGANI",
+         "name": "Pagani",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "PANOZ", "name": "Panoz", "popular": false, "country": "США" },
+      {
+         "id": "PERODUA",
+         "name": "Perodua",
+         "popular": false,
+         "country": "Малайзия"
+      },
+      {
+         "id": "PEUGEOT",
+         "name": "Peugeot",
+         "popular": true,
+         "country": "Франция"
+      },
+      { "id": "PGO", "name": "PGO", "popular": false, "country": "Франция" },
+      {
+         "id": "PIAGGIO",
+         "name": "Piaggio",
+         "popular": false,
+         "country": "Италия"
+      },
+      {
+         "id": "PIERCE_ARROW",
+         "name": "Pierce-Arrow",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "PLYMOUTH",
+         "name": "Plymouth",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "POLAR_STONE_JISHI",
+         "name": "Polar Stone (Jishi)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "POLESTAR",
+         "name": "Polestar",
+         "popular": false,
+         "country": "Швеция"
+      },
+      {
+         "id": "PONTIAC",
+         "name": "Pontiac",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "PORSCHE",
+         "name": "Porsche",
+         "popular": true,
+         "country": "Германия"
+      },
+      {
+         "id": "PREMIER",
+         "name": "Premier",
+         "popular": false,
+         "country": "Индия"
+      },
+      {
+         "id": "PROMO_AUTO",
+         "name": "Спортивные авто и реплики",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "PROTON",
+         "name": "Proton",
+         "popular": false,
+         "country": "Малайзия"
+      },
+      { "id": "PUCH", "name": "Puch", "popular": false, "country": "Германия" },
+      { "id": "PUMA", "name": "Puma", "popular": false, "country": "Бразилия" },
+      {
+         "id": "QIANTU",
+         "name": "Qiantu",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "QINGLING",
+         "name": "Qingling",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "QIYUAN",
+         "name": "Qiyuan",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "QOROS", "name": "Qoros", "popular": false, "country": "Китай" },
+      { "id": "QVALE", "name": "Qvale", "popular": false, "country": "Италия" },
+      { "id": "RADAR", "name": "Radar", "popular": false, "country": "Китай" },
+      { "id": "RAM", "name": "Ram", "popular": false, "country": "США" },
+      {
+         "id": "RAVON",
+         "name": "Ravon",
+         "popular": false,
+         "country": "Узбекистан"
+      },
+      {
+         "id": "RELIANT",
+         "name": "Reliant",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "RENAISSANCE_CARS",
+         "name": "Renaissance",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "RENAULT",
+         "name": "Renault",
+         "popular": true,
+         "country": "Франция"
+      },
+      {
+         "id": "REZVANI",
+         "name": "Rezvani",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "RIMAC",
+         "name": "Rimac",
+         "popular": false,
+         "country": "Хорватия"
+      },
+      {
+         "id": "RINSPEED",
+         "name": "Rinspeed",
+         "popular": false,
+         "country": "Швейцария"
+      },
+      {
+         "id": "RISING_AUTO",
+         "name": "Rising Auto",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "RIVIAN", "name": "Rivian", "popular": false, "country": "США" },
+      { "id": "ROEWE", "name": "Roewe", "popular": false, "country": "Китай" },
+      {
+         "id": "ROLLS_ROYCE",
+         "name": "Rolls-Royce",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "RONART",
+         "name": "Ronart",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "ROSSA", "name": "Rossa", "popular": false, "country": "Россия" },
+      {
+         "id": "ROVER",
+         "name": "Rover",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "RUSSO_BALTIQUE",
+         "name": "Руссо-Балт",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "SAAB", "name": "Saab", "popular": false, "country": "Швеция" },
+      { "id": "SAIPA", "name": "Saipa", "popular": false, "country": "Иран" },
+      { "id": "SALEEN", "name": "Saleen", "popular": false, "country": "США" },
+      {
+         "id": "SAMSUNG",
+         "name": "Renault Samsung",
+         "popular": false,
+         "country": "Южная Корея"
+      },
+      {
+         "id": "SANTANA",
+         "name": "Santana",
+         "popular": false,
+         "country": "Испания"
+      },
+      { "id": "SATURN", "name": "Saturn", "popular": false, "country": "США" },
+      { "id": "SCION", "name": "Scion", "popular": false, "country": "США" },
+      { "id": "SEARS", "name": "Sears", "popular": false, "country": "США" },
+      { "id": "SEAT", "name": "SEAT", "popular": false, "country": "Испания" },
+      { "id": "SERES", "name": "Seres", "popular": false, "country": "Китай" },
+      {
+         "id": "SERES_AITO",
+         "name": "Seres Aito",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SHANGHAI_MAPLE",
+         "name": "Shanghai Maple",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SHUANGHUAN",
+         "name": "ShuangHuan",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SIMCA",
+         "name": "Simca",
+         "popular": false,
+         "country": "Франция"
+      },
+      { "id": "SKODA", "name": "Skoda", "popular": true, "country": "Чехия" },
+      {
+         "id": "SKYWELL",
+         "name": "Skywell",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SKYWORTH",
+         "name": "Skyworth",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SMART",
+         "name": "Smart",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "SMZ", "name": "СМЗ", "popular": false, "country": "Россия" },
+      {
+         "id": "SOLARIS",
+         "name": "Solaris",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "SOLLERS",
+         "name": "Sollers",
+         "popular": false,
+         "country": "Россия"
+      },
+      {
+         "id": "SOUEAST",
+         "name": "Soueast",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "SPECTRE",
+         "name": "Spectre",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "SPYKER",
+         "name": "Spyker",
+         "popular": false,
+         "country": "Дания"
+      },
+      {
+         "id": "SSANG_YONG",
+         "name": "SsangYong",
+         "popular": false,
+         "country": "Южная Корея"
+      },
+      {
+         "id": "STEYR",
+         "name": "Steyr",
+         "popular": false,
+         "country": "Австрия"
+      },
+      {
+         "id": "STUDEBAKER",
+         "name": "Studebaker",
+         "popular": false,
+         "country": "США"
+      },
+      {
+         "id": "SUBARU",
+         "name": "Subaru",
+         "popular": true,
+         "country": "Япония"
+      },
+      {
+         "id": "SUZUKI",
+         "name": "Suzuki",
+         "popular": true,
+         "country": "Япония"
+      },
+      { "id": "SWM", "name": "SWM", "popular": false, "country": "Китай" },
+      { "id": "TAGAZ", "name": "ТагАЗ", "popular": false, "country": "Россия" },
+      {
+         "id": "TALBOT",
+         "name": "Talbot",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "TANK", "name": "Tank", "popular": false, "country": "Китай" },
+      { "id": "TATA", "name": "Tata", "popular": false, "country": "Индия" },
+      { "id": "TATRA", "name": "Tatra", "popular": false, "country": "Чехия" },
+      {
+         "id": "TAZZARI",
+         "name": "Tazzari",
+         "popular": false,
+         "country": "Италия"
+      },
+      { "id": "TESLA", "name": "Tesla", "popular": false, "country": "США" },
+      {
+         "id": "THAIRUNG",
+         "name": "Thairung",
+         "popular": false,
+         "country": "Таиланд"
+      },
+      {
+         "id": "THINK",
+         "name": "Think",
+         "popular": false,
+         "country": "Норвегия"
+      },
+      {
+         "id": "TIANMA",
+         "name": "Tianma",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "TIANYE",
+         "name": "Tianye",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "TOFAS", "name": "Tofas", "popular": false, "country": "Турция" },
+      {
+         "id": "TOYOTA",
+         "name": "Toyota",
+         "popular": true,
+         "country": "Япония"
+      },
+      {
+         "id": "TRABANT",
+         "name": "Trabant",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "TRAMONTANA",
+         "name": "Tramontana",
+         "popular": false,
+         "country": "Испания"
+      },
+      {
+         "id": "TRIUMPH",
+         "name": "Triumph",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "TRUMPCHI",
+         "name": "GAC Trumpchi",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "TVR",
+         "name": "TVR",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "UAZ", "name": "УАЗ", "popular": false, "country": "Россия" },
+      {
+         "id": "ULTIMA",
+         "name": "Ultima",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "VAUXHALL",
+         "name": "Vauxhall",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      {
+         "id": "VAZ",
+         "name": "Lada (ВАЗ)",
+         "popular": true,
+         "country": "Россия"
+      },
+      { "id": "VECTOR", "name": "Vector", "popular": false, "country": "США" },
+      {
+         "id": "VENTURI",
+         "name": "Venturi",
+         "popular": false,
+         "country": "Франция"
+      },
+      {
+         "id": "VENUCIA",
+         "name": "Venucia",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "VGV", "name": "VGV", "popular": false, "country": "Китай" },
+      {
+         "id": "VINFAST",
+         "name": "VinFast",
+         "popular": false,
+         "country": "Вьетнам"
+      },
+      { "id": "VOLGA", "name": "Volga", "popular": false, "country": "Россия" },
+      {
+         "id": "VOLKSWAGEN",
+         "name": "Volkswagen",
+         "popular": true,
+         "country": "Германия"
+      },
+      { "id": "VOLVO", "name": "Volvo", "popular": true, "country": "Швеция" },
+      {
+         "id": "VORTEX",
+         "name": "Vortex",
+         "popular": false,
+         "country": "Россия"
+      },
+      { "id": "VOYAH", "name": "Voyah", "popular": false, "country": "Китай" },
+      { "id": "VUHL", "name": "VUHL", "popular": false, "country": "Мексика" },
+      {
+         "id": "WANDERER",
+         "name": "Wanderer",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "WARTBURG",
+         "name": "Wartburg",
+         "popular": false,
+         "country": "Германия"
+      },
+      {
+         "id": "WELTMEISTER",
+         "name": "Weltmeister",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "WESTFIELD",
+         "name": "Westfield",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "WEY", "name": "Wey", "popular": false, "country": "Китай" },
+      {
+         "id": "WIESMANN",
+         "name": "Wiesmann",
+         "popular": false,
+         "country": "Германия"
+      },
+      { "id": "WILLIS", "name": "Willys", "popular": false, "country": "США" },
+      {
+         "id": "WULING",
+         "name": "Wuling",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "W_MOTORS",
+         "name": "W Motors",
+         "popular": false,
+         "country": "Объединённые Арабские Эмираты"
+      },
+      { "id": "XCITE", "name": "Xcite", "popular": false, "country": "Россия" },
+      { "id": "XEV", "name": "XEV", "popular": false, "country": "Италия" },
+      {
+         "id": "XIAOMI",
+         "name": "Xiaomi",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "XIAOPAOCHE",
+         "name": "XiaoPaoChe (SSC)",
+         "popular": false,
+         "country": "Китай"
+      },
+      {
+         "id": "XINKAI",
+         "name": "Xin Kai",
+         "popular": false,
+         "country": "Китай"
+      },
+      { "id": "XPENG", "name": "Xpeng", "popular": false, "country": "Китай" },
+      { "id": "YEMA", "name": "Yema", "popular": false, "country": "Китай" },
+      { "id": "YIPAI", "name": "Yipai", "popular": false, "country": "Китай" },
+      {
+         "id": "YULON",
+         "name": "Yulon",
+         "popular": false,
+         "country": "Тайвань"
+      },
+      {
+         "id": "ZASTAVA",
+         "name": "Zastava",
+         "popular": false,
+         "country": "Сербия"
+      },
+      { "id": "ZAZ", "name": "ЗАЗ", "popular": false, "country": "Украина" },
+      { "id": "ZEEKR", "name": "Zeekr", "popular": false, "country": "Китай" },
+      {
+         "id": "ZENOS",
+         "name": "Zenos",
+         "popular": false,
+         "country": "Великобритания"
+      },
+      { "id": "ZENVO", "name": "Zenvo", "popular": false, "country": "Дания" },
+      {
+         "id": "ZIBAR",
+         "name": "Zibar",
+         "popular": false,
+         "country": "Израиль"
+      },
+      { "id": "ZIL", "name": "ЗИЛ", "popular": false, "country": "Россия" },
+      { "id": "ZIS", "name": "ЗиС", "popular": false, "country": "Россия" },
+      { "id": "ZOTYE", "name": "Zotye", "popular": false, "country": "Китай" },
+      { "id": "ZX", "name": "ZX", "popular": false, "country": "Китай" }
+   ]
+}

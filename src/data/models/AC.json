@@ -1,0 +1,70 @@
+[
+   {
+      "id": "AC_378_GT",
+      "name": "378 GT Zagato",
+      "class": "S",
+      "year-from": 2012,
+      "year-to": 2012,
+      "generations": [
+         {
+            "id": "20356221",
+            "name": "I",
+            "year-start": 2012,
+            "year-stop": 2012
+         }
+      ]
+   },
+   {
+      "id": "AC_ACE",
+      "name": "Ace",
+      "class": "S",
+      "year-from": 1992,
+      "year-to": 2000,
+      "generations": [
+         { "id": "20344361", "name": "", "year-start": 1992, "year-stop": 2000 }
+      ]
+   },
+   {
+      "id": "AC_ACECA",
+      "name": "Aceca",
+      "class": "S",
+      "year-from": 1998,
+      "year-to": 2000,
+      "generations": [
+         { "id": "20344350", "name": "", "year-start": 1998, "year-stop": 2000 }
+      ]
+   },
+   {
+      "id": "AC_COBRA",
+      "name": "Cobra",
+      "class": "S",
+      "year-from": 1965,
+      "year-to": 2015,
+      "generations": [
+         {
+            "id": "20331876",
+            "name": "Mk VI",
+            "year-start": 2013,
+            "year-stop": 2015
+         },
+         {
+            "id": "20331861",
+            "name": "Mk V",
+            "year-start": 1999,
+            "year-stop": 2007
+         },
+         {
+            "id": "20331849",
+            "name": "Mk IV",
+            "year-start": 1990,
+            "year-stop": 2001
+         },
+         {
+            "id": "20651670",
+            "name": "Mk III",
+            "year-start": 1965,
+            "year-stop": 1967
+         }
+      ]
+   }
+]

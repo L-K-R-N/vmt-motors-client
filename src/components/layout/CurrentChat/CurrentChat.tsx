@@ -72,6 +72,27 @@ export const CurrentChat: React.FC<Props> = () => {
       ],
    );
    // const chatRef = useRef<HTMLDivElement>(null);
+   useEffect(() => {
+      const { accessToken } = getTokens();
+      setMessages([]);
+      webSocketService.disconnect();
+      if (accessToken && me) {
+         webSocketService.connect(accessToken).then(() => {
+            webSocketService.subscribe(
+               me.id,
+               handleMessageReceived,
+               handleErrorReceived,
+            );
+            handleGetMessages('old');
+         });
+      }
+
+      return () => {
+         webSocketService.disconnect();
+         setIsMessagesEnd(false);
+         setMessages([]);
+      };
+   }, [webSocketService]);
 
    const handleGetMessages = (
       messagesType: 'new' | 'old',
@@ -101,28 +122,6 @@ export const CurrentChat: React.FC<Props> = () => {
          console.log(replyMessageId);
       }
    }
-
-   useEffect(() => {
-      const { accessToken } = getTokens();
-      setMessages([]);
-      webSocketService.disconnect();
-      if (accessToken && me) {
-         webSocketService.connect(accessToken).then(() => {
-            webSocketService.subscribe(
-               me.id,
-               handleMessageReceived,
-               handleErrorReceived,
-            );
-            handleGetMessages('old');
-         });
-      }
-
-      return () => {
-         webSocketService.disconnect();
-         setIsMessagesEnd(false);
-         setMessages([]);
-      };
-   }, [webSocketService]);
 
    useEffect(() => {
       // if (!currentChat || !currentPerson) {
