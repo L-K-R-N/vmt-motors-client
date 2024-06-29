@@ -23,7 +23,7 @@ export const useSortProjects = (projects: IProject[], sortingBy: TSorting) => {
 export const useSearchProject = (projects: IProject[], request: string) => {
    const searchedProjects = useMemo(() => {
       return projects.filter((project) =>
-         project.title.toLowerCase().includes(request.toLowerCase()),
+         project.title.toLowerCase()?.includes(request.toLowerCase()),
       );
    }, [request, projects]);
 

@@ -20,7 +20,7 @@ interface Props {
 export const ContextMenu: React.FC<Props> = ({ isShow, list }) => {
    return (
       <ul className={[cl.menu, isShow ? cl.show : ''].join(' ')}>
-         {list.map((item) => (
+         {list?.map((item) => (
             <li onClick={() => item.handleClick()} key={item.title}>
                {item.icon}
                {item.title}

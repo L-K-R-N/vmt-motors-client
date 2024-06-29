@@ -177,7 +177,7 @@ export const useAddAdvert = () => {
       try {
          // console.log(data);
          const productPostRes = ProductService.postProduct({
-            body: 'cabriolet',
+            body: data?.body?.value,
             brand: data?.brand?.value,
             color: data?.color?.value,
             coloring: data?.coloring?.value,
@@ -191,7 +191,7 @@ export const useAddAdvert = () => {
             isNew: false,
             millage: Number(data?.millage),
             model: data?.model.value,
-            name: data?.name,
+            // name: data?.name,
             owner: data?.owner?.value,
             price: Number(data?.price),
             trade: data?.trade,

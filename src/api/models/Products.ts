@@ -28,7 +28,7 @@ export interface IProduct {
 
 export type IPostProductRequest = Omit<
    IProduct,
-   'id' | 'personId' | 'photoId' | 'createAt' | 'id' | 'moderated'
+   'id' | 'personId' | 'photoId' | 'createAt' | 'id' | 'moderated' | 'name'
 >;
 
 export interface ISearchProductsRequest {

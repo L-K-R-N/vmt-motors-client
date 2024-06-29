@@ -24,7 +24,7 @@ export const CarsLine: React.FC<Props> = () => {
             setProducts(res?.data);
          })
          .then(() => {
-            products.map((product) => {
+            products?.map((product) => {
                setImgs((prev) => [...prev, '']);
             });
          })
@@ -72,7 +72,7 @@ export const CarsLine: React.FC<Props> = () => {
             ...products,
             ...products,
             ...products,
-         ].map((product, index) => (
+         ]?.map((product, index) => (
             <li
                className={cl.sliderItem}
                onClick={() => handleRedirectToProduct(product.id)}

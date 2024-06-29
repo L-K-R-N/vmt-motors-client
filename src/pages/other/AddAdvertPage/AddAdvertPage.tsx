@@ -127,7 +127,7 @@ const AddAdvertPage: React.FC<Props> = () => {
    );
 
    useEffect(() => {
-      const newLogos = brandsData.map((b) => {
+      const newLogos = brandsData?.map((b) => {
          return import(`../../../data/logos/${b.id}.png`).then(
             (res: { default: string }) => res.default,
             //    {
@@ -171,7 +171,7 @@ const AddAdvertPage: React.FC<Props> = () => {
             console.log(data.default);
             dispatch(
                setModels(
-                  data.default.map((model) => ({
+                  data.default?.map((model) => ({
                      value: model.id,
                      label: model.name,
                   })),
@@ -182,7 +182,7 @@ const AddAdvertPage: React.FC<Props> = () => {
    };
 
    useEffect(() => {
-      const newBrands = brandsData.map((brand) => ({
+      const newBrands = brandsData?.map((brand) => ({
          value: brand.id,
          label: brand.name,
       }));
@@ -222,14 +222,14 @@ const AddAdvertPage: React.FC<Props> = () => {
                   <h4 className={cl.title}>{t('choose_brand')}</h4>
 
                   <div className={cl.block}>
-                     <TextFieldController
+                     {/* <TextFieldController
                         control={control}
                         errors={errors}
                         fieldType="input"
                         label="Name"
                         name="name"
                         placeholder={t('name')}
-                     />
+                     /> */}
                      {/* <SelectController
                         control={control}
                         errors={errors}
@@ -275,7 +275,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                            />
                         )}
                      />
-                     <Controller
+                     {/* <Controller
                         name="model"
                         control={control}
                         render={({ field }) => (
@@ -305,7 +305,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                               }}
                            />
                         )}
-                     />
+                     /> */}
                      <SelectController
                         control={control}
                         errors={errors}
@@ -400,7 +400,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                         <select value={selectedBodyValue} onChange={(e) => setSelectedBodyValue(e.target.value)}>
 
                            {  
-                              bodies.map((body) => 
+                              bodies?.map((body) => 
                                  <option value={body.value}>
                                     {body.label}
                                  </option>
@@ -410,7 +410,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                            
                      )}/> */}
                      {/* <ul className={cl.bodies}>
-                     {bodies.map((b) => (
+                     {bodies?.map((b) => (
                         <li
                            className={[
                               cl.body,

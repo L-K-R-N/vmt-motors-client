@@ -27,7 +27,7 @@ export const handleRefresh = (refresh: string) => {
       .promise(refreshResponse, {
          error: {
             render({ data }) {
-               return `${data}`.includes('401')
+               return `${data}`?.includes('401')
                   ? 'Время сессии истекло, нужно авторизоваться повторно'
                   : 'Необработанная ошибка';
                // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
@@ -67,9 +67,9 @@ export const handleLogin = (data: ILoginFormShema) => {
          success: 'Вы успешно вошли в аккаунт! Осталось совсем чуть-чуть...',
          error: {
             render({ data }) {
-               return `${data}`.includes('429')
+               return `${data}`?.includes('429')
                   ? 'Слишком много попыток, попробуйте позже'
-                  : `${data}`.includes('401')
+                  : `${data}`?.includes('401')
                     ? 'Вы ввели неверный логин или пароль'
                     : 'Необработанная ошибка';
                // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
@@ -81,7 +81,7 @@ export const handleLogin = (data: ILoginFormShema) => {
          // console.log(decodedToken, decodedToken.exp);
          localStorage.setItem('token', res?.data?.jwtToken);
          localStorage.setItem('refresh', res?.data?.refreshToken);
-         if (decodedToken.role.includes('VERIFIED')) {
+         if (decodedToken.role?.includes('VERIFIED')) {
             store.dispatch(setIsAuth(true));
 
             window.location.pathname = '/about';
@@ -110,9 +110,9 @@ export const handleRegister = async (data: IRegisterFormShema) => {
             success: 'Регистрация прошла успешно, создаем Ваш аккаунт...',
             error: {
                render({ data }) {
-                  return `${data}`.includes('429')
+                  return `${data}`?.includes('429')
                      ? 'Слишком много попыток, попробуйте позже'
-                     : `${data}`.includes('409')
+                     : `${data}`?.includes('409')
                        ? 'Username уже занят'
                        : 'Необработанная ошибка';
                   // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
@@ -148,11 +148,11 @@ export const handleCheckCode = (code: string) => {
          success: 'Аккаунт успешно подтвержден!',
          error: {
             render({ data }) {
-               return `${data}`.includes('429')
+               return `${data}`?.includes('429')
                   ? 'Слишком много попыток, попробуйте позже'
-                  : `${data}`.includes('412')
+                  : `${data}`?.includes('412')
                     ? 'Код устарел, попробуйте снова'
-                    : `${data}`.includes('422')
+                    : `${data}`?.includes('422')
                       ? 'Вы ввели неверный код'
                       : 'Необработанная ошибка';
             },
@@ -186,9 +186,9 @@ export const handleCodeSend = (data: {
          success: 'Мы отправили код подтверждения вам на почту!',
          error: {
             render({ data }) {
-               return `${data}`.includes('429')
+               return `${data}`?.includes('429')
                   ? 'Слишком много попыток, попробуйте позже'
-                  : `${data}`.includes('409')
+                  : `${data}`?.includes('409')
                     ? 'Email уже занят'
                     : 'Необработанная ошибка';
             },

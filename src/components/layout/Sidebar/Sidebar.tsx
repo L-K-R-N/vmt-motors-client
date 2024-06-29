@@ -49,7 +49,7 @@ export const Sidebar: React.FC<Props> = () => {
                <nav className={cl.nav}>
                   <h3 className={cl.sidebar__title}>VMT MOTORS</h3>
                   <ul className={cl.links}>
-                     {navList.map((link) => (
+                     {navList?.map((link) => (
                         <li key={link.id}>
                            <Link
                               to={link.to}

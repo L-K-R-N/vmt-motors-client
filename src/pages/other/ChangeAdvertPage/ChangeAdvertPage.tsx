@@ -295,7 +295,7 @@ const ChangeAdvertPage: React.FC<Props> = () => {
                         <select value={selectedBodyValue} onChange={(e) => setSelectedBodyValue(e.target.value)}>
 
                            {  
-                              bodies.map((body) => 
+                              bodies?.map((body) => 
                                  <option value={body.value}>
                                     {body.label}
                                  </option>
@@ -305,7 +305,7 @@ const ChangeAdvertPage: React.FC<Props> = () => {
                            
                      )}/> */}
                         {/* <ul className={cl.bodies}>
-                     {bodies.map((b) => (
+                     {bodies?.map((b) => (
                         <li
                            className={[
                               cl.body,

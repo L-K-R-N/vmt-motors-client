@@ -158,7 +158,7 @@ export const Header: React.FC<Props> = () => {
                         {isAuth &&
                            location.pathname !== '/chats' &&
                            location.pathname !== '/add' &&
-                           !location.pathname.includes('admin') && (
+                           !location.pathname?.includes('admin') && (
                               <button
                                  title="Submit an ad"
                                  type="button"
@@ -194,7 +194,7 @@ export const Header: React.FC<Props> = () => {
                               onPointerEnter={() => setIsLangsOpen(true)}
                               onPointerLeave={() => setIsLangsOpen(false)}
                            >
-                              {langs.map((lang) => (
+                              {langs?.map((lang) => (
                                  <li
                                     className={cl.lang_item}
                                     key={lang.value}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from './useAppDispatch';
 import { setBrands, setModels } from '@/store/reducers/FilterSlice';
-import { brands } from '../data/brands.json';
+// import { brands } from '../data/brands.json';
 export interface IBrand {
    id: string;
    name: string;
@@ -36,38 +36,38 @@ export const useFetchFilters = () => {
       // onFilterChange(selectedBrand, selectedModel);
    }, [selectedBrand, selectedModel]);
 
-   const handleBrandChange = (brand: IBrand) => {
-      setSelectedBrand(brand);
-      setSelectedModel(null);
-      console.log(brand);
+   // const handleBrandChange = (brand: IBrand) => {
+   //    setSelectedBrand(brand);
+   //    setSelectedModel(null);
+   //    console.log(brand);
 
-      // Загрузка моделей для выбранной марки
-      import(`../data/models/${brand.id}.json`).then(
-         (data: { default: IModel[] }) => {
-            console.log(data.default);
-            dispatch(
-               setModels(
-                  data.default.map((model) => ({
-                     value: model.id,
-                     label: model.name,
-                  })),
-               ),
-            );
-         },
-      );
-   };
+   //    // Загрузка моделей для выбранной марки
+   //    import(`../data/models/${brand.id}.json`).then(
+   //       (data: { default: IModel[] }) => {
+   //          console.log(data.default);
+   //          dispatch(
+   //             setModels(
+   //                data.default?.map((model) => ({
+   //                   value: model.id,
+   //                   label: model.name,
+   //                })),
+   //             ),
+   //          );
+   //       },
+   //    );
+   // };
 
-   useEffect(() => {
-      const newBrands = brands.map((brand) => ({
-         value: brand.id,
-         label: brand.name,
-      }));
-      dispatch(setBrands(newBrands));
-   }, []);
+   // useEffect(() => {
+   //    const newBrands = brands?.map((brand) => ({
+   //       value: brand.id,
+   //       label: brand.name,
+   //    }));
+   //    dispatch(setBrands(newBrands));
+   // }, []);
 
-   const handleModelChange = (model: IModel) => {
-      setSelectedModel(model);
-   };
+   // const handleModelChange = (model: IModel) => {
+   //    setSelectedModel(model);
+   // };
    // useEffect(() => {
    //    const fetchMakes = async () => {
    //       setIsLoading(true);
@@ -78,11 +78,11 @@ export const useFetchFilters = () => {
    //          // console.log(response)
 
    //          setLocalMakes(
-   //             response?.data?.Results.map((car) => car.Mfr_CommonName),
+   //             response?.data?.Results?.map((car) => car.Mfr_CommonName),
    //          );
    //          dispatch(
    //             setBrands(
-   //                response?.data?.Results.map((car) => ({
+   //                response?.data?.Results?.map((car) => ({
    //                   value: car.Mfr_CommonName,
    //                   label: car.Mfr_CommonName,
    //                })),
@@ -110,11 +110,11 @@ export const useFetchFilters = () => {
    //             `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${selectedMake}?format=json`,
    //          );
    //          setLocalModels(
-   //             makesresponse?.data?.Results.map((car) => car.Model_Name),
+   //             makesresponse?.data?.Results?.map((car) => car.Model_Name),
    //          );
    //          dispatch(
    //             setModels(
-   //                makesresponse?.data?.Results.map((car) => ({
+   //                makesresponse?.data?.Results?.map((car) => ({
    //                   value: car.Model_Name,
    //                   label: car.Model_Name,
    //                })),
@@ -161,10 +161,10 @@ export const useFetchFilters = () => {
    // };
 
    return {
-      handleModelChange,
+      // handleModelChange,
       localMakes,
       localModels,
-      handleBrandChange,
+      // handleBrandChange,
       localGenerations,
       isLoading,
    };

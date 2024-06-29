@@ -10,7 +10,7 @@ export const NavBar: React.FC<Props> = ({ links }) => {
    return (
       <nav className={cl.nav}>
          <ul className={cl.list}>
-            {links.map((link) => (
+            {links?.map((link) => (
                <NavLink
                   to={link.to}
                   className={({ isActive }) =>

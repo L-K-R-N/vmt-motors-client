@@ -91,7 +91,7 @@ export default class ProductService {
          // () => {
          //    let newParams = new Map();
 
-         //    Object.entries(data).map(([key, value]) => {
+         //    Object.entries(data)?.map(([key, value]) => {
          //       if (value && key) {
          //          newParams.set(key, value);
          //       }
@@ -116,7 +116,7 @@ export default class ProductService {
    static async postProduct(data: IPostProductRequest): Promise<AxiosResponse> {
       return $api.post('product/commodity', {
          type: data?.type,
-         name: data?.name,
+         // name: data?.name,
          description: data?.description,
          isNew: data?.isNew,
          brand: data?.brand,
@@ -159,10 +159,18 @@ export default class ProductService {
    }
 
    static async uploadPhotos(data: {
+      files: FormData;
       productId: string;
    }): Promise<AxiosResponse> {
       return $api.post(`product/commodity/moderation/accept`, {
          commodityId: data?.productId,
+      });
+   }
+   static async changePersonPhoto(file: FormData): Promise<AxiosResponse> {
+      return $api.post(`person/profile_photo`, file, {
+         headers: {
+            'Content-Type': 'multipart/form-data',
+         },
       });
    }
 

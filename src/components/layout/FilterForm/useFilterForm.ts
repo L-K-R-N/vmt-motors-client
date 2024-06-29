@@ -85,7 +85,7 @@ export const useFilterForm = () => {
             size: data?.size || null,
             // sortBy: data?.sortBy.value || null,
             reverse: data?.reverse || null,
-            name: data?.name || null,
+            // name: data?.name || null,
             sortBy: data?.sortBy?.value || null,
             type: data?.type?.value || null,
             isNew: isNew,

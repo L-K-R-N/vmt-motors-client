@@ -100,7 +100,7 @@ export const FilterForm: React.FC<Props> = () => {
                )}
             >
                <ul className={cl.types}>
-                  {types.map((type) => (
+                  {types?.map((type) => (
                      <li
                         key={type.label}
                         className={
@@ -115,7 +115,7 @@ export const FilterForm: React.FC<Props> = () => {
 
                <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
                   <ul className={cl.variants}>
-                     {variants.map((v) => (
+                     {variants?.map((v) => (
                         <li
                            className={activeVariant === v ? cl.active : ''}
                            key={v}

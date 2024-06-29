@@ -27,7 +27,7 @@ export const Menu: FC<Props> = ({ items }) => {
          </button>
          <nav className={[cl.menu, isOpen ? cl.active : ''].join(' ')}>
             <ul className={cl.list}>
-               {items.map((item, index) => (
+               {items?.map((item, index) => (
                   <li key={index} className={cl.listItem}>
                      <Link
                         className={cl.link}

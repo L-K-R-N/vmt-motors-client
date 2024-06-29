@@ -67,7 +67,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                success: 'Объявление одобрено!',
                error: {
                   render({ data }) {
-                     return `${data}`.includes('403')
+                     return `${data}`?.includes('403')
                         ? 'У Вас недостаточно прав'
                         : 'Необработанная ошибка';
                   },
@@ -98,7 +98,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                success: 'Объявление отклонено!',
                error: {
                   render({ data }) {
-                     return `${data}`.includes('403')
+                     return `${data}`?.includes('403')
                         ? 'У Вас недостаточно прав'
                         : 'Необработанная ошибка';
                   },
@@ -133,9 +133,9 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   success: `Товар добавлен в избранное!`,
                   error: {
                      render({ data }) {
-                        return `${data}`.includes('403')
+                        return `${data}`?.includes('403')
                            ? 'Авторизуйтесь, чтобы добавлять товары в корзину!'
-                           : `${data}`.includes('404')
+                           : `${data}`?.includes('404')
                              ? 'Товар еще не прошел модерацию'
                              : 'Необработанная ошибка';
                      },

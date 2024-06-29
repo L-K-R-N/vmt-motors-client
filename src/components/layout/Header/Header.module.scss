@@ -221,7 +221,7 @@
    gap: 20px;
 }
 
-.mapBtn {
+?.mapBtn {
    border-radius: 50%;
 
    border: none;
@@ -339,7 +339,6 @@
 
 @media (max-width: 1100px) {
    .header {
-      
       &__control {
          // width: 20%;
       }

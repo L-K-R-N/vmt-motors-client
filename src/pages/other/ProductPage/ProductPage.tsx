@@ -99,11 +99,11 @@ const ProductPage: React.FC<Props> = () => {
    const chooseImg = (direction: 'next' | 'prev') => {
       switch (direction) {
          case 'prev':
-            setActiveImgId((prev) => (prev < imgs.length ? ++prev : 1));
+            setActiveImgId((prev) => (prev < imgs?.length ? ++prev : 1));
             break;
 
          case 'next':
-            setActiveImgId((prev) => (prev > 1 ? --prev : imgs.length));
+            setActiveImgId((prev) => (prev > 1 ? --prev : imgs?.length));
             break;
       }
    };
@@ -158,7 +158,7 @@ const ProductPage: React.FC<Props> = () => {
                      ></button>
                   </div>
                   {/* <ul className={cl.gallery__list}>
-                     {imgs.map((img) => (
+                     {imgs?.map((img) => (
                         <li onClick={() => setActiveImgId(img.id)}>
                            <img key={img.id} src={img.src} alt="" />
                         </li>
@@ -193,7 +193,7 @@ const ProductPage: React.FC<Props> = () => {
                         </h5>
                         <ul className={cl.stats__list}>
                            {product &&
-                              Object.entries(product).map(
+                              Object.entries(product)?.map(
                                  ([key, value]) =>
                                     key !== 'id' &&
                                     key !== 'personId' &&

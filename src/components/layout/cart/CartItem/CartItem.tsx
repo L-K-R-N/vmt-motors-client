@@ -19,13 +19,13 @@ export const CartItem: FC<Props> = ({ product }) => {
    const dispatch = useAppDispatch();
    const { cartProducts } = useAppSelector((state) => state.CartReducer);
 
-   const [inCart, setInCart] = useState(cartProducts.includes(product));
+   const [inCart, setInCart] = useState(cartProducts?.includes(product));
 
    const { isShow, setIsShow, handleOpen } = useModal();
 
    // const [countItems, setCountItems] = useState(1);
    useEffect(() => {
-      setInCart(cartProducts.includes(product));
+      setInCart(cartProducts?.includes(product));
    }, [cartProducts]);
 
    const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {

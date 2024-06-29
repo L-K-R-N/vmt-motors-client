@@ -213,8 +213,8 @@ const App = () => {
 
    useEffect(() => {
       if (
-         (me && isAuth && me.roles.includes('MODERATOR')) ||
-         me?.roles.includes('ADMIN')
+         (me && isAuth && me.roles?.includes('MODERATOR')) ||
+         me?.roles?.includes('ADMIN')
       ) {
          dispatch(setIsAdmin(true));
       } else {
@@ -265,7 +265,7 @@ const App = () => {
          <ToastContainer limit={3} />
          <Routes>
             <Route element={<Layout />}>
-               {unAuthRoutes.map((route) => (
+               {unAuthRoutes?.map((route) => (
                   <Route
                      key={route.path}
                      path={route.path}
@@ -273,7 +273,7 @@ const App = () => {
                   />
                ))}
                <Route element={<PrivateRoute />}>
-                  {authRoutes.map((route) => (
+                  {authRoutes?.map((route) => (
                      <Route
                         key={route.path}
                         path={route.path}
@@ -282,7 +282,7 @@ const App = () => {
                   ))}
 
                   <Route element={<AdminRoute />}>
-                     {adminRoutes.map((route) => (
+                     {adminRoutes?.map((route) => (
                         <Route
                            key={route.path}
                            path={route.path}

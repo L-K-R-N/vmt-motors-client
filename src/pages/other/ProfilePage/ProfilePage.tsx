@@ -245,7 +245,7 @@ const ProfilePage: React.FC<Props> = () => {
                   <></>
                )}
                <ul className={cl.userInfo}>
-                  {userInfo.map((item) => (
+                  {userInfo?.map((item) => (
                      <li
                         key={item.title}
                         className={!item.visible ? cl.hidden : ''}
@@ -288,7 +288,7 @@ const ProfilePage: React.FC<Props> = () => {
                <div className={cl.right__ads}>
                   <h4 className={cl.blockTitle}>{t('your_ads')}</h4>
                   <div className={cl.right__ads_list}>
-                     {products.length ? (
+                     {products?.length ? (
                         <Products products={products} />
                      ) : isMyProfile ? (
                         <div className={cl.right__about_desc}>

@@ -48,7 +48,7 @@ const ChatsPage: React.FC<Props> = () => {
    // const fetchChats = useCallback((username: string) => {
    //    console.log(username);
    //    try {
-   //       if (username.length) {
+   //       if (username?.length) {
    //          const response = PersonService.getPersonByUsername(username)
    //             .then((res) => {
    //                setUsers([res?.data]);
@@ -59,7 +59,7 @@ const ChatsPage: React.FC<Props> = () => {
    //          // toast.promise(response, {
    //          //    error: {
    //          //       render({ data }) {
-   //          //          return `${data}`.includes('404')
+   //          //          return `${data}`?.includes('404')
    //          //             ? 'Пользователь с таким username не найден'
    //          //             : 'Опять ебаная ошибка(';
    //          //          // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
@@ -114,11 +114,11 @@ const ChatsPage: React.FC<Props> = () => {
 
    useEffect(() => {
       try {
-         if (chats.length) {
+         if (chats?.length) {
             setUsers([]);
             // chats.forEach((chat) =>
             PersonService.getAllPersons(
-               chats.map((chat) =>
+               chats?.map((chat) =>
                   chat.secondPersonId === me?.id
                      ? chat.firstPersonId
                      : chat.secondPersonId,
@@ -128,7 +128,7 @@ const ChatsPage: React.FC<Props> = () => {
             });
             // );
             console.log(
-               chats.map((chat) =>
+               chats?.map((chat) =>
                   chat.secondPersonId === me?.id
                      ? chat.firstPersonId
                      : chat.secondPersonId,
@@ -168,8 +168,8 @@ const ChatsPage: React.FC<Props> = () => {
                />
             </div>
             <ul className={cl.chatsList__main}>
-               {users.length &&
-                  users.map((user, index) => (
+               {users?.length &&
+                  users?.map((user, index) => (
                      <li
                         className={cl.chatsList__item}
                         onClick={() => handleChangeChat(users[index])}
@@ -237,7 +237,7 @@ export default ChatsPage;
 //    }, []);
 
 //    useEffect(() => {
-//       if (users.length) {
+//       if (users?.length) {
 //          setCurrentPerson(users[0]);
 //       }
 //    }, [users]);
@@ -252,7 +252,7 @@ export default ChatsPage;
 //                />
 //             </div>
 //             <ul className={cl.chatsList__main}>
-//                {chats.map((chat, index) => (
+//                {chats?.map((chat, index) => (
 //                   <li
 //                      className={cl.chatsList__item}
 //                      onClick={() => setCurrentPerson(users[index])}

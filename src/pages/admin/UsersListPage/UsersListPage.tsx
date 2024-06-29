@@ -34,7 +34,7 @@ const UsersListPage: React.FC<Props> = () => {
       },
       {
          handleClick: handleToggleRole,
-         title: currentPerson?.roles.includes('MODERATOR')
+         title: currentPerson?.roles?.includes('MODERATOR')
             ? 'Забрать модератора'
             : 'Подарить модератора',
       },
@@ -54,7 +54,7 @@ const UsersListPage: React.FC<Props> = () => {
          },
          {
             handleClick: handleToggleRole,
-            title: currentPerson?.roles.includes('MODERATOR')
+            title: currentPerson?.roles?.includes('MODERATOR')
                ? 'Забрать модератора'
                : 'Подарить модератора',
          },
@@ -86,7 +86,7 @@ const UsersListPage: React.FC<Props> = () => {
    const fetchUsers = useCallback((username: string) => {
       console.log(username);
       try {
-         if (username.length) {
+         if (username?.length) {
             const response = PersonService.getPersonByUsername(username)
                .then((res) => {
                   setUsers([res?.data]);
@@ -97,7 +97,7 @@ const UsersListPage: React.FC<Props> = () => {
             // toast.promise(response, {
             //    error: {
             //       render({ data }) {
-            //          return `${data}`.includes('404')
+            //          return `${data}`?.includes('404')
             //             ? 'Пользователь с таким username не найден'
             //             : 'Опять ебаная ошибка(';
             //          // .status === 409 ? 'Данный email уже занят' : 'Необработанная ошибка'
@@ -160,7 +160,7 @@ const UsersListPage: React.FC<Props> = () => {
             success: `${type === 'ban' ? 'Пользователь улетел в бан, нахуй' : 'Помилование прошло успешно'}`,
             error: {
                render({ data }) {
-                  return `${data}`.includes('403')
+                  return `${data}`?.includes('403')
                      ? 'У тебя недостаточно прав, ало'
                      : type === 'ban'
                        ? 'Не получилось забанить('
@@ -182,7 +182,7 @@ const UsersListPage: React.FC<Props> = () => {
 
             setCurrentPerson(newPerson);
 
-            const isModerator = newPerson.roles.includes('MODERATOR');
+            const isModerator = newPerson.roles?.includes('MODERATOR');
 
             const type = isModerator ? 'remove' : 'add';
             const response = PersonService.toggleRole(type, newPerson.id);
@@ -191,7 +191,7 @@ const UsersListPage: React.FC<Props> = () => {
                success: `${type === 'add' ? 'Он теперь модератор' : 'Он больше не модератор, аахахах, туда его'}`,
                error: {
                   render({ data }) {
-                     return `${data}`.includes('403')
+                     return `${data}`?.includes('403')
                         ? 'У тебя недостаточно прав, ало'
                         : type === 'add'
                           ? 'Не получилось сделать модератором('
@@ -207,11 +207,11 @@ const UsersListPage: React.FC<Props> = () => {
    }
 
    const getOrderRole = (roles: string[]): string | null => {
-      return roles.includes('ADMIN')
+      return roles?.includes('ADMIN')
          ? 'ADMIN'
-         : roles.includes('MODERATOR')
+         : roles?.includes('MODERATOR')
            ? 'MODERATOR'
-           : roles.includes('VERIFIED')
+           : roles?.includes('VERIFIED')
              ? 'VERIFIED'
              : 'NONE';
    };
@@ -232,19 +232,19 @@ const UsersListPage: React.FC<Props> = () => {
                   <div className={cl.usersList__column}>USERNAME</div>
                </div>
                <ul className={cl.usersList__body}>
-                  {users.length ? (
-                     users.map((user) => (
+                  {users?.length ? (
+                     users?.map((user) => (
                         <li
                            className={[cl.usersList__line, cl.user].join(' ')}
-                           key={user.username}
+                           key={user?.username}
                            onClick={(e) => handleClickOnPerson(e, user)}
                            onContextMenu={(e) => handleClickOnPerson(e, user)}
                         >
                            <div className={cl.usersList__column}>
-                              {getOrderRole(user.roles)}
+                              {getOrderRole(user?.roles)}
                            </div>
                            <div className={cl.usersList__column}>
-                              {user.username}
+                              {user?.username}
                            </div>
                         </li>
                      ))

@@ -22,7 +22,7 @@
       return keys;
    }
    function _objectSpread2(target) {
-      for (var i = 1; i < arguments.length; i++) {
+      for (var i = 1; i < arguments?.length; i++) {
          var source = null != arguments[i] ? arguments[i] : {};
          i % 2
             ? ownKeys(Object(source), !0).forEach(function (key) {
@@ -49,7 +49,7 @@
       }
    }
    function _defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
+      for (var i = 0; i < props?.length; i++) {
          var descriptor = props[i];
          descriptor.enumerable = descriptor.enumerable || false;
          descriptor.configurable = true;
@@ -87,7 +87,7 @@
       _extends = Object.assign
          ? Object.assign.bind()
          : function (target) {
-              for (var i = 1; i < arguments.length; i++) {
+              for (var i = 1; i < arguments?.length; i++) {
                  var source = arguments[i];
                  for (var key in source) {
                     if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -186,7 +186,7 @@
                   ? matches[1]
                   : 'text/plain' + (matches[3] || ';charset=US-ASCII');
                isBase64 = !!matches[4];
-               dataString = dataURI.slice(matches[0].length);
+               dataString = dataURI.slice(matches[0]?.length);
                if (isBase64) {
                   // Convert base64 to raw binary data held in a string:
                   byteString = atob(dataString);
@@ -195,9 +195,9 @@
                   byteString = decodeURIComponent(dataString);
                }
                // Write the bytes of the string to an ArrayBuffer:
-               arrayBuffer = new ArrayBuffer(byteString.length);
+               arrayBuffer = new ArrayBuffer(byteString?.length);
                intArray = new Uint8Array(arrayBuffer);
-               for (i = 0; i < byteString.length; i += 1) {
+               for (i = 0; i < byteString?.length; i += 1) {
                   intArray[i] = byteString.charCodeAt(i);
                }
                // Write the ArrayBuffer (or ArrayBufferView) to a blob:
@@ -477,7 +477,7 @@
       var chunks = [];
       var chunkSize = 8192;
       var uint8 = new Uint8Array(arrayBuffer);
-      while (uint8.length > 0) {
+      while (uint8?.length > 0) {
          // XXX: Babel's `toConsumableArray` helper will throw error in IE or Safari 9
          // eslint-disable-next-line prefer-spread
          chunks.push(
@@ -631,7 +631,7 @@
     */
    function normalizeDecimalNumber(value) {
       var times =
-         arguments.length > 1 && arguments[1] !== undefined
+         arguments?.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : 100000000000;
       return REGEXP_DECIMALS.test(value)
@@ -650,7 +650,7 @@
          height = _ref.height,
          width = _ref.width;
       var type =
-         arguments.length > 1 && arguments[1] !== undefined
+         arguments?.length > 1 && arguments[1] !== undefined
             ? arguments[1]
             : 'none';
       var isValidWidth = isPositiveNumber(width);
@@ -684,7 +684,7 @@
     */
    function getExif(arrayBuffer) {
       var array = toArray(new Uint8Array(arrayBuffer));
-      var length = array.length;
+      var length = array?.length;
       var segments = [];
       var start = 0;
       while (start + 3 < length) {
@@ -1094,7 +1094,7 @@
                            isJPEGImage &&
                            options.retainExif &&
                            _this3.exif &&
-                           _this3.exif.length > 0
+                           _this3.exif?.length > 0
                         ) {
                            var next = function next(arrayBuffer) {
                               return done(

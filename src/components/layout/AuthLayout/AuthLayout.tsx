@@ -50,7 +50,7 @@ export const AuthLayout: React.FC<Props> = ({ children, type }) => {
                <img className={cl.logo} src={logo} alt="" />
                <h4 className={cl.authLayout__title}>{t(type)}</h4>
                <ul className={cl.authLayout__variants}>
-                  {authVariants.map((av, index) => (
+                  {authVariants?.map((av, index) => (
                      <li key={index}>
                         <img src={av.img} alt="" />
                         {t('continue_with')} {av.name}

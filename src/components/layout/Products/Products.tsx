@@ -13,7 +13,7 @@ export const Products: FC<Props> = ({ products }) => {
          <div className={cl.wrapper}>
             <div className={cl.cardList}>
                {products?.length &&
-                  products.map((p) => <AdvertCard advert={p} key={p.id} />)}
+                  products?.map((p) => <AdvertCard advert={p} key={p.id} />)}
             </div>
          </div>
       </>

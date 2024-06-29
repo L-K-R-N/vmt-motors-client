@@ -182,7 +182,7 @@ export const Footer: React.FC<Props> = () => {
                   <div className={cl.footer__content}>
                      <div className={cl.footer__container}>
                         <nav className={cl.footer__nav}>
-                           {navLists.map((list) => (
+                           {navLists?.map((list) => (
                               <div
                                  className={cl.footer__listContainer}
                                  key={list.name}
@@ -191,7 +191,7 @@ export const Footer: React.FC<Props> = () => {
                                     {t(list.name)}
                                  </h5>
                                  <ul className={cl.footer__list}>
-                                    {list.items.map((item) => (
+                                    {list.items?.map((item) => (
                                        <li
                                           className={cl.footer__listItem}
                                           key={item.name}
@@ -237,7 +237,7 @@ export const Footer: React.FC<Props> = () => {
                                     onPointerEnter={() => setIsLangsOpen(true)}
                                     onPointerLeave={() => setIsLangsOpen(false)}
                                  >
-                                    {langs.map((lang) => (
+                                    {langs?.map((lang) => (
                                        <li
                                           className={cl.lang_item}
                                           key={lang.value}

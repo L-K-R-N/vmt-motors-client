@@ -276,7 +276,7 @@ export const CurrentChat: React.FC<Props> = () => {
                </div>
                <div className={cl.currentChat__main}>
                   <ul className={cl.currentChat__main_messages} ref={chatRef}>
-                     {messages.map((message) => (
+                     {messages?.map((message) => (
                         <li
                            key={message?.id}
                            className={[
@@ -308,13 +308,13 @@ export const CurrentChat: React.FC<Props> = () => {
                               () => {
                                  handleGetMessages(
                                     'old',
-                                    messages[messages.length - 1]?.id,
+                                    messages[messages?.length - 1]?.id,
                                  );
-                                 console.log(messages[messages.length - 1]);
+                                 console.log(messages[messages?.length - 1]);
                               }
                               // console.log(
                               //    messages[0],
-                              //    messages[messages.length - 1],
+                              //    messages[messages?.length - 1],
                               // )
                            }
                         />

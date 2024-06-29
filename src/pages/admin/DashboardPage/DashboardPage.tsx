@@ -33,7 +33,7 @@ const DashboardPage: React.FC<Props> = () => {
                },
                error: {
                   render({ data }) {
-                     return `${data}`.includes('403')
+                     return `${data}`?.includes('403')
                         ? 'Вы не являетесь админом'
                         : 'Необработанная ошибка';
                   },
@@ -57,8 +57,8 @@ const DashboardPage: React.FC<Props> = () => {
    return (
       <div className={cl.page}>
          <ul className={cl.dashboard}>
-            {moderatedProducts.length ? (
-               moderatedProducts.map((p) => <AdvertCard advert={p} />)
+            {moderatedProducts?.length ? (
+               moderatedProducts?.map((p) => <AdvertCard advert={p} />)
             ) : (
                <li className={cl.no_products}>Нет объявлений для проверки</li>
             )}
