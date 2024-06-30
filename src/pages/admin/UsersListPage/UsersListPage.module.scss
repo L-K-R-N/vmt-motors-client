@@ -83,6 +83,7 @@
 @media (max-width: 1600px) {
    .page {
       padding: 20px;
+      padding-top: calc(var(--header-height) + 20px);
    }
 
    .usersList {
@@ -92,6 +93,7 @@
 @media (max-width: 1400px) {
    .page {
       flex-direction: column;
+      padding-top: calc(var(--header-height) + 20px);
    }
 
    .usersList {

@@ -11,6 +11,7 @@ import {
    TColoring,
 } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
+import { useAppSelector } from '@/hooks/useAppSelector';
 import { Data } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo } from 'react';
@@ -43,13 +44,6 @@ export interface IPostProductInputs {
 }
 
 export const addProductFormShema = z.object({
-   name: z
-      .string({
-         required_error: 'Это обязательное поле',
-      })
-      .trim()
-      .min(4, 'Слишком мало символов')
-      .max(30, 'Слишком много символов'),
    type: z.object({
       value: z.union([
          z.literal('AUTOMOBILE'),
@@ -85,10 +79,12 @@ export const addProductFormShema = z.object({
       .trim()
       .min(4, 'Слишком мало символов')
       .max(400, 'Слишком много символов'),
-   brand: z.object({
-      value: z.string(),
-      label: z.string(),
-   }),
+   brand: z
+      .object({
+         value: z.string(),
+         label: z.string(),
+      })
+      .optional(),
    body: z.object({
       value: z.union([
          z.literal('coupe'),
@@ -171,44 +167,47 @@ export const useAddAdvert = () => {
    } = useForm<IProductFormShema>({
       resolver: zodResolver(addProductFormShema),
    });
+   const { selectedBrand } = useAppSelector((state) => state.FilterReducer);
    const navigate = useNavigate();
 
    const onSubmit: SubmitHandler<IProductFormShema> = (data) => {
       try {
          // console.log(data);
-         const productPostRes = ProductService.postProduct({
-            body: data?.body?.value,
-            brand: data?.brand?.value,
-            color: data?.color?.value,
-            coloring: data?.coloring?.value,
-            description: data?.description,
-            driveUnit: data?.driveUnit?.value,
-            exchange: data?.exchange,
-            from: data?.from,
-            fuel: data?.fuel?.value,
-            gear: data?.gear?.value,
-            generation: data?.generation,
-            isNew: false,
-            millage: Number(data?.millage),
-            model: data?.model.value,
-            // name: data?.name,
-            owner: data?.owner?.value,
-            price: Number(data?.price),
-            trade: data?.trade,
-            type: data?.type?.value,
-            year: Number(data?.year),
-            createdAt: new Date(),
-         });
-
-         toast
-            .promise(productPostRes, {
-               pending: 'Проверяем корректность данных...',
-               success: 'Объявление отправлено на проверку!',
-               error: 'Произошла непредвиденная ошибка',
-            })
-            .then(() => {
-               reset();
+         if (selectedBrand) {
+            const productPostRes = ProductService.postProduct({
+               body: data?.body?.value,
+               brand: selectedBrand.value,
+               color: data?.color?.value,
+               coloring: data?.coloring?.value,
+               description: data?.description,
+               driveUnit: data?.driveUnit?.value,
+               exchange: data?.exchange,
+               from: data?.from,
+               fuel: data?.fuel?.value,
+               gear: data?.gear?.value,
+               generation: data?.generation,
+               isNew: false,
+               millage: Number(data?.millage),
+               model: data?.model.value,
+               // name: data?.name,
+               owner: data?.owner?.value,
+               price: Number(data?.price),
+               trade: data?.trade,
+               type: data?.type?.value,
+               year: Number(data?.year),
+               createdAt: new Date(),
             });
+
+            toast
+               .promise(productPostRes, {
+                  pending: 'Проверяем корректность данных...',
+                  success: 'Объявление отправлено на проверку!',
+                  error: 'Произошла непредвиденная ошибка',
+               })
+               .then(() => {
+                  reset();
+               });
+         }
       } catch (e) {}
    };
 

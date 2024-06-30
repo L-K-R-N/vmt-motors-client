@@ -11,12 +11,15 @@ import { ISelectItem, TBody } from '@/api/models/Products';
 import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { setModels, setBrands } from '@/store/reducers/FilterSlice';
+import {
+   setBrands,
+   setModels,
+   setSelectedBrand,
+   setSelectedModel,
+} from '@/store/reducers/FilterSlice';
 import { brandsData } from '../../../data/brands.json';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
-
-interface Props {}
 
 interface IBody extends ISelectItem<TBody> {
    img: string;
@@ -42,14 +45,17 @@ export interface IGeneration {
    'year-stop': number;
 }
 
+interface Props {}
+
 const AddAdvertPage: React.FC<Props> = () => {
    useHideSidebar();
    const { t } = useTranslation();
-   const [selectedBrand, setSelectedBrand] = useState<IBrand | null>(null);
-   const [selectedModel, setSelectedModel] = useState<IModel | null>(null);
+   const dispatch = useAppDispatch();
+   // const [selectedBrand, setSelectedBrand] = useState<IBrand | null>(null);
+   // const [selectedModel, setSelectedModel] = useState<IModel | null>(null);
    const [selectedGeneration, setSelectedGeneration] = useState('');
    const [isLoading, setIsLoading] = useState(false);
-   const dispatch = useAppDispatch();
+
    // const fetchProducts = async () => {
    //    const products = await CatalogService.getProducts();
 
@@ -66,6 +72,8 @@ const AddAdvertPage: React.FC<Props> = () => {
       owners,
       colorings,
       models,
+      selectedBrand,
+      selectedModel,
    } = useAppSelector((state) => state.FilterReducer);
 
    const [bodies] = useState<ISelectItem<TBody>[]>([
@@ -156,17 +164,17 @@ const AddAdvertPage: React.FC<Props> = () => {
    //    </components.Option>
    // );
 
-   useEffect(() => {
-      // onFilterChange(selectedBrand, selectedModel);
-   }, [selectedBrand, selectedModel]);
+   // useEffect(() => {
+   //    // onFilterChange(selectedBrand, selectedModel);
+   // }, [selectedBrand, selectedModel]);
 
-   const handleBrandChange = (brand: IBrand) => {
-      setSelectedBrand(brand);
-      setSelectedModel(null);
+   const handleBrandChange = (brand: ISelectItem<string>) => {
+      dispatch(setSelectedBrand(brand));
+      dispatch(setSelectedModel(null));
       console.log(brand);
 
       // Загрузка моделей для выбранной марки
-      import(`../../../data/models/${brand.id}.json`).then(
+      import(`../../../data/models/${brand.value}.json`).then(
          (data: { default: IModel[] }) => {
             console.log(data.default);
             dispatch(
@@ -189,9 +197,9 @@ const AddAdvertPage: React.FC<Props> = () => {
       dispatch(setBrands(newBrands));
    }, []);
 
-   const handleModelChange = (model: IModel) => {
-      setSelectedModel(model);
-   };
+   // const handleModelChange = (model: IModel) => {
+   //    dispatch(setModel))
+   // };
 
    // const toIOption = (items: string[]) => {
    //    const brandsOptions: IOption[] = [];
@@ -254,10 +262,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                               isMulti={false}
                               {...field}
                               options={brands}
-                              value={{
-                                 value: selectedBrand?.id,
-                                 label: selectedBrand?.name,
-                              }}
+                              value={selectedBrand}
                               isDisabled={false}
                               components={{
                                  DropdownIndicator: null, // Убираем индикатор создания нового значения
@@ -266,10 +271,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                               isClearable={true}
                               onChange={(newValue) => {
                                  if (newValue?.value && newValue?.label) {
-                                    handleBrandChange({
-                                       id: newValue.value,
-                                       name: newValue.label,
-                                    });
+                                    handleBrandChange(newValue);
                                  }
                               }}
                            />

@@ -10,6 +10,7 @@ import {
    ContextMenu,
    IContextMenuItem,
 } from '@/components/UI/ContextMenu/ContextMenu';
+import { useTranslation } from 'react-i18next';
 
 interface Props {}
 
@@ -206,6 +207,8 @@ const UsersListPage: React.FC<Props> = () => {
       }
    }
 
+   const { t } = useTranslation();
+
    const getOrderRole = (roles: string[]): string | null => {
       return roles?.includes('ADMIN')
          ? 'ADMIN'
@@ -221,15 +224,15 @@ const UsersListPage: React.FC<Props> = () => {
          <div className={cl.usersList}>
             <div className={cl.usersList__header}>
                <input
-                  placeholder="Username"
+                  placeholder={t('username')}
                   type="text"
                   onChange={handleSearch}
                />
             </div>
             <div className={cl.usersList__main}>
                <div className={cl.usersList__line}>
-                  <div className={cl.usersList__column}>STAFF TYPE</div>
-                  <div className={cl.usersList__column}>USERNAME</div>
+                  <div className={cl.usersList__column}>{t('role')}</div>
+                  <div className={cl.usersList__column}>{t('username')}</div>
                </div>
                <ul className={cl.usersList__body}>
                   {users?.length ? (
@@ -249,7 +252,7 @@ const UsersListPage: React.FC<Props> = () => {
                         </li>
                      ))
                   ) : (
-                     <li className={cl.no_products}>Пользователи не найдены</li>
+                     <li className={cl.no_products}></li>
                   )}
                </ul>
             </div>

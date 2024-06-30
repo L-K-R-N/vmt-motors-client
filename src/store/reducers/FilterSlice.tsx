@@ -29,141 +29,145 @@ export interface IFilterState {
    sortByOptions: ISelectItem<TSorting>[];
    colorings: ISelectItem<TColoring>[];
    activeVariant: string;
+   selectedBrand: ISelectItem<string> | null;
+   selectedModel: ISelectItem<string> | null;
 }
 
 const initialState: IFilterState = {
    brands: [],
    models: [],
+   selectedModel: null,
    generations: [],
    driveUnits: [
       {
          value: 'ALL',
-         label: 'Полный привод',
+         label: 'driveUnits_all',
       },
       {
          value: 'FWD',
-         label: 'Передний привод',
+         label: 'driveUnits_fwd',
       },
       {
          value: 'RWD',
-         label: 'Задний привод',
+         label: 'driveUnits_rwd',
       },
       {
          value: 'OTHER',
-         label: 'Другое',
+         label: 'other',
       },
       {
          value: 'CONTROLLED_ALL',
-         label: 'ХЗ ВООБЩЕ ЧТО ЭТО',
+         label: 'driveUnits_controlled_all',
       },
    ],
+   selectedBrand: null,
    activeVariant: 'all',
    activeType: {
       value: 'AUTOMOBILE',
-      label: 'AUTOMOBILE',
+      label: 'automobile',
    },
    fuels: [
-      {
-         value: 'BIODIESEL',
-         label: 'BIODIESEL',
-      },
+      // {
+      //    value: 'BIODIESEL',
+      //    label: 'biodiesel',
+      // },
       {
          value: 'DIESEL',
-         label: 'DIESEL',
+         label: 'diesel',
       },
       {
          value: 'ELECTRIC',
-         label: 'ELECTRIC',
+         label: 'electric',
       },
       {
          value: 'GASOLINE',
-         label: 'GASOLINE',
+         label: 'gasoline',
       },
-      {
-         value: 'METHANE',
-         label: 'METHANE',
-      },
+      // {
+      //    value: 'METHANE',
+      //    label: 'methane',
+      // },
       {
          value: 'OTHER',
-         label: 'OTHER',
+         label: 'other',
       },
-      {
-         value: 'PROPANE',
-         label: 'PROPANE',
-      },
+      // {
+      //    value: 'PROPANE',
+      //    label: 'propane',
+      // },
    ],
    gears: [
       {
          value: 'AUTOMATIC',
-         label: 'AUTOMATIC',
+         label: 'automatic',
       },
-      {
-         value: 'CTV',
-         label: 'CTV',
-      },
+      // {
+      //    value: 'CTV',
+      //    label: 'ctv',
+      // },
       {
          value: 'MANUAL',
-         label: 'MANUAL',
+         label: 'manual',
       },
       {
          value: 'OTHER',
-         label: 'OTHER',
+         label: 'other',
       },
       {
          value: 'ROBOTIC',
-         label: 'ROBOTIC',
+         label: 'robotic',
       },
    ],
    owners: [
       {
          value: 'COMPANY',
-         label: 'COMPANY',
+         label: 'company',
       },
       {
          value: 'OWNER',
-         label: 'OWNER',
+         label: 'owner',
       },
-      {
-         value: 'PRIVATE_OWNER',
-         label: 'PRIVATE_OWNER',
-      },
+      // {
+      //    value: 'PRIVATE_OWNER',
+      //    label: 'private_owner',
+      // },
       {
          value: 'OTHER',
-         label: 'OTHER',
+         label: 'other',
       },
    ],
    colors: [
       {
          value: 'BLACK',
-         label: 'Black',
+         label: 'black',
       },
       {
          value: 'BLUE',
-         label: 'Blue',
+         label: 'blue',
       },
       {
          value: 'BROWN',
-         label: 'Brown',
+         label: 'brown',
       },
       {
          value: 'GRAY',
-         label: 'Gray',
+         label: 'gray',
       },
       {
          value: 'CYAN',
-         label: 'Cyan',
+         label: 'cyan',
       },
       {
          value: 'GREEN',
-         label: 'Green',
+         label: 'green',
       },
       {
          value: 'ORANGE',
-         label: 'Orange',
+         label: 'orange',
       },
       {
          value: 'PINK',
-         label: 'Pink',
+         label: 'pink',
       },
       {
          value: 'PURPLE',
@@ -183,39 +187,39 @@ const initialState: IFilterState = {
       },
       {
          value: 'GRADIENT',
-         label: 'Gradient',
+         label: 'gradient',
       },
       {
          value: 'OTHER',
-         label: 'Other',
+         label: 'other',
       },
    ],
    types: [
       {
          value: 'AUTOMOBILE',
-         label: 'AUTOMOBILE',
+         label: 'automobile',
       },
       {
          value: 'CONSUMABLES',
-         label: 'CONSUMABLES',
+         label: 'consumables',
       },
       {
          value: 'DETAILS',
-         label: 'DETAILS',
+         label: 'details',
       },
       {
          value: 'MOTORCYCLE',
-         label: 'MOTORCYCLE',
+         label: 'motorcycle',
       },
       {
          value: 'SPECIAL_EQUIPMENTS',
-         label: 'SPECIAL_EQUIPMENTS',
+         label: 'special_equipments',
       },
    ],
    bodies: [
       {
          value: 'cabriolet',
-         label: 'Cabriolet',
+         label: 'cabriolet',
       },
       {
          value: 'compact',
@@ -264,25 +268,25 @@ const initialState: IFilterState = {
    colorings: [
       {
          value: 'MATTE',
-         label: 'Matte',
+         label: 'matte',
       },
       {
          value: 'GLOSSY',
-         label: 'Glossy',
+         label: 'glossy',
       },
       {
          value: 'METALLIC',
-         label: 'Metallic',
+         label: 'metallic',
       },
       {
          value: 'NACRE',
-         label: 'Nacre',
+         label: 'nacre',
       },
    ],
 };
 
-export const ProductsSlice = createSlice({
-   name: 'ProductsSlice',
+export const FilterSlice = createSlice({
+   name: 'FilterSlice',
    initialState,
    reducers: {
       setBrands: (state, action: PayloadAction<ISelectItem<string>[]>) => {
@@ -300,10 +304,22 @@ export const ProductsSlice = createSlice({
       setActiveType: (state, action: PayloadAction<ISelectItem<string>>) => {
          state.activeType = action.payload;
       },
+      setSelectedBrand: (
+         state,
+         action: PayloadAction<ISelectItem<string> | null>,
+      ) => {
+         state.selectedBrand = action.payload;
+      },
+      setSelectedModel: (
+         state,
+         action: PayloadAction<ISelectItem<string> | null>,
+      ) => {
+         state.selectedModel = action.payload;
+      },
    },
 });
 
-export default ProductsSlice.reducer;
+export default FilterSlice.reducer;
 
 export const {
    setBrands,
@@ -311,4 +327,6 @@ export const {
    setModels,
    setActiveVariant,
    setActiveType,
-} = ProductsSlice.actions;
+   setSelectedBrand,
+   setSelectedModel,
+} = FilterSlice.actions;
