@@ -78,7 +78,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   page: 0,
                   size: 50,
                }).then((moderatedRes) => {
-                  dispatch(setModeratedProducts(moderatedres?.data));
+                  dispatch(setModeratedProducts(moderatedRes?.data));
                });
             });
       } catch (e) {
@@ -109,7 +109,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                   page: 0,
                   size: 50,
                }).then((moderatedRes) => {
-                  dispatch(setModeratedProducts(moderatedres?.data));
+                  dispatch(setModeratedProducts(moderatedRes?.data));
                });
             });
 
@@ -191,7 +191,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                ProductService.getFiltredProducts(
                   {} as ISearchProductsRequest,
                ).then((searchRes) => {
-                  dispatch(setFiltredProducts(searchres?.data?.result));
+                  dispatch(setFiltredProducts(searchRes?.data?.result));
                });
             });
       } catch (e) {
@@ -213,12 +213,14 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
          <img
             className={cl.advertImg}
             src={defaultPhoto}
-            alt={`${advert?.name} image`}
+            alt={`${advert?.brand} image`}
          />
          <div className={cl.advertContainer}>
             <div className={cl.advertHeader}>
                <div className={cl.advertHeader__top}>
-                  <h4 className={cl.advertHeader__title}>{advert?.name}</h4>
+                  <h4 className={cl.advertHeader__title}>
+                     {advert?.brand} {advert?.model} {advert.generation}
+                  </h4>
 
                   <p className={cl.advertHeader__price}>{advert?.price}$</p>
                   <button

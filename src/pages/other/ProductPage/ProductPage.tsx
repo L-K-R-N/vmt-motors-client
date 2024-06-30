@@ -73,8 +73,22 @@ const ProductPage: React.FC<Props> = () => {
    }, []);
 
    useEffect(() => {
-      if (product?.personId) handleSetUser(product.personId);
-      console.log(product);
+      if (product?.personId) {
+         handleSetUser(product.personId);
+         console.log(product);
+      }
+
+      if (product) {
+         try {
+            ProductService.getProductPhotos({ productId: product.id }).then(
+               (res) => {
+                  console.log(res);
+               },
+            );
+         } catch (e) {
+            console.log(e);
+         }
+      }
    }, [product]);
    useHideSidebar();
 
@@ -132,7 +146,7 @@ const ProductPage: React.FC<Props> = () => {
                   <IoChevronBack />
                </button>
                <span>
-                  {product?.name} {product?.model} {product?.brand}
+                  {product?.brand} {product?.model}
                </span>
             </h3>
             <div className={cl.page__content}>

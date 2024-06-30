@@ -13,8 +13,8 @@ export interface IUser {
    email: string;
    contact?: string;
    dateOfBirth: Date;
-   roles: string[];
+   role: string;
    name?: string;
-   status?: 'ONLINE' |'NOT_DISTURB' |'NOT_ACTIVE' |'INVISIBLE',
+   status?: 'ONLINE' | 'NOT_DISTURB' | 'NOT_ACTIVE' | 'INVISIBLE';
    hasProfilePhoto?: boolean;
 }

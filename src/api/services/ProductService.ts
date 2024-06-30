@@ -79,7 +79,11 @@ export default class ProductService {
    static async getProductPhotos(data: {
       productId: string;
    }): Promise<AxiosResponse<IProduct>> {
-      return $api.get<IProduct>(`product/commodity/photo/`);
+      return $api.get<IProduct>(`product/commodity/photo`, {
+         params: {
+            commodityId: data.productId,
+         },
+      });
    }
 
    static async getFiltredProducts(
@@ -113,8 +117,10 @@ export default class ProductService {
    }
 
    // POST
-   static async postProduct(data: IPostProductRequest): Promise<AxiosResponse> {
-      return $api.post('product/commodity', {
+   static async postProduct(
+      data: IPostProductRequest,
+   ): Promise<AxiosResponse<IProduct>> {
+      return $api.post<IProduct>('product/commodity', {
          type: data?.type,
          // name: data?.name,
          description: data?.description,
@@ -162,17 +168,26 @@ export default class ProductService {
       files: FormData;
       productId: string;
    }): Promise<AxiosResponse> {
-      return $api.post(`product/commodity/moderation/accept`, {
-         commodityId: data?.productId,
-      });
-   }
-   static async changePersonPhoto(file: FormData): Promise<AxiosResponse> {
-      return $api.post(`person/profile_photo`, file, {
-         headers: {
-            'Content-Type': 'multipart/form-data',
+      return $api.post(
+         `product/commodity/moderation/accept`,
+         {
+            commodityId: data?.productId,
+            files: data.files,
          },
-      });
+         {
+            headers: {
+               'Content-Type': 'multipart/form-data',
+            },
+         },
+      );
    }
+   // static async changePersonPhoto(file: FormData): Promise<AxiosResponse> {
+   //    return $api.post(`person/profile_photo`, file, {
+   //       headers: {
+   //          'Content-Type': 'multipart/form-data',
+   //       },
+   //    });
+   // }
 
    // DELETE
    static async deleteProductPhoto(data: {

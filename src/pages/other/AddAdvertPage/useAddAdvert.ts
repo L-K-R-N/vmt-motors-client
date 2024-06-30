@@ -14,34 +14,34 @@ import ProductService from '@/api/services/ProductService';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { Data } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
-export interface IPostProductInputs {
-   name: string;
-   brand: ISelectItem<TBrand>;
-   model: string;
-   year: number;
-   type: ISelectItem<TProductType>;
-   millage: number;
-   from: string;
-   exchange: boolean;
-   trade: boolean;
-   owner: ISelectItem<TOwner>;
-   body: TBody;
-   photo: string;
-   generation: string;
-   fuel: ISelectItem<TFuel>;
-   gear: ISelectItem<TGear>;
-   driveUnit: ISelectItem<TDriveUnit>;
-   color: ISelectItem<TColor>;
-   coloring: ISelectItem<TColoring>;
-   desc: string;
-   price: number;
-}
+// export interface IPostProductInputs {
+//    name: string;
+//    brand: ISelectItem<TBrand>;
+//    model: string;
+//    year: number;
+//    type: ISelectItem<TProductType>;
+//    millage: number;
+//    from: string;
+//    exchange: boolean;
+//    trade: boolean;
+//    owner: ISelectItem<TOwner>;
+//    body: TBody;
+//    photo: string;
+//    generation: string;
+//    fuel: ISelectItem<TFuel>;
+//    gear: ISelectItem<TGear>;
+//    driveUnit: ISelectItem<TDriveUnit>;
+//    color: ISelectItem<TColor>;
+//    coloring: ISelectItem<TColoring>;
+//    desc: string;
+//    price: number;
+// }
 
 export const addProductFormShema = z.object({
    type: z.object({
@@ -169,7 +169,10 @@ export const useAddAdvert = () => {
    });
    const { selectedBrand } = useAppSelector((state) => state.FilterReducer);
    const navigate = useNavigate();
-
+   const [images, setImages] = useState<File[]>([]);
+   const handleImageUpload = (newImages: File[]) => {
+      setImages([...images, ...newImages]);
+   };
    const onSubmit: SubmitHandler<IProductFormShema> = (data) => {
       try {
          // console.log(data);
@@ -204,7 +207,20 @@ export const useAddAdvert = () => {
                   success: 'Объявление отправлено на проверку!',
                   error: 'Произошла непредвиденная ошибка',
                })
-               .then(() => {
+               .then((res) => {
+                  if (images.length) {
+                     const formData = new FormData();
+                     images.map((image) => {
+                        formData.append('images', image);
+                     });
+
+                     const response = ProductService.uploadPhotos({
+                        productId: res.data.id,
+                        files: formData,
+                     });
+
+                     setImages([]);
+                  }
                   reset();
                });
          }
@@ -217,6 +233,7 @@ export const useAddAdvert = () => {
          onSubmit,
          control,
          handleSubmit,
+         handleImageUpload,
       }),
       [errors],
    );

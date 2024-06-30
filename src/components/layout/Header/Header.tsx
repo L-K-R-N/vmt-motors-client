@@ -40,7 +40,7 @@ export const Header: React.FC<Props> = () => {
          to: 'catalog',
       },
       {
-         text: 'Cart',
+         text: 'cart',
          to: 'cart',
       },
 
@@ -59,7 +59,7 @@ export const Header: React.FC<Props> = () => {
          to: 'catalog',
       },
       {
-         text: 'Cart',
+         text: 'cart',
          to: 'cart',
       },
 
@@ -219,7 +219,7 @@ export const Header: React.FC<Props> = () => {
                            </button>
                         ) : (
                            <div className={cl.auth__btns}>
-                              <Link to={'/signin'}>{t('Login')}</Link>
+                              <Link to={'/signin'}>{t('login')}</Link>
                               <Link to={'/signup'}>{t('signup')}</Link>
                            </div>
                         )}

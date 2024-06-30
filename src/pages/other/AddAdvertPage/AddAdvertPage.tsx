@@ -20,6 +20,7 @@ import {
 import { brandsData } from '../../../data/brands.json';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
+import ImageUpload from '@/components/layout/ProductPhotoUpload/ProductPhotoUpload';
 
 interface IBody extends ISelectItem<TBody> {
    img: string;
@@ -61,7 +62,8 @@ const AddAdvertPage: React.FC<Props> = () => {
 
    //    console.log(products);
    // };
-   const { errors, control, handleSubmit, onSubmit } = useAddAdvert();
+   const { errors, control, handleSubmit, onSubmit, handleImageUpload } =
+      useAddAdvert();
    const {
       brands,
       driveUnits,
@@ -429,6 +431,11 @@ const AddAdvertPage: React.FC<Props> = () => {
                   </div>
                   <div className={cl.block}>
                      <h5 className={cl.subtitle}>{t('photo')}</h5>
+                     <ImageUpload
+                        maxImages={15}
+                        maxImageSize={1}
+                        onImageUpload={handleImageUpload}
+                     />
                   </div>
                   <div className={cl.block}>
                      <h5 className={cl.subtitle}>{t('generation')}</h5>

@@ -1,61 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import cl from './ProductPhotoUpload.module.scss';
-import PersonService from '@/api/services/PersonService';
-interface AvatarUploadProps {
-   onAvatarUpload: () => void;
+import React, { useState } from 'react';
+
+interface ImageUploadProps {
+   maxImages: number;
+   maxImageSize: number;
+   onImageUpload: (images: File[]) => void;
 }
 
-export const ProductPhotoUpload: React.FC<AvatarUploadProps> = ({
-   onAvatarUpload,
+const ImageUpload: React.FC<ImageUploadProps> = ({
+   maxImages,
+   maxImageSize,
+   onImageUpload,
 }) => {
-   const [avatarFile, setAvatarFile] = useState<File | null>(null);
+   const [images, setImages] = useState<File[]>([]);
 
-   const handleAvatarUpload = async () => {
-      if (avatarFile) {
-         try {
-            let formData = new FormData();
-            await formData.append('file', avatarFile);
-            console.log(formData.values(), avatarFile);
-
-            if (formData.has('file')) {
-               await PersonService.changePersonPhoto(formData);
-               for (const pair of formData.entries()) {
-                  console.log(pair[0], pair[1]);
-               }
-
-               onAvatarUpload();
-            }
-         } catch (error) {
-            console.error('Error uploading avatar:', error);
+   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (files) {
+         const validImages = Array.from(files).filter(
+            (file) => file.size <= maxImageSize * 1024 * 1024,
+         );
+         if (validImages.length + images.length <= maxImages) {
+            setImages([...images, ...validImages]);
+            onImageUpload(validImages);
+         } else {
+            alert(
+               `Вы можете загрузить максимум ${maxImages} изображений размером до ${maxImageSize} МБ.`,
+            );
          }
       }
    };
-   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-         setAvatarFile(e.target.files[0]);
-         // console.log(e.target.files);
-      }
+
+   const handleRemoveImage = (index: number) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      setImages(newImages);
    };
 
-   useEffect(() => {
-      if (avatarFile) {
-         handleAvatarUpload();
-      }
-   }, [avatarFile]);
-
    return (
-      <div className={cl.container}>
+      <div>
          <input
-            title="Upload avatar"
             type="file"
-            onChange={handleAvatarChange}
-            className={cl.input}
-            accept="image/*,.png,.jpg,.gif,.web,"
+            multiple
+            onChange={handleImageUpload}
+            accept="image/*"
          />
-         {/* <button>Upload Avatar</button> */}
-         <button className={cl.btn} type="button" title="aaa">
-            Change photo
-         </button>
+         <div>
+            {images.map((image, index) => (
+               <div key={index}>
+                  <img
+                     src={URL.createObjectURL(image)}
+                     alt={`Image ${index}`}
+                     width={100}
+                     height={100}
+                  />
+                  <button
+                     type="button"
+                     onClick={() => handleRemoveImage(index)}
+                  >
+                     Удалить
+                  </button>
+               </div>
+            ))}
+         </div>
       </div>
    );
 };
+
+export default ImageUpload;

@@ -8,7 +8,6 @@ export interface IProduct {
    exchange: boolean;
    trade: boolean;
    owner: TOwner;
-   name: string;
    description: string;
    brand: string;
    body: string;

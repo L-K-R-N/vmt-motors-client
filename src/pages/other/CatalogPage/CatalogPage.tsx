@@ -9,6 +9,7 @@ import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import ProductService from '@/api/services/ProductService';
 import { ISearchProductsRequest } from '@/api/models/Products';
 import { CarsLine } from '@/components/layout/CarsLine/CarsLine';
+import { useTranslation } from 'react-i18next';
 
 interface Props {}
 
@@ -29,6 +30,7 @@ const CatalogPage: React.FC<Props> = () => {
       });
    };
 
+   const { t } = useTranslation();
    // useEffect(() => {
    //    dispatch(setProducts(filtredProducts));
    // }, [filtredProducts]);
@@ -53,7 +55,11 @@ const CatalogPage: React.FC<Props> = () => {
             <div className={cl.panel}>
                <span className={cl.productsCount}>{productsCount} ads</span>
             </div>
-            <Products products={products} />
+            {products.length ? (
+               <Products products={products} />
+            ) : (
+               <p className={cl.noAdsFound}>{t('products_not_found')}</p>
+            )}
          </div>
       </div>
    );

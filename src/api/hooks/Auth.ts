@@ -64,7 +64,7 @@ export const handleLogin = (data: ILoginFormShema) => {
    toast
       .promise(loginResponse, {
          pending: 'Проверяем валидность данных...',
-         success: 'Вы успешно вошли в аккаунт! Осталось совсем чуть-чуть...',
+         success: 'Вы успешно вошли в аккаунт!',
          error: {
             render({ data }) {
                return `${data}`?.includes('429')
@@ -81,13 +81,14 @@ export const handleLogin = (data: ILoginFormShema) => {
          // console.log(decodedToken, decodedToken.exp);
          localStorage.setItem('token', res?.data?.jwtToken);
          localStorage.setItem('refresh', res?.data?.refreshToken);
-         if (decodedToken.role?.includes('VERIFIED')) {
-            store.dispatch(setIsAuth(true));
 
-            window.location.pathname = '/about';
-         } else {
+         console.log(decodedToken);
+         if (decodedToken.role?.includes('DEFAULT')) {
             store.dispatch(setIsVerifing(true));
             window.location.pathname = '/verify';
+         } else {
+            store.dispatch(setIsAuth(true));
+            window.location.pathname = '/about';
          }
 
          // navigate(from, {replace: true})

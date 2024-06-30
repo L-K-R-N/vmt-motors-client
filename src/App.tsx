@@ -1,11 +1,4 @@
-import {
-   BrowserRouter,
-   Route,
-   RouteObject,
-   Routes,
-   useLocation,
-   useNavigate,
-} from 'react-router-dom';
+import { BrowserRouter, Route, RouteObject, Routes } from 'react-router-dom';
 import './styles/main.scss';
 
 import { Layout } from './components/layout/Layout/Layout';
@@ -24,18 +17,9 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useAppDispatch } from './hooks/useAppDispatch';
 import { setTheme, TTheme } from './store/reducers/SettingsSlice';
 import { ChatsPage } from './pages/other/ChatsPage';
-import axios from 'axios';
-import {
-   IRefreshInputs,
-   getBrowserAndOS,
-   setIsAuth,
-} from './store/reducers/AuthSlice';
-import { IAuthResponse } from './api/models/Auth';
-import { BASE_URL } from './api/app.vars';
 import { handleGetMe } from './api/hooks/Person';
 import { VerifyPage } from './pages/auth/VerifyPage';
 import { ToastContainer } from 'react-toastify';
-import { handleRefresh } from './api/hooks/Auth';
 import { PrivateRoute } from './components/layout/PrivateRoute/PrivateRoute';
 import { setIsAdmin } from './store/reducers/UserSlice';
 import { AdminRoute } from './components/layout/AdminRoute/AdminRoute';
@@ -213,8 +197,11 @@ const App = () => {
 
    useEffect(() => {
       if (
-         (me && isAuth && me.roles?.includes('MODERATOR')) ||
-         me?.roles?.includes('ADMIN')
+         me &&
+         isAuth &&
+         (me.role === 'MODERATOR' ||
+            me?.role === 'ADMIN' ||
+            me?.role === 'HELPER')
       ) {
          dispatch(setIsAdmin(true));
       } else {

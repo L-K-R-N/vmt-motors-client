@@ -42,10 +42,10 @@
    "cars": "Cars",
    "contact": "Сontact",
    "help_faq": "Help & FAQ",
-   "DETAILS": "Details",
+   "details": "Details",
    "motor_vehicles": "Motor vehicles",
-   "SPECIAL_EQUIPMENTS": "Special equipments",
-   "CONSUMABLES": "Consumables",
+   "special_equipments": "Special equipments",
+   "consumables": "Consumables",
    "all_brands": "All Brands",
    "for_business": "For business",
    "partner": "Partner",
@@ -165,5 +165,8 @@
    "none": "None",
    "activity": "Activity",
    "search": "Search",
-   "choose_chat": "Choose chat"
+   "choose_chat": "Choose chat",
+   "users_not_found": "Users not found",
+
+   "products_not_found": "No ads found"
 }

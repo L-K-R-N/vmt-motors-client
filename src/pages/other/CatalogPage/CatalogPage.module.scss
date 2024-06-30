@@ -19,6 +19,18 @@
    width: 100vw;
 }
 
+.noAdsFound {
+   font-size: 50px;
+   font-family: $font-tildaSans;
+   font-weight: 700;
+   color: var(--text-primary);
+   opacity: 0.6;
+   padding-top: 40px;
+   padding-bottom: 70px;
+   @include flex($justify: center);
+   text-align: center;
+}
+
 .wrapper {
    max-width: 1000px;
    margin: 0 auto;

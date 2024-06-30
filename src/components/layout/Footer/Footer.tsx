@@ -56,7 +56,7 @@ export const Footer: React.FC<Props> = () => {
          name: 'categories',
          items: [
             {
-               name: 'AUTOMOBILE',
+               name: 'automobile',
                handleClick: () => {
                   navigate('/catalog');
 
@@ -70,7 +70,7 @@ export const Footer: React.FC<Props> = () => {
                },
             },
             {
-               name: 'CONSUMABLES',
+               name: 'consumables',
                handleClick: () => {
                   navigate('/catalog');
                   dispatch(
@@ -83,7 +83,7 @@ export const Footer: React.FC<Props> = () => {
                },
             },
             {
-               name: 'DETAILS',
+               name: 'details',
                handleClick: () => {
                   navigate('/catalog');
                   dispatch(
@@ -96,7 +96,7 @@ export const Footer: React.FC<Props> = () => {
                },
             },
             {
-               name: 'MOTORCYCLE',
+               name: 'motorcycle',
                handleClick: () => {
                   navigate('/catalog');
                   dispatch(
@@ -109,7 +109,7 @@ export const Footer: React.FC<Props> = () => {
                },
             },
             {
-               name: 'SPECIAL_EQUIPMENTS',
+               name: 'special_equipments',
                handleClick: () => {
                   navigate('/catalog');
                   dispatch(
