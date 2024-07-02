@@ -218,9 +218,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
          <div className={cl.advertContainer}>
             <div className={cl.advertHeader}>
                <div className={cl.advertHeader__top}>
-                  <h4 className={cl.advertHeader__title}>
-                     {advert?.brand} {advert?.model} {advert.generation}
-                  </h4>
+                  <h4 className={cl.advertHeader__title}>{advert?.brand}</h4>
 
                   <p className={cl.advertHeader__price}>{advert?.price}$</p>
                   <button

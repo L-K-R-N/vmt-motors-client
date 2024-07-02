@@ -5,7 +5,7 @@ import { IRegisterInputs } from '@/pages/auth/RegisterPage/useRegisterForm';
 // requests
 export type ILoginRequest = ILoginInputs;
 
-export type IRegisterRequest = Omit<IRegisterFormShema, 'email'>;
+// export type IRegisterRequest = Omit<IRegisterFormShema, 'email'>;
 
 export interface IVerifyRequest {
    email: string;

@@ -172,6 +172,7 @@ export const useAddAdvert = () => {
    const [images, setImages] = useState<File[]>([]);
    const handleImageUpload = (newImages: File[]) => {
       setImages([...images, ...newImages]);
+      console.log(images);
    };
    const onSubmit: SubmitHandler<IProductFormShema> = (data) => {
       try {
@@ -199,30 +200,24 @@ export const useAddAdvert = () => {
                type: data?.type?.value,
                year: Number(data?.year),
                createdAt: new Date(),
+            }).then((res) => {
+               const formData = new FormData();
+               images.map((image) => {
+                  formData.append('images', image);
+               });
+
+               ProductService.uploadPhotos(formData, res.data.id);
+
+               setImages([]);
+               // reset();
             });
 
-            toast
-               .promise(productPostRes, {
-                  pending: 'Проверяем корректность данных...',
-                  success: 'Объявление отправлено на проверку!',
-                  error: 'Произошла непредвиденная ошибка',
-               })
-               .then((res) => {
-                  if (images.length) {
-                     const formData = new FormData();
-                     images.map((image) => {
-                        formData.append('images', image);
-                     });
-
-                     const response = ProductService.uploadPhotos({
-                        productId: res.data.id,
-                        files: formData,
-                     });
-
-                     setImages([]);
-                  }
-                  reset();
-               });
+            // toast
+            //    .promise(productPostRes, {
+            //       pending: 'Проверяем корректность данных...',
+            //       success: 'Объявление отправлено на проверку!',
+            //       error: 'Произошла непредвиденная ошибка',
+            //    })
          }
       } catch (e) {}
    };

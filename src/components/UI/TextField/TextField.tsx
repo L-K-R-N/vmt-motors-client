@@ -6,6 +6,7 @@ import {
    FieldValues,
    Path,
 } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 export type TFieldType = 'input' | 'textarea';
 
@@ -42,7 +43,7 @@ export function TextField<TFieldValues extends FieldValues>({
    const id = useId();
 
    const labelEl = useRef<HTMLLabelElement | null>(null);
-
+   const { t } = useTranslation();
    return (
       <div className={cl.container}>
          <label
@@ -53,9 +54,11 @@ export function TextField<TFieldValues extends FieldValues>({
             htmlFor={id}
             ref={labelEl}
          >
-            {errors && errors[name]?.message
-               ? (errors[name]?.message as ReactNode)
-               : title}
+            {t(
+               errors && errors[name]?.message
+                  ? (errors[name]?.message as string)
+                  : title,
+            )}
          </label>
          {type === 'input' ? (
             <input

@@ -26,6 +26,7 @@ import { AdminRoute } from './components/layout/AdminRoute/AdminRoute';
 import { ChangeProfilePage } from './pages/other/ChangeProfilePage';
 import { BasketPage } from './pages/other/BasketPage';
 import { ChangeAdvertPage } from './pages/other/ChangeAdvertPage';
+import { ForgotPassPage } from './pages/auth/ForgotPassPage';
 // import { useGetMe } from './api/hooks/Person';
 
 // const authRoutes: RouteObject[] = [];
@@ -51,6 +52,11 @@ const App = () => {
       {
          path: '/signin',
          element: <LoginPage />,
+         // loader: () => !isAuth,
+      },
+      {
+         path: '/recover',
+         element: <ForgotPassPage />,
          // loader: () => !isAuth,
       },
       {

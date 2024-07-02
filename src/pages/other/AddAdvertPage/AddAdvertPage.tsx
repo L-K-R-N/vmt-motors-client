@@ -1,14 +1,10 @@
 import cl from './AddAdvertPage.module.scss';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useEffect, useState } from 'react';
-import { SelectController } from '@/components/UI/SelectController/SelectController';
 import { useAddAdvert } from './useAddAdvert';
-import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/UI/Button/Button';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import { ISelectItem, TBody } from '@/api/models/Products';
-import { CheckboxController } from '@/components/UI/CheckboxController/CheckboxController';
 import { Loader } from '@/components/UI/Loader/Loader';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import {
@@ -18,9 +14,12 @@ import {
    setSelectedModel,
 } from '@/store/reducers/FilterSlice';
 import { brandsData } from '../../../data/brands.json';
+import typeCar from './assets/types/car.png';
+import typeMotorcycle from './assets/types/motorcycle.png';
+import { Carousel, ConfigProvider } from 'antd';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
-import ImageUpload from '@/components/layout/ProductPhotoUpload/ProductPhotoUpload';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
 interface IBody extends ISelectItem<TBody> {
    img: string;
@@ -46,6 +45,12 @@ export interface IGeneration {
    'year-stop': number;
 }
 
+export interface IProductType {
+   label: string;
+   value: string;
+   img: string;
+}
+
 interface Props {}
 
 const AddAdvertPage: React.FC<Props> = () => {
@@ -56,6 +61,7 @@ const AddAdvertPage: React.FC<Props> = () => {
    // const [selectedModel, setSelectedModel] = useState<IModel | null>(null);
    const [selectedGeneration, setSelectedGeneration] = useState('');
    const [isLoading, setIsLoading] = useState(false);
+   const [stage, setStage] = useState(1);
 
    // const fetchProducts = async () => {
    //    const products = await CatalogService.getProducts();
@@ -70,7 +76,6 @@ const AddAdvertPage: React.FC<Props> = () => {
       colors,
       fuels,
       gears,
-      types,
       owners,
       colorings,
       models,
@@ -191,6 +196,26 @@ const AddAdvertPage: React.FC<Props> = () => {
       );
    };
 
+   const handleModelChange = (model: ISelectItem<string>) => {
+      dispatch(setSelectedModel(model));
+      // console.log(brand);
+
+      // Загрузка моделей для выбранной марки
+      // import(`../../../data/models/${brand.value}.json`).then(
+      //    (data: { default: IModel[] }) => {
+      //       console.log(data.default);
+      //       dispatch(
+      //          setModels(
+      //             data.default?.map((model) => ({
+      //                value: model.id,
+      //                label: model.name,
+      //             })),
+      //          ),
+      //       );
+      //    },
+      // );
+   };
+
    useEffect(() => {
       const newBrands = brandsData?.map((brand) => ({
          value: brand.id,
@@ -220,6 +245,45 @@ const AddAdvertPage: React.FC<Props> = () => {
    useEffect(() => {
       // brandsOptions = toIOption(brands);
    }, []);
+
+   const [types] = useState<IProductType[]>([
+      {
+         label: 'automobile',
+         value: 'automobile',
+         img: typeCar,
+      },
+      {
+         label: 'motorcycle',
+         value: 'motorcycle',
+         img: typeMotorcycle,
+      },
+      // {
+      //    label: 'automobile',
+      //    value: 'automobile',
+      //    img: typeCar,
+
+      // },
+      // {
+      //    label: 'automobile',
+      //    value: 'automobile',
+      //    img: typeCar,
+
+      // },
+   ]);
+   const [selectedType, setSelectedType] = useState<string>(types[0].value);
+
+   // const settings = {
+   //    dots: true,
+   //    dotsClass: 'slick-dots slick-thumb',
+   //    infinite: true,
+   //    speed: 500,
+   //    slidesToShow: 1,
+   //    slidesToScroll: 1,
+   // };
+
+   useEffect(() => {
+      console.log(stage);
+   }, [stage]);
    return (
       <>
          {isLoading && <Loader />}
@@ -229,31 +293,100 @@ const AddAdvertPage: React.FC<Props> = () => {
             </div>
             <div className={cl.wrapper}>
                <form className={cl.addForm} onSubmit={handleSubmit(onSubmit)}>
-                  <h4 className={cl.title}>{t('choose_brand')}</h4>
+                  <ConfigProvider
+                     theme={{
+                        components: {
+                           Carousel: {
+                              arrowSize: 38,
+                              arrowOffset: 26,
+                              dotHeight: 5,
+                           },
+                        },
+                     }}
+                  >
+                     {stage === 1 && (
+                        <div>
+                           <h4 className={cl.title}>{t('choose_type')}</h4>
+                           <Carousel
+                              speed={350}
+                              arrows
+                              afterChange={(i) => {
+                                 setSelectedType(types[i].value);
+                                 console.log(selectedType);
+                              }}
+                           >
+                              {types.map((type) => (
+                                 <div className={cl.typeCard}>
+                                    <img src={type.img} alt="" />
+                                    <p>{t(type.label)}</p>
+                                 </div>
+                              ))}
+                           </Carousel>
+                        </div>
+                     )}
+                     {stage === 2 && (
+                        <div className={cl.block}>
+                           <Controller
+                              name="brand"
+                              control={control}
+                              render={({ field }) => (
+                                 <Select
+                                    // styles={SelectStyles}
+                                    placeholder="Brand"
+                                    isMulti={false}
+                                    {...field}
+                                    options={brands}
+                                    value={selectedBrand}
+                                    isDisabled={false}
+                                    components={{
+                                       DropdownIndicator: null, // Убираем индикатор создания нового значения
+                                       IndicatorSeparator: null, // Убираем разделитель индикатора
+                                    }}
+                                    isClearable={true}
+                                    onChange={(newValue) => {
+                                       if (newValue?.value && newValue?.label) {
+                                          handleBrandChange(newValue);
+                                       }
+                                    }}
+                                 />
+                              )}
+                           />
+                           <Controller
+                              name="model"
+                              control={control}
+                              render={({ field }) => (
+                                 <Select
+                                    // styles={SelectStyles}
+                                    placeholder="Model"
+                                    isMulti={false}
+                                    {...field}
+                                    options={models}
+                                    value={selectedModel}
+                                    isDisabled={false}
+                                    components={{
+                                       DropdownIndicator: null, // Убираем индикатор создания нового значения
+                                       IndicatorSeparator: null, // Убираем разделитель индикатора
+                                    }}
+                                    isClearable={true}
+                                    onChange={(newValue) => {
+                                       if (newValue?.value && newValue?.label) {
+                                          handleModelChange(newValue);
+                                       }
+                                    }}
+                                 />
+                              )}
+                           />
+                        </div>
+                     )}
 
-                  <div className={cl.block}>
-                     {/* <TextFieldController
-                        control={control}
-                        errors={errors}
-                        fieldType="input"
-                        label="Name"
-                        name="name"
-                        placeholder={t('name')}
-                     /> */}
-                     {/* <SelectController
-                        control={control}
-                        errors={errors}
-                        name="brand"
-                        options={brands}
-                        placeholder={t('brand')}
-                        isMulti={false}
-                        handleChange={(brand) =>
-                           handleBrandChange({
-                              id: brand.value,
-                              name: brand.label,
-                           })
-                        }
-                     /> */}
+                     <button onClick={() => setStage((prev) => --prev)}>
+                        {t('prev')}
+                     </button>
+                     <button onClick={() => setStage((prev) => ++prev)}>
+                        {t('next')}
+                     </button>
+                  </ConfigProvider>
+                  {/* <div className={cl.block}>
                      <Controller
                         name="brand"
                         control={control}
@@ -279,7 +412,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                            />
                         )}
                      />
-                     {/* <Controller
+                     <Controller
                         name="model"
                         control={control}
                         render={({ field }) => (
@@ -309,7 +442,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                               }}
                            />
                         )}
-                     /> */}
+                     />
                      <SelectController
                         control={control}
                         errors={errors}
@@ -325,13 +458,13 @@ const AddAdvertPage: React.FC<Props> = () => {
                         fieldType="input"
                         label={t('car_from')}
                      />
-                     {/* <TextFieldController
-                     control={control}
-                     errors={errors}
-                     name="exchange"
-                     fieldType="input"
-                     label={t("model")}
-                  /> */}
+                     <TextFieldController
+                        control={control}
+                        errors={errors}
+                        name="exchange"
+                        fieldType="input"
+                        label={t('model')}
+                     />
                      <SelectController
                         control={control}
                         errors={errors}
@@ -368,17 +501,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                            inputType="number"
                         />
                      </div>
-                     <div className={cl.elem}>
-                        <h5 className={cl.subtitle}>{t('Type')}</h5>
-                        <SelectController
-                           control={control}
-                           errors={errors}
-                           placeholder={t('Type')}
-                           name="type"
-                           options={types}
-                           isMulti={false}
-                        />
-                     </div>
+                     
                      <div className={cl.elem}>
                         <h5 className={cl.subtitle}>{t('mileage')}</h5>
                         <TextFieldController
@@ -400,34 +523,6 @@ const AddAdvertPage: React.FC<Props> = () => {
                         options={bodies}
                         isMulti={false}
                      />
-                     {/* <Controller control={control} name='body' render={({ field }) => (
-                        <select value={selectedBodyValue} onChange={(e) => setSelectedBodyValue(e.target.value)}>
-
-                           {  
-                              bodies?.map((body) => 
-                                 <option value={body.value}>
-                                    {body.label}
-                                 </option>
-                              )
-                           }  
-                        </select>
-                           
-                     )}/> */}
-                     {/* <ul className={cl.bodies}>
-                     {bodies?.map((b) => (
-                        <li
-                           className={[
-                              cl.body,
-                              b.value === selectedBodyValue ? cl.active : '',
-                           ].join(' ')}
-                           onClick={() => setSelectedBodyValue(b.value)}
-                           key={b.value}
-                        >
-                           <img className={cl.body__img} src={b.img} alt="" />
-                           <h6 className={cl.body__name}>{t(b.value)}</h6>
-                        </li>
-                     ))}
-                  </ul> */}
                   </div>
                   <div className={cl.block}>
                      <h5 className={cl.subtitle}>{t('photo')}</h5>
@@ -524,10 +619,10 @@ const AddAdvertPage: React.FC<Props> = () => {
                         label={`${t('price')} $`}
                         name="price"
                      />
-                  </div>
-                  <Button type="submit" title={t('place_ad')}>
+                  </div> */}
+                  {/* <Button type="submit" title={t('place_ad')}>
                      {t('place_ad')}
-                  </Button>
+                  </Button> */}
                </form>
             </div>
          </div>

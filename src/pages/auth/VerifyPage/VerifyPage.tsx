@@ -65,7 +65,7 @@ const VerifyPage = () => {
                      title="Send email"
                      onClick={handleSendEmail}
                   >
-                     Send code
+                     Send
                   </Button>
                </>
             ) : (

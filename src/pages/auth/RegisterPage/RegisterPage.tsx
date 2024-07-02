@@ -1,6 +1,6 @@
 import cl from './RegisterPage.module.scss';
 import { Button } from '@/components/UI/Button/Button.tsx';
-import { useHideLayout, useShowHeader } from '@/hooks/useLayout';
+import { useShowHeader } from '@/hooks/useLayout';
 import { useNavigate } from 'react-router-dom';
 import { useRegisterForm } from './useRegisterForm';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
@@ -12,20 +12,18 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
-export const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/;
-export const usernameRegex = /^[a-zA-Z0-9]{3,25}$/;
+import { passwordRegex, usernameRegex } from '../models/models';
 
 export const registerFormShema = z.object({
    username: z
       .string({
-         required_error: 'Это обязательное поле',
+         required_error: 'required_error',
       })
       .trim()
-      .min(3, 'Слишком короткий username')
-      .max(25, 'Слишком длинный username')
+      .min(3, 'min_length_error')
+      .max(25, 'max_length_error')
       .refine((val) => usernameRegex.test(val), {
-         message:
-            'Username может состоять только из букв a-Z и должен содержать в себе цифры',
+         message: 'username_error',
       }),
    name: z
       .string({
@@ -34,17 +32,20 @@ export const registerFormShema = z.object({
       .trim()
       .min(4, 'Слишком короткое имя')
       .max(64, 'Слишком длинное имя'),
-
+   email: z
+      .string({
+         required_error: 'required_error',
+      })
+      .email('email_error'),
    password: z
       .string({
-         required_error: 'Это обязательное поле',
+         required_error: 'required_error',
       })
       // .trim()
       // .min(8, 'Слишком короткий пароль')
       // .max(64, 'Слишком длинный пароль')
       .refine((val) => passwordRegex.test(val), {
-         message:
-            'Пароль может состоять только из букв a-Z, должен содержать в себе цифры',
+         message: 'password_error',
       }),
 });
 
@@ -87,6 +88,13 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
+               label={t('name')}
+               name="name"
+               fieldType="input"
+            />
+            <TextFieldController
+               control={registerForm.control}
+               errors={registerForm.errors}
                label={t('username')}
                name="username"
                fieldType="input"
@@ -95,8 +103,8 @@ const RegisterPage = () => {
             <TextFieldController
                control={registerForm.control}
                errors={registerForm.errors}
-               label={t('name')}
-               name="name"
+               label={t('email')}
+               name="email"
                fieldType="input"
             />
             <div className={cl.passContainer}>

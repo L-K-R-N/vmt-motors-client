@@ -1,63 +1,105 @@
-import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController';
-import { Button } from '@/components/UI/Button/Button.tsx';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useHideSidebar } from '@/hooks/useLayout';
-import { useNavigate } from 'react-router-dom';
 import cl from './ForgotPassPage.module.scss';
-import { AuthFormLayout } from '@/components/layout/AuthFormLayout/AuthFormLayout';
+import { Button } from '@/components/UI/Button/Button.tsx';
+import { useShowHeader } from '@/hooks/useLayout';
+import { useNavigate } from 'react-router-dom';
+import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout';
+import { useState } from 'react';
+import { z } from 'zod';
+import { TextField } from '@/components/UI/TextField/TextField';
+import { handleForgotSend, handleForgotVerify } from '@/api/hooks/Auth';
 
-export interface IForgotPassInputs {
-   email: string;
-}
+export const forgotPassFormShema = z.object({
+   email: z
+      .string({
+         required_error: 'Это обязательное поле',
+      })
+      .trim()
+      .min(3, 'Слишком короткая почта')
+      .email(),
+   code: z.string({
+      required_error: 'Это обязательное поле',
+   }),
+});
+
+export type IForgotPassFormShema = z.infer<typeof forgotPassFormShema>;
+
 const ForgotPassPage = () => {
+   useShowHeader();
    const navigate = useNavigate();
+   const [isEmailSend, setIsEmailSend] = useState(false);
+   const [email, setEmail] = useState('');
+   const [newPassword, setNewPassword] = useState('');
+   const [verificationCode, setVerificationCode] = useState('');
 
-   // const {
-   //    captchaValue,
-   //    setCaptchaValue,
-   //    loading,
-   //    req_error,
-   //    errors,
-   //    handleSubmit,
-   //    onSubmit,
-   //    register,
-   //    control,
-   // } = useLoginPage();
+   const handleSendEmail = async () => {
+      if (email) {
+         const res = await handleForgotSend(email);
 
-   const {
-      handleSubmit,
-      formState: { errors },
-      control,
-      setFocus,
-   } = useForm<IForgotPassInputs>();
-   useHideSidebar();
-   const handleNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      navigate('/forgot-password');
+         setIsEmailSend(await res);
+      }
    };
 
-   const onSubmit: SubmitHandler<IForgotPassInputs> = (data) => {
-      console.log(data);
+   const handleVerify = () => {
+      if (verificationCode) {
+         handleForgotVerify({
+            email,
+            newPassword,
+            verificationCode,
+         });
+      }
    };
 
    return (
-      <AuthFormLayout>
-         <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
-            <h3 className={cl.title}>Восстановление пароля</h3>
-            <TextFieldController
-               fieldType="input"
-               control={control}
-               errors={errors}
-               label="Ваша почта"
-               name="email"
-               rules={{ required: 'Введите почту' }}
-            />
-
-            <Button type="submit" title="Submit">
-               Отправить письмо
-            </Button>
+      <AuthLayout type="recover">
+         <form className={cl.form}>
+            {!isEmailSend ? (
+               <>
+                  <TextField
+                     title="Email"
+                     type="input"
+                     onChange={(e) => setEmail(e.target.value)}
+                     value={email}
+                  />
+                  <Button
+                     type="button"
+                     title="Send email"
+                     onClick={handleSendEmail}
+                  >
+                     Send
+                  </Button>
+               </>
+            ) : (
+               <>
+                  <TextField
+                     title="Verification code"
+                     type="input"
+                     onChange={(e) => setVerificationCode(e.target.value)}
+                     value={verificationCode}
+                  />
+                  <TextField
+                     title="New password"
+                     type="input"
+                     onChange={(e) => setNewPassword(e.target.value)}
+                     value={newPassword}
+                  />
+                  <Button
+                     type="button"
+                     title="Verification"
+                     onClick={handleVerify}
+                  >
+                     Verify
+                  </Button>
+                  <Button
+                     type="button"
+                     title="Back"
+                     onClick={() => setIsEmailSend(false)}
+                  >
+                     Change email
+                  </Button>
+               </>
+            )}
          </form>
-      </AuthFormLayout>
+      </AuthLayout>
    );
 };
 

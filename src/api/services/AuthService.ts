@@ -1,11 +1,7 @@
 import { AxiosResponse } from 'axios';
 import $api from '../public.api';
-import {
-   IAuthResponse,
-   ILoginRequest,
-   IRegisterRequest,
-   IVerifyRequest,
-} from '../models/Auth';
+import { IAuthResponse, ILoginRequest, IVerifyRequest } from '../models/Auth';
+import { IRegisterFormShema } from '@/pages/auth/RegisterPage/RegisterPage';
 
 export default class AuthService {
    static async login(
@@ -18,12 +14,8 @@ export default class AuthService {
       });
    }
 
-   static async register(data: IRegisterRequest): Promise<AxiosResponse> {
-      return $api.post('auth/signup', {
-         username: data?.username,
-         password: data?.password,
-         name: data?.name,
-      });
+   static async register(data: IRegisterFormShema): Promise<AxiosResponse> {
+      return $api.post('auth/signup', data);
    }
    static async verificationEmailSend(
       data: IVerifyRequest,
@@ -39,6 +31,18 @@ export default class AuthService {
       return $api.post('auth/verification/email/verify', {
          verificationCode: data?.code,
       });
+   }
+   static async forgotPassSend(email: string): Promise<AxiosResponse> {
+      return $api.post('auth/forgot/email/send', {
+         email,
+      });
+   }
+   static async forgotPassVerify(data: {
+      email: string;
+      verificationCode: string;
+      newPassword: string;
+   }): Promise<AxiosResponse> {
+      return $api.post('auth/forgot/email/verify', data);
    }
 
    static async logout(): Promise<void> {

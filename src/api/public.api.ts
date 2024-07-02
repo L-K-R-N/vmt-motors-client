@@ -22,12 +22,38 @@ $api.interceptors.request.use(
    async (config) => {
       const { accessToken, refreshToken } = getTokens();
 
+      // if (accessToken) {
+      //    // const decodedToken = jwtDecode(accessToken);
+      //    // if (decodedToken.exp) {
+      //    //    let expTime = decodedToken.exp * 1000;
+      //    //    let curTime = new Date().getTime();
+
+      //    //    if (expTime - curTime <= -3000) {
+      //    //       if (refreshToken) {
+      //    //          const newAccess = handleRefresh(refreshToken);
+
+      //    //          config.headers.Authorization = `Bearer ${newAccess}`;
+      //    //       } else {
+      //    //          handleLogout();
+      //    //       }
+      //    //    } else {
+      //    config.headers.Authorization = `Bearer ${accessToken}`;
+      // } else if (refreshToken) {
+      //    handleRefresh(refreshToken);
+
+      //    const newAccess = localStorage.getItem('token');
+
+      //    if (newAccess) {
+      //       config.headers.Authorization = `Bearer ${newAccess}`;
+      //    }
+      // } else {
+      //    handleLogout();
+      // }
       if (accessToken) {
          const decodedToken = jwtDecode(accessToken);
          if (decodedToken.exp) {
             let expTime = decodedToken.exp * 1000;
             let curTime = new Date().getTime();
-
             if (expTime - curTime <= -3000) {
                if (refreshToken) {
                   const newAccess = handleRefresh(refreshToken);
@@ -40,14 +66,6 @@ $api.interceptors.request.use(
                config.headers.Authorization = `Bearer ${accessToken}`;
             }
          }
-
-         // if ()
-         // } else if (refreshToken) {
-         //    const newAccess = handleRefresh({
-         //       device: navigator.userAgent,
-         //       refresh: refreshToken,
-         //    });
-         //    config.headers.Authorization = `Bearer ${newAccess}`;
       }
 
       return config;
@@ -65,47 +83,26 @@ $api.interceptors.response?.use(
       const originalRequest = error.config;
       const status = error.response?.status;
 
-      if (status === 401 && !originalRequest._retry401) {
-         originalRequest._retry401 = true;
-         const refresh = localStorage.getItem('refresh');
+      if (status === 401 && !originalRequest._retry) {
+         originalRequest._retry = true;
+         const { accessToken, refreshToken } = getTokens();
 
-         if (refresh) {
-            const newAccessToken = handleRefresh(refresh);
-
-            if (newAccessToken) {
-               originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+         if (refreshToken) {
+            const newAccess = handleRefresh(refreshToken);
+            if (newAccess) {
+               originalRequest.headers.Authorization = `Bearer ${newAccess}`;
                return $api(originalRequest);
             } else {
+               handleLogout();
                return Promise.reject(error);
             }
+         } else {
+            handleLogout();
+            return Promise.reject(error);
          }
       }
 
-      // if (status === 403 && !originalRequest._retry403) {
-      //    originalRequest._retry403 = true;
-      //    const newAccessToken = await refreshTokens();
-
-      //    if (newAccessToken) {
-      //       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-      //       return $api(originalRequest);
-      //    } else {
-      //       return Promise.reject(error);
-      //    }
-      // }
-      // const decodedToken = jwtDecode(access);
-      // console.log(decodedToken, decodedToken.exp);
-      // if (decodedToken.exp) {
-      //    let expTime = decodedToken.exp * 1000;
-      //    let curTime = new Date().getTime();
-
-      //    console.log(expTime - curTime);
-
-      //    if (expTime - curTime <= -3000) {
-      //       const newAccess = refreshTokens();
-      //       config.headers.Authorization = `Bearer ${newAccess}`;
-      //    } else {
-      //    }
-      // }
+      return Promise.reject(error);
    },
 );
 

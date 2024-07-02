@@ -1,16 +1,15 @@
 import cl from './LoginPage.module.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useHideLayout, useShowHeader } from '../../../hooks/useLayout.ts';
+import { useShowHeader } from '../../../hooks/useLayout.ts';
 import { Button } from '@/components/UI/Button/Button.tsx';
 import { useLoginPage } from './useLoginPage.ts';
 import { TextFieldController } from '@/components/UI/TextFieldController/TextFieldController.tsx';
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { passwordRegex, usernameRegex } from '../RegisterPage/RegisterPage.tsx';
 import { z } from 'zod';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
+import { usernameRegex, passwordRegex, emailRegex } from '../models/models.ts';
 
 export const loginFormShema = z.object({
    username: z
@@ -19,7 +18,7 @@ export const loginFormShema = z.object({
       })
       .trim()
 
-      .refine((val) => usernameRegex.test(val), {
+      .refine((val) => usernameRegex.test(val) || emailRegex.test(val), {
          message: 'Неверный login',
       }),
 

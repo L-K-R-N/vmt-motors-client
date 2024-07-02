@@ -20,6 +20,32 @@
       text-align: center;
    }
 
+   .typeCard {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      border-radius: 10px;
+      // overflow: hidden;
+
+      & > img {
+         width: 100%;
+         height: 100%;
+         border-radius: 10px;
+      }
+      & > p {
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 100%;
+         padding: 10px;
+         font-size: 34px;
+         background: rgba(0, 0, 0, 0.421);
+         color: white;
+         text-transform: uppercase;
+         font-weight: 300;
+      }
+   }
+
    .wrapper {
       max-width: 1000px;
       margin: 0 auto;
@@ -90,6 +116,7 @@
       font-family: $font-tildaSans;
       border-radius: 10px;
       background: #60c300;
+      text-align: center;
       width: auto;
       align-self: start;
       border: 1px solid var(--text-primary);

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 interface Props {
    children: ReactNode;
-   type: 'signin' | 'signup';
+   type: 'signin' | 'signup' | 'recover' | 'verification';
 }
 
 interface AuthVariant {

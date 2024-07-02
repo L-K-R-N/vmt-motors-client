@@ -81,6 +81,16 @@ export default class ProductService {
    }): Promise<AxiosResponse<IProduct>> {
       return $api.get<IProduct>(`product/commodity/photo`, {
          params: {
+            commodityPhotoId: data.productId,
+         },
+      });
+   }
+   static async getProductPhoto(data: {
+      productId: string;
+   }): Promise<AxiosResponse<IProduct>> {
+      return $api.get<IProduct>(`/product/commodity/photo/by-commodity-id`, {
+         params: {
+            commodityPhotoId: 0,
             commodityId: data.productId,
          },
       });
@@ -164,15 +174,16 @@ export default class ProductService {
       });
    }
 
-   static async uploadPhotos(data: {
-      files: FormData;
-      productId: string;
-   }): Promise<AxiosResponse> {
+   static async uploadPhotos(
+      files: FormData,
+      productId: string,
+   ): Promise<AxiosResponse> {
       return $api.post(
-         `product/commodity/moderation/accept`,
+         `product/commodity/photo`,
+         // files,
          {
-            commodityId: data?.productId,
-            files: data.files,
+            commodityId: productId,
+            files: files,
          },
          {
             headers: {

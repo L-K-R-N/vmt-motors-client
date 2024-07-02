@@ -80,7 +80,7 @@ const ProductPage: React.FC<Props> = () => {
 
       if (product) {
          try {
-            ProductService.getProductPhotos({ productId: product.id }).then(
+            ProductService.getProductPhoto({ productId: product.id }).then(
                (res) => {
                   console.log(res);
                },
