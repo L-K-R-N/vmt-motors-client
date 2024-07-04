@@ -13,24 +13,31 @@ import {
    TSorting,
    TColoring,
 } from '@/api/models/Products';
+import { IGeneration, IModel } from '@/pages/other/AddAdvertPage/AddAdvertPage';
 
 export interface IFilterState {
    brands: ISelectItem<string>[];
-   models: ISelectItem<string>[];
-   generations: ISelectItem<string>[];
+   models: IModel[];
+   generations: IGeneration[];
    driveUnits: ISelectItem<TDriveUnit>[];
    fuels: ISelectItem<TFuel>[];
    gears: ISelectItem<TGear>[];
    colors: ISelectItem<TColor>[];
    types: ISelectItem<string>[];
-   owners: ISelectItem<TOwner>[];
+   owners: ISelectItem<string>[];
    bodies: ISelectItem<TBody>[];
    activeType: ISelectItem<string>;
    sortByOptions: ISelectItem<TSorting>[];
    colorings: ISelectItem<TColoring>[];
    activeVariant: string;
+
    selectedBrand: ISelectItem<string> | null;
-   selectedModel: ISelectItem<string> | null;
+   selectedModel: IModel | null;
+   selectedGeneration: IGeneration | null;
+   selectedFuelValue: string | null;
+   selectedBodyValue: string | null;
+   selectedGearValue: string | null;
+   selectedDriveUnitValue: string | null;
 }
 
 const initialState: IFilterState = {
@@ -61,6 +68,11 @@ const initialState: IFilterState = {
       },
    ],
    selectedBrand: null,
+   selectedGeneration: null,
+   selectedFuelValue: null,
+   selectedBodyValue: null,
+   selectedGearValue: null,
+   selectedDriveUnitValue: null,
    activeVariant: 'all',
    activeType: {
       value: 'AUTOMOBILE',
@@ -120,19 +132,19 @@ const initialState: IFilterState = {
    ],
    owners: [
       {
-         value: 'COMPANY',
+         value: 'company',
          label: 'company',
       },
       {
-         value: 'OWNER',
-         label: 'owner',
+         value: 'private_person',
+         label: 'private_person',
       },
       // {
       //    value: 'PRIVATE_OWNER',
       //    label: 'private_owner',
       // },
       {
-         value: 'OTHER',
+         value: 'other',
          label: 'other',
       },
    ],
@@ -292,10 +304,10 @@ export const FilterSlice = createSlice({
       setBrands: (state, action: PayloadAction<ISelectItem<string>[]>) => {
          state.brands = action.payload;
       },
-      setModels: (state, action: PayloadAction<ISelectItem<string>[]>) => {
+      setModels: (state, action: PayloadAction<IModel[]>) => {
          state.models = action.payload;
       },
-      setGenerations: (state, action: PayloadAction<ISelectItem<string>[]>) => {
+      setGenerations: (state, action: PayloadAction<IGeneration[]>) => {
          state.generations = action.payload;
       },
       setActiveVariant: (state, action: PayloadAction<string>) => {
@@ -310,11 +322,29 @@ export const FilterSlice = createSlice({
       ) => {
          state.selectedBrand = action.payload;
       },
-      setSelectedModel: (
-         state,
-         action: PayloadAction<ISelectItem<string> | null>,
-      ) => {
+      setSelectedModel: (state, action: PayloadAction<IModel | null>) => {
          state.selectedModel = action.payload;
+      },
+      setSelectedGeneration: (
+         state,
+         action: PayloadAction<IGeneration | null>,
+      ) => {
+         state.selectedGeneration = action.payload;
+      },
+      setSelectedBodyValue: (state, action: PayloadAction<string | null>) => {
+         state.selectedBodyValue = action.payload;
+      },
+      setSelectedFuelValue: (state, action: PayloadAction<string | null>) => {
+         state.selectedFuelValue = action.payload;
+      },
+      setSelectedGearValue: (state, action: PayloadAction<string | null>) => {
+         state.selectedGearValue = action.payload;
+      },
+      setSelectedDriveUnitValue: (
+         state,
+         action: PayloadAction<string | null>,
+      ) => {
+         state.selectedDriveUnitValue = action.payload;
       },
    },
 });
@@ -329,4 +359,9 @@ export const {
    setActiveType,
    setSelectedBrand,
    setSelectedModel,
+   setSelectedBodyValue,
+   setSelectedFuelValue,
+   setSelectedGearValue,
+   setSelectedDriveUnitValue,
+   setSelectedGeneration,
 } = FilterSlice.actions;

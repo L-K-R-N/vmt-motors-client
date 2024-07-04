@@ -174,51 +174,48 @@ export const useAddAdvert = () => {
       setImages([...images, ...newImages]);
       console.log(images);
    };
-   const onSubmit: SubmitHandler<IProductFormShema> = (data) => {
+   const onSubmit = () => {
       try {
          // console.log(data);
-         if (selectedBrand) {
-            const productPostRes = ProductService.postProduct({
-               body: data?.body?.value,
-               brand: selectedBrand.value,
-               color: data?.color?.value,
-               coloring: data?.coloring?.value,
-               description: data?.description,
-               driveUnit: data?.driveUnit?.value,
-               exchange: data?.exchange,
-               from: data?.from,
-               fuel: data?.fuel?.value,
-               gear: data?.gear?.value,
-               generation: data?.generation,
-               isNew: false,
-               millage: Number(data?.millage),
-               model: data?.model.value,
-               // name: data?.name,
-               owner: data?.owner?.value,
-               price: Number(data?.price),
-               trade: data?.trade,
-               type: data?.type?.value,
-               year: Number(data?.year),
-               createdAt: new Date(),
-            }).then((res) => {
-               const formData = new FormData();
-               images.map((image) => {
-                  formData.append('images', image);
-               });
-
-               ProductService.uploadPhotos(formData, res.data.id);
-
-               setImages([]);
-               // reset();
-            });
-
-            // toast
-            //    .promise(productPostRes, {
-            //       pending: 'Проверяем корректность данных...',
-            //       success: 'Объявление отправлено на проверку!',
-            //       error: 'Произошла непредвиденная ошибка',
-            //    })
-         }
+         // if (selectedBrand) {
+         //    const productPostRes = ProductService.postProduct({
+         //       body: data?.body?.value,
+         //       brand: selectedBrand.value,
+         //       color: data?.color?.value,
+         //       coloring: data?.coloring?.value,
+         //       description: data?.description,
+         //       driveUnit: data?.driveUnit?.value,
+         //       exchange: data?.exchange,
+         //       from: data?.from,
+         //       fuel: data?.fuel?.value,
+         //       gear: data?.gear?.value,
+         //       generation: data?.generation,
+         //       isNew: false,
+         //       millage: Number(data?.millage),
+         //       model: data?.model.value,
+         //       // name: data?.name,
+         //       owner: data?.owner?.value,
+         //       price: Number(data?.price),
+         //       trade: data?.trade,
+         //       type: data?.type?.value,
+         //       year: Number(data?.year),
+         //       createdAt: new Date(),
+         //    }).then((res) => {
+         //       const formData = new FormData();
+         //       images.map((image) => {
+         //          formData.append('images', image);
+         //       });
+         //       ProductService.uploadPhotos(formData, res.data.id);
+         //       setImages([]);
+         //       // reset();
+         //    });
+         // toast
+         //    .promise(productPostRes, {
+         //       pending: 'Проверяем корректность данных...',
+         //       success: 'Объявление отправлено на проверку!',
+         //       error: 'Произошла непредвиденная ошибка',
+         //    })
+         // }
       } catch (e) {}
    };
 
