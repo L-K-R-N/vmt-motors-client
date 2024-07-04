@@ -174,17 +174,11 @@ export default class ProductService {
       });
    }
 
-   static async uploadPhotos(
-      files: FormData,
-      productId: string,
-   ): Promise<AxiosResponse> {
+   static async uploadPhotos(formData: FormData): Promise<AxiosResponse> {
       return $api.post(
          `product/commodity/photo`,
          // files,
-         {
-            commodityId: productId,
-            files: files,
-         },
+         formData,
          {
             headers: {
                'Content-Type': 'multipart/form-data',

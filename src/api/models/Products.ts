@@ -2,12 +2,12 @@ export interface IProduct {
    id: string;
    personId: string;
    moderated: boolean;
-   type: TProductType;
+   type: string;
    isNew: boolean;
    from: string;
    exchange: boolean;
    trade: boolean;
-   owner: TOwner;
+   owner: string;
    description: string;
    brand: string;
    body: string;
@@ -18,9 +18,9 @@ export interface IProduct {
    year: number;
    millage: number;
    generation: string;
-   gear: TGear;
-   fuel: TFuel;
-   driveUnit: TDriveUnit;
+   gear: string;
+   fuel: string;
+   driveUnit: string;
    createdAt: Date;
    photoId: number | null;
 }
