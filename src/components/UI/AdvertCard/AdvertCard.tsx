@@ -19,6 +19,7 @@ import {
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { toast } from 'react-toastify';
+import { handleBlob } from '@/pages/other/ProfilePage/ProfilePage';
 export type TFieldType = 'input' | 'textarea';
 interface Props {
    advert: IProduct;
@@ -35,6 +36,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    const [isMyProduct, setIsMyProduct] = useState(false);
    const [isModerating, setIsModerating] = useState(false);
    const [isFavorite, setIsFavorite] = useState(false);
+   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
    useEffect(() => {
       // setLocale(changeLocale(lang));
       console.log(advert.moderated);
@@ -205,6 +207,16 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       navigate(`/adverts/change/${advert.id}`);
    };
 
+   useEffect(() => {
+      if (advert.commodityPhotoId) {
+         ProductService.getProductPhoto({
+            commodityPhotoId: advert.commodityPhotoId,
+         }).then((res) => {
+            setPhotoUrl(handleBlob(res.data));
+         });
+      }
+      console.log(advert);
+   }, [advert]);
    return (
       <div
          className={[cl.advert, isSmall ? cl.small : ''].join(' ')}
@@ -212,7 +224,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
       >
          <img
             className={cl.advertImg}
-            src={defaultPhoto}
+            src={photoUrl ? photoUrl : defaultPhoto}
             alt={`${advert?.brand} image`}
          />
          <div className={cl.advertContainer}>

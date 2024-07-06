@@ -78,21 +78,26 @@ export default class ProductService {
 
    static async getProductPhotos(data: {
       productId: string;
-   }): Promise<AxiosResponse<IProduct>> {
-      return $api.get<IProduct>(`product/commodity/photo`, {
-         params: {
-            commodityPhotoId: data.productId,
+   }): Promise<
+      AxiosResponse<{ commodityId: string; commodityPhotoId: string }[]>
+   > {
+      return $api.get<{ commodityId: string; commodityPhotoId: string }[]>(
+         `product/commodity/photo/by-commodity-id`,
+         {
+            params: {
+               commodityId: data.productId,
+            },
          },
-      });
+      );
    }
    static async getProductPhoto(data: {
-      productId: string;
-   }): Promise<AxiosResponse<IProduct>> {
-      return $api.get<IProduct>(`/product/commodity/photo/by-commodity-id`, {
+      commodityPhotoId: string;
+   }): Promise<AxiosResponse<string>> {
+      return $api.get<string>(`/product/commodity/photo`, {
          params: {
-            commodityPhotoId: 0,
-            commodityId: data.productId,
+            commodityPhotoId: data.commodityPhotoId,
          },
+         responseType: 'blob',
       });
    }
 
@@ -194,7 +199,7 @@ export default class ProductService {
    //    });
    // }
 
-   // DELETE
+   // DELETEj
    static async deleteProductPhoto(data: {
       photoId: string;
    }): Promise<AxiosResponse> {

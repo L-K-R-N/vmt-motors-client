@@ -8,6 +8,7 @@ export interface IProduct {
    exchange: boolean;
    trade: boolean;
    owner: string;
+   commodityPhotoId: string;
    description: string;
    brand: string;
    body: string;
@@ -27,7 +28,14 @@ export interface IProduct {
 
 export type IPostProductRequest = Omit<
    IProduct,
-   'id' | 'personId' | 'photoId' | 'createAt' | 'id' | 'moderated' | 'name'
+   | 'id'
+   | 'personId'
+   | 'photoId'
+   | 'createAt'
+   | 'id'
+   | 'moderated'
+   | 'name'
+   | 'firstPhotoId'
 >;
 
 export interface ISearchProductsRequest {

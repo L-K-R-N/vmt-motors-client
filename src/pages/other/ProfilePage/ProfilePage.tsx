@@ -5,12 +5,10 @@ import femaleAvatar from './assets/femaleAvatar.jpg';
 import { useHideSidebar } from '@/hooks/useLayout';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { BsHouseFill } from 'react-icons/bs';
-import { AdvertCard } from '@/components/UI/AdvertCard/AdvertCard';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaCakeCandles } from 'react-icons/fa6';
-import { PiHandbagSimpleFill } from 'react-icons/pi';
 import { MdLocationOn } from 'react-icons/md';
 // import { logout } from '@/store/reducers/AuthSlice';
 import ProductService from '@/api/services/ProductService';
@@ -18,15 +16,20 @@ import { handleLogout } from '@/api/hooks/Auth';
 import PersonService from '@/api/services/PersonService';
 import { IUser } from '@/api/models/Person';
 import { IProduct } from '@/api/models/Products';
-import { setMyProducts } from '@/store/reducers/ProductsSlice';
 import { AvatarUpload } from '@/components/layout/UploadAvatar/UploadAvatar';
 import { toast } from 'react-toastify';
 import { IoSettingsSharp } from 'react-icons/io5';
-import { setMe } from '@/store/reducers/UserSlice';
 import { setCurrentPerson } from '@/store/reducers/ChatSlice';
 import { Products } from '@/components/layout/Products/Products';
-import { Buffer } from 'buffer';
 import { handleGetMe } from '@/api/hooks/Person';
+
+export const handleBlob = (data: string) => {
+   const blob = new Blob([data], { type: 'image/*' });
+   const photoUrl = URL.createObjectURL(blob);
+
+   return photoUrl;
+};
+
 interface Props {}
 
 interface IUserInfoItem {
@@ -67,6 +70,7 @@ const ProfilePage: React.FC<Props> = () => {
          visible: false,
       },
    ]);
+
    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
    const handleGetAvatar = async () => {
       try {
@@ -78,28 +82,7 @@ const ProfilePage: React.FC<Props> = () => {
             // const binaryData = Buffer.from(response.data, 'base64');
             // setPhotoBytes(binaryData);
 
-            const blob = new Blob([response.data], { type: 'image/jpeg' });
-            const photoUrl = URL.createObjectURL(blob);
-            setAvatarUrl(photoUrl);
-            // // setAvatarUrl(blobPhoto(response.data));
-            // // const file = new Blob([new File(response.data, 'img/png')], {
-            // //    type: 'image.png',
-            // // });
-            // const base64Image = `data:image/png;base64,${response.data}`;
-            // console.log(base64Image);
-            // // setAvatarUrl(response?.data);
-
-            // const arrayBuffer = await response.data;
-            // const buffer = Buffer.from(arrayBuffer);
-            // const fileType = await FileType.fromBuffer(buffer);
-            // if (fileType.ext) {
-            //    const outputFileName = `yourfilenamehere.${fileType.ext}`;
-            //    fs.createWriteStream(outputFileName).write(buffer);
-            // } else {
-            //    console.log(
-            //       'File type could not be reliably determined! The binary data may be malformed! No file saved!',
-            //    );
-            // }
+            setAvatarUrl(handleBlob(response.data));
          }
       } catch (e) {
          console.log(e);

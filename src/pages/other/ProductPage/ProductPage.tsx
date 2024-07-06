@@ -1,5 +1,4 @@
 import { useHideSidebar } from '@/hooks/useLayout';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -14,6 +13,7 @@ import { IUser } from '@/api/models/Person';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { IoChevronBack } from 'react-icons/io5';
+import { handleBlob } from '../ProfilePage/ProfilePage';
 interface Props {}
 
 const ProductPage: React.FC<Props> = () => {
@@ -22,6 +22,7 @@ const ProductPage: React.FC<Props> = () => {
    const [activeImgId, setActiveImgId] = useState(1);
    const [user, setUser] = useState<IUser | null>(null);
    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
    const [isFavorite, setIsFavorite] = useState(false);
    const {} = useForm<IStageInputs>({
       mode: 'onChange',
@@ -78,18 +79,22 @@ const ProductPage: React.FC<Props> = () => {
          console.log(product);
       }
 
-      if (product) {
-         try {
-            ProductService.getProductPhoto({ productId: product.id }).then(
-               (res) => {
-                  console.log(res);
-               },
-            );
-         } catch (e) {
-            console.log(e);
-         }
+      if (product?.commodityPhotoId) {
+         ProductService.getProductPhotos({
+            productId: product.commodityPhotoId,
+         }).then((res) => {
+            console.log(res);
+            res.data.map((item) => {
+               setPhotoUrls((prev) => [
+                  ...prev,
+                  handleBlob(item.commodityPhotoId),
+               ]);
+               console.log(photoUrls);
+            });
+         });
       }
    }, [product]);
+
    useHideSidebar();
 
    const [imgs] = useState<{ id: number; src: string }[]>([]);
