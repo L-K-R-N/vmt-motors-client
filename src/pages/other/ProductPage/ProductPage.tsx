@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { IoChevronBack } from 'react-icons/io5';
 import { handleBlob } from '../ProfilePage/ProfilePage';
+import { PagingSlider } from '@/components/UI/PagingSlider/PagingSlider';
 interface Props {}
 
 const ProductPage: React.FC<Props> = () => {
@@ -81,14 +82,16 @@ const ProductPage: React.FC<Props> = () => {
 
       if (product?.commodityPhotoId) {
          ProductService.getProductPhotos({
-            productId: product.commodityPhotoId,
+            commodityId: product.id,
          }).then((res) => {
             console.log(res);
+
             res.data.map((item) => {
-               setPhotoUrls((prev) => [
-                  ...prev,
-                  handleBlob(item.commodityPhotoId),
-               ]);
+               ProductService.getProductPhoto({
+                  commodityPhotoId: item.commodityPhotoId,
+               }).then((res) => {
+                  setPhotoUrls((prev) => [...prev, handleBlob(res.data)]);
+               });
                console.log(photoUrls);
             });
          });
@@ -156,7 +159,7 @@ const ProductPage: React.FC<Props> = () => {
             </h3>
             <div className={cl.page__content}>
                <div className={cl.gallery}>
-                  <div className={cl.gallery__main}>
+                  {/* <div className={cl.gallery__main}>
                      <button
                         title="Prev"
                         className={cl.prevBtn}
@@ -176,13 +179,14 @@ const ProductPage: React.FC<Props> = () => {
                         onClick={() => chooseImg('next')}
                      ></button>
                   </div>
-                  {/* <ul className={cl.gallery__list}>
+                  <ul className={cl.gallery__list}>
                      {imgs?.map((img) => (
                         <li onClick={() => setActiveImgId(img.id)}>
                            <img key={img.id} src={img.src} alt="" />
                         </li>
                      ))}
                   </ul> */}
+                  <PagingSlider urls={photoUrls} />
                </div>
                <div className={cl.page__contentContainer}>
                   <div className={cl.info}>

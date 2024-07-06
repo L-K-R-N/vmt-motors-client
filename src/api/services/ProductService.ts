@@ -77,7 +77,8 @@ export default class ProductService {
    }
 
    static async getProductPhotos(data: {
-      productId: string;
+      commodityId: string;
+      // commodityPhotoId: string;
    }): Promise<
       AxiosResponse<{ commodityId: string; commodityPhotoId: string }[]>
    > {
@@ -85,7 +86,8 @@ export default class ProductService {
          `product/commodity/photo/by-commodity-id`,
          {
             params: {
-               commodityId: data.productId,
+               commodityId: data.commodityId,
+               // commodityPhotoId: data.commodityPhotoId,
             },
          },
       );
