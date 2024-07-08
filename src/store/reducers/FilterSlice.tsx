@@ -197,14 +197,14 @@ const initialState: IFilterState = {
          value: 'YELLOW',
          label: 'yellow',
       },
-      {
-         value: 'GRADIENT',
-         label: 'gradient',
-      },
-      {
-         value: 'OTHER',
-         label: 'other',
-      },
+      // {
+      //    value: 'GRADIENT',
+      //    label: 'gradient',
+      // },
+      // {
+      //    value: 'OTHER',
+      //    label: 'other',
+      // },
    ],
    types: [
       {

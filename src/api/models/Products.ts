@@ -35,7 +35,7 @@ export type IPostProductRequest = Omit<
    | 'id'
    | 'moderated'
    | 'name'
-   | 'firstPhotoId'
+   | 'commodityPhotoId'
 >;
 
 export interface ISearchProductsRequest {

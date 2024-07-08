@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
+import { brandsData } from '../../../data/brands.json';
 import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import {
    TGear,
    TFuel,
    TDriveUnit,
-   IProduct,
    TProductType,
    TSorting,
    TColoring,
@@ -18,6 +18,9 @@ import {
 } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { useNavigate } from 'react-router-dom';
+import { IModel, IGeneration } from '@/hooks/useFetchFilters';
+import { setBrands } from '@/store/reducers/FilterSlice';
 
 interface IFilterInputs {
    page: number;
@@ -67,6 +70,226 @@ export const useFilterForm = () => {
    const { activeVariant } = useAppSelector((state) => state.FilterReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
    const [isNew, setIsNew] = useState<boolean | null>(null);
+   const [models, setModels] = useState<IModel[]>([]);
+   // const [brands, setBrands] = useState<ISelectItem<string>[]>([]);
+   const [generations, setGenerations] = useState<IGeneration[]>([]);
+   const [stage, setStage] = useState(1);
+   const [desc, setDesc] = useState('');
+   const [priceFrom, setPriceFrom] = useState<string | undefined>(undefined);
+   const [priceTo, setPriceTo] = useState<string | undefined>(undefined);
+   const [mileageFrom, setMileageFrom] = useState<string | undefined>(
+      undefined,
+   );
+
+   const [mileageTo, setMileageTo] = useState<string | undefined>(undefined);
+   const [isExchange, setIsExchange] = useState<boolean>(false);
+   const [isTrade, setIsTrade] = useState<boolean>(false);
+   const [selectedCountry, setSelectedCountry] =
+      useState<ISelectItem<string> | null>(null);
+   const [selectedDriveUnit, setSelectedDriveUnit] =
+      useState<ISelectItem<string> | null>(null);
+   const [selectedGear, setSelectedGear] = useState<ISelectItem<string> | null>(
+      null,
+   );
+   const [selectedOwner, setSelectedOwner] =
+      useState<ISelectItem<string> | null>(null);
+   const [selectedFuel, setSelectedFuel] = useState<ISelectItem<string> | null>(
+      null,
+   );
+   const [selectedBody, setSelectedBody] = useState<ISelectItem<string> | null>(
+      null,
+   );
+   const [selectedYear, setSelectedYear] = useState<{
+      from?: number;
+      to?: number;
+   } | null>(null);
+   const [selectedOwnerValue, setSelectedOwnerValue] = useState<string | null>(
+      null,
+   );
+   const [selectedColorValue, setSelectedColorValue] = useState<string | null>(
+      null,
+   );
+   const [selectedColoring, setSelectedColoring] =
+      useState<ISelectItem<string> | null>(null);
+   // const [mileage, setMileage] = useState<
+   //    { from: string; to: string } | undefined
+   // >(undefined);
+   const [selectedBrand, setSelectedBrand] =
+      useState<ISelectItem<string> | null>(null);
+   const [selectedGeneration, setSelectedGeneration] =
+      useState<IGeneration | null>(null);
+   const [selectedModel, setSelectedModel] = useState<IModel | null>(null);
+   const navigate = useNavigate();
+   const [images, setImages] = useState<File[]>([]);
+   const handleImageUpload = (newImages: File[]) => {
+      setImages([...images, ...newImages]);
+      console.log(images);
+   };
+   const { brands } = useAppSelector((state) => state.FilterReducer);
+   const handleGenerateYears = (min?: number, max?: number) => {
+      if (!min && !max) {
+         min = 1800;
+         max = new Date().getFullYear();
+      }
+      if (!min && max) {
+         min = max;
+      }
+      if (!max && min) {
+         max = min;
+      }
+
+      let newYears: number[] = [];
+
+      if (min && max) {
+         for (let i = min; i <= max; i++) {
+            newYears.push(i);
+         }
+      }
+
+      return newYears;
+   };
+   // const handleSetLogos = async () => {
+   //    const newLogos = await brandsData?.map((b) => {
+   //       return import(`../../../data/logos/${b.id}.png`).then(
+   //          (res: { default: string }) => {
+   //             setLogos((prev) => [...prev, res.default]);
+   //             // console.log(res.default);
+   //          },
+   //       );
+   //    });
+
+   //    console.log(newLogos);
+   // };
+   // useEffect(() => {
+   //    handleSetLogos();
+   // }, []);
+
+   const handleBrandChange = (brand: ISelectItem<string> | null) => {
+      setSelectedBrand(brand);
+      console.log(brand);
+      setSelectedModel(null);
+      setModels([]);
+      setSelectedGeneration(null);
+      setGenerations([]);
+      setSelectedYear(null);
+      console.log(brand);
+
+      // Загрузка моделей для выбранной марки
+      if (brand) {
+         import(`../../../data/models/${brand.value}.json`).then(
+            (data: { default: IModel[] }) => {
+               console.log(data.default);
+               setModels(data.default);
+            },
+
+            // data.default?.map((model) => ({
+            //    value: model.id,
+            //    label: model.name,
+            // })),
+         );
+      }
+   };
+
+   const handleModelChange = (model: IModel | null) => {
+      setSelectedModel(model);
+      console.log(model);
+      setSelectedGeneration(null);
+      setGenerations([]);
+      setSelectedYear(null);
+
+      if (model) {
+         setGenerations(model.generations);
+      }
+   };
+   const handleDescChange = (newDesc: string) => {
+      setDesc(newDesc);
+   };
+   const handleGenerationChange = (gen: IGeneration | null) => {
+      setSelectedYear(null);
+      setSelectedGeneration(gen);
+   };
+   const handleYearChange = (year?: { from?: number; to?: number }) => {
+      if (year) {
+         if (year.from && year.to) {
+            if (year.from > year.to) {
+               setSelectedYear({
+                  from: year.from,
+                  to: undefined,
+               });
+            } else {
+               setSelectedYear(year);
+            }
+         } else {
+            setSelectedYear(year);
+         }
+      }
+   };
+
+   useEffect(() => {
+      const newBrands = brandsData?.map((brand) => ({
+         value: brand.id,
+         label: brand.name,
+      }));
+      dispatch(setBrands(newBrands));
+   }, []);
+
+   const handleNumberInputChange = (
+      newValue: string,
+      prevValue: string | undefined,
+      minValue: number,
+      maxValue: number,
+      handleChange: (v: string | undefined) => void,
+   ) => {
+      try {
+         if (newValue.length === 0) {
+            handleChange(undefined);
+            return;
+         }
+
+         console.log(newValue.replace(/ /g, ''));
+         const newNumberValue = Number(newValue.replace(/ /g, ''));
+         console.log(newNumberValue);
+
+         if (isNaN(newNumberValue)) {
+            handleChange('0');
+            return;
+         }
+         if (newNumberValue < minValue) {
+            const minFormatedValue = minValue
+               .toString()
+               .replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+
+            handleChange(minFormatedValue);
+         } else if (newNumberValue > maxValue) {
+            const maxFormatedValue = maxValue
+               .toString()
+               .replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+            handleChange(maxFormatedValue);
+         } else {
+            const newFormatedValue = newNumberValue
+               .toString()
+               .replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+            console.log(newFormatedValue);
+            handleChange(newFormatedValue);
+         }
+      } catch (e) {
+         handleChange(prevValue);
+      }
+   };
+
+   const createGenerationString = (gen: IGeneration) => {
+      const string =
+         gen.name && gen['year-start'] && gen['year-stop']
+            ? `${gen.name} (${gen['year-start']}-${gen['year-stop']})`
+            : !gen.name && gen['year-start'] && gen['year-stop']
+              ? `${gen['year-start']}-${gen['year-stop']}`
+              : !gen.name && gen['year-start'] && !gen['year-stop']
+                ? gen['year-start']
+                : gen.name;
+
+      return string;
+   };
+   // const { search, filteredBrands, handleSearch } = useSearchBrand(brands);
 
    useEffect(() => {
       setIsNew(
@@ -150,17 +373,52 @@ export const useFilterForm = () => {
    const onSubmit: SubmitHandler<IFilterInputs> = async (data) => {
       handleSearchProducts(data);
    };
-   return useMemo(
-      () => ({
-         errors,
-         onSubmit,
-         control,
-         handleSubmit,
-         reset,
-         handleReset,
-         isNew,
-         variants,
-      }),
-      [errors],
-   );
+   return {
+      errors,
+      onSubmit,
+      control,
+      handleSubmit,
+      reset,
+      handleReset,
+      isNew,
+      variants,
+      handleModelChange,
+      handleGenerationChange,
+      handleGenerateYears,
+      handleBrandChange,
+      handleNumberInputChange,
+      handleYearChange,
+      createGenerationString,
+      brands,
+      selectedBrand,
+      selectedGeneration,
+      selectedModel,
+      models,
+      generations,
+      priceFrom,
+      priceTo,
+      setPriceFrom,
+      setPriceTo,
+      selectedYear,
+      mileageFrom,
+      mileageTo,
+      setMileageFrom,
+      setMileageTo,
+      selectedBody,
+      setSelectedBody,
+      selectedGear,
+      setSelectedGear,
+      selectedFuel,
+      setSelectedFuel,
+      selectedDriveUnit,
+      selectedCountry,
+      setSelectedCountry,
+      setSelectedDriveUnit,
+      selectedOwner,
+      setSelectedOwner,
+      selectedColorValue,
+      selectedColoring,
+      setSelectedColoring,
+      setSelectedColorValue,
+   };
 };

@@ -64,7 +64,7 @@ export const handleLogin = async (data: ILoginFormShema) => {
             const decodedToken: NewJwtPayload = jwtDecode(res.data.jwtToken);
             localStorage.setItem('token', res?.data?.jwtToken);
             localStorage.setItem('refresh', res?.data?.refreshToken);
-
+            console.log(decodedToken);
             // console.log(decodedToken);
             if (decodedToken.role === 'DEFAULT') {
                store.dispatch(setIsVerifing(true));

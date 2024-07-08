@@ -48,7 +48,7 @@ const AddAdvertPage: React.FC<Props> = () => {
       coloringUnitSliderSettings,
       colorings,
       colors,
-      countries,
+      countriesList,
       createGenerationString,
       desc,
       driveUnitSliderSettings,
@@ -345,7 +345,7 @@ const AddAdvertPage: React.FC<Props> = () => {
                                  placeholder={t('car_from')}
                                  id="car_from"
                                  isMulti={false}
-                                 options={countries}
+                                 options={countriesList}
                                  value={{
                                     label: selectedCountryValue,
                                     value: selectedCountryValue,

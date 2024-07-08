@@ -68,34 +68,34 @@ export const SelectStyles: StylesConfig = {
       color: 'white',
    }),
 
-   multiValue: (styles) => ({
-      ...styles,
-      background: '#90C795',
-      borderRadius: '999px',
-      color: 'white',
-   }),
-   multiValueLabel: (styles) => ({
-      ...styles,
-      color: 'white',
-      padding: 0,
-      margin: '3px 12px',
-      cursor: 'pointer',
-   }),
-   multiValueRemove: (styles) => ({
-      ...styles,
-      color: '#90C795',
-      cursor: 'pointer',
-      background: 'white',
-      borderRadius: '999px',
-      opacity: '0.8',
+   // multiValue: (styles) => ({
+   //    ...styles,
+   //    background: '#90C795',
+   //    borderRadius: '999px',
+   //    color: 'white',
+   // }),
+   // multiValueLabel: (styles) => ({
+   //    ...styles,
+   //    color: 'white',
+   //    padding: 0,
+   //    margin: '3px 12px',
+   //    cursor: 'pointer',
+   // }),
+   // multiValueRemove: (styles) => ({
+   //    ...styles,
+   //    color: '#90C795',
+   //    cursor: 'pointer',
+   //    background: 'white',
+   //    borderRadius: '999px',
+   //    opacity: '0.8',
 
-      ':hover': {
-         ...styles[':hover'],
-         opacity: 1,
-         color: '#90C795',
-         background: 'white',
-      },
-   }),
+   //    ':hover': {
+   //       ...styles[':hover'],
+   //       opacity: 1,
+   //       color: '#90C795',
+   //       background: 'white',
+   //    },
+   // }),
    clearIndicator: (styles) => ({
       ...styles,
       cursor: 'pointer',
@@ -108,18 +108,18 @@ export const SelectStyles: StylesConfig = {
          color: 'white',
       },
    }),
-   dropdownIndicator: (styles) => ({
-      ...styles,
-      cursor: 'pointer',
-      color: 'white',
-      opacity: 0.7,
+   // dropdownIndicator: (styles) => ({
+   //    ...styles,
+   //    cursor: 'pointer',
+   //    color: 'white',
+   //    opacity: 0.7,
 
-      ':hover': {
-         ...styles[':hover'],
-         opacity: 1,
-         color: 'white',
-      },
-   }),
+   //    ':hover': {
+   //       ...styles[':hover'],
+   //       opacity: 1,
+   //       color: 'white',
+   //    },
+   // }),
 };
 
 interface Props<T> {

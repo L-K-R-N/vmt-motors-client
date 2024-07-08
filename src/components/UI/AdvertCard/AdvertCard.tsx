@@ -45,7 +45,7 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
    useEffect(() => {
       setIsModerating(location.pathname === '/admin/dashboard' ? true : false);
       setIsMyProduct(me?.id === advert.personId ? true : false);
-      handleCheckInBasket();
+      // handleCheckInBasket();
    }, []);
 
    const handleCheckInBasket = () => {
