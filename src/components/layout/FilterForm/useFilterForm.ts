@@ -1,75 +1,36 @@
 import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@/hooks/useAppDispatch.js';
 import { brandsData } from '../../../data/brands.json';
 import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
-import {
-   TGear,
-   TFuel,
-   TDriveUnit,
-   TProductType,
-   TSorting,
-   TColoring,
-   TBody,
-   TBrand,
-   TColor,
-   TOwner,
-   ISelectItem,
-} from '@/api/models/Products';
+import { ISelectItem } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useNavigate } from 'react-router-dom';
 import { IModel, IGeneration } from '@/hooks/useFetchFilters';
 import { setBrands } from '@/store/reducers/FilterSlice';
-
-interface IFilterInputs {
-   page: number;
-   size: number;
-   sortBy: ISelectItem<TSorting> | null;
-   reverse: boolean | null;
-   name: string;
-   type: ISelectItem<TProductType> | null;
-   isNew: boolean | null;
-   brand: ISelectItem<TBrand> | null;
-   body: ISelectItem<TBody> | null;
-   color: ISelectItem<TColor> | null;
-   coloring: ISelectItem<TColoring> | null;
-   model: string;
-   owner: ISelectItem<TOwner> | null;
-   priceFrom: string;
-   priceTo: string;
-
-   yearFrom: string;
-   yearTo: string;
-
-   millageFrom: string;
-   millageTo: string;
-
-   from: string;
-   exchange: boolean | null;
-   trade: boolean | null;
-   generation: string;
-   gear: ISelectItem<TGear> | null;
-   fuel: ISelectItem<TFuel> | null;
-   driveUnit: ISelectItem<TDriveUnit> | null;
-}
-
-const variants = ['all', 'used_cars', 'new'];
+import { useTranslation } from 'react-i18next';
+import { setCountry } from '@/store/reducers/SettingsSlice';
 
 export const useFilterForm = () => {
-   const {
-      handleSubmit,
-      formState: { errors },
-      control,
-      reset,
-      setValue,
-   } = useForm<IFilterInputs>({
-      mode: 'onChange',
-   });
+   const [checkboxOptions] = useState([
+      {
+         label: 'no_matter',
+         value: undefined,
+      },
+      {
+         label: 'yes',
+         value: true,
+      },
+      {
+         label: 'no',
+         value: false,
+      },
+   ]);
+   const { t } = useTranslation();
    const dispatch = useAppDispatch();
-   const { activeVariant } = useAppSelector((state) => state.FilterReducer);
+   const { types } = useAppSelector((state) => state.FilterReducer);
    // const [newProducts, setNewProducts] = useState<IProduct[]>(products);
-   const [isNew, setIsNew] = useState<boolean | null>(null);
+
    const [models, setModels] = useState<IModel[]>([]);
    // const [brands, setBrands] = useState<ISelectItem<string>[]>([]);
    const [generations, setGenerations] = useState<IGeneration[]>([]);
@@ -82,8 +43,8 @@ export const useFilterForm = () => {
    );
 
    const [mileageTo, setMileageTo] = useState<string | undefined>(undefined);
-   const [isExchange, setIsExchange] = useState<boolean>(false);
-   const [isTrade, setIsTrade] = useState<boolean>(false);
+   const [isExchange, setIsExchange] = useState<boolean | undefined>(undefined);
+   const [isTrade, setIsTrade] = useState<boolean | undefined>(undefined);
    const [selectedCountry, setSelectedCountry] =
       useState<ISelectItem<string> | null>(null);
    const [selectedDriveUnit, setSelectedDriveUnit] =
@@ -103,12 +64,30 @@ export const useFilterForm = () => {
       from?: number;
       to?: number;
    } | null>(null);
+   // const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
    const [selectedOwnerValue, setSelectedOwnerValue] = useState<string | null>(
       null,
    );
-   const [selectedColorValue, setSelectedColorValue] = useState<string | null>(
+   const [selectedType, setSelectedType] = useState<ISelectItem<string> | null>(
       null,
    );
+   const [isNew, setIsNew] = useState<ISelectItem<boolean | null> | null>(null);
+   const [isNewOptions, setIsNewOptions] = useState([
+      {
+         label: 'all',
+         value: null,
+      },
+      {
+         label: 'used_cars',
+         value: false,
+      },
+      {
+         label: 'new',
+         value: true,
+      },
+   ]);
+   // const [isNewOptions, setIsNewOptions] = useState<IS | null>(null);
+   const [selectedColors, setSelectedColors] = useState<string[]>([]);
    const [selectedColoring, setSelectedColoring] =
       useState<ISelectItem<string> | null>(null);
    // const [mileage, setMileage] = useState<
@@ -224,6 +203,22 @@ export const useFilterForm = () => {
          }
       }
    };
+   const handleSearch = (
+      type: ISelectItem<string> | null,
+      isNew: ISelectItem<boolean | null> | null,
+   ) => {
+      try {
+         ProductService.getFiltredProducts({
+            type: type?.value,
+            isNew: isNew?.value,
+         }).then((res) => {
+            dispatch(setProducts(res?.data?.result));
+            dispatch(setProductsCount(res?.data?.total));
+         });
+      } catch (e) {
+         console.log(e);
+      }
+   };
 
    useEffect(() => {
       const newBrands = brandsData?.map((brand) => ({
@@ -233,6 +228,9 @@ export const useFilterForm = () => {
       dispatch(setBrands(newBrands));
    }, []);
 
+   useEffect(() => {
+      handleSearchProducts();
+   }, [selectedType, isNew]);
    const handleNumberInputChange = (
       newValue: string,
       prevValue: string | undefined,
@@ -291,46 +289,48 @@ export const useFilterForm = () => {
    };
    // const { search, filteredBrands, handleSearch } = useSearchBrand(brands);
 
-   useEffect(() => {
-      setIsNew(
-         activeVariant === 'new'
-            ? true
-            : activeVariant === 'used_cars'
-              ? false
-              : null,
-      );
-   }, [activeVariant]);
+   // useEffect(() => {
+   //    setIsNew(
+   //       activeVariant === 'new'
+   //          ? true
+   //          : activeVariant === 'used_cars'
+   //            ? false
+   //            : null,
+   //    );
+   // }, [activeVariant]);
 
-   const handleSearchProducts = async (data: IFilterInputs) => {
+   const handleSearchProducts = async () => {
       try {
          const response = await ProductService.getFiltredProducts({
-            page: data?.page || null,
-            size: data?.size || null,
+            page: null,
+            size: null,
             // sortBy: data?.sortBy.value || null,
-            reverse: data?.reverse || null,
+            reverse: null,
             // name: data?.name || null,
-            sortBy: data?.sortBy?.value || null,
-            type: data?.type?.value || null,
-            isNew: isNew,
-            color: data?.color?.value || null,
-            owner: data?.owner?.value || null,
-            brand: data?.brand?.value || null,
-            body: data?.body?.value || null,
-            coloring: data?.coloring?.value || null,
-            model: data?.model || null,
-            priceFrom: Number(data?.priceFrom) || null,
-            priceTo: Number(data?.priceTo) || null,
-            yearFrom: Number(data?.yearFrom) || null,
-            yearTo: Number(data?.yearTo) || null,
-            millageFrom: Number(data?.millageFrom) || null,
-            millageTo: Number(data?.millageTo) || null,
-            from: data?.from || null,
-            exchange: data?.exchange || null,
-            trade: data?.trade || null,
-            generation: data?.generation || null,
-            gear: data?.gear?.value || null,
-            fuel: data?.fuel?.value || null,
-            driveUnit: data?.driveUnit?.value || null,
+            sortBy: null,
+            type: selectedType?.value,
+            isNew: isNew?.value,
+            color: selectedColors[0] || null,
+            owner: selectedOwner?.value,
+            brand: selectedBrand?.value,
+            body: selectedBody?.value,
+            coloring: selectedColoring?.value,
+            model: selectedModel?.id,
+            priceFrom: Number(priceFrom?.replace(/ /g, '')) || null,
+            priceTo: Number(priceTo?.replace(/ /g, '')) || null,
+            yearFrom: selectedYear?.from,
+            yearTo: selectedYear?.to,
+            millageFrom: Number(mileageFrom?.replace(/ /g, '')) || null,
+            millageTo: Number(mileageTo?.replace(/ /g, '')) || null,
+            from: selectedCountry?.value,
+            exchange: isExchange,
+            trade: isTrade,
+            generation: selectedGeneration
+               ? createGenerationString(selectedGeneration).toString()
+               : null,
+            gear: selectedGear?.value,
+            fuel: selectedFuel?.value,
+            driveUnit: selectedDriveUnit?.value,
          });
 
          dispatch(setProducts(response?.data?.result));
@@ -341,47 +341,38 @@ export const useFilterForm = () => {
    };
 
    const handleReset = () => {
-      reset();
-      setValue('body', null);
-      setValue('brand', null);
-      setValue('color', null);
-      setValue('coloring', null);
-      setValue('driveUnit', null);
-      setValue('exchange', null);
-      setValue('from', '');
-      setValue('fuel', null);
-      setValue('gear', null);
-      setValue('generation', '');
-      setValue('isNew', null);
-      setValue('millageFrom', '');
-      setValue('millageTo', '');
-      setValue('model', '');
-      setValue('name', '');
-      setValue('owner', null);
-      setValue('page', 0);
-      setValue('priceFrom', '');
-      setValue('priceTo', '');
-      setValue('reverse', null);
-      setValue('size', 25);
-      setValue('sortBy', null);
-      setValue('trade', null);
-      setValue('type', null);
-      setValue('yearFrom', '');
-      setValue('yearTo', '');
+      setSelectedBrand(null);
+      setSelectedModel(null);
+      setSelectedGeneration(null);
+      setSelectedYear(null);
+      setPriceFrom('');
+      setPriceTo('');
+      setMileageFrom('');
+      setMileageTo('');
+      setSelectedBody(null);
+      setSelectedGear(null);
+      setSelectedFuel(null);
+      setSelectedDriveUnit(null);
+      setSelectedCountry(null);
+      setSelectedOwner(null);
+      setSelectedColors([]);
+      setSelectedColoring(null);
+      setIsTrade(undefined);
+      setIsExchange(undefined);
+      setIsNew(null);
+      setSelectedType(null);
+
+      handleSearchProducts();
    };
 
-   const onSubmit: SubmitHandler<IFilterInputs> = async (data) => {
-      handleSearchProducts(data);
+   const onSubmit = () => {
+      handleSearchProducts();
    };
    return {
-      errors,
       onSubmit,
-      control,
-      handleSubmit,
-      reset,
+
       handleReset,
       isNew,
-      variants,
       handleModelChange,
       handleGenerationChange,
       handleGenerateYears,
@@ -400,6 +391,7 @@ export const useFilterForm = () => {
       setPriceFrom,
       setPriceTo,
       selectedYear,
+      isNewOptions,
       mileageFrom,
       mileageTo,
       setMileageFrom,
@@ -416,9 +408,19 @@ export const useFilterForm = () => {
       setSelectedDriveUnit,
       selectedOwner,
       setSelectedOwner,
-      selectedColorValue,
+      selectedColors,
       selectedColoring,
       setSelectedColoring,
-      setSelectedColorValue,
+      setSelectedColors,
+      isTrade,
+      setIsTrade,
+      isExchange,
+      setIsExchange,
+      checkboxOptions,
+      handleSearch,
+      setIsNew,
+      setSelectedType,
+      types,
+      selectedType,
    };
 };

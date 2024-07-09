@@ -41,17 +41,17 @@ export type IPostProductRequest = Omit<
 export interface ISearchProductsRequest {
    page?: number | null;
    size?: number | null;
-   sortBy?: TSorting | null;
+   sortBy?: string | null;
    reverse?: boolean | null;
    name?: string | null;
    type?: string | null;
    isNew?: boolean | null;
-   brand?: TBrand | null;
-   body?: TBody | null;
-   color?: TColor | null;
-   coloring?: TColoring | null;
+   brand?: string | null;
+   body?: string | null;
+   color?: string | null;
+   coloring?: string | null;
    model?: string | null;
-   owner?: TOwner | null;
+   owner?: string | null;
    priceFrom?: number | null;
    priceTo?: number | null;
 
@@ -65,9 +65,9 @@ export interface ISearchProductsRequest {
    exchange?: boolean | null;
    trade?: boolean | null;
    generation?: string | null;
-   gear?: TGear | null;
-   fuel?: TFuel | null;
-   driveUnit?: TDriveUnit | null;
+   gear?: string | null;
+   fuel?: string | null;
+   driveUnit?: string | null;
 }
 
 export interface ISelectItem<T> {
@@ -95,8 +95,6 @@ export type TFuel =
    | 'METHANE'
    | 'ELECTRIC'
    | 'OTHER';
-
-export type TGear = 'MANUAL' | 'AUTOMATIC' | 'ROBOTIC' | 'CTV' | 'OTHER';
 
 export type TSorting = 'createdAt';
 

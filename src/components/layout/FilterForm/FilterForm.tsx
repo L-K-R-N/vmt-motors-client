@@ -11,19 +11,18 @@ import { setProducts, setProductsCount } from '@/store/reducers/ProductsSlice';
 import Select from 'react-select';
 import { countriesList } from '@/data/constants/countries';
 import { IoIosCloseCircle } from 'react-icons/io';
+import { FaCheck } from 'react-icons/fa';
+import { IoClose } from 'react-icons/io5';
+import { ImCross } from 'react-icons/im';
 interface Props {}
 
 export const FilterForm: React.FC<Props> = () => {
    const [isShowFilters, setIsShowFilters] = useState(false);
    const {
-      control,
-      errors,
-      handleSubmit,
       onSubmit,
       handleReset,
       isNew,
       handleBrandChange,
-      variants,
       handleModelChange,
       handleGenerateYears,
       handleGenerationChange,
@@ -56,11 +55,22 @@ export const FilterForm: React.FC<Props> = () => {
       selectedCountry,
       setSelectedCountry,
       selectedOwner,
-      setSelectedColorValue,
-      selectedColorValue,
+      setSelectedColors,
+      selectedColors,
       setSelectedOwner,
       setSelectedColoring,
       selectedColoring,
+      isTrade,
+      setIsTrade,
+      isNewOptions,
+      isExchange,
+      setIsExchange,
+      checkboxOptions,
+      handleSearch,
+      selectedType,
+      types,
+      setIsNew,
+      setSelectedType,
    } = useFilterForm();
    const dispatch = useAppDispatch();
    const {
@@ -72,9 +82,9 @@ export const FilterForm: React.FC<Props> = () => {
       owners,
       colorings,
       bodies,
-      types,
-      activeVariant,
-      activeType,
+      // types,
+      // activeVariant,
+      // activeType,
       brands,
    } = useAppSelector((state) => state.FilterReducer);
 
@@ -86,7 +96,7 @@ export const FilterForm: React.FC<Props> = () => {
       try {
          ProductService.getFiltredProducts({
             type: type.value,
-            isNew: isNew,
+            isNew: isNew?.value,
          }).then((res) => {
             dispatch(setProducts(res?.data?.result));
             dispatch(setProductsCount(res?.data?.total));
@@ -94,28 +104,9 @@ export const FilterForm: React.FC<Props> = () => {
       } catch (e) {}
    };
 
-   const handleSearch = (type: ISelectItem<string>, variant: string) => {
-      try {
-         ProductService.getFiltredProducts({
-            type: type.value,
-            isNew:
-               variant === 'new'
-                  ? true
-                  : variant === 'used_cars'
-                    ? false
-                    : null,
-         }).then((res) => {
-            dispatch(setProducts(res?.data?.result));
-            dispatch(setProductsCount(res?.data?.total));
-         });
-      } catch (e) {
-         console.log(e);
-      }
-   };
-
-   useEffect(() => {
-      handleSearch(activeType, activeVariant);
-   }, [activeType, activeVariant]);
+   // useEffect(() => {
+   //    handleSearch(selectedType, isNew);
+   // }, [selectedType, isNew]);
 
    return (
       <>
@@ -139,24 +130,30 @@ export const FilterForm: React.FC<Props> = () => {
                      <li
                         key={type.label}
                         className={
-                           activeType.value === type.value ? cl.active : ''
+                           selectedType?.value === type.value ? cl.active : ''
                         }
-                        onClick={() => dispatch(setActiveType(type))}
+                        onClick={() =>
+                           setSelectedType((prev) =>
+                              prev?.value === type.value ? null : type,
+                           )
+                        }
                      >
                         {t(type.label)}
                      </li>
                   ))}
                </ul>
 
-               <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
+               <form className={cl.form}>
                   <ul className={cl.variants}>
-                     {variants?.map((v) => (
+                     {isNewOptions?.map((v) => (
                         <li
-                           className={activeVariant === v ? cl.active : ''}
-                           key={v}
-                           onClick={() => dispatch(setActiveVariant(v))}
+                           className={isNew?.label === v.label ? cl.active : ''}
+                           key={v.label}
+                           onClick={() =>
+                              setIsNew(isNew?.value === v.value ? null : v)
+                           }
                         >
-                           {t(v)}
+                           {t(v.label)}
                         </li>
                      ))}
                   </ul>
@@ -630,27 +627,7 @@ export const FilterForm: React.FC<Props> = () => {
                   </div>
                   <div className={cl.column}>
                      {/* <div className={cl.formElem}> */}
-                     <ul className={cl.colors}>
-                        {colors.map((color) => (
-                           <li
-                              className={
-                                 selectedColorValue === color.value
-                                    ? cl.active
-                                    : ''
-                              }
-                              onClick={() => setSelectedColorValue(color.value)}
-                           >
-                              <span style={{ background: color.value }}></span>
-                           </li>
-                        ))}
-                     </ul>
-                     {/* </div> */}
-                     <div
-                        className={[
-                           cl.formElem,
-                           !selectedBrand ? cl.hidden : '',
-                        ].join(' ')}
-                     >
+                     <div className={[cl.formElem].join(' ')}>
                         <div className={cl.select}>
                            <Select
                               // styles={SelectStyles}
@@ -673,6 +650,103 @@ export const FilterForm: React.FC<Props> = () => {
                            />
                         </div>
                      </div>
+                     <ul className={cl.colors}>
+                        {colors.map((color) => (
+                           <li
+                              className={
+                                 selectedColors?.includes(color.value)
+                                    ? cl.active
+                                    : ''
+                              }
+                              onClick={() => {
+                                 const isSelected = selectedColors?.includes(
+                                    color.value,
+                                 );
+                                 setSelectedColors((prev) =>
+                                    !isSelected
+                                       ? [...prev, color.value]
+                                       : [...prev].filter(
+                                            (c) => c !== color.value,
+                                         ),
+                                 );
+                              }}
+                           >
+                              <span style={{ background: color.value }}></span>
+                           </li>
+                        ))}
+                     </ul>
+
+                     <div className={[cl.formElem, cl.checkboxes].join(' ')}>
+                        <div
+                           className={cl.checkbox}
+                           onClick={() => {
+                              setIsExchange((prev) =>
+                                 prev
+                                    ? !prev
+                                    : prev === false
+                                      ? undefined
+                                      : true,
+                              );
+                           }}
+                        >
+                           <label htmlFor="exchange">
+                              An exchange is possible
+                           </label>
+                           <span
+                              id="exchange"
+                              className={
+                                 isExchange
+                                    ? cl.true
+                                    : isExchange === false
+                                      ? cl.false
+                                      : cl.undefined
+                              }
+                           >
+                              {isExchange ? (
+                                 <FaCheck />
+                              ) : isExchange === false ? (
+                                 <ImCross />
+                              ) : (
+                                 ''
+                              )}
+                           </span>
+                        </div>
+                        <div
+                           className={cl.checkbox}
+                           onClick={() => {
+                              setIsTrade((prev) =>
+                                 prev
+                                    ? !prev
+                                    : prev === false
+                                      ? undefined
+                                      : true,
+                              );
+                              console.log(isTrade);
+                           }}
+                        >
+                           <label htmlFor="trade">
+                              Bargaining is appropriate
+                           </label>
+                           <span
+                              id="trade"
+                              className={
+                                 isTrade
+                                    ? cl.true
+                                    : isTrade === false
+                                      ? cl.false
+                                      : cl.undefined
+                              }
+                           >
+                              {isTrade ? (
+                                 <FaCheck />
+                              ) : isTrade === false ? (
+                                 <ImCross />
+                              ) : (
+                                 ''
+                              )}
+                           </span>
+                        </div>
+                     </div>
                   </div>
 
                   <div className={cl.buttons}>
@@ -687,7 +761,8 @@ export const FilterForm: React.FC<Props> = () => {
                      </button>
                      <button
                         title={t('show')}
-                        type="submit"
+                        type="button"
+                        onClick={onSubmit}
                         className={cl.submitBtn}
                      >
                         {t('show')}
