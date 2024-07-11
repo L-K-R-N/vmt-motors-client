@@ -16,7 +16,6 @@ import {
 } from '@/store/reducers/FilterSlice';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IProductType, IModel, IGeneration } from './AddAdvertPage';
 
 import glossyImg from './assets/glossy.png';
 import matteImg from './assets/matte.png';
@@ -63,6 +62,31 @@ import { countriesList } from '@/data/constants/countries';
 //    desc: string;
 //    price: number;
 // }
+export interface IBrand {
+   id: string;
+   name: string;
+}
+export interface IModel {
+   id: string;
+   name: string;
+   class: string;
+   'year-from': number;
+   'year-to': number;
+   generations: IGeneration[];
+}
+
+export interface IGeneration {
+   id: string;
+   name: string;
+   'year-start': number;
+   'year-stop': number;
+}
+
+export interface IProductType {
+   label: string;
+   value: string;
+   img: string;
+}
 
 export const useAddAdvert = () => {
    const dispatch = useAppDispatch();

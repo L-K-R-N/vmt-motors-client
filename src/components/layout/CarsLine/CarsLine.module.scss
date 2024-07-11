@@ -9,7 +9,7 @@
    @include flex($justify: start);
    &Item {
       @include flex($direction: column);
-      width: 272px;
+      // width: 20vw;
       cursor: pointer;
       opacity: 0.96;
       // transition: 0.3s;

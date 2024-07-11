@@ -6,7 +6,7 @@
    // border-radius: 3px;
    background: var(--negative);
    box-shadow: -5px 5px 10px 0 rgba(0, 0, 0, 0.356);
-   border: 1px solid var(--text-primary);
+   border-bottom: 3px solid var(--text-primary);
    // @include flex($justify: start);
    @include flex($align: stretch, $justify: start);
    font-family: $font-roboto;
@@ -14,13 +14,14 @@
    opacity: 1;
    height: auto;
    transition: 0.3s;
-   border-radius: 25px;
+   // border-radius: 25px;
    // border: 1px solid var(--border-primary);
    color: var(--text-primary);
    overflow: hidden;
    position: relative;
+   min-height: 250px;
    &:hover {
-      border-color: rgb(139, 139, 139);
+      // border-color: rgb(139, 139, 139);
    }
    &Img {
       // height: 100%;
@@ -28,9 +29,9 @@
       margin: 10px;
       border: 1px solid rgb(192, 192, 192);
       width: 300px;
-      height: 200px;
+      height: 100%;
       min-height: 100%;
-      
+
       border-radius: 6px;
       margin: 20px;
       // min-height: 100%;
@@ -226,11 +227,12 @@
 
 @media screen and (max-width: 1100px) {
    .advert {
+      min-height: 190px;
       &Img {
          // height: 100%;
          border-radius: 10px;
          width: 250px;
-         height: 100%;
+         height: auto;
       }
 
       &Container {
@@ -300,10 +302,11 @@
 
 @media screen and (max-width: 720px) {
    .advert {
+      min-height: 140px;
       &Img {
          // height: 100%;
          width: 210px;
-         height: 100%;
+         height: auto;
          margin: 10px;
       }
 
@@ -480,27 +483,25 @@
       }
 
       &Header {
-        
-            &__top {
-               width: 100%;
-               gap: 7px;
-   
-               @include flex($direction: column, $align: start);
-               gap: 3px;
-            }
-            &__title {
-               font-size: 13px !important;
-            }
-   
-            &__desc {
-               font-size: 12px !important;
-            }
-   
-            &__price {
-               font-size: 13px !important;
-            }
-   
-            
+         &__top {
+            width: 100%;
+            gap: 7px;
+
+            @include flex($direction: column, $align: start);
+            gap: 3px;
+         }
+         &__title {
+            font-size: 13px !important;
+         }
+
+         &__desc {
+            font-size: 12px !important;
+         }
+
+         &__price {
+            font-size: 13px !important;
+         }
+
          &__isFavorite {
             width: 14px !important;
             height: 14px !important;

@@ -8,32 +8,6 @@ import Select from 'react-select';
 import Slider from 'react-slick';
 import ImageUpload from '@/components/layout/ProductPhotoUpload/ProductPhotoUpload';
 
-export interface IBrand {
-   id: string;
-   name: string;
-}
-export interface IModel {
-   id: string;
-   name: string;
-   class: string;
-   'year-from': number;
-   'year-to': number;
-   generations: IGeneration[];
-}
-
-export interface IGeneration {
-   id: string;
-   name: string;
-   'year-start': number;
-   'year-stop': number;
-}
-
-export interface IProductType {
-   label: string;
-   value: string;
-   img: string;
-}
-
 interface Props {}
 
 const AddAdvertPage: React.FC<Props> = () => {

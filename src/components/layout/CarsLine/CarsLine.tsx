@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import cl from './CarsLine.module.scss';
 import ProductService from '@/api/services/ProductService';
 import { IProduct } from '@/api/models/Products';
 import defaultPhoto from './assets/defaultPhoto.jpg';
 
 import React from 'react';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
+import Slider from '@/components/UI/Slider/Slider';
 
 interface Props {}
 
@@ -62,32 +63,45 @@ export const CarsLine: React.FC<Props> = () => {
    };
    return (
       // <ul className={cl.slider}>
-      <Slider {...settings}>
-         {[
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-            ...products,
-         ]?.map((product, index) => (
+      <Slider
+         slides={products.map((product, index) => (
             <li
                className={cl.sliderItem}
-               onClick={() => handleRedirectToProduct(product.id)}
+               // onClick={() => handleRedirectToProduct(product.id)}
             >
                <div className={cl.sliderItem__top}>
                   <img src={imgs[index] ? imgs[index] : defaultPhoto} alt="" />
-                  <span className={cl.price}>{product.price} $</span>
+                  <span className={cl.price}>{product?.price} $</span>
                </div>
                <div className={cl.sliderItem__bottom}>
-                  <h6 className={cl.name}>{product.name}</h6>
+                  <h6 className={cl.name}>{product?.brand}</h6>
                </div>
             </li>
          ))}
-      </Slider>
-
+      ></Slider>
+      //  {[
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      //    ...products,
+      // ]?.map((product, index) => (
+      //    <li
+      //       className={cl.sliderItem}
+      //       onClick={() => handleRedirectToProduct(product.id)}
+      //    >
+      //       <div className={cl.sliderItem__top}>
+      //          <img src={imgs[index] ? imgs[index] : defaultPhoto} alt="" />
+      //          <span className={cl.price}>{product.price} $</span>
+      //       </div>
+      //       <div className={cl.sliderItem__bottom}>
+      //          <h6 className={cl.name}>{product.name}</h6>
+      //       </div>
+      //    </li>
+      // ))}
       // </ul>
    );
 };
