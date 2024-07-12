@@ -67,7 +67,7 @@ export const CarsLine: React.FC<Props> = () => {
          slides={products.map((product, index) => (
             <li
                className={cl.sliderItem}
-               // onClick={() => handleRedirectToProduct(product.id)}
+               onClick={() => handleRedirectToProduct(product.id)}
             >
                <div className={cl.sliderItem__top}>
                   <img src={imgs[index] ? imgs[index] : defaultPhoto} alt="" />

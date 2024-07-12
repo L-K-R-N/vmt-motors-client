@@ -111,20 +111,7 @@ export const FilterForm: React.FC<Props> = () => {
    return (
       <>
          <div className={cl.wrapper}>
-            <button
-               title={t('toggle_filters')}
-               className={cl.toggleFilters}
-               onClick={() => setIsShowFilters(!isShowFilters)}
-            >
-               {' '}
-               {t('show_filters')}
-               {/* <IoIosSearch /> */}
-            </button>
-            <div
-               className={[cl.container, isShowFilters ? cl.show : ''].join(
-                  ' ',
-               )}
-            >
+            <div className={cl.container}>
                <ul className={cl.types}>
                   {types?.map((type) => (
                      <li
@@ -458,7 +445,12 @@ export const FilterForm: React.FC<Props> = () => {
                         </div>
                      </div>
                   </div>
-                  <div className={cl.column}>
+
+                  <div
+                     className={[cl.column, isShowFilters ? cl.hide : ''].join(
+                        ' ',
+                     )}
+                  >
                      <div
                         className={[
                            cl.formElem,
@@ -625,7 +617,11 @@ export const FilterForm: React.FC<Props> = () => {
                         </div>
                      </div>
                   </div>
-                  <div className={cl.column}>
+                  <div
+                     className={[cl.column, isShowFilters ? cl.hide : ''].join(
+                        ' ',
+                     )}
+                  >
                      {/* <div className={cl.formElem}> */}
                      <div className={[cl.formElem].join(' ')}>
                         <div className={cl.select}>
@@ -748,7 +744,16 @@ export const FilterForm: React.FC<Props> = () => {
                         </div>
                      </div>
                   </div>
-
+                  <button
+                     title={t('toggle_filters')}
+                     className={cl.toggleFilters}
+                     type="button"
+                     onClick={() => setIsShowFilters(!isShowFilters)}
+                  >
+                     {' '}
+                     {t('show_filters')}
+                     {/* <IoIosSearch /> */}
+                  </button>
                   <div className={cl.buttons}>
                      <button
                         title={t('reset')}

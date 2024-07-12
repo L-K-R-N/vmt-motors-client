@@ -8,15 +8,21 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
    const [currentTranslateX, setCurrentTranslateX] = useState(0);
    const [slidesPerView, setSlidesPerView] = useState(5);
    const [isUserInteracting, setIsUserInteracting] = useState(false);
+   const [speed, setSpeed] = useState(200000);
    const containerRef = useRef<HTMLDivElement>(null);
-
+   const [requestId, setRequestId] = useState<number | null>(null);
    useEffect(() => {
       const handleResize = () => {
          const windowWidth = window.innerWidth;
          if (windowWidth <= 768) {
             setSlidesPerView(1);
+            setSpeed(600000);
+         } else if (windowWidth <= 1000) {
+            setSlidesPerView(3);
+            setSpeed(250000);
          } else {
             setSlidesPerView(5);
+            setSpeed(200000);
          }
       };
 
@@ -29,12 +35,12 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
    }, []);
 
    useEffect(() => {
-      let requestId: number | null = null;
+      // let requestId: number | null = null;
       let previousTimestamp: number | null = null;
       const slideWidth = 100 / slidesPerView;
       const containerElement = containerRef.current;
 
-      const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+      const isMobileDevice = window.innerWidth <= 768;
 
       const animateSlider = (timestamp: number) => {
          if (!previousTimestamp) {
@@ -48,7 +54,7 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
             let newTranslateX = prevTranslateX;
             if (!isUserInteracting) {
                newTranslateX =
-                  prevTranslateX - (deltaTime * slideWidth) / 200000;
+                  prevTranslateX - (deltaTime * slideWidth) / speed;
             }
             if (newTranslateX <= -100 * (slides.length - 1)) {
                return 0;
@@ -56,11 +62,11 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
             return newTranslateX;
          });
 
-         requestId = requestAnimationFrame(animateSlider);
+         setRequestId(requestAnimationFrame(animateSlider));
       };
 
       if (containerElement) {
-         requestId = requestAnimationFrame(animateSlider);
+         setRequestId(requestAnimationFrame(animateSlider));
       }
 
       if (isMobileDevice) {
@@ -85,6 +91,11 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
       };
    }, [slides.length, slidesPerView, isUserInteracting]);
 
+   // useEffect(() => {
+   //    if (slidesPerView === 1 && requestId !== null) {
+   //       cancelAnimationFrame(requestId);
+   //    }
+   // }, [slidesPerView]);
    return (
       <div className="slider">
          <div
@@ -96,11 +107,11 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
                display: 'flex',
             }}
          >
-            {[...slides, ...slides, ...slides].map((slide, index) => (
+            {slides.map((slide, index) => (
                <div
                   key={index}
                   className="slide"
-                  style={{ width: `${100 / slidesPerView}%` }}
+                  style={{ width: `${100 / slidesPerView}vw` }}
                >
                   {slide}
                </div>

@@ -78,9 +78,9 @@ body {
 
    &::-webkit-scrollbar {
       width: 10px;
-      background: black;
+      background: transparent;
       &-thumb {
-         background: #5d5d5d;
+         background: #000000;
          border-radius: 999px;
       }
    }

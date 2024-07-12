@@ -8,14 +8,12 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { enUS } from 'date-fns/locale';
 import { IProduct, ISearchProductsRequest } from '@/api/models/Products';
 import ProductService from '@/api/services/ProductService';
-import { IoStarOutline } from 'react-icons/io5';
 import { FaStar } from 'react-icons/fa6';
 import { FaRegStar } from 'react-icons/fa6';
 import {
    setFiltredProducts,
    setModeratedProducts,
    setMyProducts,
-   setProducts,
 } from '@/store/reducers/ProductsSlice';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { toast } from 'react-toastify';
@@ -275,19 +273,19 @@ export const AdvertCard: FC<Props> = ({ advert, isSmall }) => {
                {!advert.moderated && isModerating && isAdmin ? (
                   <div className={cl.advertFooter__buttons}>
                      <button className={cl.reject} onClick={handleReject}>
-                        REJECT
+                        Reject
                      </button>
                      <button className={cl.approve} onClick={handleApprove}>
-                        APPROVE
+                        Approve
                      </button>
                   </div>
                ) : isMyProduct ? (
                   <div className={cl.advertFooter__buttons}>
                      <button className={cl.change} onClick={handleChange}>
-                        CHANGE
+                        Change
                      </button>
                      <button className={cl.reject} onClick={handleDelete}>
-                        DELETE
+                        Delete
                      </button>
                   </div>
                ) : (
